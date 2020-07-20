@@ -16,6 +16,18 @@
   "publishConfig": {
     "registry": "https://github.com/clouDr-f2e/mitojs.git"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "keywords": [
     "collect",
     "sdk",
@@ -34,6 +46,8 @@
     "@typescript-eslint/eslint-plugin": "^3.6.1",
     "@typescript-eslint/parser": "^3.6.1",
     "eslint": "^7.4.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "rollup": "^2.21.0",
     "rollup-plugin-terser": "^6.1.0",
