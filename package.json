@@ -1,0 +1,41 @@
+{
+  "name": "mitojs",
+  "version": "1.0.7",
+  "description": "An SDK for monitoring browser errors",
+  "main": "/dist/mito.js",
+  "types": "/dist/types/index.d.ts",
+  "scripts": {
+    "build": "rollup --config",
+    "watch": "rollup --config --watch"
+  },
+  "author": "chenjinhuo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjinhuo/mitojs.git"
+  },
+  "keywords": [
+    "collect",
+    "sdk",
+    "error",
+    "broswer"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.1",
+    "@rollup/plugin-commonjs": "^14.0.0",
+    "@rollup/plugin-html": "^0.2.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "@rollup/plugin-typescript": "^4.1.2",
+    "@types/node-fetch": "^2.5.7",
+    "@typescript-eslint/eslint-plugin": "^3.6.1",
+    "@typescript-eslint/parser": "^3.6.1",
+    "eslint": "^7.4.0",
+    "prettier": "^2.0.5",
+    "rollup": "^2.21.0",
+    "rollup-plugin-terser": "^6.1.0",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {}
+}
