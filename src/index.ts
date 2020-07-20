@@ -11,6 +11,4 @@ function init(options: InitOptions = {}): void {
   logger.bindOptions(options.debug)
   transportData.bindOptions(options)
 }
-
-// 资源加载失败 资源地址错误 不能复现
 export default { MitoVue, init, SDK_VERSION, SDK_NAME }

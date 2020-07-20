@@ -40,12 +40,31 @@ export default [
       }),
       json(),
       typescript({
-        // 生成min.js的不需要生成声明文件
         tsconfigOverride: { compilerOptions: { declaration: false } }
       }),
       terser()
     ]
   },
+  // example
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'examples/mito.js',
+      format: 'iife',
+      name: 'MITO'
+    },
+    plugins: [
+      resolve(),
+      commonjs({
+        exclude: 'node_modules'
+      }),
+      json(),
+      typescript({
+        tsconfigOverride: { compilerOptions: { declaration: false } }
+      })
+    ]
+  },
+  // 调试
   {
     input: 'src/index.ts',
     output: {
