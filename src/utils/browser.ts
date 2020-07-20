@@ -1,6 +1,7 @@
 import { InitOptions } from '../options'
 import { EVENTTYPES, ERRORTYPES, ERRORLEVELS, ReportDataType } from '@/common'
-import { setFlag, getLocationHref, getTimestamp } from './helpers'
+import { getLocationHref, getTimestamp } from './helpers'
+import { setFlag } from './global'
 
 /**
  * 获取当前script标签的apiKey属性值
@@ -87,7 +88,7 @@ export function extractErrorStack(ex: any, level: ERRORLEVELS): ReportDataType {
     return normal
   }
 
-  var chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i,
+  let chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i,
     gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$/i,
     winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i,
     // Used to additionally parse URL/line/column from eval frames
@@ -100,10 +101,10 @@ export function extractErrorStack(ex: any, level: ERRORLEVELS): ReportDataType {
     element,
     reference = /^(.*) is undefined$/.exec(ex.message)
 
-  for (var i = 0, j = lines.length; i < j; ++i) {
+  for (let i = 0, j = lines.length; i < j; ++i) {
     if ((parts = chrome.exec(lines[i]))) {
-      var isNative = parts[2] && parts[2].indexOf('native') === 0 // start of line
-      var isEval = parts[2] && parts[2].indexOf('eval') === 0 // start of line
+      let isNative = parts[2] && parts[2].indexOf('native') === 0 // start of line
+      let isEval = parts[2] && parts[2].indexOf('eval') === 0 // start of line
       if (isEval && (submatch = chromeEval.exec(parts[2]))) {
         // throw out eval line/column and use top-most line/column number
         parts[2] = submatch[1] // url
@@ -126,7 +127,7 @@ export function extractErrorStack(ex: any, level: ERRORLEVELS): ReportDataType {
         column: parts[4] ? +parts[4] : null
       }
     } else if ((parts = gecko.exec(lines[i]))) {
-      var isEval = parts[3] && parts[3].indexOf(' > eval') > -1
+      let isEval = parts[3] && parts[3].indexOf(' > eval') > -1
       if (isEval && (submatch = geckoEval.exec(parts[3]))) {
         // throw out eval line/column and use top-most line number
         parts[3] = submatch[1]

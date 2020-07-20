@@ -55,28 +55,6 @@ var MITO = (function () {
       isLogAddBreadcrumb: true
   };
 
-  function isNodeEnv() {
-      return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
-  }
-  function getGlobal() {
-      return (isNodeEnv() ? global : typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : {});
-  }
-  const _global = getGlobal();
-  const _support = geGlobaltMitoSupport();
-  _support.replaceFlag = _support.replaceFlag || {};
-  const replaceFlag = _support.replaceFlag;
-  function setFlag(replaceType, isSet) {
-      if (replaceFlag[replaceType])
-          return;
-      replaceFlag[replaceType] = isSet;
-  }
-  function getFlag(replaceType) {
-      return replaceFlag[replaceType] ? true : false;
-  }
-  function geGlobaltMitoSupport() {
-      _global.__MITO__ = _global.__MITO__ || {};
-      return _global.__MITO__;
-  }
   function getLocationHref() {
       if (typeof document === 'undefined' || document.location == null)
           return '';
@@ -130,6 +108,32 @@ var MITO = (function () {
   function getTimestamp() {
       return Date.now();
   }
+  function typeofAny(target, type) {
+      return typeof target === type;
+  }
+
+  function isNodeEnv() {
+      return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
+  }
+  function getGlobal() {
+      return (isNodeEnv() ? global : typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : {});
+  }
+  const _global = getGlobal();
+  const _support = geGlobaltMitoSupport();
+  _support.replaceFlag = _support.replaceFlag || {};
+  const replaceFlag = _support.replaceFlag;
+  function setFlag(replaceType, isSet) {
+      if (replaceFlag[replaceType])
+          return;
+      replaceFlag[replaceType] = isSet;
+  }
+  function getFlag(replaceType) {
+      return replaceFlag[replaceType] ? true : false;
+  }
+  function geGlobaltMitoSupport() {
+      _global.__MITO__ = _global.__MITO__ || {};
+      return _global.__MITO__;
+  }
 
   function htmlElementAsString(target) {
       const tagName = target.tagName.toLowerCase();
@@ -181,11 +185,11 @@ var MITO = (function () {
       if (typeof ex.stack === 'undefined' || !ex.stack) {
           return normal;
       }
-      var chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i, gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$/i, winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i, geckoEval = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i, chromeEval = /\((\S*)(?::(\d+))(?::(\d+))\)/, lines = ex.stack.split('\n'), stack = [], submatch, parts, element, reference = /^(.*) is undefined$/.exec(ex.message);
-      for (var i = 0, j = lines.length; i < j; ++i) {
+      let chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i, gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$/i, winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i, geckoEval = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i, chromeEval = /\((\S*)(?::(\d+))(?::(\d+))\)/, lines = ex.stack.split('\n'), stack = [], submatch, parts, element, reference = /^(.*) is undefined$/.exec(ex.message);
+      for (let i = 0, j = lines.length; i < j; ++i) {
           if ((parts = chrome.exec(lines[i]))) {
-              var isNative = parts[2] && parts[2].indexOf('native') === 0;
-              var isEval = parts[2] && parts[2].indexOf('eval') === 0;
+              let isNative = parts[2] && parts[2].indexOf('native') === 0;
+              let isEval = parts[2] && parts[2].indexOf('eval') === 0;
               if (isEval && (submatch = chromeEval.exec(parts[2]))) {
                   parts[2] = submatch[1];
                   parts[3] = submatch[2];
@@ -209,7 +213,7 @@ var MITO = (function () {
               };
           }
           else if ((parts = gecko.exec(lines[i]))) {
-              var isEval = parts[3] && parts[3].indexOf(' > eval') > -1;
+              let isEval = parts[3] && parts[3].indexOf(' > eval') > -1;
               if (isEval && (submatch = geckoEval.exec(parts[3]))) {
                   parts[3] = submatch[1];
                   parts[4] = submatch[2];
@@ -282,6 +286,21 @@ var MITO = (function () {
       return obj.hasOwnProperty(key);
   }
 
+  function supportsHistory() {
+      const global = _global;
+      const chrome = global.chrome;
+      const isChromePackagedApp = chrome && chrome.app && chrome.app.runtime;
+      const hasHistoryApi = 'history' in global && !!global.history.pushState && !!global.history.replaceState;
+      return !isChromePackagedApp && hasHistoryApi;
+  }
+
+  function validateOptions(target, targetName, expectType) {
+      if (typeofAny(target, expectType))
+          return true;
+      typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${typeof target}类型`);
+      return false;
+  }
+
   const PREFIX = 'MITO Logger';
   class Logger {
       constructor() {
@@ -324,14 +343,6 @@ var MITO = (function () {
   }
   const logger = _support.logger || (_support.logger = new Logger());
 
-  function supportsHistory() {
-      const global = _global;
-      const chrome = global.chrome;
-      const isChromePackagedApp = chrome && chrome.app && chrome.app.runtime;
-      const hasHistoryApi = 'history' in global && !!global.history.pushState && !!global.history.replaceState;
-      return !isChromePackagedApp && hasHistoryApi;
-  }
-
   class Breadcrumb {
       constructor() {
           this.maxBreadcrumbs = 10;
@@ -366,12 +377,8 @@ var MITO = (function () {
       }
       bindOptions(options = {}) {
           const { maxBreadcrumbs, beforeBreadcrumb } = options;
-          if (typeof maxBreadcrumbs === 'number') {
-              this.maxBreadcrumbs = maxBreadcrumbs;
-          }
-          if (typeof beforeBreadcrumb === 'function') {
-              this.beforeBreadcrumb = beforeBreadcrumb;
-          }
+          validateOptions(maxBreadcrumbs, 'maxBreadcrumbs', 'number') && (this.maxBreadcrumbs = maxBreadcrumbs);
+          validateOptions(beforeBreadcrumb, 'beforeBreadcrumb', 'function') && (this.beforeBreadcrumb = beforeBreadcrumb);
       }
   }
   const breadcrumb = _support.breadcrumb || (_support.breadcrumb = new Breadcrumb());

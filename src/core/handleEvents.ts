@@ -19,6 +19,8 @@ const HandleEvents = {
     })
     if (data.status >= 400 || data.status === 0) {
       transportData.xhrPost(httpTransform(data))
+    } else {
+      // todo 需要加个hook，
     }
   },
   handleError(errorEvent: ErrorEvent): void {

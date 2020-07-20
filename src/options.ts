@@ -1,6 +1,8 @@
 import { ReportDataType } from '@/common'
 import { Breadcrumb, BreadcrumbPushData } from '@/core/breadcrumb'
-
+import { typeofAny } from 'utils'
+import { logger } from 'core'
+type CANCEL = null | undefined | boolean
 export interface InitOptions extends SilentEventTypes, HooksTypes {
   /**
    * dsn服务器地址
@@ -48,18 +50,23 @@ export interface HooksTypes {
    * 钩子函数，在每次发送事件前会调用
    *
    * @param event 有SDK生成的错误事件
-   * @returns 如果返回null | undefined | false时，将忽略本次上传
+   * @returns 如果返回 null | undefined | boolean 时，将忽略本次上传
    */
-  beforeSend?(event: ReportDataType): PromiseLike<Event | null> | Event | null
+  beforeSend?(event: ReportDataType): PromiseLike<Event | null> | Event | CANCEL
   /**
    * 钩子函数，在每次添加用户行为事件前都会调用
    *
-   *
    * @param breadcrumb 由SDK生成的breacrumb事件栈
    * @param hint 当次的生成的breadcrumb数据
-   * @returns 如果返回null | undefined | false时，将忽略本次的push操作
+   * @returns 如果返回 null | undefined | boolean 时，将忽略本次的push
    */
-  beforeBreadcrumb?(breadcrumb: Breadcrumb, hint: BreadcrumbPushData): BreadcrumbPushData | null | undefined | false
+  beforeBreadcrumb?(breadcrumb: Breadcrumb, hint: BreadcrumbPushData): BreadcrumbPushData | CANCEL
+  /**
+   * 在状态小于400并且不等于0的时候回调用当前hook
+   * @param data 请求状态为200时返回的响应体
+   * @returns 如果返回 null | undefined | boolean 时，将忽略本次的上传
+   */
+  httpResponseHandle?<T>(data: T): string | CANCEL
 }
 
 export interface SilentEventTypes {
@@ -99,4 +106,10 @@ export interface SilentEventTypes {
    * 静默监控Vue.warn函数
    */
   silentVue?: boolean
+}
+
+export function validateOptions(target: any, targetName: string, expectType: string): boolean {
+  if (typeofAny(target, expectType)) return true
+  typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${typeof target}类型`)
+  return false
 }

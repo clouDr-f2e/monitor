@@ -1,5 +1,5 @@
-import { logger } from '../core/logger'
-import { _global } from './helpers'
+// import { logger } from '../core/logger'
+import { _global } from './global'
 
 /**
  * Tells whether current environment supports ErrorEvent objects
@@ -96,7 +96,7 @@ export function supportsNativeFetch(): boolean {
       }
       doc.head.removeChild(sandbox)
     } catch (err) {
-      logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', err)
+      // logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', err)
     }
   }
 

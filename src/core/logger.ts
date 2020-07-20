@@ -1,4 +1,4 @@
-import { _global, _support } from '../utils/helpers'
+import { _global, _support } from 'utils'
 const PREFIX = 'MITO Logger'
 
 export class Logger {

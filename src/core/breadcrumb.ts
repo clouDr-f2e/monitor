@@ -1,7 +1,7 @@
-import { InitOptions } from '@/options'
+import { InitOptions, validateOptions } from '@/options'
 import { globalVar } from '@/common'
 import { logger } from './logger'
-import { _support } from 'utils'
+import { _support } from '../utils/global'
 
 export interface BreadcrumbPushData {
   type: string
@@ -43,12 +43,8 @@ export class Breadcrumb {
   }
   bindOptions(options: InitOptions = {}): void {
     const { maxBreadcrumbs, beforeBreadcrumb } = options
-    if (typeof maxBreadcrumbs === 'number') {
-      this.maxBreadcrumbs = maxBreadcrumbs
-    }
-    if (typeof beforeBreadcrumb === 'function') {
-      this.beforeBreadcrumb = beforeBreadcrumb
-    }
+    validateOptions(maxBreadcrumbs, 'maxBreadcrumbs', 'number') && (this.maxBreadcrumbs = maxBreadcrumbs)
+    validateOptions(beforeBreadcrumb, 'beforeBreadcrumb', 'function') && (this.beforeBreadcrumb = beforeBreadcrumb)
   }
 }
 const breadcrumb = _support.breadcrumb || (_support.breadcrumb = new Breadcrumb())
