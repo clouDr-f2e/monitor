@@ -1,6 +1,6 @@
 {
   "name": "mitojs",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "An SDK for monitoring browser errors",
   "main": "/dist/mito.js",
   "types": "/dist/types/index.d.ts",
@@ -11,7 +11,7 @@
   "author": "chenjinhuo",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cjinhuo/mitojs.git"
+    "url": "git+https://github.com/clouDr-f2e/mitojs.git"
   },
   "keywords": [
     "collect",
