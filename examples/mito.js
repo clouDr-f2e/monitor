@@ -922,7 +922,6 @@ var MITO = (function () {
   }
 
   function formatComponentName(vm) {
-      console.log(vm);
       if (vm.$root === vm)
           return 'root';
       const name = vm._isVue ? (vm.$options && vm.$options.name) || (vm.$options && vm.$options._componentTag) : vm.name;

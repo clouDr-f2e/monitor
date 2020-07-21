@@ -1,6 +1,6 @@
 import { getFlag, setFlag } from 'utils'
 import { EVENTTYPES, ERRORLEVELS } from 'common'
-import { VueInstance, ViewModel } from './interface'
+import { VueInstance, ViewModel } from './types'
 import { handleVueError } from './helper'
 
 // 监听Vue的时候是否需要加配置项

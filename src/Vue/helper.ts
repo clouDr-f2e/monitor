@@ -1,10 +1,9 @@
 import { getLocationHref, getTimestamp } from 'utils'
 import { ERRORTYPES, BREADCRUMBTYPES } from '@/common'
-import { ViewModel } from './interface'
+import { ViewModel } from './types'
 import { breadcrumb, transportData } from 'core'
 import { ReportDataType } from '@/types/transportData'
 function formatComponentName(vm: ViewModel) {
-  console.log(vm)
   if (vm.$root === vm) return 'root'
   const name = vm._isVue ? (vm.$options && vm.$options.name) || (vm.$options && vm.$options._componentTag) : vm.name
   return (
