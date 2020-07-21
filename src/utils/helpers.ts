@@ -1,6 +1,6 @@
 import { EVENTTYPES, voidFun } from '@/common'
-import { Breadcrumb, Logger, TransportData } from 'core'
-import { logger } from '@/core/logger'
+import { Breadcrumb, TransportData } from 'core'
+import { Logger, logger } from './logger'
 
 export function getLocationHref(): string {
   if (typeof document === 'undefined' || document.location == null) return ''
@@ -138,4 +138,10 @@ export function getTimestamp(): number {
 
 export function typeofAny(target: any, type: string): boolean {
   return typeof target === type
+}
+
+export function validateOption(target: any, targetName: string, expectType: string): boolean {
+  if (typeofAny(target, expectType)) return true
+  typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${typeof target}类型`)
+  return false
 }

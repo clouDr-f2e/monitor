@@ -15,7 +15,7 @@ import {
 } from 'utils'
 import { voidFun, EVENTTYPES, HTTPTYPE } from '@/common'
 import { transportData } from './transportData'
-import { logger } from './logger'
+import { logger } from '@/utils/logger'
 
 export interface MITOHttp {
   type: HTTPTYPE

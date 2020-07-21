@@ -55,6 +55,71 @@ var MITO = (function () {
       isLogAddBreadcrumb: true
   };
 
+  function isNodeEnv() {
+      return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
+  }
+  function getGlobal() {
+      return (isNodeEnv() ? global : typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : {});
+  }
+  const _global = getGlobal();
+  const _support = geGlobaltMitoSupport();
+  _support.replaceFlag = _support.replaceFlag || {};
+  const replaceFlag = _support.replaceFlag;
+  function setFlag(replaceType, isSet) {
+      if (replaceFlag[replaceType])
+          return;
+      replaceFlag[replaceType] = isSet;
+  }
+  function getFlag(replaceType) {
+      return replaceFlag[replaceType] ? true : false;
+  }
+  function geGlobaltMitoSupport() {
+      _global.__MITO__ = _global.__MITO__ || {};
+      return _global.__MITO__;
+  }
+
+  const PREFIX = 'MITO Logger';
+  class Logger {
+      constructor() {
+          this.enabled = true;
+          this._console = {};
+          const logType = ['log', 'debug', 'info', 'warn', 'error', 'assert'];
+          logType.forEach((level) => {
+              if (!(level in _global.console))
+                  return;
+              this._console[level] = _global.console[level];
+          });
+      }
+      disable() {
+          this.enabled = false;
+      }
+      bindOptions(debug) {
+          validateOption(debug, 'debug', 'boolean') && (this.enabled = debug);
+      }
+      enable() {
+          this.enabled = true;
+      }
+      log(...args) {
+          if (!this.enabled) {
+              return;
+          }
+          this._console.log(`${PREFIX}[Log]:`, ...args);
+      }
+      warn(...args) {
+          if (!this.enabled) {
+              return;
+          }
+          this._console.warn(`${PREFIX}[Warn]:`, ...args);
+      }
+      error(...args) {
+          if (!this.enabled) {
+              return;
+          }
+          this._console.error(`${PREFIX}[Error]:`, ...args);
+      }
+  }
+  const logger = _support.logger || (_support.logger = new Logger());
+
   function getLocationHref() {
       if (typeof document === 'undefined' || document.location == null)
           return '';
@@ -111,28 +176,11 @@ var MITO = (function () {
   function typeofAny(target, type) {
       return typeof target === type;
   }
-
-  function isNodeEnv() {
-      return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
-  }
-  function getGlobal() {
-      return (isNodeEnv() ? global : typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : {});
-  }
-  const _global = getGlobal();
-  const _support = geGlobaltMitoSupport();
-  _support.replaceFlag = _support.replaceFlag || {};
-  const replaceFlag = _support.replaceFlag;
-  function setFlag(replaceType, isSet) {
-      if (replaceFlag[replaceType])
-          return;
-      replaceFlag[replaceType] = isSet;
-  }
-  function getFlag(replaceType) {
-      return replaceFlag[replaceType] ? true : false;
-  }
-  function geGlobaltMitoSupport() {
-      _global.__MITO__ = _global.__MITO__ || {};
-      return _global.__MITO__;
+  function validateOption(target, targetName, expectType) {
+      if (typeofAny(target, expectType))
+          return true;
+      typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${typeof target}类型`);
+      return false;
   }
 
   function htmlElementAsString(target) {
@@ -294,55 +342,6 @@ var MITO = (function () {
       return !isChromePackagedApp && hasHistoryApi;
   }
 
-  function validateOptions(target, targetName, expectType) {
-      if (typeofAny(target, expectType))
-          return true;
-      typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${typeof target}类型`);
-      return false;
-  }
-
-  const PREFIX = 'MITO Logger';
-  class Logger {
-      constructor() {
-          this.enabled = true;
-          this._console = {};
-          const logType = ['log', 'debug', 'info', 'warn', 'error', 'assert'];
-          logType.forEach((level) => {
-              if (!(level in _global.console))
-                  return;
-              this._console[level] = _global.console[level];
-          });
-      }
-      disable() {
-          this.enabled = false;
-      }
-      bindOptions(debug) {
-          this.enabled = debug ? true : false;
-      }
-      enable() {
-          this.enabled = true;
-      }
-      log(...args) {
-          if (!this.enabled) {
-              return;
-          }
-          this._console.log(`${PREFIX}[Log]:`, ...args);
-      }
-      warn(...args) {
-          if (!this.enabled) {
-              return;
-          }
-          this._console.warn(`${PREFIX}[Warn]:`, ...args);
-      }
-      error(...args) {
-          if (!this.enabled) {
-              return;
-          }
-          this._console.error(`${PREFIX}[Error]:`, ...args);
-      }
-  }
-  const logger = _support.logger || (_support.logger = new Logger());
-
   class Breadcrumb {
       constructor() {
           this.maxBreadcrumbs = 10;
@@ -377,8 +376,8 @@ var MITO = (function () {
       }
       bindOptions(options = {}) {
           const { maxBreadcrumbs, beforeBreadcrumb } = options;
-          validateOptions(maxBreadcrumbs, 'maxBreadcrumbs', 'number') && (this.maxBreadcrumbs = maxBreadcrumbs);
-          validateOptions(beforeBreadcrumb, 'beforeBreadcrumb', 'function') && (this.beforeBreadcrumb = beforeBreadcrumb);
+          validateOption(maxBreadcrumbs, 'maxBreadcrumbs', 'number') && (this.maxBreadcrumbs = maxBreadcrumbs);
+          validateOption(beforeBreadcrumb, 'beforeBreadcrumb', 'function') && (this.beforeBreadcrumb = beforeBreadcrumb);
       }
   }
   const breadcrumb = _support.breadcrumb || (_support.breadcrumb = new Breadcrumb());
@@ -585,11 +584,11 @@ var MITO = (function () {
       }
       bindOptions(options = {}) {
           const { dsn, beforeSend, version, apikey, configXhr } = options;
-          apikey && (this.apikey = apikey);
-          dsn && (this.url = dsn);
-          version && (this.version = version);
-          beforeSend && (this.beforeSend = beforeSend);
-          configXhr && (this.configXhr = configXhr);
+          validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey);
+          validateOption(dsn, 'dsn', 'string') && (this.url = dsn);
+          validateOption(version, 'version', 'string') && (this.version = version);
+          validateOption(beforeSend, 'beforeSend', 'function') && (this.beforeSend = beforeSend);
+          validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr);
       }
   }
   TransportData.img = new Image();

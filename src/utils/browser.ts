@@ -1,7 +1,8 @@
-import { InitOptions } from '../options'
-import { EVENTTYPES, ERRORTYPES, ERRORLEVELS, ReportDataType } from '@/common'
+import { EVENTTYPES, ERRORTYPES, ERRORLEVELS } from '@/common'
 import { getLocationHref, getTimestamp } from './helpers'
 import { setFlag } from './global'
+import { InitOptions } from '@/types/options'
+import { ReportDataType } from '@/types/transportData'
 
 /**
  * 获取当前script标签的apiKey属性值

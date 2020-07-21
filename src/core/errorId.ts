@@ -1,4 +1,5 @@
-import { ERRORTYPES, ReportDataType } from '../common'
+import { ERRORTYPES } from '../common'
+import { ReportDataType } from '@/types/transportData'
 const allErrorNumber: unknown = {}
 /**
  * 优化error合并规则 todo 再次确认是否有两个同样的event，但是生成不同的errorId

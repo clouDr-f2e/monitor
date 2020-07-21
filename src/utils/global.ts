@@ -1,7 +1,7 @@
 import { EVENTTYPES } from '@/common'
-import { TransportData } from '../core/transportData'
-import { Breadcrumb } from '../core/breadcrumb'
-import { Logger } from '../core/logger'
+import { TransportData } from '@/core/transportData'
+import { Breadcrumb } from '@/core/breadcrumb'
+import { Logger } from './logger'
 
 // MITO的全局变量
 export interface MitoSupport {

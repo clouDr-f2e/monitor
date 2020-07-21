@@ -1,4 +1,4 @@
-// import { logger } from '../core/logger'
+import { logger } from './logger'
 import { _global } from './global'
 
 /**
@@ -57,7 +57,7 @@ export function supportsFetch(): boolean {
   }
 }
 /**
- * isNativeFetch checks if the given function is a native implementation of fetch()
+ * 判断是不是原生的fetch，有可能是别人重写过的
  */
 function isNativeFetch(func: Function): boolean {
   return func && /^function fetch\(\)\s+\{\s+\[native code\]\s+\}$/.test(func.toString())
@@ -74,29 +74,22 @@ export function supportsNativeFetch(): boolean {
     return false
   }
 
-  // Fast path to avoid DOM I/O
-  // tslint:disable-next-line:no-unbound-method
   if (isNativeFetch(global.fetch)) {
     return true
   }
-
-  // window.fetch is implemented, but is polyfilled or already wrapped (e.g: by a chrome extension)
-  // so create a "pure" iframe to see if that has native fetch
   let result = false
   const doc = global.document
-  // tslint:disable-next-line:no-unbound-method deprecation
   if (doc && typeof (doc.createElement as unknown) === `function`) {
     try {
       const sandbox = doc.createElement('iframe')
       sandbox.hidden = true
       doc.head.appendChild(sandbox)
       if (sandbox.contentWindow && sandbox.contentWindow.fetch) {
-        // tslint:disable-next-line:no-unbound-method
         result = isNativeFetch(sandbox.contentWindow.fetch)
       }
       doc.head.removeChild(sandbox)
     } catch (err) {
-      // logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', err)
+      logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', err)
     }
   }
 

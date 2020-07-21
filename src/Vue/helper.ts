@@ -1,7 +1,8 @@
 import { getLocationHref, getTimestamp } from 'utils'
-import { ERRORTYPES, BREADCRUMBTYPES, ReportDataType } from '@/common'
+import { ERRORTYPES, BREADCRUMBTYPES } from '@/common'
 import { ViewModel } from './interface'
 import { breadcrumb, transportData } from 'core'
+import { ReportDataType } from '@/types/transportData'
 function formatComponentName(vm: ViewModel) {
   console.log(vm)
   if (vm.$root === vm) return 'root'

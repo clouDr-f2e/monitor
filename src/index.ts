@@ -1,8 +1,9 @@
 import { MitoVue } from './Vue/index'
 import { setupReplace } from './load'
-import { InitOptions } from './options'
-import { breadcrumb, transportData, logger } from 'core'
+import { breadcrumb, transportData } from 'core'
+import { logger } from 'utils'
 import { SDK_VERSION, SDK_NAME } from './config'
+import { InitOptions } from './types/options'
 
 function init(options: InitOptions = {}): void {
   if (options.disabled) return

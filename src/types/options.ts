@@ -1,7 +1,6 @@
-import { ReportDataType } from '@/common'
-import { Breadcrumb, BreadcrumbPushData } from '@/core/breadcrumb'
-import { typeofAny } from 'utils'
-import { logger } from 'core'
+import { Breadcrumb } from '@/core/breadcrumb'
+import { BreadcrumbPushData } from './breadcrumb'
+import { ReportDataType } from './transportData'
 type CANCEL = null | undefined | boolean
 export interface InitOptions extends SilentEventTypes, HooksTypes {
   /**
@@ -106,10 +105,4 @@ export interface SilentEventTypes {
    * 静默监控Vue.warn函数
    */
   silentVue?: boolean
-}
-
-export function validateOptions(target: any, targetName: string, expectType: string): boolean {
-  if (typeofAny(target, expectType)) return true
-  typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${typeof target}类型`)
-  return false
 }

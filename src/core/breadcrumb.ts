@@ -1,12 +1,8 @@
-import { InitOptions, validateOptions } from '@/options'
 import { globalVar } from '@/common'
-import { logger } from './logger'
-import { _support } from '../utils/global'
-
-export interface BreadcrumbPushData {
-  type: string
-  data: any
-}
+import { logger, validateOption } from 'utils'
+import { _support } from '@/utils/global'
+import { BreadcrumbPushData } from '@/types/breadcrumb'
+import { InitOptions } from '@/types/options'
 
 export class Breadcrumb {
   private maxBreadcrumbs = 10
@@ -43,8 +39,8 @@ export class Breadcrumb {
   }
   bindOptions(options: InitOptions = {}): void {
     const { maxBreadcrumbs, beforeBreadcrumb } = options
-    validateOptions(maxBreadcrumbs, 'maxBreadcrumbs', 'number') && (this.maxBreadcrumbs = maxBreadcrumbs)
-    validateOptions(beforeBreadcrumb, 'beforeBreadcrumb', 'function') && (this.beforeBreadcrumb = beforeBreadcrumb)
+    validateOption(maxBreadcrumbs, 'maxBreadcrumbs', 'number') && (this.maxBreadcrumbs = maxBreadcrumbs)
+    validateOption(beforeBreadcrumb, 'beforeBreadcrumb', 'function') && (this.beforeBreadcrumb = beforeBreadcrumb)
   }
 }
 const breadcrumb = _support.breadcrumb || (_support.breadcrumb = new Breadcrumb())

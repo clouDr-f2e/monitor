@@ -1,7 +1,8 @@
 import { MITOHttp } from './replace'
-import { ReportDataType, ERRORTYPES, ERRORLEVELS } from '@/common'
+import { ERRORTYPES, ERRORLEVELS } from '@/common'
 import { getLocationHref, getTimestamp } from 'utils'
 import { ResourceErrorTarget } from './handleEvents'
+import { ReportDataType } from '@/types/transportData'
 
 export function httpTransform(data: MITOHttp): ReportDataType {
   return {

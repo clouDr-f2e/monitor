@@ -1,23 +1,12 @@
-import { _support } from 'utils'
+import { _support, validateOption } from 'utils'
 import { splitObjToQuery } from 'utils'
 import { Queue } from './queue'
-import { ReportDataType } from '@/common'
 import createErrorId from '@/core/errorId'
 import { SERVER_URL } from '@/config'
-import { InitOptions } from '@/options'
-import { BreadcrumbPushData, breadcrumb } from './breadcrumb'
+import { breadcrumb } from './breadcrumb'
+import { InitOptions } from '@/types/options'
+import { AuthInfo, TransportDataType, ReportDataType } from '@/types/transportData'
 
-export interface AuthInfo {
-  apikey: string
-  version: string
-}
-
-interface TransportDataType {
-  authInfo: AuthInfo
-  behavior: BreadcrumbPushData[]
-  data: ReportDataType
-  record?: any[]
-}
 /**
  * 用来传输数据类，包含img标签、xhr请求
  * 功能：支持img请求和xhr请求、可以断点续存（保存在localstorage），
@@ -88,11 +77,11 @@ export class TransportData {
   }
   bindOptions(options: InitOptions = {}): void {
     const { dsn, beforeSend, version, apikey, configXhr } = options
-    apikey && (this.apikey = apikey)
-    dsn && (this.url = dsn)
-    version && (this.version = version)
-    beforeSend && (this.beforeSend = beforeSend)
-    configXhr && (this.configXhr = configXhr)
+    validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
+    validateOption(dsn, 'dsn', 'string') && (this.url = dsn)
+    validateOption(version, 'version', 'string') && (this.version = version)
+    validateOption(beforeSend, 'beforeSend', 'function') && (this.beforeSend = beforeSend)
+    validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr)
   }
 }
 const transportData = _support.transportData || (_support.transportData = new TransportData(SERVER_URL))

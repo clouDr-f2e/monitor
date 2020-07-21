@@ -1,4 +1,5 @@
-import { _global, _support } from 'utils'
+import { _global, _support } from './global'
+import { validateOption } from './helpers'
 const PREFIX = 'MITO Logger'
 
 export class Logger {
@@ -18,7 +19,7 @@ export class Logger {
   }
 
   bindOptions(debug: boolean): void {
-    this.enabled = debug ? true : false
+    validateOption(debug, 'debug', 'boolean') && (this.enabled = debug)
   }
 
   enable(): void {
