@@ -19,7 +19,7 @@ export class Logger {
   }
 
   bindOptions(debug: boolean): void {
-    validateOption(debug, 'debug', 'boolean') && (this.enabled = debug)
+    this.enabled = debug ? true : false
   }
 
   enable(): void {

@@ -12,4 +12,5 @@ function init(options: InitOptions = {}): void {
   logger.bindOptions(options.debug)
   transportData.bindOptions(options)
 }
+
 export default { MitoVue, init, SDK_VERSION, SDK_NAME }

@@ -94,7 +94,7 @@ var MITO = (function () {
           this.enabled = false;
       }
       bindOptions(debug) {
-          validateOption(debug, 'debug', 'boolean') && (this.enabled = debug);
+          this.enabled = debug ? true : false;
       }
       enable() {
           this.enabled = true;
@@ -517,8 +517,10 @@ var MITO = (function () {
       }
   }
 
+  var version = "1.0.0";
+
   const SDK_NAME = 'MITO.browser';
-  const SDK_VERSION = '1.0.0';
+  const SDK_VERSION = version;
   const SERVER_URL = '//localhost:3000/api/error/error.gif';
 
   class TransportData {
