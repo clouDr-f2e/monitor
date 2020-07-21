@@ -64,7 +64,7 @@ export function parseUrlToObj(
   }
 }
 
-export function setSilentFlag(opitons: InitOptions = {}) {
+export function setSilentFlag(opitons: InitOptions = {}): void {
   setFlag(EVENTTYPES.XHR, !!opitons.silentXhr)
   setFlag(EVENTTYPES.FETCH, !!opitons.silentFetch)
   setFlag(EVENTTYPES.CONSOLE, !!opitons.silentConsole)
@@ -104,8 +104,8 @@ export function extractErrorStack(ex: any, level: ERRORLEVELS): ReportDataType {
 
   for (let i = 0, j = lines.length; i < j; ++i) {
     if ((parts = chrome.exec(lines[i]))) {
-      let isNative = parts[2] && parts[2].indexOf('native') === 0 // start of line
-      let isEval = parts[2] && parts[2].indexOf('eval') === 0 // start of line
+      const isNative = parts[2] && parts[2].indexOf('native') === 0 // start of line
+      const isEval = parts[2] && parts[2].indexOf('eval') === 0 // start of line
       if (isEval && (submatch = chromeEval.exec(parts[2]))) {
         // throw out eval line/column and use top-most line/column number
         parts[2] = submatch[1] // url
@@ -128,7 +128,7 @@ export function extractErrorStack(ex: any, level: ERRORLEVELS): ReportDataType {
         column: parts[4] ? +parts[4] : null
       }
     } else if ((parts = gecko.exec(lines[i]))) {
-      let isEval = parts[3] && parts[3].indexOf(' > eval') > -1
+      const isEval = parts[3] && parts[3].indexOf(' > eval') > -1
       if (isEval && (submatch = geckoEval.exec(parts[3]))) {
         // throw out eval line/column and use top-most line number
         parts[3] = submatch[1]

@@ -1,10 +1,8 @@
 import { addReplaceHandler, MITOHttp, breadcrumb, HandleEvents } from 'core'
-import { htmlElementAsString, setSilentFlag } from 'utils'
+import { htmlElementAsString } from 'utils'
 import { EVENTTYPES, BREADCRUMBTYPES } from '@/common'
-import { SilentEventTypes } from './types/options'
 import { BreadcrumbPushData } from './types/breadcrumb'
-export function setupReplace(slientOptions: SilentEventTypes = {}): void {
-  setSilentFlag(slientOptions)
+export function setupReplace(): void {
   addReplaceHandler({
     callback: (data: MITOHttp) => {
       HandleEvents.handleHttp(data, BREADCRUMBTYPES.XHR)

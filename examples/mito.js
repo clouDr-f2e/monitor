@@ -236,8 +236,8 @@ var MITO = (function () {
       let chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i, gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$/i, winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i, geckoEval = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i, chromeEval = /\((\S*)(?::(\d+))(?::(\d+))\)/, lines = ex.stack.split('\n'), stack = [], submatch, parts, element, reference = /^(.*) is undefined$/.exec(ex.message);
       for (let i = 0, j = lines.length; i < j; ++i) {
           if ((parts = chrome.exec(lines[i]))) {
-              let isNative = parts[2] && parts[2].indexOf('native') === 0;
-              let isEval = parts[2] && parts[2].indexOf('eval') === 0;
+              const isNative = parts[2] && parts[2].indexOf('native') === 0;
+              const isEval = parts[2] && parts[2].indexOf('eval') === 0;
               if (isEval && (submatch = chromeEval.exec(parts[2]))) {
                   parts[2] = submatch[1];
                   parts[3] = submatch[2];
@@ -261,7 +261,7 @@ var MITO = (function () {
               };
           }
           else if ((parts = gecko.exec(lines[i]))) {
-              let isEval = parts[3] && parts[3].indexOf(' > eval') > -1;
+              const isEval = parts[3] && parts[3].indexOf(' > eval') > -1;
               if (isEval && (submatch = geckoEval.exec(parts[3]))) {
                   parts[3] = submatch[1];
                   parts[4] = submatch[2];
@@ -585,10 +585,9 @@ var MITO = (function () {
           return targetUrl.includes(this.url);
       }
       bindOptions(options = {}) {
-          const { dsn, beforeSend, version, apikey, configXhr } = options;
+          const { dsn, beforeSend, apikey, configXhr } = options;
           validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey);
           validateOption(dsn, 'dsn', 'string') && (this.url = dsn);
-          validateOption(version, 'version', 'string') && (this.version = version);
           validateOption(beforeSend, 'beforeSend', 'function') && (this.beforeSend = beforeSend);
           validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr);
       }
@@ -969,8 +968,7 @@ var MITO = (function () {
       }
   };
 
-  function setupReplace(slientOptions = {}) {
-      setSilentFlag(slientOptions);
+  function setupReplace() {
       addReplaceHandler({
           callback: (data) => {
               HandleEvents.handleHttp(data, BREADCRUMBTYPES.XHR);
@@ -1030,7 +1028,11 @@ var MITO = (function () {
   function init(options = {}) {
       if (options.disabled)
           return;
-      setupReplace(options);
+      bindOptions(options);
+      setupReplace();
+  }
+  function bindOptions(options = {}) {
+      setSilentFlag(options);
       breadcrumb.bindOptions(options);
       logger.bindOptions(options.debug);
       transportData.bindOptions(options);

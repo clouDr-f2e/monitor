@@ -76,10 +76,10 @@ export class TransportData {
     return targetUrl.includes(this.url)
   }
   bindOptions(options: InitOptions = {}): void {
-    const { dsn, beforeSend, version, apikey, configXhr } = options
+    const { dsn, beforeSend, apikey, configXhr } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
     validateOption(dsn, 'dsn', 'string') && (this.url = dsn)
-    validateOption(version, 'version', 'string') && (this.version = version)
+    // validateOption(version, 'version', 'string') && (this.version = version)
     validateOption(beforeSend, 'beforeSend', 'function') && (this.beforeSend = beforeSend)
     validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr)
   }

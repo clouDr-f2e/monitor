@@ -24,10 +24,6 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
    */
   // ignoreErrors?: Array<string | RegExp>
   /**
-   * 线上版本
-   */
-  version?: string
-  /**
    * 默认20，最大100，超过100还是设置成100
    */
   maxBreadcrumbs?: number
@@ -35,6 +31,11 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
   attachStacktrace?: boolean
   /** Maxium number of chars a single value can have before it will be truncated. */
   maxValueLength?: number
+  // todo 每个错误或者每个平台 分成多个store、一个总store，查询事件需要到单独的store里面去获取
+  // tags: any[{version: '1.0.0', dev: 'dev',}]
+}
+
+export interface HooksTypes {
   /**
    * 可以对当前xhr实例做一些配置：xhr.setRequestHeader()、xhr.withCredentials
    * 会在xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8')、
@@ -42,9 +43,6 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
    * @param xhr XMLHttpRequest的实例
    */
   configXhr?(xhr: XMLHttpRequest): void
-}
-
-export interface HooksTypes {
   /**
    * 钩子函数，在每次发送事件前会调用
    *
@@ -65,7 +63,7 @@ export interface HooksTypes {
    * @param data 请求状态为200时返回的响应体
    * @returns 如果返回 null | undefined | boolean 时，将忽略本次的上传
    */
-  httpResponseHandle?<T>(data: T): string | CANCEL
+  afterSuccessHttp?<T>(data: T): string | CANCEL
 }
 
 export interface SilentEventTypes {
