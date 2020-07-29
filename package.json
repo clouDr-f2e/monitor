@@ -5,8 +5,9 @@
   "main": "/dist/mito.js",
   "types": "/dist/types/index.d.ts",
   "scripts": {
-    "build": "rollup --config",
-    "watch": "rollup --config --watch"
+    "build": "IGNORE=localDebug rollup --config",
+    "watch:debug": "IGNORE=esmPackage&iifePackage&examplePackage  --config --watch",
+    "watch": "IGNORE=examplePackage rollup --config --watch"
   },
   "author": "chenjinhuo",
   "repository": {

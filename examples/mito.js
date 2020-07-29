@@ -517,11 +517,10 @@ var MITO = (function () {
       }
   }
 
-  var version = "1.0.0";
-
   const SDK_NAME = 'MITO.browser';
-  const SDK_VERSION = version;
+  const SDK_VERSION = process.env.npm_package_version;
   const SERVER_URL = '//localhost:3000/api/error/error.gif';
+  console.log(SDK_VERSION);
 
   class TransportData {
       constructor(url) {
@@ -819,8 +818,8 @@ var MITO = (function () {
                   };
                   tempRes.text().then((data) => {
                       handlerData.responseText = data;
+                      triggerHandlers(EVENTTYPES.FETCH, handlerData);
                   });
-                  triggerHandlers(EVENTTYPES.FETCH, handlerData);
                   return res;
               }, (err) => {
                   const eTime = getTimestamp();
