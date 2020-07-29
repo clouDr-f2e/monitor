@@ -8,6 +8,7 @@
     "experimentalDecorators": true, // 启用实验性的ES装饰器
     "sourceMap": true, 
     "resolveJsonModule": true, // 可以引入json文件
+    "esModuleInterop": true, // 解决resolveJsonModule配置项error的问题
     "noImplicitAny": false, // 是否默认禁用 any
     "removeComments": true, // 是否移除注释
     "forceConsistentCasingInFileNames": true, //禁止对同一个文件的不一致的引用。

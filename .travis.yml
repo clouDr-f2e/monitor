@@ -1,0 +1,9 @@
+languages: node_js
+node_js:
+  - "12.18.3"
+rvm: 
+  - 
+install: 
+  - npm i
+scripts: 
+  - npm run build

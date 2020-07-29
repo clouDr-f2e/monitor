@@ -184,8 +184,8 @@ function fetchReplace(): void {
           }
           tempRes.text().then((data) => {
             handlerData.responseText = data
+            triggerHandlers(EVENTTYPES.FETCH, handlerData)
           })
-          triggerHandlers(EVENTTYPES.FETCH, handlerData)
           return res
         },
         (err: Error) => {
