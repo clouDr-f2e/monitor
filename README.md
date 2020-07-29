@@ -3,6 +3,8 @@
 [![npm version](https://img.shields.io/npm/v/mitojs.svg?style=flat-square)](https://www.npmjs.org/package/mitojs)
 [![install size](https://packagephobia.now.sh/badge?p=mitojs)](https://packagephobia.now.sh/result?p=axios)
 [![npm downloads](https://img.shields.io/npm/dm/mitojs.svg?style=flat-square)](http://npm-stat.com/charts.html?package=mitojs)
+[![build status](https://img.shields.io/travis/clouDr-f2e/mitojs/master.svg?style=flat-square)](https://travis-ci.com/github/clouDr-f2e/mitojs)
+
 <!-- [![CDNJS](https://img.shields.io/cdnjs/v/mitojs.svg?style=flat-square)](https://cdn.jsdelivr.net/npm/mitojs/dist/mito.min.js) -->
 <!-- [![build status](https://img.shields.io/travis/axios/axios/master.svg?style=flat-square)](https://travis-ci.org/axios/axios) -->
 <!-- [![code coverage](https://img.shields.io/coveralls/mzabriskie/axios.svg?style=flat-square)](https://coveralls.io/r/mzabriskie/axios) -->
