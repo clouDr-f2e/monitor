@@ -518,9 +518,8 @@ var MITO = (function () {
   }
 
   const SDK_NAME = 'MITO.browser';
-  const SDK_VERSION = process.env.npm_package_version;
+  const SDK_VERSION = '1.0.0';
   const SERVER_URL = '//localhost:3000/api/error/error.gif';
-  console.log(SDK_VERSION);
 
   class TransportData {
       constructor(url) {

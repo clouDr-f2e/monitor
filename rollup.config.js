@@ -83,12 +83,19 @@ const examplePackage = {
 }
 const total = {
   esmPackage,
-  localDebug,
   iifePackage,
-  examplePackage
+  examplePackage,
+  localDebug
 }
-
-if (process.env.IGNORE) {
-  delete total[process.env.IGNORE]
+let result = total
+const ignore = process.env.IGNORE
+const include = process.env.INCLUDE
+console.log(`ignore: ${ignore}, include: ${include}`)
+if (ignore) {
+  delete total[ignore]
+  result = total
 }
-export default [...Object.values(total)]
+if (include) {
+  result = [total[include]]
+}
+export default [...Object.values(result)]

@@ -6,8 +6,9 @@
   "types": "/dist/types/index.d.ts",
   "scripts": {
     "build": "IGNORE=localDebug rollup --config",
-    "watch:debug": "IGNORE=esmPackage&iifePackage&examplePackage  --config --watch",
-    "watch": "IGNORE=examplePackage rollup --config --watch"
+    "watch:example": "INCLUDE=examplePackage rollup --config --watch",
+    "watch:groot": "INCLUDE=localDebug rollup  --config --watch",
+    "watch": "rollup --config --watch"
   },
   "author": "chenjinhuo",
   "repository": {
