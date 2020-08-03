@@ -52,7 +52,8 @@ var MITO = (function () {
   })(HTTPTYPE || (HTTPTYPE = {}));
   const ERROR_TYPE_RE = /^(?:[Uu]ncaught (?:exception: )?)?(?:((?:Eval|Internal|Range|Reference|Syntax|Type|URI|)Error): )?(.*)$/;
   const globalVar = {
-      isLogAddBreadcrumb: true
+      isLogAddBreadcrumb: true,
+      crossOriginThreshold: 1000
   };
 
   function isNodeEnv() {
@@ -458,6 +459,10 @@ var MITO = (function () {
   }
 
   function httpTransform(data) {
+      let description = data.responseText;
+      if (data.status === 0) {
+          description = data.elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制' : 'http请求失败，失败原因：超时';
+      }
       return {
           type: ERRORTYPES.FETCH_ERROR,
           url: getLocationHref(),
@@ -473,7 +478,7 @@ var MITO = (function () {
           response: {
               status: data.status,
               statusText: data.statusText,
-              description: data.status === 0 ? 'XMLHttpRequest请求失败(可能原因:浏览器跨域限制、超时)' : data.responseText
+              description
           }
       };
   }

@@ -58,6 +58,7 @@ export type ErrorType =
 
 export const ERROR_TYPE_RE = /^(?:[Uu]ncaught (?:exception: )?)?(?:((?:Eval|Internal|Range|Reference|Syntax|Type|URI|)Error): )?(.*)$/
 const globalVar = {
-  isLogAddBreadcrumb: true
+  isLogAddBreadcrumb: true,
+  crossOriginThreshold: 1000
 }
 export { globalVar }

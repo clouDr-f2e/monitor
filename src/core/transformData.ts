@@ -3,8 +3,13 @@ import { ERRORTYPES, ERRORLEVELS } from '@/common'
 import { getLocationHref, getTimestamp } from 'utils'
 import { ResourceErrorTarget } from './handleEvents'
 import { ReportDataType } from '@/types/transportData'
+import { globalVar } from '@/common'
 
 export function httpTransform(data: MITOHttp): ReportDataType {
+  let description = data.responseText
+  if (data.status === 0) {
+    description = data.elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制' : 'http请求失败，失败原因：超时'
+  }
   return {
     type: ERRORTYPES.FETCH_ERROR,
     url: getLocationHref(),
@@ -20,7 +25,7 @@ export function httpTransform(data: MITOHttp): ReportDataType {
     response: {
       status: data.status,
       statusText: data.statusText,
-      description: data.status === 0 ? 'XMLHttpRequest请求失败(可能原因:浏览器跨域限制、超时)' : data.responseText
+      description
     }
   }
 }

@@ -20,7 +20,7 @@
 
   <body>
     <div style="width: 100%; height: 1000px;">
-    <img src="https://seopic.699pic.com/photo/40011/0709.jpg_wh1222200.jpg">
+    <!-- <img src="https://seopic.699pic.com/photo/40011/0709.jpg_wh1222200.jpg"> -->
     <input type="number" />
     </div>
     <div id="app">
@@ -46,7 +46,7 @@
     <script>
       
       window.onload = function() {
-        // asyncXhr()
+        asyncXhr()
         // fetch('http://localhost:8090/parse/test', {
         //   body: '{test:1}',
         //   method: 'post'
@@ -79,9 +79,9 @@
         }
         var Ctor = Vue.extend(Main)
         new Ctor().$mount('#app')
-        syncXhr().then(res => {
-          console.log(res)
-        })
+        // syncXhr().then(res => {
+        //   console.log(res)
+        // })
         
         // const img = new Image()
         // img.src = 'http://chuantu.xyz/t6/738/1591671510x992239403.jpg'
@@ -105,8 +105,9 @@
       }
       function asyncXhr() {
         const xhr = new XMLHttpRequest()
-        xhr.open("POST", "http://localhost:8090/parse/delay");
+        xhr.open("get", "http://localhost:8090/parse/delay");
         const data = new FormData()
+        xhr.setRequestHeader('content-type', 'application/json')
         xhr.send('{test:1}');
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4){

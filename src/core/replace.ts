@@ -125,6 +125,10 @@ function xhrReplace(): void {
         if (this.mito_xhr.method === 'POST' && transportData.isSdkTransportUrl(url)) {
           this.mito_xhr.isSdkUrl = true
         }
+        // this.ontimeout = function () {
+        //   console.log('超时', this)
+        // }
+        // this.timeout = 10000
         // on(this, EVENTTYPES.ERROR, function (this: MITOXMLHttpRequest) {
         //   if (this.mito_xhr.isSdkUrl) return
         //   this.mito_xhr.isError = true
@@ -144,7 +148,15 @@ function xhrReplace(): void {
     'send',
     (originalSend: voidFun): voidFun => {
       return function (this: MITOXMLHttpRequest, ...args: any[]): void {
+        // on(this, 'error', function (this: MITOXMLHttpRequest) {
+        //   localStorage.setItem('cross', '11111')
+        //   console.log('error', this)
+        //   if (this.mito_xhr.isSdkUrl) return
+        // })
         on(this, 'loadend', function (this: MITOXMLHttpRequest) {
+          // 走到这边
+          // localStorage.setItem('quxiao', '11111')
+          // console.log('loadend', this)
           if (this.mito_xhr.isSdkUrl) return
           this.mito_xhr.reqData = args[0]
           const eTime = getTimestamp()
