@@ -2,6 +2,7 @@ import { addReplaceHandler, MITOHttp, breadcrumb, HandleEvents } from 'core'
 import { htmlElementAsString } from 'utils'
 import { EVENTTYPES, BREADCRUMBTYPES } from '@/common'
 import { BreadcrumbPushData } from './types/breadcrumb'
+import { Severity } from './utils/Severity'
 export function setupReplace(): void {
   addReplaceHandler({
     callback: (data: MITOHttp) => {
@@ -10,7 +11,7 @@ export function setupReplace(): void {
     type: EVENTTYPES.XHR
   })
   addReplaceHandler({
-    callback: (data) => {
+    callback: (data: MITOHttp) => {
       HandleEvents.handleHttp(data, BREADCRUMBTYPES.FETCH)
     },
     type: EVENTTYPES.FETCH
@@ -46,7 +47,8 @@ export function setupReplace(): void {
       if (htmlString) {
         breadcrumb.push({
           type: BREADCRUMBTYPES.CLICK,
-          data: htmlString
+          data: htmlString,
+          level: Severity.Info
         })
       }
     },

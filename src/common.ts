@@ -18,7 +18,7 @@ export enum ERRORLEVELS {
 }
 export enum BREADCRUMBTYPES {
   ROUTE = 'Route',
-  CLICK = 'Click',
+  CLICK = 'UI.Click',
   CONSOLE = 'Console',
   XHR = 'Xhr',
   FETCH = 'Fetch',

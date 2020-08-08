@@ -1,5 +1,5 @@
 import { globalVar } from '@/common'
-import { logger, validateOption } from 'utils'
+import { logger, validateOption, getTimestamp } from 'utils'
 import { _support } from '@/utils/global'
 import { BreadcrumbPushData } from '@/types/breadcrumb'
 import { InitOptions } from '@/types/options'
@@ -25,6 +25,7 @@ export class Breadcrumb {
     this.immediatePush(data)
   }
   immediatePush(data: BreadcrumbPushData): void {
+    data.time = getTimestamp()
     if (this.stack.length >= this.maxBreadcrumbs) {
       this.shift()
     }

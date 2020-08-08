@@ -5,6 +5,7 @@ import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
 import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStack } from 'utils'
 import { ReportDataType } from '@/types/transportData'
+import { Severity } from '@/utils/Severity'
 
 export interface ResourceErrorTarget {
   src?: string
@@ -14,12 +15,15 @@ export interface ResourceErrorTarget {
 
 const HandleEvents = {
   handleHttp(data: MITOHttp, type: string): void {
+    const isError = data.status >= 400 || data.status === 0
     breadcrumb.push({
       type,
-      data
+      data,
+      level: isError ? Severity.Error : Severity.Info
     })
-    if (data.status >= 400 || data.status === 0) {
-      transportData.xhrPost(httpTransform(data))
+    if (isError) {
+      const result = httpTransform(data)
+      transportData.xhrPost(result)
     } else {
       // todo 需要加个hook，传入参数为请求的响应体
       // data.responseText
@@ -32,7 +36,8 @@ const HandleEvents = {
       const data: ReportDataType = resourceTransform(errorEvent.target as ResourceErrorTarget)
       breadcrumb.push({
         type: BREADCRUMBTYPES.RESOURCE,
-        data
+        data,
+        level: Severity.Error
       })
       return transportData.xhrPost(data)
     }
@@ -69,7 +74,8 @@ const HandleEvents = {
     result.type = ERRORTYPES.JAVASCRIPT_ERROR
     breadcrumb.push({
       type: BREADCRUMBTYPES.CODE_ERROR,
-      data: result
+      data: result,
+      level: Severity.Error
     })
     transportData.xhrPost(result)
   },
@@ -82,7 +88,8 @@ const HandleEvents = {
       data: {
         from: parsedFrom ? parsedFrom : '/',
         to: parsedTo ? parsedTo : '/'
-      }
+      },
+      level: Severity.Info
     })
   },
   handleHashchange(data: HashChangeEvent): void {
@@ -94,7 +101,8 @@ const HandleEvents = {
       data: {
         from,
         to
-      }
+      },
+      level: Severity.Info
     })
   },
   handleUnhandleRejection(ev: PromiseRejectionEvent): void {
@@ -114,7 +122,8 @@ const HandleEvents = {
     }
     breadcrumb.push({
       type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
-      data: data
+      data: data,
+      level: Severity.Error
     })
     transportData.xhrPost(data)
   },
@@ -122,7 +131,8 @@ const HandleEvents = {
     if (globalVar.isLogAddBreadcrumb) {
       breadcrumb.push({
         type: BREADCRUMBTYPES.CONSOLE,
-        data
+        data,
+        level: Severity.Info
       })
     }
   }

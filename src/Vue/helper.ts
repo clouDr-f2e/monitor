@@ -3,6 +3,7 @@ import { ERRORTYPES, BREADCRUMBTYPES } from '@/common'
 import { ViewModel } from './types'
 import { breadcrumb, transportData } from 'core'
 import { ReportDataType } from '@/types/transportData'
+import { Severity } from '@/utils/Severity'
 function formatComponentName(vm: ViewModel) {
   if (vm.$root === vm) return 'root'
   const name = vm._isVue ? (vm.$options && vm.$options.name) || (vm.$options && vm.$options._componentTag) : vm.name
@@ -12,7 +13,7 @@ function formatComponentName(vm: ViewModel) {
   )
 }
 
-export function handleVueError(err: Error, vm: ViewModel, info: string, level: number): void {
+export function handleVueError(err: Error, vm: ViewModel, info: string, level: number, breadcrumbLevel: Severity): void {
   // let errInfo: { name: string; message: string; stack?: any[] } = {
   //   name: '',
   //   message: ''
@@ -32,7 +33,8 @@ export function handleVueError(err: Error, vm: ViewModel, info: string, level: n
   }
   breadcrumb.push({
     type: BREADCRUMBTYPES.VUE,
-    data
+    data,
+    level: breadcrumbLevel
   })
   transportData.xhrPost(data)
 }

@@ -23,7 +23,7 @@ var MITO = (function () {
   var BREADCRUMBTYPES;
   (function (BREADCRUMBTYPES) {
       BREADCRUMBTYPES["ROUTE"] = "Route";
-      BREADCRUMBTYPES["CLICK"] = "Click";
+      BREADCRUMBTYPES["CLICK"] = "UI.Click";
       BREADCRUMBTYPES["CONSOLE"] = "Console";
       BREADCRUMBTYPES["XHR"] = "Xhr";
       BREADCRUMBTYPES["FETCH"] = "Fetch";
@@ -363,6 +363,7 @@ var MITO = (function () {
           this.immediatePush(data);
       }
       immediatePush(data) {
+          data.time = getTimestamp();
           if (this.stack.length >= this.maxBreadcrumbs) {
               this.shift();
           }
@@ -598,14 +599,56 @@ var MITO = (function () {
   TransportData.img = new Image();
   const transportData = _support.transportData || (_support.transportData = new TransportData(SERVER_URL));
 
+  var Severity;
+  (function (Severity) {
+      Severity["Log"] = "log";
+      Severity["Error"] = "error";
+      Severity["Warning"] = "warning";
+      Severity["Info"] = "info";
+      Severity["Debug"] = "debug";
+      Severity["NORMAL"] = "normal";
+      Severity["HIGH"] = "high";
+      Severity["Critical"] = "critical";
+  })(Severity || (Severity = {}));
+  (function (Severity) {
+      function fromString(level) {
+          switch (level) {
+              case '1':
+                  return Severity.Critical;
+              case '2':
+                  return Severity.HIGH;
+              case '3':
+                  return Severity.NORMAL;
+              case 'debug':
+                  return Severity.Debug;
+              case 'info':
+                  return Severity.Info;
+              case 'warn':
+              case 'warning':
+                  return Severity.Warning;
+              case 'error':
+                  return Severity.Error;
+              case 'critical':
+                  return Severity.Critical;
+              case 'log':
+              default:
+                  return Severity.Log;
+          }
+      }
+      Severity.fromString = fromString;
+  })(Severity || (Severity = {}));
+
   const HandleEvents = {
       handleHttp(data, type) {
+          const isError = data.status >= 400 || data.status === 0;
           breadcrumb.push({
               type,
-              data
+              data,
+              level: isError ? Severity.Error : Severity.Info
           });
-          if (data.status >= 400 || data.status === 0) {
-              transportData.xhrPost(httpTransform(data));
+          if (isError) {
+              const result = httpTransform(data);
+              transportData.xhrPost(result);
           }
       },
       handleError(errorEvent) {
@@ -614,7 +657,8 @@ var MITO = (function () {
               const data = resourceTransform(errorEvent.target);
               breadcrumb.push({
                   type: BREADCRUMBTYPES.RESOURCE,
-                  data
+                  data,
+                  level: Severity.Error
               });
               return transportData.xhrPost(data);
           }
@@ -651,7 +695,8 @@ var MITO = (function () {
           result.type = ERRORTYPES.JAVASCRIPT_ERROR;
           breadcrumb.push({
               type: BREADCRUMBTYPES.CODE_ERROR,
-              data: result
+              data: result,
+              level: Severity.Error
           });
           transportData.xhrPost(result);
       },
@@ -664,7 +709,8 @@ var MITO = (function () {
               data: {
                   from: parsedFrom ? parsedFrom : '/',
                   to: parsedTo ? parsedTo : '/'
-              }
+              },
+              level: Severity.Info
           });
       },
       handleHashchange(data) {
@@ -676,7 +722,8 @@ var MITO = (function () {
               data: {
                   from,
                   to
-              }
+              },
+              level: Severity.Info
           });
       },
       handleUnhandleRejection(ev) {
@@ -696,7 +743,8 @@ var MITO = (function () {
           }
           breadcrumb.push({
               type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
-              data: data
+              data: data,
+              level: Severity.Error
           });
           transportData.xhrPost(data);
       },
@@ -704,7 +752,8 @@ var MITO = (function () {
           if (globalVar.isLogAddBreadcrumb) {
               breadcrumb.push({
                   type: BREADCRUMBTYPES.CONSOLE,
-                  data
+                  data,
+                  level: Severity.Info
               });
           }
       }
@@ -930,7 +979,7 @@ var MITO = (function () {
       return ((name ? 'component <' + name + '>' : 'anonymous component') +
           (vm._isVue && vm.$options && vm.$options.__file ? ' at ' + (vm.$options && vm.$options.__file) : ''));
   }
-  function handleVueError(err, vm, info, level) {
+  function handleVueError(err, vm, info, level, breadcrumbLevel) {
       const componentName = formatComponentName(vm);
       const propsData = vm.$options && vm.$options.propsData;
       const data = {
@@ -946,7 +995,8 @@ var MITO = (function () {
       };
       breadcrumb.push({
           type: BREADCRUMBTYPES.VUE,
-          data
+          data,
+          level: breadcrumbLevel
       });
       transportData.xhrPost(data);
   }
@@ -958,14 +1008,14 @@ var MITO = (function () {
               return;
           setFlag(EVENTTYPES.VUE, true);
           Vue.config.errorHandler = function (err, vm, info) {
-              handleVueError.apply(null, [err, vm, info, ERRORLEVELS.NORMAL]);
+              handleVueError.apply(null, [err, vm, info, ERRORLEVELS.NORMAL, Severity.Error]);
               if (hasConsole && !Vue.config.silent) {
                   console.error('Error in ' + info + ': "' + err.toString() + '"', vm);
                   console.error(err);
               }
           };
           Vue.config.warnHandler = function (msg, vm, trace) {
-              handleVueError.apply(null, [msg, vm, trace, ERRORLEVELS.NORMAL]);
+              handleVueError.apply(null, [msg, vm, trace, ERRORLEVELS.NORMAL, Severity.Warning]);
               hasConsole && console.error('[Vue warn]: ' + msg + trace);
           };
       }
@@ -1014,7 +1064,8 @@ var MITO = (function () {
               if (htmlString) {
                   breadcrumb.push({
                       type: BREADCRUMBTYPES.CLICK,
-                      data: htmlString
+                      data: htmlString,
+                      level: Severity.Info
                   });
               }
           },
