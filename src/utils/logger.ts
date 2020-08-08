@@ -1,5 +1,4 @@
 import { _global, _support } from './global'
-import { validateOption } from './helpers'
 const PREFIX = 'MITO Logger'
 
 export class Logger {

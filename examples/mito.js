@@ -601,7 +601,7 @@ var MITO = (function () {
 
   var Severity;
   (function (Severity) {
-      Severity["Log"] = "log";
+      Severity["Else"] = "else";
       Severity["Error"] = "error";
       Severity["Warning"] = "warning";
       Severity["Info"] = "info";
@@ -622,6 +622,8 @@ var MITO = (function () {
               case 'debug':
                   return Severity.Debug;
               case 'info':
+              case 'log':
+              case 'assert':
                   return Severity.Info;
               case 'warn':
               case 'warning':
@@ -630,9 +632,8 @@ var MITO = (function () {
                   return Severity.Error;
               case 'critical':
                   return Severity.Critical;
-              case 'log':
               default:
-                  return Severity.Log;
+                  return Severity.Else;
           }
       }
       Severity.fromString = fromString;
@@ -753,7 +754,7 @@ var MITO = (function () {
               breadcrumb.push({
                   type: BREADCRUMBTYPES.CONSOLE,
                   data,
-                  level: Severity.Info
+                  level: Severity.fromString(data.level)
               });
           }
       }

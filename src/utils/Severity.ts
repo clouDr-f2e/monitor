@@ -1,7 +1,7 @@
 /** JSDoc */
 export enum Severity {
   /** JSDoc */
-  Log = 'log',
+  Else = 'else',
   /** JSDoc */
   Error = 'error',
   /** JSDoc */
@@ -34,6 +34,8 @@ export namespace Severity {
       case 'debug':
         return Severity.Debug
       case 'info':
+      case 'log':
+      case 'assert':
         return Severity.Info
       case 'warn':
       case 'warning':
@@ -42,9 +44,8 @@ export namespace Severity {
         return Severity.Error
       case 'critical':
         return Severity.Critical
-      case 'log':
       default:
-        return Severity.Log
+        return Severity.Else
     }
   }
 }

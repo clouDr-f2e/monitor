@@ -6,6 +6,7 @@ import { breadcrumb } from './breadcrumb'
 import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStack } from 'utils'
 import { ReportDataType } from '@/types/transportData'
 import { Severity } from '@/utils/Severity'
+import { Replace } from '@/types/replace'
 
 export interface ResourceErrorTarget {
   src?: string
@@ -127,12 +128,12 @@ const HandleEvents = {
     })
     transportData.xhrPost(data)
   },
-  handleConsole(data: Record<string, unknown>): void {
+  handleConsole(data: Replace.TriggerConsole): void {
     if (globalVar.isLogAddBreadcrumb) {
       breadcrumb.push({
         type: BREADCRUMBTYPES.CONSOLE,
         data,
-        level: Severity.Info
+        level: Severity.fromString(data.level)
       })
     }
   }
