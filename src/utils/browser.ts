@@ -53,7 +53,6 @@ export function parseUrlToObj(
     return {}
   }
 
-  // coerce to undefined values to empty string so we don't get 'undefined'
   const query = match[6] || ''
   const fragment = match[8] || ''
   return {
@@ -89,18 +88,17 @@ export function extractErrorStack(ex: any, level: ERRORLEVELS): ReportDataType {
     return normal
   }
 
-  let chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i,
+  const chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i,
     gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$/i,
     winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i,
     // Used to additionally parse URL/line/column from eval frames
     geckoEval = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i,
     chromeEval = /\((\S*)(?::(\d+))(?::(\d+))\)/,
     lines = ex.stack.split('\n'),
-    stack = [],
-    submatch,
-    parts,
-    element,
-    reference = /^(.*) is undefined$/.exec(ex.message)
+    stack = []
+
+  let submatch, parts, element
+  // reference = /^(.*) is undefined$/.exec(ex.message)
 
   for (let i = 0, j = lines.length; i < j; ++i) {
     if ((parts = chrome.exec(lines[i]))) {

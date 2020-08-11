@@ -1,6 +1,5 @@
-import { EVENTTYPES, voidFun } from '@/common'
-import { Breadcrumb, TransportData } from 'core'
-import { Logger, logger } from './logger'
+import { voidFun } from '@/common'
+import { logger } from './logger'
 
 export function getLocationHref(): string {
   if (typeof document === 'undefined' || document.location == null) return ''

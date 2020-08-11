@@ -234,7 +234,8 @@ var MITO = (function () {
       if (typeof ex.stack === 'undefined' || !ex.stack) {
           return normal;
       }
-      let chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i, gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$/i, winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i, geckoEval = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i, chromeEval = /\((\S*)(?::(\d+))(?::(\d+))\)/, lines = ex.stack.split('\n'), stack = [], submatch, parts, element, reference = /^(.*) is undefined$/.exec(ex.message);
+      const chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i, gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$/i, winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i, geckoEval = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i, chromeEval = /\((\S*)(?::(\d+))(?::(\d+))\)/, lines = ex.stack.split('\n'), stack = [];
+      let submatch, parts, element;
       for (let i = 0, j = lines.length; i < j; ++i) {
           if ((parts = chrome.exec(lines[i]))) {
               const isNative = parts[2] && parts[2].indexOf('native') === 0;
@@ -341,6 +342,31 @@ var MITO = (function () {
       const isChromePackagedApp = chrome && chrome.app && chrome.app.runtime;
       const hasHistoryApi = 'history' in global && !!global.history.pushState && !!global.history.replaceState;
       return !isChromePackagedApp && hasHistoryApi;
+  }
+
+  class Queue {
+      constructor() {
+          this.stack = [];
+          this.isFlushing = false;
+          this.micro = Promise.resolve();
+      }
+      addFn(fn) {
+          if (typeof fn !== 'function')
+              return;
+          this.stack.push(fn);
+          if (!this.isFlushing) {
+              this.isFlushing = true;
+              this.micro.then(() => this.flushStack());
+          }
+      }
+      flushStack() {
+          const temp = this.stack.slice(0);
+          this.stack.length = 0;
+          this.isFlushing = false;
+          for (let i = 0; i < temp.length; i++) {
+              temp[i]();
+          }
+      }
   }
 
   class Breadcrumb {
@@ -496,31 +522,6 @@ var MITO = (function () {
           time: getTimestamp(),
           name: `${resourceMap[target.localName] || target.localName} failed to load`
       };
-  }
-
-  class Queue {
-      constructor() {
-          this.stack = [];
-          this.isFlushing = false;
-          this.micro = Promise.resolve();
-      }
-      addFn(fn) {
-          if (typeof fn !== 'function')
-              return;
-          this.stack.push(fn);
-          if (!this.isFlushing) {
-              this.isFlushing = true;
-              this.micro.then(() => this.flushStack());
-          }
-      }
-      flushStack() {
-          const temp = this.stack.slice(0);
-          this.stack.length = 0;
-          this.isFlushing = false;
-          for (let i = 0; i < temp.length; i++) {
-              temp[i]();
-          }
-      }
   }
 
   const SDK_NAME = 'MITO.browser';

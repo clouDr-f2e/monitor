@@ -1,6 +1,5 @@
 import { _support, validateOption } from 'utils'
-import { splitObjToQuery } from 'utils'
-import { Queue } from './queue'
+import { splitObjToQuery, Queue } from 'utils'
 import createErrorId from '@/core/errorId'
 import { SERVER_URL } from '@/config'
 import { breadcrumb } from './breadcrumb'
