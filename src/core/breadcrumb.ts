@@ -9,6 +9,12 @@ export class Breadcrumb {
   private beforeBreadcrumb: unknown = null
   private stack: BreadcrumbPushData[] = []
   constructor() {}
+  /**
+   * 添加用户行为栈
+   *
+   * @param {BreadcrumbPushData} data
+   * @memberof Breadcrumb
+   */
   push(data: BreadcrumbPushData): void {
     if (typeof this.beforeBreadcrumb === 'function') {
       let result: BreadcrumbPushData = null

@@ -614,12 +614,6 @@ var MITO = (function () {
   (function (Severity) {
       function fromString(level) {
           switch (level) {
-              case '1':
-                  return Severity.Critical;
-              case '2':
-                  return Severity.HIGH;
-              case '3':
-                  return Severity.NORMAL;
               case 'debug':
                   return Severity.Debug;
               case 'info':
@@ -629,6 +623,10 @@ var MITO = (function () {
               case 'warn':
               case 'warning':
                   return Severity.Warning;
+              case '1':
+              case '2':
+              case '3':
+              case '4':
               case 'error':
                   return Severity.Error;
               case 'critical':
@@ -974,6 +972,26 @@ var MITO = (function () {
       }, true);
   }
 
+  function log({ info = 'emptyMsg', level = ERRORLEVELS.CRITICAL, ex = '', type = ERRORTYPES.BUSINESS_ERROR }) {
+      let errorInfo = {};
+      if (isError(ex)) {
+          errorInfo = extractErrorStack(ex, level);
+      }
+      const error = {
+          ...errorInfo,
+          type,
+          info,
+          level,
+          url: getLocationHref()
+      };
+      breadcrumb.push({
+          type: 'customer',
+          data: info,
+          level: Severity.fromString(level.toString())
+      });
+      transportData.xhrPost(error);
+  }
+
   function formatComponentName(vm) {
       if (vm.$root === vm)
           return 'root';
@@ -1093,7 +1111,7 @@ var MITO = (function () {
       logger.bindOptions(options.debug);
       transportData.bindOptions(options);
   }
-  var index = { MitoVue, init, SDK_VERSION, SDK_NAME };
+  var index = { MitoVue, SDK_VERSION, SDK_NAME, init, log };
 
   return index;
 

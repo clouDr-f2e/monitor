@@ -1,3 +1,5 @@
+import { EVENTTYPES } from '@/common'
+
 /** JSDoc */
 export enum Severity {
   /** JSDoc */
@@ -25,12 +27,6 @@ export namespace Severity {
    */
   export function fromString(level: string): Severity {
     switch (level) {
-      case '1':
-        return Severity.Critical
-      case '2':
-        return Severity.HIGH
-      case '3':
-        return Severity.NORMAL
       case 'debug':
         return Severity.Debug
       case 'info':
@@ -40,6 +36,10 @@ export namespace Severity {
       case 'warn':
       case 'warning':
         return Severity.Warning
+      case '1':
+      case '2':
+      case '3':
+      case '4':
       case 'error':
         return Severity.Error
       case 'critical':

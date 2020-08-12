@@ -38,6 +38,6 @@ export interface ReportDataType {
   // vue
   componentName?: string
   propsData?: any
-  // logerror
+  // logError 手动报错 MITO.log
   info?: string
 }
