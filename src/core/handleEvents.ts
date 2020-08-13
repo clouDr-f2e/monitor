@@ -19,16 +19,16 @@ const HandleEvents = {
     const isError = data.status >= 400 || data.status === 0
     breadcrumb.push({
       type,
-      data,
       category: breadcrumb.setCategory(type),
-      level: isError ? Severity.Error : Severity.Info
+      data,
+      level: Severity.Info
     })
     if (isError) {
       breadcrumb.push({
         type,
-        data,
         category: breadcrumb.setCategory(BREADCRUMBTYPES.CODE_ERROR),
-        level: isError ? Severity.Error : Severity.Info
+        data,
+        level: Severity.Error
       })
       const result = httpTransform(data)
       transportData.xhrPost(result)

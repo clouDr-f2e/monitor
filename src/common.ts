@@ -35,8 +35,7 @@ export enum BREADCRUMBCATEGORYS {
   HTTP = 'http',
   USER = 'user',
   DEBUG = 'debug',
-  EXCEPTION = 'exception',
-  UNKNOWN = 'unknown'
+  EXCEPTION = 'exception'
 }
 
 export enum EVENTTYPES {

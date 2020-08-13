@@ -39,7 +39,6 @@ var MITO = (function () {
       BREADCRUMBCATEGORYS["USER"] = "user";
       BREADCRUMBCATEGORYS["DEBUG"] = "debug";
       BREADCRUMBCATEGORYS["EXCEPTION"] = "exception";
-      BREADCRUMBCATEGORYS["UNKNOWN"] = "unknown";
   })(BREADCRUMBCATEGORYS || (BREADCRUMBCATEGORYS = {}));
   var EVENTTYPES;
   (function (EVENTTYPES) {
@@ -399,7 +398,6 @@ var MITO = (function () {
       }
       immediatePush(data) {
           data.time = getTimestamp();
-          data.category = this.setCategory(data.type);
           if (this.stack.length >= this.maxBreadcrumbs) {
               this.shift();
           }
@@ -425,6 +423,7 @@ var MITO = (function () {
                   return BREADCRUMBCATEGORYS.DEBUG;
               case BREADCRUMBTYPES.UNHANDLEDREJECTION:
               case BREADCRUMBTYPES.CODE_ERROR:
+              case BREADCRUMBTYPES.VUE:
               default:
                   return BREADCRUMBCATEGORYS.EXCEPTION;
           }
@@ -670,16 +669,16 @@ var MITO = (function () {
           const isError = data.status >= 400 || data.status === 0;
           breadcrumb.push({
               type,
-              data,
               category: breadcrumb.setCategory(type),
-              level: isError ? Severity.Error : Severity.Info
+              data,
+              level: Severity.Info
           });
           if (isError) {
               breadcrumb.push({
                   type,
-                  data,
                   category: breadcrumb.setCategory(BREADCRUMBTYPES.CODE_ERROR),
-                  level: isError ? Severity.Error : Severity.Info
+                  data,
+                  level: Severity.Error
               });
               const result = httpTransform(data);
               transportData.xhrPost(result);
@@ -1073,6 +1072,7 @@ var MITO = (function () {
       };
       breadcrumb.push({
           type: BREADCRUMBTYPES.VUE,
+          category: breadcrumb.setCategory(BREADCRUMBTYPES.VUE),
           data,
           level: breadcrumbLevel
       });

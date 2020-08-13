@@ -33,6 +33,7 @@ export function handleVueError(err: Error, vm: ViewModel, info: string, level: n
   }
   breadcrumb.push({
     type: BREADCRUMBTYPES.VUE,
+    category: breadcrumb.setCategory(BREADCRUMBTYPES.VUE),
     data,
     level: breadcrumbLevel
   })

@@ -32,7 +32,6 @@ export class Breadcrumb {
   }
   immediatePush(data: BreadcrumbPushData): void {
     data.time = getTimestamp()
-    data.category = this.setCategory(data.type)
     if (this.stack.length >= this.maxBreadcrumbs) {
       this.shift()
     }
@@ -58,6 +57,7 @@ export class Breadcrumb {
         return BREADCRUMBCATEGORYS.DEBUG
       case BREADCRUMBTYPES.UNHANDLEDREJECTION:
       case BREADCRUMBTYPES.CODE_ERROR:
+      case BREADCRUMBTYPES.VUE:
       default:
         return BREADCRUMBCATEGORYS.EXCEPTION
     }
