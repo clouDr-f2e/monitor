@@ -35,13 +35,13 @@ export class TransportData {
   }
   xhrPost(data: ReportDataType): void {
     const requestFun = (): void => {
-      if (typeof this.beforeSend === 'function') {
-        data = this.beforeSend(data)
-        if (!data) return
-      }
       //screw IE
       if (typeof XMLHttpRequest === 'undefined') {
         return
+      }
+      if (typeof this.beforeSend === 'function') {
+        data = this.beforeSend(data)
+        if (!data) return
       }
       const xhr = new XMLHttpRequest()
       xhr.open('POST', this.url)
@@ -53,6 +53,7 @@ export class TransportData {
       const errorId = createErrorId(data)
       if (!errorId) return
       data.errorId = errorId
+      // 确认发送后端前的hook
       xhr.send(JSON.stringify(this.getTransportData(data)))
     }
     this.queue.addFn(requestFun)

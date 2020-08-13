@@ -1,4 +1,4 @@
-import { globalVar } from '@/common'
+import { globalVar, BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '@/common'
 import { logger, validateOption, getTimestamp } from 'utils'
 import { _support } from '@/utils/global'
 import { BreadcrumbPushData } from '@/types/breadcrumb'
@@ -32,6 +32,7 @@ export class Breadcrumb {
   }
   immediatePush(data: BreadcrumbPushData): void {
     data.time = getTimestamp()
+    data.category = this.setCategory(data.type)
     if (this.stack.length >= this.maxBreadcrumbs) {
       this.shift()
     }
@@ -43,6 +44,23 @@ export class Breadcrumb {
   }
   getStack(): BreadcrumbPushData[] {
     return this.stack
+  }
+  setCategory(type: BREADCRUMBTYPES) {
+    switch (type) {
+      case BREADCRUMBTYPES.XHR:
+      case BREADCRUMBTYPES.FETCH:
+        return BREADCRUMBCATEGORYS.HTTP
+      case BREADCRUMBTYPES.CLICK:
+      case BREADCRUMBTYPES.ROUTE:
+      case BREADCRUMBTYPES.CUSTOMER:
+        return BREADCRUMBCATEGORYS.USER
+      case BREADCRUMBTYPES.CONSOLE:
+        return BREADCRUMBCATEGORYS.DEBUG
+      case BREADCRUMBTYPES.UNHANDLEDREJECTION:
+      case BREADCRUMBTYPES.CODE_ERROR:
+      default:
+        return BREADCRUMBCATEGORYS.EXCEPTION
+    }
   }
   bindOptions(options: InitOptions = {}): void {
     const { maxBreadcrumbs, beforeBreadcrumb } = options

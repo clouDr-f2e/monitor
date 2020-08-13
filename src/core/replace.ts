@@ -335,53 +335,63 @@ function domReplace(): void {
   //   },
   //   true
   // )
-  // 不要你重写window.addEventLinstner直接用捕获的形式来获取全局的click、keypress
+
+  // 不要重写window.addEventLinstner直接用捕获的形式来获取全局的click、keypress
   // 重写window.EventTarget.prototype.addEventListener
-  // const proto = EventTarget && EventTarget.prototype
-  // if (!proto || !proto.hasOwnProperty || !proto.hasOwnProperty('addEventListener')) {
-  //   return
-  // }
-  // replaceOld(proto, 'addEventListener', function (
-  //   originalAddEventListener
-  // ): (eventName: string, fn: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) => void {
-  //   return function (this: any, eventName: string, fn: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
-  //     switch (eventName) {
-  //       case 'click':
-  //         console.log(eventName)
-  //         clickThrottle('dom', {
-  //           category: 'click',
-  //           data: this
-  //         })
-  //         break
-  //       case 'keypress':
-  //         keypressThrottle('dom', {
-  //           category: 'keypress',
-  //           data: this
-  //         })
-  //         break
-  //       default:
-  //         break
-  //     }
-  //     return originalAddEventListener.call(this, eventName, fn, options)
-  //     // 考虑兼容性加上handleEvent 可以考虑删掉
-  //     // if (fn && (fn as EventListenerObject).handleEvent) {
-  //     //   switch (eventName) {
-  //     //     case 'click':
-  //     //       replaceOld(fn, 'handleEvent', function (originalHandleEvent) {
-  //     //         return function (this: any, event: Event) {
-  //     //           console.log(event.target)
-  //     //           return originalHandleEvent.call(this, event)
-  //     //         }
-  //     //       })
-  //     //       console.log('click', this)
-  //     //       break
-  //     //     case 'keypress':
-  //     //       console.log('keypress', this)
-  //     //       break
-  //     //     default:
-  //     //       break
-  //     //   }
-  //     // }
-  //   }
-  // })
+  const proto = EventTarget && EventTarget.prototype
+  if (!proto || !proto.hasOwnProperty || !proto.hasOwnProperty('addEventListener')) {
+    return
+  }
+  replaceOld(proto, 'addEventListener', function (
+    originalAddEventListener
+  ): (eventName: string, fn: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) => void {
+    return function (this: any, eventName: string, fn: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+      const wrapperListner = (...args) => {
+        try {
+          return (fn as Function).apply(this, args)
+        } catch (error) {
+          console.log('wrapperListner', error)
+          throw error
+        }
+      }
+      // switch (eventName) {
+      //   case 'click':
+      //     console.log(eventName)
+      //     clickThrottle('dom', {
+      //       category: 'click',
+      //       data: this
+      //     })
+      //     break
+      //   case 'keypress':
+      //     keypressThrottle('dom', {
+      //       category: 'keypress',
+      //       data: this
+      //     })
+      //     break
+      //   default:
+      //     break
+      // }
+      return originalAddEventListener.call(this, eventName, wrapperListner, options)
+    }
+  })
 }
+
+// 考虑兼容性加上handleEvent 可以考虑删掉
+// if (fn && (fn as EventListenerObject).handleEvent) {
+//   switch (eventName) {
+//     case 'click':
+//       replaceOld(fn, 'handleEvent', function (originalHandleEvent) {
+//         return function (this: any, event: Event) {
+//           console.log(event.target)
+//           return originalHandleEvent.call(this, event)
+//         }
+//       })
+//       console.log('click', this)
+//       break
+//     case 'keypress':
+//       console.log('keypress', this)
+//       break
+//     default:
+//       break
+//   }
+// }

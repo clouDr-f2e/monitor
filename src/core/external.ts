@@ -1,4 +1,4 @@
-import { ERRORLEVELS, ERRORTYPES } from '@/common'
+import { ERRORLEVELS, ERRORTYPES, BREADCRUMBTYPES } from '@/common'
 import { isError, extractErrorStack, getLocationHref } from 'utils'
 import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
@@ -11,6 +11,10 @@ interface LogTypes {
   ex: any
   type: ERRORTYPES
 }
+
+/**
+ * 自定义上报事件
+ */
 export function log({ info = 'emptyMsg', level = ERRORLEVELS.CRITICAL, ex = '', type = ERRORTYPES.BUSINESS_ERROR }: LogTypes): void {
   let errorInfo = {}
   if (isError(ex)) {
@@ -24,7 +28,7 @@ export function log({ info = 'emptyMsg', level = ERRORLEVELS.CRITICAL, ex = '', 
     url: getLocationHref()
   }
   breadcrumb.push({
-    type: 'customer',
+    type: BREADCRUMBTYPES.CUSTOMER,
     data: info,
     level: Severity.fromString(level.toString())
   })

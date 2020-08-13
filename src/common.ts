@@ -16,6 +16,7 @@ export enum ERRORLEVELS {
   NORMAL = 3,
   LOW = 4
 }
+// 事件类型
 export enum BREADCRUMBTYPES {
   ROUTE = 'Route',
   CLICK = 'UI.Click',
@@ -25,8 +26,19 @@ export enum BREADCRUMBTYPES {
   UNHANDLEDREJECTION = 'Unhandledrejection',
   VUE = 'Vue',
   RESOURCE = 'Resource',
-  CODE_ERROR = 'Code Error'
+  CODE_ERROR = 'Code Error',
+  CUSTOMER = 'Customer'
 }
+
+// 行为类型
+export enum BREADCRUMBCATEGORYS {
+  HTTP = 'http',
+  USER = 'user',
+  DEBUG = 'debug',
+  EXCEPTION = 'exception',
+  UNKNOWN = 'unknown'
+}
+
 export enum EVENTTYPES {
   XHR = 'xhr',
   FETCH = 'fetch',

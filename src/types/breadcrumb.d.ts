@@ -1,8 +1,16 @@
 import { Severity } from '@/utils/Severity'
+import { BREADCRUMBTYPES } from '@/common'
 
 export interface BreadcrumbPushData {
-  type: string
+  /**
+   * 事件类型
+   */
+  type: BREADCRUMBTYPES
   data: any
+  /**
+   * 分为user action、debug、http、
+   */
+  category?: string
   time?: number
   level: Severity
 }

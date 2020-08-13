@@ -31,7 +31,16 @@ var MITO = (function () {
       BREADCRUMBTYPES["VUE"] = "Vue";
       BREADCRUMBTYPES["RESOURCE"] = "Resource";
       BREADCRUMBTYPES["CODE_ERROR"] = "Code Error";
+      BREADCRUMBTYPES["CUSTOMER"] = "Customer";
   })(BREADCRUMBTYPES || (BREADCRUMBTYPES = {}));
+  var BREADCRUMBCATEGORYS;
+  (function (BREADCRUMBCATEGORYS) {
+      BREADCRUMBCATEGORYS["HTTP"] = "http";
+      BREADCRUMBCATEGORYS["USER"] = "user";
+      BREADCRUMBCATEGORYS["DEBUG"] = "debug";
+      BREADCRUMBCATEGORYS["EXCEPTION"] = "exception";
+      BREADCRUMBCATEGORYS["UNKNOWN"] = "unknown";
+  })(BREADCRUMBCATEGORYS || (BREADCRUMBCATEGORYS = {}));
   var EVENTTYPES;
   (function (EVENTTYPES) {
       EVENTTYPES["XHR"] = "xhr";
@@ -390,6 +399,7 @@ var MITO = (function () {
       }
       immediatePush(data) {
           data.time = getTimestamp();
+          data.category = this.setCategory(data.type);
           if (this.stack.length >= this.maxBreadcrumbs) {
               this.shift();
           }
@@ -401,6 +411,23 @@ var MITO = (function () {
       }
       getStack() {
           return this.stack;
+      }
+      setCategory(type) {
+          switch (type) {
+              case BREADCRUMBTYPES.XHR:
+              case BREADCRUMBTYPES.FETCH:
+                  return BREADCRUMBCATEGORYS.HTTP;
+              case BREADCRUMBTYPES.CLICK:
+              case BREADCRUMBTYPES.ROUTE:
+              case BREADCRUMBTYPES.CUSTOMER:
+                  return BREADCRUMBCATEGORYS.USER;
+              case BREADCRUMBTYPES.CONSOLE:
+                  return BREADCRUMBCATEGORYS.DEBUG;
+              case BREADCRUMBTYPES.UNHANDLEDREJECTION:
+              case BREADCRUMBTYPES.CODE_ERROR:
+              default:
+                  return BREADCRUMBCATEGORYS.EXCEPTION;
+          }
       }
       bindOptions(options = {}) {
           const { maxBreadcrumbs, beforeBreadcrumb } = options;
@@ -549,13 +576,13 @@ var MITO = (function () {
       }
       xhrPost(data) {
           const requestFun = () => {
+              if (typeof XMLHttpRequest === 'undefined') {
+                  return;
+              }
               if (typeof this.beforeSend === 'function') {
                   data = this.beforeSend(data);
                   if (!data)
                       return;
-              }
-              if (typeof XMLHttpRequest === 'undefined') {
-                  return;
               }
               const xhr = new XMLHttpRequest();
               xhr.open('POST', this.url);
@@ -644,9 +671,16 @@ var MITO = (function () {
           breadcrumb.push({
               type,
               data,
+              category: breadcrumb.setCategory(type),
               level: isError ? Severity.Error : Severity.Info
           });
           if (isError) {
+              breadcrumb.push({
+                  type,
+                  data,
+                  category: breadcrumb.setCategory(BREADCRUMBTYPES.CODE_ERROR),
+                  level: isError ? Severity.Error : Severity.Info
+              });
               const result = httpTransform(data);
               transportData.xhrPost(result);
           }
@@ -657,6 +691,7 @@ var MITO = (function () {
               const data = resourceTransform(errorEvent.target);
               breadcrumb.push({
                   type: BREADCRUMBTYPES.RESOURCE,
+                  category: breadcrumb.setCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
                   data,
                   level: Severity.Error
               });
@@ -695,6 +730,7 @@ var MITO = (function () {
           result.type = ERRORTYPES.JAVASCRIPT_ERROR;
           breadcrumb.push({
               type: BREADCRUMBTYPES.CODE_ERROR,
+              category: breadcrumb.setCategory(BREADCRUMBTYPES.CODE_ERROR),
               data: result,
               level: Severity.Error
           });
@@ -706,6 +742,7 @@ var MITO = (function () {
           const { relative: parsedTo } = parseUrlToObj(to);
           breadcrumb.push({
               type: BREADCRUMBTYPES.ROUTE,
+              category: breadcrumb.setCategory(BREADCRUMBTYPES.ROUTE),
               data: {
                   from: parsedFrom ? parsedFrom : '/',
                   to: parsedTo ? parsedTo : '/'
@@ -719,6 +756,7 @@ var MITO = (function () {
           const { relative: to } = parseUrlToObj(newURL);
           breadcrumb.push({
               type: BREADCRUMBTYPES.ROUTE,
+              category: breadcrumb.setCategory(BREADCRUMBTYPES.ROUTE),
               data: {
                   from,
                   to
@@ -743,6 +781,7 @@ var MITO = (function () {
           }
           breadcrumb.push({
               type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
+              category: breadcrumb.setCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
               data: data,
               level: Severity.Error
           });
@@ -752,6 +791,7 @@ var MITO = (function () {
           if (globalVar.isLogAddBreadcrumb) {
               breadcrumb.push({
                   type: BREADCRUMBTYPES.CONSOLE,
+                  category: breadcrumb.setCategory(BREADCRUMBTYPES.CONSOLE),
                   data,
                   level: Severity.fromString(data.level)
               });
@@ -970,6 +1010,24 @@ var MITO = (function () {
               data: this
           });
       }, true);
+      const proto = EventTarget && EventTarget.prototype;
+      if (!proto || !proto.hasOwnProperty || !proto.hasOwnProperty('addEventListener')) {
+          return;
+      }
+      replaceOld(proto, 'addEventListener', function (originalAddEventListener) {
+          return function (eventName, fn, options) {
+              const wrapperListner = (...args) => {
+                  try {
+                      return fn.apply(this, args);
+                  }
+                  catch (error) {
+                      console.log('wrapperListner', error);
+                      throw error;
+                  }
+              };
+              return originalAddEventListener.call(this, eventName, wrapperListner, options);
+          };
+      });
   }
 
   function log({ info = 'emptyMsg', level = ERRORLEVELS.CRITICAL, ex = '', type = ERRORTYPES.BUSINESS_ERROR }) {
@@ -985,7 +1043,7 @@ var MITO = (function () {
           url: getLocationHref()
       };
       breadcrumb.push({
-          type: 'customer',
+          type: BREADCRUMBTYPES.CUSTOMER,
           data: info,
           level: Severity.fromString(level.toString())
       });
