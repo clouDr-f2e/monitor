@@ -19,14 +19,14 @@ const HandleEvents = {
     const isError = data.status >= 400 || data.status === 0
     breadcrumb.push({
       type,
-      category: breadcrumb.setCategory(type),
+      category: breadcrumb.getCategory(type),
       data,
       level: Severity.Info
     })
     if (isError) {
       breadcrumb.push({
         type,
-        category: breadcrumb.setCategory(BREADCRUMBTYPES.CODE_ERROR),
+        category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
         data,
         level: Severity.Error
       })
@@ -44,7 +44,7 @@ const HandleEvents = {
       const data: ReportDataType = resourceTransform(errorEvent.target as ResourceErrorTarget)
       breadcrumb.push({
         type: BREADCRUMBTYPES.RESOURCE,
-        category: breadcrumb.setCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
+        category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
         data,
         level: Severity.Error
       })
@@ -83,7 +83,7 @@ const HandleEvents = {
     result.type = ERRORTYPES.JAVASCRIPT_ERROR
     breadcrumb.push({
       type: BREADCRUMBTYPES.CODE_ERROR,
-      category: breadcrumb.setCategory(BREADCRUMBTYPES.CODE_ERROR),
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
       data: result,
       level: Severity.Error
     })
@@ -95,7 +95,7 @@ const HandleEvents = {
     const { relative: parsedTo } = parseUrlToObj(to)
     breadcrumb.push({
       type: BREADCRUMBTYPES.ROUTE,
-      category: breadcrumb.setCategory(BREADCRUMBTYPES.ROUTE),
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
       data: {
         from: parsedFrom ? parsedFrom : '/',
         to: parsedTo ? parsedTo : '/'
@@ -109,7 +109,7 @@ const HandleEvents = {
     const { relative: to } = parseUrlToObj(newURL)
     breadcrumb.push({
       type: BREADCRUMBTYPES.ROUTE,
-      category: breadcrumb.setCategory(BREADCRUMBTYPES.ROUTE),
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
       data: {
         from,
         to
@@ -134,7 +134,7 @@ const HandleEvents = {
     }
     breadcrumb.push({
       type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
-      category: breadcrumb.setCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
       data: data,
       level: Severity.Error
     })
@@ -144,7 +144,7 @@ const HandleEvents = {
     if (globalVar.isLogAddBreadcrumb) {
       breadcrumb.push({
         type: BREADCRUMBTYPES.CONSOLE,
-        category: breadcrumb.setCategory(BREADCRUMBTYPES.CONSOLE),
+        category: breadcrumb.getCategory(BREADCRUMBTYPES.CONSOLE),
         data,
         level: Severity.fromString(data.level)
       })

@@ -47,6 +47,7 @@ export function setupReplace(): void {
       if (htmlString) {
         breadcrumb.push({
           type: BREADCRUMBTYPES.CLICK,
+          category: breadcrumb.getCategory(BREADCRUMBTYPES.CLICK),
           data: htmlString,
           level: Severity.Info
         })

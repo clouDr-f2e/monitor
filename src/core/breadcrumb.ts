@@ -44,7 +44,7 @@ export class Breadcrumb {
   getStack(): BreadcrumbPushData[] {
     return this.stack
   }
-  setCategory(type: BREADCRUMBTYPES) {
+  getCategory(type: BREADCRUMBTYPES) {
     switch (type) {
       case BREADCRUMBTYPES.XHR:
       case BREADCRUMBTYPES.FETCH:

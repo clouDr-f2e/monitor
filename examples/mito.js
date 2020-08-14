@@ -410,7 +410,7 @@ var MITO = (function () {
       getStack() {
           return this.stack;
       }
-      setCategory(type) {
+      getCategory(type) {
           switch (type) {
               case BREADCRUMBTYPES.XHR:
               case BREADCRUMBTYPES.FETCH:
@@ -669,14 +669,14 @@ var MITO = (function () {
           const isError = data.status >= 400 || data.status === 0;
           breadcrumb.push({
               type,
-              category: breadcrumb.setCategory(type),
+              category: breadcrumb.getCategory(type),
               data,
               level: Severity.Info
           });
           if (isError) {
               breadcrumb.push({
                   type,
-                  category: breadcrumb.setCategory(BREADCRUMBTYPES.CODE_ERROR),
+                  category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
                   data,
                   level: Severity.Error
               });
@@ -690,7 +690,7 @@ var MITO = (function () {
               const data = resourceTransform(errorEvent.target);
               breadcrumb.push({
                   type: BREADCRUMBTYPES.RESOURCE,
-                  category: breadcrumb.setCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
+                  category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
                   data,
                   level: Severity.Error
               });
@@ -729,7 +729,7 @@ var MITO = (function () {
           result.type = ERRORTYPES.JAVASCRIPT_ERROR;
           breadcrumb.push({
               type: BREADCRUMBTYPES.CODE_ERROR,
-              category: breadcrumb.setCategory(BREADCRUMBTYPES.CODE_ERROR),
+              category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
               data: result,
               level: Severity.Error
           });
@@ -741,7 +741,7 @@ var MITO = (function () {
           const { relative: parsedTo } = parseUrlToObj(to);
           breadcrumb.push({
               type: BREADCRUMBTYPES.ROUTE,
-              category: breadcrumb.setCategory(BREADCRUMBTYPES.ROUTE),
+              category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
               data: {
                   from: parsedFrom ? parsedFrom : '/',
                   to: parsedTo ? parsedTo : '/'
@@ -755,7 +755,7 @@ var MITO = (function () {
           const { relative: to } = parseUrlToObj(newURL);
           breadcrumb.push({
               type: BREADCRUMBTYPES.ROUTE,
-              category: breadcrumb.setCategory(BREADCRUMBTYPES.ROUTE),
+              category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
               data: {
                   from,
                   to
@@ -780,7 +780,7 @@ var MITO = (function () {
           }
           breadcrumb.push({
               type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
-              category: breadcrumb.setCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
+              category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
               data: data,
               level: Severity.Error
           });
@@ -790,7 +790,7 @@ var MITO = (function () {
           if (globalVar.isLogAddBreadcrumb) {
               breadcrumb.push({
                   type: BREADCRUMBTYPES.CONSOLE,
-                  category: breadcrumb.setCategory(BREADCRUMBTYPES.CONSOLE),
+                  category: breadcrumb.getCategory(BREADCRUMBTYPES.CONSOLE),
                   data,
                   level: Severity.fromString(data.level)
               });
@@ -1072,7 +1072,7 @@ var MITO = (function () {
       };
       breadcrumb.push({
           type: BREADCRUMBTYPES.VUE,
-          category: breadcrumb.setCategory(BREADCRUMBTYPES.VUE),
+          category: breadcrumb.getCategory(BREADCRUMBTYPES.VUE),
           data,
           level: breadcrumbLevel
       });
@@ -1142,6 +1142,7 @@ var MITO = (function () {
               if (htmlString) {
                   breadcrumb.push({
                       type: BREADCRUMBTYPES.CLICK,
+                      category: breadcrumb.getCategory(BREADCRUMBTYPES.CLICK),
                       data: htmlString,
                       level: Severity.Info
                   });
