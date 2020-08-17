@@ -15,7 +15,11 @@ export interface ResourceErrorTarget {
 }
 
 const HandleEvents = {
+  /**
+   * 处理xhr、fetch回调
+   */
   handleHttp(data: MITOHttp, type: BREADCRUMBTYPES): void {
+    // todo 是否需要加接口超过两秒的判断
     const isError = data.status >= 400 || data.status === 0
     breadcrumb.push({
       type,
@@ -37,14 +41,17 @@ const HandleEvents = {
       // data.responseText
     }
   },
+  /**
+   * 处理window的error的监听回到
+   */
   handleError(errorEvent: ErrorEvent): void {
     const target = errorEvent.target as ResourceErrorTarget
     if (target.localName) {
       // resource error
-      const data: ReportDataType = resourceTransform(errorEvent.target as ResourceErrorTarget)
+      const data = resourceTransform(errorEvent.target as ResourceErrorTarget)
       breadcrumb.push({
         type: BREADCRUMBTYPES.RESOURCE,
-        category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
+        category: breadcrumb.getCategory(BREADCRUMBTYPES.RESOURCE),
         data,
         level: Severity.Error
       })

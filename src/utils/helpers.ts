@@ -43,14 +43,6 @@ export function replaceOld(
   const wrapped = replacement(original)
   if (typeof wrapped === 'function') {
     source[name] = wrapped
-    // nativeTryCatch(() => {
-    //   if (!original || !isExistProperty(original, '__MITO__')) {
-    //     wrapped.prototype = wrapped.prototype || {}
-    //     Object.defineProperty(wrapped, '__MITO__', {
-    //       value: original
-    //     })
-    //   }
-    // })
   }
 }
 

@@ -148,15 +148,7 @@ function xhrReplace(): void {
     'send',
     (originalSend: voidFun): voidFun => {
       return function (this: MITOXMLHttpRequest, ...args: any[]): void {
-        // on(this, 'error', function (this: MITOXMLHttpRequest) {
-        //   localStorage.setItem('cross', '11111')
-        //   console.log('error', this)
-        //   if (this.mito_xhr.isSdkUrl) return
-        // })
         on(this, 'loadend', function (this: MITOXMLHttpRequest) {
-          // 走到这边
-          // localStorage.setItem('quxiao', '11111')
-          // console.log('loadend', this)
           if (this.mito_xhr.isSdkUrl) return
           this.mito_xhr.reqData = args[0]
           const eTime = getTimestamp()
@@ -243,7 +235,6 @@ function replaceConsole(): void {
   if (!('console' in _global)) {
     return
   }
-  //
   const logType = ['log', 'debug', 'info', 'warn', 'error', 'assert']
   logType.forEach(function (level: string): void {
     if (!(level in _global.console)) {
@@ -295,20 +286,20 @@ function replaceHistory(): void {
 
 function unhandledrejectionReplace(): void {
   on(_global, EVENTTYPES.UNHANDLEDREJECTION, function (ev: PromiseRejectionEvent) {
-    // ev.preventDefault() 不知道要不要配置这个可选项，阻止默认行为后，控制台就不会再报红色错误
+    // ev.preventDefault() 阻止默认行为后，控制台就不会再报红色错误
     triggerHandlers(EVENTTYPES.UNHANDLEDREJECTION, ev)
   })
-  // replaceOld(_global, EVENTTYPES.UNHANDLEDREJECTION, function (originalUnhandlerejecttion: voidFun): voidFun {
-  //   return function (...args: any[]) {
-  //     console.log(EVENTTYPES.UNHANDLEDREJECTION, args)
-  //     triggerHandlers(EVENTTYPES.UNHANDLEDREJECTION, args)
-  //     if (originalUnhandlerejecttion) {
-  //       return originalUnhandlerejecttion.apply(this, args)
-  //     }
-  //     return true
-  //   }
-  // })
 }
+// replaceOld(_global, EVENTTYPES.UNHANDLEDREJECTION, function (originalUnhandlerejecttion: voidFun): voidFun {
+//   return function (...args: any[]) {
+//     console.log(EVENTTYPES.UNHANDLEDREJECTION, args)
+//     triggerHandlers(EVENTTYPES.UNHANDLEDREJECTION, args)
+//     if (originalUnhandlerejecttion) {
+//       return originalUnhandlerejecttion.apply(this, args)
+//     }
+//     return true
+//   }
+// })
 
 function domReplace(): void {
   if (!('document' in _global)) return

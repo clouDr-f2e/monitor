@@ -53,7 +53,6 @@ export class TransportData {
       const errorId = createErrorId(data)
       if (!errorId) return
       data.errorId = errorId
-      // 确认发送后端前的hook
       xhr.send(JSON.stringify(this.getTransportData(data)))
     }
     this.queue.addFn(requestFun)
