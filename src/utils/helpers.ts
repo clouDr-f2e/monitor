@@ -1,4 +1,4 @@
-import { voidFun } from '@/common'
+import { voidFun, globalVar } from '@/common'
 import { logger } from './logger'
 
 export function getLocationHref(): string {
@@ -135,4 +135,10 @@ export function validateOption(target: any, targetName: string, expectType: stri
   if (typeofAny(target, expectType)) return true
   typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${typeof target}类型`)
   return false
+}
+
+export function slientConsoleScope(callback) {
+  globalVar.isLogAddBreadcrumb = false
+  callback()
+  globalVar.isLogAddBreadcrumb = true
 }

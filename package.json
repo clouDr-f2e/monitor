@@ -1,7 +1,7 @@
 {
   "name": "mitojs",
   "version": "1.0.0",
-  "description": "An SDK for monitoring browser errors",
+  "description": "A SDK for monitoring browser errors",
   "main": "/dist/mito.js",
   "types": "/dist/types/index.d.ts",
   "scripts": {

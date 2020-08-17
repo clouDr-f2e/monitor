@@ -191,6 +191,11 @@ var MITO = (function () {
       typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${typeof target}类型`);
       return false;
   }
+  function slientConsoleScope(callback) {
+      globalVar.isLogAddBreadcrumb = false;
+      callback();
+      globalVar.isLogAddBreadcrumb = true;
+  }
 
   function htmlElementAsString(target) {
       const tagName = target.tagName.toLowerCase();
@@ -386,9 +391,9 @@ var MITO = (function () {
       push(data) {
           if (typeof this.beforePushBreadcrumb === 'function') {
               let result = null;
-              globalVar.isLogAddBreadcrumb = false;
-              result = this.beforePushBreadcrumb(this, data);
-              globalVar.isLogAddBreadcrumb = true;
+              slientConsoleScope(() => {
+                  result = this.beforePushBreadcrumb(this, data);
+              });
               if (result) {
                   this.immediatePush(result);
               }
@@ -1089,13 +1094,17 @@ var MITO = (function () {
           Vue.config.errorHandler = function (err, vm, info) {
               handleVueError.apply(null, [err, vm, info, ERRORLEVELS.NORMAL, Severity.Error]);
               if (hasConsole && !Vue.config.silent) {
-                  console.error('Error in ' + info + ': "' + err.toString() + '"', vm);
-                  console.error(err);
+                  slientConsoleScope(() => {
+                      console.error('Error in ' + info + ': "' + err.toString() + '"', vm);
+                      console.error(err);
+                  });
               }
           };
           Vue.config.warnHandler = function (msg, vm, trace) {
               handleVueError.apply(null, [msg, vm, trace, ERRORLEVELS.NORMAL, Severity.Warning]);
-              hasConsole && console.error('[Vue warn]: ' + msg + trace);
+              slientConsoleScope(() => {
+                  hasConsole && console.error('[Vue warn]: ' + msg + trace);
+              });
           };
       }
   };

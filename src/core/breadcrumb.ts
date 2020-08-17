@@ -1,5 +1,5 @@
-import { globalVar, BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '@/common'
-import { logger, validateOption, getTimestamp } from 'utils'
+import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '@/common'
+import { logger, validateOption, getTimestamp, slientConsoleScope } from 'utils'
 import { _support } from '@/utils/global'
 import { BreadcrumbPushData } from '@/types/breadcrumb'
 import { InitOptions } from '@/types/options'
@@ -20,9 +20,9 @@ export class Breadcrumb {
       let result: BreadcrumbPushData = null
       // 如果用户输入console，并且logger是打开的会造成无限递归，
       // 应该加入一个开关，执行这个函数前，把监听console的行为关掉
-      globalVar.isLogAddBreadcrumb = false
-      result = this.beforePushBreadcrumb(this, data)
-      globalVar.isLogAddBreadcrumb = true
+      slientConsoleScope(() => {
+        result = (this.beforePushBreadcrumb as Function)(this, data)
+      })
       if (result) {
         this.immediatePush(result)
       }
