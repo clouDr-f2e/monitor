@@ -380,14 +380,14 @@ var MITO = (function () {
   class Breadcrumb {
       constructor() {
           this.maxBreadcrumbs = 10;
-          this.beforeBreadcrumb = null;
+          this.beforePushBreadcrumb = null;
           this.stack = [];
       }
       push(data) {
-          if (typeof this.beforeBreadcrumb === 'function') {
+          if (typeof this.beforePushBreadcrumb === 'function') {
               let result = null;
               globalVar.isLogAddBreadcrumb = false;
-              result = this.beforeBreadcrumb(this, data);
+              result = this.beforePushBreadcrumb(this, data);
               globalVar.isLogAddBreadcrumb = true;
               if (result) {
                   this.immediatePush(result);
@@ -417,21 +417,22 @@ var MITO = (function () {
                   return BREADCRUMBCATEGORYS.HTTP;
               case BREADCRUMBTYPES.CLICK:
               case BREADCRUMBTYPES.ROUTE:
-              case BREADCRUMBTYPES.CUSTOMER:
                   return BREADCRUMBCATEGORYS.USER;
+              case BREADCRUMBTYPES.CUSTOMER:
               case BREADCRUMBTYPES.CONSOLE:
                   return BREADCRUMBCATEGORYS.DEBUG;
               case BREADCRUMBTYPES.UNHANDLEDREJECTION:
               case BREADCRUMBTYPES.CODE_ERROR:
+              case BREADCRUMBTYPES.RESOURCE:
               case BREADCRUMBTYPES.VUE:
               default:
                   return BREADCRUMBCATEGORYS.EXCEPTION;
           }
       }
       bindOptions(options = {}) {
-          const { maxBreadcrumbs, beforeBreadcrumb } = options;
+          const { maxBreadcrumbs, beforePushBreadcrumb } = options;
           validateOption(maxBreadcrumbs, 'maxBreadcrumbs', 'number') && (this.maxBreadcrumbs = maxBreadcrumbs);
-          validateOption(beforeBreadcrumb, 'beforeBreadcrumb', 'function') && (this.beforeBreadcrumb = beforeBreadcrumb);
+          validateOption(beforePushBreadcrumb, 'beforePushBreadcrumb', 'function') && (this.beforePushBreadcrumb = beforePushBreadcrumb);
       }
   }
   const breadcrumb = _support.breadcrumb || (_support.breadcrumb = new Breadcrumb());
@@ -690,7 +691,7 @@ var MITO = (function () {
               const data = resourceTransform(errorEvent.target);
               breadcrumb.push({
                   type: BREADCRUMBTYPES.RESOURCE,
-                  category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
+                  category: breadcrumb.getCategory(BREADCRUMBTYPES.RESOURCE),
                   data,
                   level: Severity.Error
               });

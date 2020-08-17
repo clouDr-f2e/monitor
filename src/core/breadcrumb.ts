@@ -6,7 +6,7 @@ import { InitOptions } from '@/types/options'
 
 export class Breadcrumb {
   private maxBreadcrumbs = 10
-  private beforeBreadcrumb: unknown = null
+  private beforePushBreadcrumb: unknown = null
   private stack: BreadcrumbPushData[] = []
   constructor() {}
   /**
@@ -16,12 +16,12 @@ export class Breadcrumb {
    * @memberof Breadcrumb
    */
   push(data: BreadcrumbPushData): void {
-    if (typeof this.beforeBreadcrumb === 'function') {
+    if (typeof this.beforePushBreadcrumb === 'function') {
       let result: BreadcrumbPushData = null
       // 如果用户输入console，并且logger是打开的会造成无限递归，
       // 应该加入一个开关，执行这个函数前，把监听console的行为关掉
       globalVar.isLogAddBreadcrumb = false
-      result = this.beforeBreadcrumb(this, data)
+      result = this.beforePushBreadcrumb(this, data)
       globalVar.isLogAddBreadcrumb = true
       if (result) {
         this.immediatePush(result)
@@ -64,9 +64,9 @@ export class Breadcrumb {
     }
   }
   bindOptions(options: InitOptions = {}): void {
-    const { maxBreadcrumbs, beforeBreadcrumb } = options
+    const { maxBreadcrumbs, beforePushBreadcrumb } = options
     validateOption(maxBreadcrumbs, 'maxBreadcrumbs', 'number') && (this.maxBreadcrumbs = maxBreadcrumbs)
-    validateOption(beforeBreadcrumb, 'beforeBreadcrumb', 'function') && (this.beforeBreadcrumb = beforeBreadcrumb)
+    validateOption(beforePushBreadcrumb, 'beforePushBreadcrumb', 'function') && (this.beforePushBreadcrumb = beforePushBreadcrumb)
   }
 }
 const breadcrumb = _support.breadcrumb || (_support.breadcrumb = new Breadcrumb())

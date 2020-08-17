@@ -57,7 +57,7 @@ export interface HooksTypes {
    * @param hint 当次的生成的breadcrumb数据
    * @returns 如果返回 null | undefined | boolean 时，将忽略本次的push
    */
-  beforeBreadcrumb?(breadcrumb: Breadcrumb, hint: BreadcrumbPushData): BreadcrumbPushData | CANCEL
+  beforePushBreadcrumb?(breadcrumb: Breadcrumb, hint: BreadcrumbPushData): BreadcrumbPushData | CANCEL
   /**
    * 在状态小于400并且不等于0的时候回调用当前hook
    * @param data 请求状态为200时返回的响应体

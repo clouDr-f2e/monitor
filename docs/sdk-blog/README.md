@@ -55,7 +55,7 @@
 
 
 
-用了一个发布-订阅设计模式以便后续迭代功能，所以处理逻辑基本都在`HandleEvents`文件中
+整体代码架构使用**发布-订阅**设计模式以便后续迭代功能，所以处理逻辑基本都在`HandleEvents`文件中
 
 ![handlerEvent](https://i.loli.net/2020/08/16/dYf7O91VCMqnobl.png)
 
@@ -75,7 +75,7 @@
 
 
 
-**关于接口跨域、超时的问题**：这两种情况发生的时候，接口返回的响应体和响应头里面都是空的，`status`等于0，所以是很难区分两者，但是正常情况下，一般项目中都的请求都是复杂请求，所以在正式请求会先进行`option`请求进行预请求，如果是跨域的话基本几十毫秒就会返回来，所以以此作为临界值来判断跨域与超时的问题。
+**关于接口跨域、超时的问题**：这两种情况发生的时候，接口返回的响应体和响应头里面都是空的，`status`等于0，所以很难区分两者，但是正常情况下，一般项目中都的请求都是复杂请求，所以在正式请求会先进行`option`进行预请求，如果是跨域的话基本几十毫秒就会返回来，所以以此作为临界值来判断跨域与超时的问题（如果是接口不存在）。
 
 <h3 style="margin-top: 20px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="font-size: 16px; color: #2db7f5; display: inline-block; padding-left: 10px; border-left: 4px solid #2db7f5;" class="content">js代码错误&&资源错误</span><span style="display: none;" class="suffix"></span></h3>
 
@@ -205,7 +205,7 @@ MITO.log({
 
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">Error id生成</span><span style="display: none;" class="suffix"></span></h2>
 
-每个错误事件触发时都会有很多信息，我们需要尽量保证每个不同信息的错误生成的id不一样，这边采取的措施是先将每个错误的对象key按照一定规则递归排序，然后根据每个对象的值进行`hashCode`
+每个错误事件触发时都会有很多信息，我们需要尽量保证每个不同信息的错误生成的id不一样，这边采取的措施是先将每个错误的对象key按照一定规则递归排序，然后根据每个对象的值进行`hashCode`，得到一串`errorId`
 
 
 
@@ -241,7 +241,7 @@ MITO.log({
 2. 发出的请求，是放到的浏览器任务队列执行的，脱离了当前页面，所以不会阻塞当前页面的卸载和后面页面的加载过程，用户体验较好
 3. 只能判断出是否放入浏览器任务队列，不能判断是否发送成功
 4. `Beacon API`不提供相应的回调，因此后端返回最好省略`response body`
-5. 兼容性不是很好
+5. 兼容性不是很友好
 
 
 
@@ -253,4 +253,8 @@ MITO.log({
 2. 直接用SDK生成，在每次上报之前都判断`localstorage`是否存在`trackerId`，有则随着错误信息一起发送，没有的话生成一个并设置到`localstorage`
 
 
+
+<h1 style="padding: 0px; font-weight: bold; color: black; font-size: 24px; text-align: center; line-height: 60px; margin-top: 10px; margin-bottom: 10px;">
+  <span style="color: #2db7f5; border-bottom: 2px solid #2db7f5;" class="content">总结</span>
+</h1>
 
