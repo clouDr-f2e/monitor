@@ -1,6 +1,7 @@
 **/.*
-src/
+docs/
 node_modules/
+src/
 examples/
 rollup.config.js
 tsconfig.json

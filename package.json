@@ -15,9 +15,6 @@
     "type": "git",
     "url": "git+https://github.com/clouDr-f2e/mitojs.git"
   },
-  "publishConfig": {
-    "registry": "https://github.com/clouDr-f2e/mitojs.git"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
