@@ -28,6 +28,10 @@
 
 
 
+还有一个好处：可以将公司所有的SDK统一成一个，包括但不限于：埋点平台SDK、性能监控SDK
+
+
+
 <h1 style="padding: 0px; font-weight: bold; color: black; font-size: 24px; text-align: center; line-height: 60px; margin-top: 10px; margin-bottom: 10px;">
   <span style="color: #2db7f5; border-bottom: 2px solid #2db7f5;" class="content">监控平台的组成</span>
 </h1>
@@ -60,7 +64,7 @@
 
 整体代码架构使用**发布-订阅**设计模式以便后续迭代功能，所以处理逻辑基本都在`HandleEvents`文件中
 
-![handlerEvent](https://i.loli.net/2020/08/16/dYf7O91VCMqnobl.png)
+![handlerEvent](https://i.loli.net/2020/08/18/96Zg1KxM4Xzu3qp.png)
 
 <h2 style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="font-size: 20px; color: #2db7f5; display: inline-block; padding-left: 10px;" class="content">web错误信息收集</span><span style="display: none;" class="suffix"></span></h2>
 
@@ -78,7 +82,7 @@
 
 
 
-**关于接口跨域、超时的问题**：这两种情况发生的时候，接口返回的响应体和响应头里面都是空的，`status`等于0，所以很难区分两者，但是正常情况下，一般项目中都的请求都是复杂请求，所以在正式请求会先进行`option`进行预请求，如果是跨域的话基本几十毫秒就会返回来，所以以此作为临界值来判断跨域与超时的问题（如果是接口不存在）。
+**关于接口跨域、超时的问题**：这两种情况发生的时候，接口返回的响应体和响应头里面都是空的，`status`等于0，所以很难区分两者，但是正常情况下，一般项目中都的请求都是复杂请求，所以在正式请求会先进行`option`进行预请求，如果是跨域的话基本几十毫秒就会返回来，所以以此作为临界值来判断跨域与超时的问题（如果是接口不存在也会被判断成接口跨域）。
 
 <h3 style="margin-top: 20px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="font-size: 16px; color: #2db7f5; display: inline-block; padding-left: 10px; border-left: 4px solid #2db7f5;" class="content">js代码错误&&资源错误</span><span style="display: none;" class="suffix"></span></h3>
 
@@ -92,11 +96,13 @@ window.addEventLinstner('error',function(e){
 
 * 资源错误
 
-判断`e.target.localName`是否有值，有的话就是资源错误，在`handleErrors`中拿到信息，并处理
+判断`e.target.localName`是否有值，有的话就是资源错误，在`handleErrors`中拿到信息：
+
+![handleError](https://i.loli.net/2020/08/18/ypZGiTNPEXqn1kR.png)
 
 * 代码错误
 
-否则就是代码错误，这回调中可以拿到对应的错误代码文件、代码行数等等信息，然后通过[source-map](https://www.npmjs.com/package/source-map)这个`npm包`进行解析，就可以还原出线上真实代码错误的位置。
+上面判断为`false`时，代表是代码错误，在回调中可以拿到对应的错误代码文件、代码行数等等信息，然后通过[source-map](https://www.npmjs.com/package/source-map)这个`npm包`**+**`sourceMap`文件进行解析，就可以还原出线上真实代码错误的位置。
 
 <h3 style="margin-top: 20px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="font-size: 16px; color: #2db7f5; display: inline-block; padding-left: 10px; border-left: 4px solid #2db7f5;" class="content">监听unhandledrejection</span><span style="display: none;" class="suffix"></span></h3>
 
@@ -186,7 +192,8 @@ React16.13中提供了[componentDidCatch](https://zh-hans.reactjs.org/docs/react
 ```js
 import MITO from 'mitojs'
 MITO.log({
-  info: '支付失败，余额不足'
+  info: '支付失败，余额不足',
+  tag: 'business'
 })
 ```
 
@@ -214,7 +221,7 @@ MITO.log({
 
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">上报错误信息</span><span style="display: none;" class="suffix"></span></h2>
 
-当SDK拿到错误的所有信息时需要上报到服务端，有几种方式上报服务端：
+当SDK拿到错误的所有信息时需要上报到服务端，有几种方式上报服务端
 
 <h3 style="margin-top: 20px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="font-size: 16px; color: #2db7f5; display: inline-block; padding-left: 10px; border-left: 4px solid #2db7f5;" class="content">通过xhr上报</span><span style="display: none;" class="suffix"></span></h3>
 
@@ -263,17 +270,15 @@ MITO.log({
 
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">SDK小结</span><span style="display: none;" class="suffix"></span></h2>
 
-**订阅事件** => **重写原生事件** => **触发原生事件（发布事件）** => **拿到错误信息** => **提取有用的错误信息** => **上报服务端**
+订阅事件 => 重写原生事件 => 触发原生事件（发布事件） => 拿到错误信息 => 提取有用的错误信息 => 上报服务端
 
 
 
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">关于开源</span><span style="display: none;" class="suffix"></span></h2>
 
-SDK开源:[mitojs](https://github.com/clouDr-f2e/mitojs)，下一篇会讲服务端的表结构设计思路、怎样在**千万**条数据中多标签**毫秒**级查询事件，更好的告警机制通知开发人员。
+SDK开源:[mitojs](https://github.com/clouDr-f2e/mitojs)，下一篇会讲服务端的表结构设计思路、怎样在**千万**条数据中多重标签**毫秒**级查询错误事件以及更好的告警机制通知开发人员
 
 
 
-
-
-感兴趣的小伙伴可以点个关注，后续好文不断！！！
+**感兴趣的小伙伴可以点个关注，后续好文不断！！！**
 

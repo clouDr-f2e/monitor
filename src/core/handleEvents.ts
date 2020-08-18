@@ -47,14 +47,17 @@ const HandleEvents = {
   handleError(errorEvent: ErrorEvent): void {
     const target = errorEvent.target as ResourceErrorTarget
     if (target.localName) {
-      // resource error
+      // 资源加载错误
+      // 提取有用数据
       const data = resourceTransform(errorEvent.target as ResourceErrorTarget)
+      // push到行为栈
       breadcrumb.push({
         type: BREADCRUMBTYPES.RESOURCE,
         category: breadcrumb.getCategory(BREADCRUMBTYPES.RESOURCE),
         data,
         level: Severity.Error
       })
+      // 上报错误
       return transportData.xhrPost(data)
     }
     // code error
