@@ -1,6 +1,9 @@
+**本文作者：[cjinhuo](https://github.com/cjinhuo)，未经授权禁止转载。**
+
 <h1 style="padding: 0px; font-weight: bold; color: black; font-size: 24px; text-align: center; line-height: 60px; margin-top: 10px; margin-bottom: 10px;">
   <span style="color: #2db7f5; border-bottom: 2px solid #2db7f5;" class="content">背景</span>
 </h1>
+
 
 
 传统方式下一个前端项目发到正式环境后，所有报错信息只能通过用户使用时截图、口头描述发送到开发者，然后开发者来根据用户所描述的场景去模拟这个错误的产生，这效率肯定超级低，所以很多开源或收费的前端监控平台就破空而出，比如:
@@ -257,4 +260,20 @@ MITO.log({
 <h1 style="padding: 0px; font-weight: bold; color: black; font-size: 24px; text-align: center; line-height: 60px; margin-top: 10px; margin-bottom: 10px;">
   <span style="color: #2db7f5; border-bottom: 2px solid #2db7f5;" class="content">总结</span>
 </h1>
+
+<h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">SDK小结</span><span style="display: none;" class="suffix"></span></h2>
+
+**订阅事件** => **重写原生事件** => **触发原生事件（发布事件）** => **拿到错误信息** => **提取有用的错误信息** => **上报服务端**
+
+
+
+<h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">关于开源</span><span style="display: none;" class="suffix"></span></h2>
+
+SDK开源:[mitojs](https://github.com/clouDr-f2e/mitojs)，下一篇会讲服务端的表结构设计思路、怎样在**千万**条数据中多标签**毫秒**级查询事件，更好的告警机制通知开发人员。
+
+
+
+
+
+感兴趣的小伙伴可以点个关注，后续好文不断！！！
 
