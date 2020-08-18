@@ -4,9 +4,8 @@
 [![install size](https://packagephobia.now.sh/badge?p=@zyf2e/mitojs)](https://packagephobia.now.sh/result?p=@zyf2e/mitojs)
 [![npm downloads](https://img.shields.io/npm/dm/@zyf2e/mitojs.svg?style=flat-square)](http://npm-stat.com/charts.html?package=@zyf2e/mitojs)
 [![build status](https://img.shields.io/travis/clouDr-f2e/mitojs/master.svg?style=flat-square)](https://travis-ci.com/github/clouDr-f2e/mitojs)
+<!-- [![CDNJS](https://img.shields.io/cdnjs/v/@zyf2e/mitojs.svg?style=flat-square)](https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/mito.min.js) -->
 
-<!-- [![CDNJS](https://img.shields.io/cdnjs/v/mitojs.svg?style=flat-square)](https://cdn.jsdelivr.net/npm/mitojs/dist/mito.min.js) -->
-<!-- [![build status](https://img.shields.io/travis/axios/axios/master.svg?style=flat-square)](https://travis-ci.org/axios/axios) -->
 <!-- [![code coverage](https://img.shields.io/coveralls/mzabriskie/axios.svg?style=flat-square)](https://coveralls.io/r/mzabriskie/axios) -->
 
 
@@ -16,6 +15,9 @@
 
 一款轻量级的收集页面的用户点击行为、路由跳转、接口报错、代码报错、并上报服务端的SDK
 
+### 在线运行例子
+[vue-mito-demo](https://static.91jkys.com/web/mito-vue-demo/#/enterpriceService/riskAssessment)
+
 ## 安装
 
 ### 使用npm
@@ -24,7 +26,7 @@
 
 ### 使用CDN
 
-`<script src="https://cdn.jsdelivr.net/npm/mitojs/dist/mito.min.js"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/mito.min.js"></script>`
 
 ## 使用环境
 
@@ -50,8 +52,7 @@ MITO.init({
 })
 ```
 
-### 在线运行例子
-[vue-mito-demo](https://static.91jkys.com/web/mito-vue-demo/#/enterpriceService/riskAssessment)
+
 
 
 
@@ -121,7 +122,7 @@ interface ReportDataType {
 }
 ```
 
-**示例：**如果错误事件发生在`test.com/test`地址下则不上报服务端
+**示例**：如果错误事件发生在`test.com/test`地址下则不上报服务端
 
 ```js
 MITO.init({
@@ -151,7 +152,7 @@ export class Breadcrumb{
 
 ```
 
-**示例：**如果`type`是`Console`的就过滤，不会`push`到当前用户行为栈中
+**示例**：如果`type`是`Console`的就过滤，不会`push`到当前用户行为栈中
 
 ```js
 MITO.init({
