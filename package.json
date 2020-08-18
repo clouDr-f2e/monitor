@@ -1,5 +1,5 @@
 {
-  "name": "mitojs",
+  "name": "@zyf2e/mitojs",
   "version": "1.0.0",
   "description": "A SDK for monitoring browser errors",
   "main": "/dist/mito.js",

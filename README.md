@@ -52,6 +52,9 @@ MITO.init({
 })
 ```
 
+### 在线运行例子
+[vue-mito-demo](https://static.91jkys.com/web/mito-vue-demo/#/enterpriceService/riskAssessment)
+
 
 
 # options
