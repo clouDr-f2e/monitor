@@ -1,8 +1,8 @@
 # mitojs
 
-[![npm version](https://img.shields.io/npm/v/mitojs.svg?style=flat-square)](https://www.npmjs.org/package/mitojs)
-[![install size](https://packagephobia.now.sh/badge?p=mitojs)](https://packagephobia.now.sh/result?p=axios)
-[![npm downloads](https://img.shields.io/npm/dm/mitojs.svg?style=flat-square)](http://npm-stat.com/charts.html?package=mitojs)
+[![npm version](https://img.shields.io/npm/v/@zyf2e/mitojs.svg?style=flat-square)](https://www.npmjs.org/package/@zyf2e/mitojs)
+[![install size](https://packagephobia.now.sh/badge?p=@zyf2e/mitojs)](https://packagephobia.now.sh/result?p=@zyf2e/mitojs)
+[![npm downloads](https://img.shields.io/npm/dm/@zyf2e/mitojs.svg?style=flat-square)](http://npm-stat.com/charts.html?package=@zyf2e/mitojs)
 [![build status](https://img.shields.io/travis/clouDr-f2e/mitojs/master.svg?style=flat-square)](https://travis-ci.com/github/clouDr-f2e/mitojs)
 
 <!-- [![CDNJS](https://img.shields.io/cdnjs/v/mitojs.svg?style=flat-square)](https://cdn.jsdelivr.net/npm/mitojs/dist/mito.min.js) -->
