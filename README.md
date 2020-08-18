@@ -9,8 +9,6 @@
 <!-- [![build status](https://img.shields.io/travis/axios/axios/master.svg?style=flat-square)](https://travis-ci.org/axios/axios) -->
 <!-- [![code coverage](https://img.shields.io/coveralls/mzabriskie/axios.svg?style=flat-square)](https://coveralls.io/r/mzabriskie/axios) -->
 
-[TOC]
-
 
 
 
@@ -22,7 +20,7 @@
 
 ### 使用npm
 
-`npm i mitojs`
+`npm i @zyf2e/mitojs`
 
 ### 使用CDN
 
@@ -33,7 +31,7 @@
 ### Vue2.6
 
 ```javascript
-import MITO from 'mitojs'
+import MITO from '@zyf2e/mitojs'
 import Vue from 'vue'
 Vue.use(MITO.MitoVue)
 MITO.init({
