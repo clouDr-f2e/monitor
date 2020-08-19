@@ -40,7 +40,9 @@
 
 ![](https://i.loli.net/2020/08/17/7XRZaT5WtzLBD1n.jpg)
 
-
+<div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
+  <span style="color: #2db7f5;" class="content">整体流程</span>
+</div>
 
 
 从上图可以看出来，如果需要自研监控平台需要做三个部分：
@@ -58,13 +60,19 @@
 
 
 
-![flow](https://i.loli.net/2020/08/16/f71JYxXwTrPIdyc.png)
+![flow](https://i.loli.net/2020/08/19/XnyjRVAbYQLclJ2.png)
 
+<div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
+  <span style="color: #2db7f5;" class="content">代码架构</span>
+</div>
 
-
-整体代码架构使用**发布-订阅**设计模式以便后续迭代功能，所以处理逻辑基本都在`HandleEvents`文件中
+整体代码架构使用**发布-订阅**设计模式以便后续迭代功能，处理逻辑基本都在`HandleEvents`文件中,这样设计的好处是如果想穿插`hook`或者迭代功能可以在处理事件回调多添加一个函数
 
 ![handlerEvent](https://i.loli.net/2020/08/18/96Zg1KxM4Xzu3qp.png)
+
+<div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
+  <span style="color: #2db7f5;" class="content">HandleEvents</span>
+</div>
 
 <h2 style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="font-size: 20px; color: #2db7f5; display: inline-block; padding-left: 10px;" class="content">web错误信息收集</span><span style="display: none;" class="suffix"></span></h2>
 
@@ -72,11 +80,19 @@
 
 ![replaceOld](https://i.loli.net/2020/08/15/DSz1dA3ENMkxT9U.png)
 
+<div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
+  <span style="color: #2db7f5;" class="content">replaceOld</span>
+</div>
+
 <h3 style="margin-top: 20px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="font-size: 16px; color: #2db7f5; display: inline-block; padding-left: 10px; border-left: 4px solid #2db7f5;" class="content">接口错误</span><span style="display: none;" class="suffix"></span></h3>
 
 所有的请求第三方库都是基于`xhr`、`fetch`二次封装的，所以只需要重写这两个事件就可以拿到所有的接口请求的信息，通过判断`status`的值来判断当前接口是否是正常的。举个例子，重写`xhr`的代码操作：
 
 ![xhrReplace](https://i.loli.net/2020/08/16/KMH6LzIo2eOrv3T.png)
+
+<div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
+  <span style="color: #2db7f5;" class="content">Xhr重写</span>
+</div>
 
 上面除了拿去接口的信息之外还做一个操作：如果是SDK发送的接口，就不用收集该接口的信息。如果需要发布事件就调用`triggerHandlers(EVENTTYPES.XHR, this.mito_xhr)`，类似的，`fetch`也是用这种方式来重写。
 
@@ -100,6 +116,10 @@ window.addEventLinstner('error',function(e){
 
 ![handleError](https://i.loli.net/2020/08/18/ypZGiTNPEXqn1kR.png)
 
+<div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
+  <span style="color: #2db7f5;" class="content">handleError</span>
+</div>
+
 * 代码错误
 
 上面判断为`false`时，代表是代码错误，在回调中可以拿到对应的错误代码文件、代码行数等等信息，然后通过[source-map](https://www.npmjs.com/package/source-map)这个`npm包`**+**`sourceMap`文件进行解析，就可以还原出线上真实代码错误的位置。
@@ -110,11 +130,19 @@ window.addEventLinstner('error',function(e){
 
 ![replaceUnhandlerejecttion](https://i.loli.net/2020/08/16/vNoiKQGeV1ZgWht.png)
 
+<div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
+  <span style="color: #2db7f5;" class="content">unhandledrejection监听</span>
+</div>
+
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">用户行为信息收集</span><span style="display: none;" class="suffix"></span></h2>
 
 单纯收集错误信息是可以提高错误定位的效率，但如果再配合上用户行为的话就锦上添花，定位错误的效率再上一层，如下图所示，可以清晰的看到用户做了哪些事：进了哪个页面 => 点击了哪个按钮 =>  触发了哪个接口：
 
 ![breadcrumb](https://i.loli.net/2020/08/16/mXYGnq3EvyCo29j.jpg)
+
+<div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
+  <span style="color: #2db7f5;" class="content">用户行为前端页面展示</span>
+</div>
 
 <h3 style="margin-top: 20px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="font-size: 16px; color: #2db7f5; display: inline-block; padding-left: 10px; border-left: 4px solid #2db7f5;" class="content">dom事件信息</span><span style="display: none;" class="suffix"></span></h3>
 
@@ -140,8 +168,9 @@ window.addEventLinstner('click',function(e){
 ![onpopstate](https://i.loli.net/2020/08/16/RmgZMnkjbw1XvuY.png)
 
 <div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
-  <span style="color: #2db7f5;" class="content">onpopstate重写，pushState&&replaceState也是一样的写法</span>
+  <span style="color: #2db7f5;" class="content">onpopstate重写</span>
 </div>
+
 
 * **hashchange**
 
