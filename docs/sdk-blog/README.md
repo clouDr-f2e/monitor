@@ -105,7 +105,7 @@
 监听`window`的`error`事件
 
 ```js
-window.addEventLinstner('error',function(e){
+window.addEventListener('error',function(e){
   // 拿到错误信息，发布事件：triggerHandlers
 }, true)
 ```
@@ -149,7 +149,7 @@ window.addEventLinstner('error',function(e){
 `dom`事件获取包括很多：`click`、`input`、`doubleClick`等等，一种直接在window上面监听click事件（注意第三个参数为`true`）:
 
 ```javascript
-window.addEventLinstner('click',function(e){
+window.addEventListener('click',function(e){
 	// 利用节流，以防事件触发过快
   // 发布事件 triggerHandlers
 }, true)
