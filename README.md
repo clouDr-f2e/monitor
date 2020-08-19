@@ -15,150 +15,33 @@
 
 一款轻量级的收集页面的用户点击行为、路由跳转、接口报错、代码报错、并上报服务端的SDK
 
+## 为什么使用mitojs
+* 🔨监听请求错误、console、路由跳转、代码报错、click、资源加载错误
+* 🏅自定义上报错误
+* 🤙 `mito.min.js`只需16k
+* 👌持续迭代与更新
+
+
 ### 在线运行例子
 [vue-mito-demo](https://static.91jkys.com/web/mito-vue-demo/#/enterpriceService/riskAssessment)
 
-## 安装
 
-### 使用npm
 
-`npm i @zyf2e/mitojs`
+## 使用指南
 
-### 使用CDN
+[使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md)
 
-`<script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/mito.min.js"></script>`
+## 代码贡献
 
-## 使用环境
-
-### Vue2.6
-
-```javascript
-import MITO from '@zyf2e/mitojs'
-import Vue from 'vue'
-Vue.use(MITO.MitoVue)
-MITO.init({
-  apikey: 'aabbcc',
-  version: '1.0.0',
-  dsn: 'http://test.com/error'
-})
-```
-
-### JS
-
-```javascript
-<script src="https://cdn.jsdelivr.net/npm/mitojs/dist/mito.min.js"></script>
-MITO.init({
-  dsn: 'http://test.com/error',
-})
-```
+如果你还不清楚怎么在 GitHub 上提 Pull Request ，可以阅读下面这篇文章来学习：[如何优雅地在 GitHub 上贡献代码](https://segmentfault.com/a/1190000000736629)
 
 
 
+只要有提升代码质量或者添加额外功能的`pr`都会过的
 
 
-# options
-|            Name            | Type       | Default                  | Description                                                  |
-| :------------------------: | ---------- | ------------------------ | ------------------------------------------------------------ |
-|           `dsn`            | `string`   | `""`（需要来个默认地址） | dsn服务地址，上报接口的地址，post方法                        |
-|         `disabled`         | `boolean`  | `true`                   | 默认是开启状态，为true时，会将sdk禁用                        |
-|          `apikey`          | `string`   | `""`                     | 每个项目对应一个apikey，用于存放错误集合的唯一标识           |
-|          `debug`           | `boolean`  | `false`                  | 默认不会在控制台打印用户行为和错误信息，为true时将会在控台打印 |
-|         `version`          | `string`   | `0.0.0`                  | 线上版本，服务端会做数据过滤，version就是其中一环，可以在页面更好的搜索错误日志 |
-|      `maxBreadcrumbs`      | `number`   | `20`                     | 用户行为存放的最大容量，最大是100，当你配置超过100时，最终还是会设置成100，一方面是防止占更多的内存、一方面是保存超过100条用户行为没多大意义 |
-|        `silentXhr`         | `boolean`  | `false`                  | 默认会监控xhr，为true时，将不再监控                          |
-|       `silentFetch`        | `boolean`  | `false`                  | 默认会监控fetch，为true时，将不再监控                        |
-|      `silentConsole`       | `boolean`  | `false`                  | 默认会监控console，为true时，将不再监控                      |
-|        `silentDom`         | `boolean`  | `false`                  | 默认会监听click事件，当用户点击的标签不是body时就会被放入breadcrumb，为true，将不在监听 |
-|      `silentHistory`       | `boolean`  | `false`                  | 默认会监控popstate、pushState、replaceState，为true时，将不再监控 |
-|       `silentError`        | `boolean`  | `false`                  | 默认会监控error，为true时，将不在监控                        |
-| `silentUnhandledrejection` | `boolean`  | `false`                  | 默认会监控unhandledrejection，为true时，将不在监控           |
-|     `silentHashchange`     | `boolean`  | `false`                  | 默认会监控hashchange，为true时，将不在监控                   |
-|        `silentVue`         | `boolean`  | `false`                  | 默认会监控Vue的错误，为true时，将不在监控                    |
-|        `beforeSend`        | `function` | `null`                   | 钩子函数：在每次发送事件前会调，如果返回null \| undefined \| false时，将忽略本次上传 |
-|     `beforePushBreadcrumb`     | `function` | `null`                   | 钩子函数：在每次添加用户行为事件前都会调用，如果返回null \| undefined \| false时，将忽略本次的push操作 |
+## issue
 
-**示例：**用户行为栈最大长度为30
+欢迎所有人提`issue`，如果有什么好的建议和问题可以直接联系本人微信（备注mitojs）：
 
-```js
-MITO.init({
-  ...
-  maxBreadcrumbs: 30
-})
-```
-
-### hooks
-
-#### beforeSend
-
-```typescript
-function(event: ReportDataType)
-interface ReportDataType {
-  type?: ERRORTYPES
-  message?: string
-  url: string
-  name?: string
-  stack?: any
-  time?: number
-  errorId?: number
-  level: number
-  // ajax
-  elapsedTime?: number
-  request?: {
-    httpType?: string
-    method: string
-    url: string
-    data: any
-  }
-  response?: {
-    status: number
-    statusText: string
-    description: string
-  }
-  // vue
-  componentName?: string
-  propsData?: any
-  // logerror
-  info?: string
-}
-```
-
-**示例**：如果错误事件发生在`test.com/test`地址下则不上报服务端
-
-```js
-MITO.init({
-  ...
-  beforeSend(event){
-  	if (event.url === 'test.com/test') return false
-	}
-})
-```
-
-
-
-#### beforePushBreadcrumb
-
-```typescript
-function(breadcrumb: Breadcrumb, hint: BreadcrumbPushData)
-interface BreadcrumbPushData {
-  type: string
-  data: any
-}
-export class Breadcrumb{
-  private maxBreadcrumbs:number
-  private stack:BreadcrumbPushData[]
-  push()
-  getStack()
-}
-
-```
-
-**示例**：如果`type`是`Console`的就过滤，不会`push`到当前用户行为栈中
-
-```js
-MITO.init({
-  ...
-  beforePushBreadcrumb(breadcrumb, hint){
-  	if (hint.type === 'Console') return false
-	}
-})
-```
+![个人微信](https://i.loli.net/2020/08/19/prtQbEcF7yu1MfZ.jpg)
