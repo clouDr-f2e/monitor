@@ -48,4 +48,4 @@
 
 欢迎所有人提`issue`，如果有什么好的建议和问题可以直接联系本人微信（备注mitojs）：
 
-![个人微信](https://i.loli.net/2020/08/19/prtQbEcF7yu1MfZ.jpg)
+<img src="https://i.loli.net/2020/08/19/prtQbEcF7yu1MfZ.jpg" width="240px" />
