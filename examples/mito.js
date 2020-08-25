@@ -13,13 +13,6 @@ var MITO = (function () {
       ERRORTYPES["RESOURCE_ERROR"] = "RESOURCE_ERROR";
       ERRORTYPES["PROMISE_ERROR"] = "PROMISE_ERROR";
   })(ERRORTYPES || (ERRORTYPES = {}));
-  var ERRORLEVELS;
-  (function (ERRORLEVELS) {
-      ERRORLEVELS[ERRORLEVELS["CRITICAL"] = 1] = "CRITICAL";
-      ERRORLEVELS[ERRORLEVELS["HIGH"] = 2] = "HIGH";
-      ERRORLEVELS[ERRORLEVELS["NORMAL"] = 3] = "NORMAL";
-      ERRORLEVELS[ERRORLEVELS["LOW"] = 4] = "LOW";
-  })(ERRORLEVELS || (ERRORLEVELS = {}));
   var BREADCRUMBTYPES;
   (function (BREADCRUMBTYPES) {
       BREADCRUMBTYPES["ROUTE"] = "Route";
@@ -472,7 +465,7 @@ var MITO = (function () {
       else {
           allErrorNumber[id] = 1;
       }
-      if (allErrorNumber[id] > 3) {
+      if (allErrorNumber[id] > 2) {
           return null;
       }
       return id;
@@ -517,6 +510,43 @@ var MITO = (function () {
       return hash;
   }
 
+  var Severity;
+  (function (Severity) {
+      Severity["Else"] = "else";
+      Severity["Error"] = "error";
+      Severity["Warning"] = "warning";
+      Severity["Info"] = "info";
+      Severity["Debug"] = "debug";
+      Severity["Low"] = "low";
+      Severity["Normal"] = "normal";
+      Severity["High"] = "high";
+      Severity["Critical"] = "critical";
+  })(Severity || (Severity = {}));
+  (function (Severity) {
+      function fromString(level) {
+          switch (level) {
+              case 'debug':
+                  return Severity.Debug;
+              case 'info':
+              case 'log':
+              case 'assert':
+                  return Severity.Info;
+              case 'warn':
+              case 'warning':
+                  return Severity.Warning;
+              case Severity.Low:
+              case Severity.Normal:
+              case Severity.High:
+              case Severity.Critical:
+              case 'error':
+                  return Severity.Error;
+              default:
+                  return Severity.Else;
+          }
+      }
+      Severity.fromString = fromString;
+  })(Severity || (Severity = {}));
+
   function httpTransform(data) {
       let description = data.responseText;
       if (data.status === 0) {
@@ -527,7 +557,7 @@ var MITO = (function () {
           url: getLocationHref(),
           time: data.time,
           elapsedTime: data.elapsedTime,
-          level: ERRORLEVELS.HIGH,
+          level: Severity.High,
           request: {
               httpType: data.type,
               method: data.method,
@@ -550,7 +580,7 @@ var MITO = (function () {
           type: ERRORTYPES.RESOURCE_ERROR,
           url: getLocationHref(),
           message: '资源地址: ' + (target.src || target.href),
-          level: ERRORLEVELS.LOW,
+          level: Severity.Low,
           time: getTimestamp(),
           name: `${resourceMap[target.localName] || target.localName} failed to load`
       };
@@ -632,44 +662,6 @@ var MITO = (function () {
   TransportData.img = new Image();
   const transportData = _support.transportData || (_support.transportData = new TransportData(SERVER_URL));
 
-  var Severity;
-  (function (Severity) {
-      Severity["Else"] = "else";
-      Severity["Error"] = "error";
-      Severity["Warning"] = "warning";
-      Severity["Info"] = "info";
-      Severity["Debug"] = "debug";
-      Severity["NORMAL"] = "normal";
-      Severity["HIGH"] = "high";
-      Severity["Critical"] = "critical";
-  })(Severity || (Severity = {}));
-  (function (Severity) {
-      function fromString(level) {
-          switch (level) {
-              case 'debug':
-                  return Severity.Debug;
-              case 'info':
-              case 'log':
-              case 'assert':
-                  return Severity.Info;
-              case 'warn':
-              case 'warning':
-                  return Severity.Warning;
-              case '1':
-              case '2':
-              case '3':
-              case '4':
-              case 'error':
-                  return Severity.Error;
-              case 'critical':
-                  return Severity.Critical;
-              default:
-                  return Severity.Else;
-          }
-      }
-      Severity.fromString = fromString;
-  })(Severity || (Severity = {}));
-
   const HandleEvents = {
       handleHttp(data, type) {
           const isError = data.status >= 400 || data.status === 0;
@@ -705,7 +697,7 @@ var MITO = (function () {
           const { message, filename, lineno, colno, error } = errorEvent;
           let result;
           if (error && isError(error)) {
-              result = extractErrorStack(error, ERRORLEVELS.HIGH);
+              result = extractErrorStack(error, Severity.High);
           }
           else {
               let name = ERRORTYPES.UNKNOWN;
@@ -727,7 +719,7 @@ var MITO = (function () {
                   url,
                   name,
                   message: msg,
-                  level: ERRORLEVELS.NORMAL,
+                  level: Severity.Normal,
                   time: getTimestamp(),
                   stack: [element]
               };
@@ -776,12 +768,12 @@ var MITO = (function () {
               url: getLocationHref(),
               name: ev.type,
               time: getTimestamp(),
-              level: ERRORLEVELS.NORMAL
+              level: Severity.Normal
           };
           if (isError(ev.reason)) {
               data = {
                   ...data,
-                  ...extractErrorStack(ev.reason, ERRORLEVELS.NORMAL)
+                  ...extractErrorStack(ev.reason, Severity.Normal)
               };
           }
           breadcrumb.push({
@@ -1035,7 +1027,7 @@ var MITO = (function () {
       });
   }
 
-  function log({ info = 'emptyMsg', level = ERRORLEVELS.CRITICAL, ex = '', type = ERRORTYPES.BUSINESS_ERROR }) {
+  function log({ info = 'emptyMsg', level = Severity.Critical, ex = '', type = ERRORTYPES.BUSINESS_ERROR }) {
       let errorInfo = {};
       if (isError(ex)) {
           errorInfo = extractErrorStack(ex, level);
@@ -1092,7 +1084,7 @@ var MITO = (function () {
               return;
           setFlag(EVENTTYPES.VUE, true);
           Vue.config.errorHandler = function (err, vm, info) {
-              handleVueError.apply(null, [err, vm, info, ERRORLEVELS.NORMAL, Severity.Error]);
+              handleVueError.apply(null, [err, vm, info, Severity.Normal, Severity.Error]);
               if (hasConsole && !Vue.config.silent) {
                   slientConsoleScope(() => {
                       console.error('Error in ' + info + ': "' + err.toString() + '"', vm);
@@ -1101,7 +1093,7 @@ var MITO = (function () {
               }
           };
           Vue.config.warnHandler = function (msg, vm, trace) {
-              handleVueError.apply(null, [msg, vm, trace, ERRORLEVELS.NORMAL, Severity.Warning]);
+              handleVueError.apply(null, [msg, vm, trace, Severity.Normal, Severity.Warning]);
               slientConsoleScope(() => {
                   hasConsole && console.error('[Vue warn]: ' + msg + trace);
               });

@@ -5,8 +5,6 @@ export class Logger {
   private enabled = true
   private _console: Console = {} as Console
   constructor() {
-    // 直接浅拷贝一份_global.console，就不会调到console的push breadcrumb环节，
-    // 还可以用一个全局变量来控制
     const logType = ['log', 'debug', 'info', 'warn', 'error', 'assert']
     logType.forEach((level) => {
       if (!(level in _global.console)) return

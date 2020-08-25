@@ -13,11 +13,7 @@ function formatComponentName(vm: ViewModel) {
   )
 }
 
-export function handleVueError(err: Error, vm: ViewModel, info: string, level: number, breadcrumbLevel: Severity): void {
-  // let errInfo: { name: string; message: string; stack?: any[] } = {
-  //   name: '',
-  //   message: ''
-  // }
+export function handleVueError(err: Error, vm: ViewModel, info: string, level: Severity, breadcrumbLevel: Severity): void {
   const componentName = formatComponentName(vm)
   const propsData = vm.$options && vm.$options.propsData
   const data: ReportDataType = {

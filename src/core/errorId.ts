@@ -33,8 +33,8 @@ export default function createErrorId(data: ReportDataType): number | null {
   } else {
     allErrorNumber[id] = 1
   }
-  // 如果一个平台的最大错误数，如果超过这个数就返回null
-  if (allErrorNumber[id] > 3) {
+  // 如果当前应用的errorId重复两次，就认为这个错误没必要再次上传到服务端
+  if (allErrorNumber[id] > 2) {
     return null
   }
   return id

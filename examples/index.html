@@ -1,78 +1,65 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>测试</title>
   </head>
-    <script src="./mito.js"
-            crossorigin="anonymous"></script>
-            <script>
-        MITO.init({
-          debug: 'true',
-          maxBreadcrumbs: 10,
-        })
+  <script src="./mito.js" crossorigin="anonymous"></script>
+  <script>
+    MITO.init({
+      debug: 'true',
+      maxBreadcrumbs: 10
+    })
+  </script>
 
-            </script>
-
-  <link rel="stylesheet"
-        href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
 
   <body>
-    <div style="width: 100%; height: 1000px;">
-    <!-- <img src="https://seopic.699pic.com/photo/40011/0709.jpg_wh1222200.jpg"> -->
-    <input type="number" />
+    <div>打开控制台调试</div>
+    <div style="width: 100%; height: 100px;">
+      <!-- <img src="https://seopic.699pic.com/photo/40011/0709.jpg_wh1222200.jpg"> -->
+      <input type="number" />
     </div>
     <div id="app">
       <template>
-        <el-select v-model="value"
-                   placeholder="请选择">
-          <el-option v-for="item in options"
-                     :key="item.value"
-                     :label="item.label"
-                     :value="item.value">
-          </el-option>
+        <el-select v-model="value" placeholder="请选择">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-input v-model="test"></el-input>
       </template>
     </div>
-    <script>
-      window.addEventListener('error', function(e) {
-        console.log(e)
-      })
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 资源错误 -->
     <script src="https://csdnimg.cn/public/common/toolbar/js/content_toolbar.js"></script>
     <script>
-      
-      window.onload = function() {
+      window.onload = function () {
         asyncXhr()
-        // fetch('http://localhost:8090/parse/test', {
-        //   body: '{test:1}',
-        //   method: 'post'
-        // }).then(res => {
-        //   console.log(res)
-        // })
-              var Main = {
+        var Main = {
           data() {
             return {
-              options: [{
-                value: '选项1',
-                label: '黄金糕'
-              }, {
-                value: '选项2',
-                label: '双皮奶'
-              }, {
-                value: '选项3',
-                label: '蚵仔煎'
-              }, {
-                value: '选项4',
-                label: '龙须面'
-              }, {
-                value: '选项5',
-                label: '北京烤鸭'
-              }],
+              options: [
+                {
+                  value: '选项1',
+                  label: '黄金糕'
+                },
+                {
+                  value: '选项2',
+                  label: '双皮奶'
+                },
+                {
+                  value: '选项3',
+                  label: '蚵仔煎'
+                },
+                {
+                  value: '选项4',
+                  label: '龙须面'
+                },
+                {
+                  value: '选项5',
+                  label: '北京烤鸭'
+                }
+              ],
               value: '',
               test: ''
             }
@@ -80,38 +67,22 @@
         }
         var Ctor = Vue.extend(Main)
         new Ctor().$mount('#app')
-        // syncXhr().then(res => {
-        //   console.log(res)
-        // })
-        
-        // const img = new Image()
-        // img.src = 'http://chuantu.xyz/t6/738/1591671510x992239403.jpg'
       }
-      // window.addEventListener('error', function(e) {
-      //   console.log(e)
-      // })
       function syncXhr() {
         return new Promise((resolve, reject) => {
           setTimeout(() => {
-            reject({test:1})
+            reject({ test: 1 })
           })
         })
-        // const xhr = new XMLHttpRequest()
-        // xhr.open("GET", "http://localhost:8090/parse/test");
-        // xhr.send();
-        // xhr.onreadystatechange = function () {
-        //   console.log(xhr.readyState)
-        //   console.log(xhr)
-        // }
       }
       function asyncXhr() {
         const xhr = new XMLHttpRequest()
-        xhr.open("get", "http://localhost:8090/parse/delay");
+        xhr.open('get', 'http://localhost:8090/parse/delay')
         const data = new FormData()
         xhr.setRequestHeader('content-type', 'application/json')
-        xhr.send('{test:1}');
+        xhr.send('{test:1}')
         xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4){
+          if (xhr.readyState === 4) {
             console.log(xhr.responseText)
           }
         }

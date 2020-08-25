@@ -21,7 +21,7 @@ export interface ReportDataType {
   stack?: any
   time?: number
   errorId?: number
-  level: number
+  level: string
   // ajax
   elapsedTime?: number
   request?: {

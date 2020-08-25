@@ -6,7 +6,8 @@
 
 
 
-传统方式下一个前端项目发到正式环境后，所有报错信息只能通过用户使用时截图、口头描述发送到开发者，然后开发者来根据用户所描述的场景去模拟这个错误的产生，这效率肯定超级低，所以很多开源或收费的前端监控平台就破空而出，比如:
+
+传统方式下一个前端项目发到正式环境后，所有报错信息只能通过用户使用时截图、口头描述发送到开发者，然后开发者来根据用户所描述的场景去模拟这个错误的产生，这效率肯定超级低，所以很多开源或收费的前端监控平台就应运而生，比如:
 
 * [sentry](https://github.com/getsentry/sentry) 
 * [webfunny](https://github.com/a597873885/webfunny_monitor)
@@ -14,27 +15,26 @@
 
 等等一些优秀的监控平台
 
-<h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block; padding-left: 10px;" class="content">我所了解的监控平台</span><span style="display: none;" class="suffix"></span></h2>
+<h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block; padding-left: 10px;" class="content">国内常用的监控平台</span><span style="display: none;" class="suffix"></span></h2>
 
 [sentry](https://github.com/getsentry/sentry) ：从监控错误、错误统计图表、多重标签过滤和标签统计到触发告警，这一整套都很完善，团队项目需要充钱，而且数据量越大钱越贵
 
-[fundebug](https://www.fundebug.com/)：除了监控错误，还有个黑科技，可以录屏，也就是记录错误发生的前几秒用户的所有操作，压缩后的体积只有几十 KB（个人按照官网走的教程没有录屏成功，可能是没充钱）
+[fundebug](https://www.fundebug.com/)：除了监控错误，还可以录屏，也就是记录错误发生的前几秒用户的所有操作，压缩后的体积只有几十 KB，但操作略微繁琐
 
-[webfunny](https://github.com/a597873885/webfunny_monitor)：也是含有监控错误的功能，可以支持千万级别日PV量，额外的亮点是可以远程调试、性能分析，可以docker私有化部署（免费），业务代码加密过。
+[webfunny](https://github.com/a597873885/webfunny_monitor)：也是含有监控错误的功能，可以支持千万级别日PV量，额外的亮点是可以远程调试、性能分析，也可以`docker`私有化部署（免费），业务代码加密过
 
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block; padding-left: 10px;" class="content">为什么不选择上面三个监控平台或者其他监控平台，为什么要自己搞？</span><span style="display: none;" class="suffix"></span></h2>
 
-首先`sentry`和`fundebug`是需要投入大量金钱来作为支持的，`webfuuny`是可以尝试部署试试，由于没有开源，二次开发受限。从零搞起。
+1. 首先`sentry`和`fundebug`需要投入大量金钱来作为支持，而`webfunny`虽是可以用`docker`私有化部署，但由于其代码没有开源，二次开发受限
 
-
-
-还有一个好处：可以将公司所有的SDK统一成一个，包括但不限于：埋点平台SDK、性能监控SDK
+2. 自己开发可以将公司所有的SDK统一成一个，包括但不限于：埋点平台SDK、性能监控SDK
 
 
 
 <h1 style="padding: 0px; font-weight: bold; color: black; font-size: 24px; text-align: center; line-height: 60px; margin-top: 10px; margin-bottom: 10px;">
   <span style="color: #2db7f5; border-bottom: 2px solid #2db7f5;" class="content">监控平台的组成</span>
 </h1>
+
 
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">整体流程</span><span style="display: none;" class="suffix"></span></h2>
 
@@ -45,11 +45,12 @@
 </div>
 
 
+
 从上图可以看出来，如果需要自研监控平台需要做三个部分：
 
 1. APP监控SDK：收集错误信息并上报
-2. server端：接收错误信息，处理数据并入库，并根据告警规则通知对应的开发人员
-3. 可视化平台：从数据库拿出已处理过的数据渲染，可轻松定位到线上bug
+2. server端：接收错误信息，处理数据并做持久化，而后根据告警规则通知对应的开发人员
+3. 可视化平台：从数据存储引擎拿出相关错误信息进行渲染，用于快速定位问题
 
 
 
@@ -66,6 +67,7 @@
   <span style="color: #2db7f5;" class="content">代码架构</span>
 </div>
 
+
 整体代码架构使用**发布-订阅**设计模式以便后续迭代功能，处理逻辑基本都在`HandleEvents`文件中,这样设计的好处是如果想穿插`hook`或者迭代功能可以在处理事件回调多添加一个函数
 
 ![handlerEvent](https://i.loli.net/2020/08/18/96Zg1KxM4Xzu3qp.png)
@@ -73,6 +75,7 @@
 <div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
   <span style="color: #2db7f5;" class="content">HandleEvents</span>
 </div>
+
 
 <h2 style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="font-size: 20px; color: #2db7f5; display: inline-block; padding-left: 10px;" class="content">web错误信息收集</span><span style="display: none;" class="suffix"></span></h2>
 
@@ -84,6 +87,7 @@
   <span style="color: #2db7f5;" class="content">replaceOld</span>
 </div>
 
+
 <h3 style="margin-top: 20px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="font-size: 16px; color: #2db7f5; display: inline-block; padding-left: 10px; border-left: 4px solid #2db7f5;" class="content">接口错误</span><span style="display: none;" class="suffix"></span></h3>
 
 所有的请求第三方库都是基于`xhr`、`fetch`二次封装的，所以只需要重写这两个事件就可以拿到所有的接口请求的信息，通过判断`status`的值来判断当前接口是否是正常的。举个例子，重写`xhr`的代码操作：
@@ -93,6 +97,7 @@
 <div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
   <span style="color: #2db7f5;" class="content">Xhr重写</span>
 </div>
+
 
 上面除了拿去接口的信息之外还做一个操作：如果是SDK发送的接口，就不用收集该接口的信息。如果需要发布事件就调用`triggerHandlers(EVENTTYPES.XHR, this.mito_xhr)`，类似的，`fetch`也是用这种方式来重写。
 
@@ -120,6 +125,7 @@ window.addEventListener('error',function(e){
   <span style="color: #2db7f5;" class="content">handleError</span>
 </div>
 
+
 * 代码错误
 
 上面判断为`false`时，代表是代码错误，在回调中可以拿到对应的错误代码文件、代码行数等等信息，然后通过[source-map](https://www.npmjs.com/package/source-map)这个`npm包`**+**`sourceMap`文件进行解析，就可以还原出线上真实代码错误的位置。
@@ -134,6 +140,7 @@ window.addEventListener('error',function(e){
   <span style="color: #2db7f5;" class="content">unhandledrejection监听</span>
 </div>
 
+
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">用户行为信息收集</span><span style="display: none;" class="suffix"></span></h2>
 
 单纯收集错误信息是可以提高错误定位的效率，但如果再配合上用户行为的话就锦上添花，定位错误的效率再上一层，如下图所示，可以清晰的看到用户做了哪些事：进了哪个页面 => 点击了哪个按钮 =>  触发了哪个接口：
@@ -143,6 +150,7 @@ window.addEventListener('error',function(e){
 <div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
   <span style="color: #2db7f5;" class="content">用户行为前端页面展示</span>
 </div>
+
 
 <h3 style="margin-top: 20px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="font-size: 16px; color: #2db7f5; display: inline-block; padding-left: 10px; border-left: 4px solid #2db7f5;" class="content">dom事件信息</span><span style="display: none;" class="suffix"></span></h3>
 
@@ -172,6 +180,7 @@ window.addEventListener('click',function(e){
 </div>
 
 
+
 * **hashchange**
 
 当浏览器只支持`hashchange`时，就需要重写hashchange:
@@ -182,6 +191,7 @@ window.addEventListener('click',function(e){
   <span style="color: #2db7f5;" class="content">hashchange重写</span>
 </div>
 
+
 <h3 style="margin-top: 20px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;" data-id="heading-7"><span style="display: none;" class="prefix"></span><span style="font-size: 16px; color: #2db7f5; display: inline-block; padding-left: 10px; border-left: 4px solid #2db7f5;" class="content">console信息</span><span style="display: none;" class="suffix"></span></h3>
 
 正常情况下正式环境是不应该有`console`的，那为什么要收集`console`的信息？第一：非正常情况下，正式环境或预发环境也可能会有`console`，第二：很多时候也可以把`sdk`放入测试环境上面调试。所以最终还是决定收集`console`信息，但是在初始化的时候的传参来告诉`sdk`是否监听`console`的信息收集。
@@ -191,6 +201,7 @@ window.addEventListener('click',function(e){
 <div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
   <span style="color: #2db7f5;" class="content">console重写</span>
 </div>
+
 
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">框架层错误信息收集</span><span style="display: none;" class="suffix"></span></h2>
 
@@ -204,6 +215,7 @@ window.addEventListener('click',function(e){
   <span style="color: #2db7f5;" class="content">vue错误信息收集</span>
 </div>
 
+
 <h3 style="margin-top: 20px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="font-size: 16px; color: #2db7f5; display: inline-block; padding-left: 10px; border-left: 4px solid #2db7f5;" class="content">React</span><span style="display: none;" class="suffix"></span></h3>
 
 React16.13中提供了[componentDidCatch](https://zh-hans.reactjs.org/docs/react-component.html#componentdidcatch)钩子函数来回调错误信息，所以我们可以新建一个类`ErrorBoundary`来继承React，然后然后声明`componentDidCatch`钩子函数，可以拿到错误信息（目前没写react的错误收集，看官网文档简述，简易版应该是这样写的）。
@@ -213,6 +225,7 @@ React16.13中提供了[componentDidCatch](https://zh-hans.reactjs.org/docs/react
 <div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
   <span style="color: #2db7f5;" class="content">react错误信息收集</span>
 </div>
+
 
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">自定义上报错误</span><span style="display: none;" class="suffix"></span></h2>
 
@@ -241,6 +254,7 @@ MITO.log({
 <div style="padding: 0px; font-weight: bold; color: black; font-size: 14px; text-align: center; line-height: 30px; margin-bottom: 10px;">
   <span style="color: #2db7f5;" class="content">用户行为类型整合</span>
 </div>
+
 
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">Error id生成</span><span style="display: none;" class="suffix"></span></h2>
 
@@ -297,6 +311,7 @@ MITO.log({
   <span style="color: #2db7f5; border-bottom: 2px solid #2db7f5;" class="content">总结</span>
 </h1>
 
+
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">SDK小结</span><span style="display: none;" class="suffix"></span></h2>
 
 订阅事件 => 重写原生事件 => 触发原生事件（发布事件） => 拿到错误信息 => 提取有用的错误信息 => 上报服务端
@@ -310,4 +325,3 @@ SDK开源:[mitojs](https://github.com/clouDr-f2e/mitojs)，下一篇会讲服务
 
 
 **感兴趣的小伙伴可以点个关注，后续好文不断！！！**
-
