@@ -1,5 +1,5 @@
 import { getFlag, setFlag, slientConsoleScope } from 'utils'
-import { EVENTTYPES, ERRORLEVELS } from 'common'
+import { EVENTTYPES } from 'common'
 import { VueInstance, ViewModel } from './types'
 import { handleVueError } from './helper'
 import { Severity } from '@/utils/Severity'
@@ -15,7 +15,7 @@ export const MitoVue = {
     if (getFlag(EVENTTYPES.VUE) || !Vue || !Vue.config) return
     setFlag(EVENTTYPES.VUE, true)
     Vue.config.errorHandler = function (err: Error, vm: ViewModel, info: string): void {
-      handleVueError.apply(null, [err, vm, info, ERRORLEVELS.NORMAL, Severity.Error])
+      handleVueError.apply(null, [err, vm, info, Severity.Normal, Severity.Error])
       if (hasConsole && !Vue.config.silent) {
         slientConsoleScope(() => {
           console.error('Error in ' + info + ': "' + err.toString() + '"', vm)
@@ -24,7 +24,7 @@ export const MitoVue = {
       }
     }
     Vue.config.warnHandler = function (msg: string, vm: ViewModel, trace: string): void {
-      handleVueError.apply(null, [msg, vm, trace, ERRORLEVELS.NORMAL, Severity.Warning])
+      handleVueError.apply(null, [msg, vm, trace, Severity.Normal, Severity.Warning])
       slientConsoleScope(() => {
         hasConsole && console.error('[Vue warn]: ' + msg + trace)
       })

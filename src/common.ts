@@ -1,4 +1,7 @@
 export type voidFun = () => void
+/**
+ * 上报错误类型
+ */
 export enum ERRORTYPES {
   UNKNOWN = 'UNKNOWN',
   UNKNOWN_FUNCTION = 'UNKNOWN_FUNCTION',
@@ -10,13 +13,9 @@ export enum ERRORTYPES {
   RESOURCE_ERROR = 'RESOURCE_ERROR',
   PROMISE_ERROR = 'PROMISE_ERROR'
 }
-export enum ERRORLEVELS {
-  CRITICAL = 1,
-  HIGH = 2,
-  NORMAL = 3,
-  LOW = 4
-}
-// 事件类型
+/**
+ * 用户行为栈事件类型
+ */
 export enum BREADCRUMBTYPES {
   ROUTE = 'Route',
   CLICK = 'UI.Click',
@@ -30,14 +29,18 @@ export enum BREADCRUMBTYPES {
   CUSTOMER = 'Customer'
 }
 
-// 行为类型
+/**
+ * 用户行为整合类型
+ */
 export enum BREADCRUMBCATEGORYS {
   HTTP = 'http',
   USER = 'user',
   DEBUG = 'debug',
   EXCEPTION = 'exception'
 }
-
+/**
+ * 重写的事件类型
+ */
 export enum EVENTTYPES {
   XHR = 'xhr',
   FETCH = 'fetch',
@@ -55,17 +58,6 @@ export enum HTTPTYPE {
   XHR = 'xhr',
   FETCH = 'fetch'
 }
-
-export type ErrorType =
-  | 'UNKNOWN'
-  | 'UNKNOWN_FUNCTION'
-  | 'JAVASCRIPT_ERROR'
-  | 'BUSINESS_ERROR'
-  | 'LOG_ERROR'
-  | 'HTTP_ERROR'
-  | 'VUE_ERROR'
-  | 'RESOURCE_ERROR'
-  | 'PROMISE_ERROR'
 
 export const ERROR_TYPE_RE = /^(?:[Uu]ncaught (?:exception: )?)?(?:((?:Eval|Internal|Range|Reference|Syntax|Type|URI|)Error): )?(.*)$/
 const globalVar = {

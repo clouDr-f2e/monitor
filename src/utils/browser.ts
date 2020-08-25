@@ -1,8 +1,9 @@
-import { EVENTTYPES, ERRORTYPES, ERRORLEVELS } from '@/common'
+import { EVENTTYPES, ERRORTYPES } from '@/common'
 import { getLocationHref, getTimestamp } from './helpers'
 import { setFlag } from './global'
 import { InitOptions } from '@/types/options'
 import { ReportDataType } from '@/types/transportData'
+import { Severity } from './Severity'
 
 /**
  * 获取当前script标签的apiKey属性值
@@ -76,7 +77,7 @@ export function setSilentFlag(opitons: InitOptions = {}): void {
 }
 
 // 复用老的sdk，用来解析error的stack，并返回args、column、line、func、url:
-export function extractErrorStack(ex: any, level: ERRORLEVELS): ReportDataType {
+export function extractErrorStack(ex: any, level: Severity): ReportDataType {
   const normal = {
     time: getTimestamp(),
     url: getLocationHref(),
@@ -160,7 +161,6 @@ export function extractErrorStack(ex: any, level: ERRORLEVELS): ReportDataType {
   if (!stack.length) {
     return null
   }
-
   return {
     ...normal,
     stack: stack

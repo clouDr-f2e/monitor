@@ -1,5 +1,5 @@
 import { MITOHttp } from './replace'
-import { BREADCRUMBTYPES, ERRORTYPES, globalVar, ERRORLEVELS, ERROR_TYPE_RE } from '@/common'
+import { BREADCRUMBTYPES, ERRORTYPES, globalVar, ERROR_TYPE_RE } from '@/common'
 import { resourceTransform, httpTransform } from './transformData'
 import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
@@ -64,7 +64,7 @@ const HandleEvents = {
     const { message, filename, lineno, colno, error } = errorEvent
     let result: ReportDataType
     if (error && isError(error)) {
-      result = extractErrorStack(error, ERRORLEVELS.HIGH)
+      result = extractErrorStack(error, Severity.High)
     } else {
       let name: string | ERRORTYPES = ERRORTYPES.UNKNOWN
       const url = filename || getLocationHref()
@@ -85,7 +85,7 @@ const HandleEvents = {
         url,
         name,
         message: msg,
-        level: ERRORLEVELS.NORMAL,
+        level: Severity.Normal,
         time: getTimestamp(),
         stack: [element]
       }
@@ -134,12 +134,12 @@ const HandleEvents = {
       url: getLocationHref(),
       name: ev.type,
       time: getTimestamp(),
-      level: ERRORLEVELS.NORMAL
+      level: Severity.Normal
     }
     if (isError(ev.reason)) {
       data = {
         ...data,
-        ...extractErrorStack(ev.reason, ERRORLEVELS.NORMAL)
+        ...extractErrorStack(ev.reason, Severity.Normal)
       }
     }
     breadcrumb.push({

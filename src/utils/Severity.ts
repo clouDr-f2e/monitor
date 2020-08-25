@@ -1,20 +1,14 @@
-import { EVENTTYPES } from '@/common'
-
-/** JSDoc */
+/** 等级程度枚举 */
 export enum Severity {
-  /** JSDoc */
   Else = 'else',
-  /** JSDoc */
   Error = 'error',
-  /** JSDoc */
   Warning = 'warning',
-  /** JSDoc */
   Info = 'info',
-  /** JSDoc */
   Debug = 'debug',
-  /** JSDoc */
-  NORMAL = 'normal',
-  HIGH = 'high',
+  /** 上报的错误等级 */
+  Low = 'low',
+  Normal = 'normal',
+  High = 'high',
   Critical = 'critical'
 }
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -36,14 +30,12 @@ export namespace Severity {
       case 'warn':
       case 'warning':
         return Severity.Warning
-      case '1':
-      case '2':
-      case '3':
-      case '4':
+      case Severity.Low:
+      case Severity.Normal:
+      case Severity.High:
+      case Severity.Critical:
       case 'error':
         return Severity.Error
-      case 'critical':
-        return Severity.Critical
       default:
         return Severity.Else
     }

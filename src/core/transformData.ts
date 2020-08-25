@@ -1,9 +1,10 @@
 import { MITOHttp } from './replace'
-import { ERRORTYPES, ERRORLEVELS } from '@/common'
+import { ERRORTYPES } from '@/common'
 import { getLocationHref, getTimestamp } from 'utils'
 import { ResourceErrorTarget } from './handleEvents'
 import { ReportDataType } from '@/types/transportData'
 import { globalVar } from '@/common'
+import { Severity } from '@/utils/Severity'
 
 export function httpTransform(data: MITOHttp): ReportDataType {
   let description = data.responseText
@@ -15,7 +16,7 @@ export function httpTransform(data: MITOHttp): ReportDataType {
     url: getLocationHref(),
     time: data.time,
     elapsedTime: data.elapsedTime,
-    level: ERRORLEVELS.HIGH,
+    level: Severity.High,
     request: {
       httpType: data.type,
       method: data.method,
@@ -40,7 +41,7 @@ export function resourceTransform(target: ResourceErrorTarget): ReportDataType {
     type: ERRORTYPES.RESOURCE_ERROR,
     url: getLocationHref(),
     message: '资源地址: ' + (target.src || target.href),
-    level: ERRORLEVELS.LOW,
+    level: Severity.Low,
     time: getTimestamp(),
     name: `${resourceMap[target.localName] || target.localName} failed to load`
   }
