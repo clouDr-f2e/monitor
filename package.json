@@ -8,7 +8,8 @@
     "build": "IGNORE=localDebug rollup --config",
     "watch:example": "INCLUDE=examplePackage rollup --config --watch",
     "watch:groot": "INCLUDE=localDebug rollup  --config --watch",
-    "watch": "rollup --config --watch"
+    "watch": "rollup --config --watch",
+    "run:example": "node examples/index.js"
   },
   "author": "chenjinhuo",
   "repository": {
@@ -45,6 +46,7 @@
     "cz-conventional-changelog": "^3.2.0",
     "eslint": "^7.4.0",
     "eslint-plugin-html": "^6.0.2",
+    "express": "^4.17.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
