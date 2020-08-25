@@ -5,10 +5,10 @@
   "main": "/dist/mito.js",
   "types": "/dist/types/index.d.ts",
   "scripts": {
-    "build": "IGNORE=localDebug rollup --config",
-    "watch:example": "INCLUDE=examplePackage rollup --config --watch",
-    "watch:groot": "INCLUDE=localDebug rollup  --config --watch",
-    "watch": "rollup --config --watch",
+    "build": "cross-env IGNORE=localDebug rollup --config",
+    "watch:example": "cross-env INCLUDE=examplePackage rollup --config --watch",
+    "watch:groot": "cross-env INCLUDE=localDebug rollup  --config --watch",
+    "watch": "cross-env rollup --config --watch",
     "run:example": "node examples/index.js"
   },
   "author": "chenjinhuo",
@@ -43,6 +43,7 @@
     "@types/node-fetch": "^2.5.7",
     "@typescript-eslint/eslint-plugin": "^3.6.1",
     "@typescript-eslint/parser": "^3.6.1",
+    "cross-env": "^7.0.2",
     "cz-conventional-changelog": "^3.2.0",
     "eslint": "^7.4.0",
     "eslint-plugin-html": "^6.0.2",
