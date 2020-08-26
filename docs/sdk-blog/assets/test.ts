@@ -7,7 +7,7 @@
       // push到行为栈
       breadcrumb.push({...})
       // 上报错误
-      return transportData.xhrPost(data)
+      return transportData.send(data)
     }
     // 代码错误
   }

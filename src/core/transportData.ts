@@ -82,6 +82,9 @@ export class TransportData {
     validateOption(beforeSend, 'beforeSend', 'function') && (this.beforeSend = beforeSend)
     validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr)
   }
+  send(data: ReportDataType | Record<string, unknown>): void {
+    this.xhrPost(<ReportDataType>data)
+  }
 }
 const transportData = _support.transportData || (_support.transportData = new TransportData(SERVER_URL))
 export { transportData }

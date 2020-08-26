@@ -35,7 +35,7 @@ const HandleEvents = {
         level: Severity.Error
       })
       const result = httpTransform(data)
-      transportData.xhrPost(result)
+      transportData.send(result)
     } else {
       // todo 需要加个hook，传入参数为请求的响应体
       // data.responseText
@@ -58,7 +58,7 @@ const HandleEvents = {
         level: Severity.Error
       })
       // 上报错误
-      return transportData.xhrPost(data)
+      return transportData.send(data)
     }
     // code error
     const { message, filename, lineno, colno, error } = errorEvent
@@ -97,7 +97,7 @@ const HandleEvents = {
       data: result,
       level: Severity.Error
     })
-    transportData.xhrPost(result)
+    transportData.send(result)
   },
   handleHistory(data: { [key: string]: any }): void {
     const { from, to } = data
@@ -148,7 +148,7 @@ const HandleEvents = {
       data: data,
       level: Severity.Error
     })
-    transportData.xhrPost(data)
+    transportData.send(data)
   },
   handleConsole(data: Replace.TriggerConsole): void {
     if (globalVar.isLogAddBreadcrumb) {

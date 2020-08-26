@@ -33,5 +33,5 @@ export function handleVueError(err: Error, vm: ViewModel, info: string, level: S
     data,
     level: breadcrumbLevel
   })
-  transportData.xhrPost(data)
+  transportData.send(data)
 }

@@ -32,5 +32,5 @@ export function log({ info = 'emptyMsg', level = Severity.Critical, ex = '', typ
     data: info,
     level: Severity.fromString(level.toString())
   })
-  transportData.xhrPost(error)
+  transportData.send(error)
 }
