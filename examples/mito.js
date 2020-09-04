@@ -629,7 +629,7 @@ var MITO = (function () {
     getTransportData(data) {
       return {
         authInfo: this.getAuthInfo(),
-        behavior: breadcrumb.getStack(),
+        breadcrumb: breadcrumb.getStack(),
         data,
         record: this.getRecord()
       }

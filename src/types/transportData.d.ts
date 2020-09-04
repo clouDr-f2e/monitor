@@ -8,7 +8,7 @@ export interface AuthInfo {
 
 export interface TransportDataType {
   authInfo: AuthInfo
-  behavior: BreadcrumbPushData[]
+  breadcrumb: BreadcrumbPushData[]
   data: ReportDataType
   record?: any[]
 }
