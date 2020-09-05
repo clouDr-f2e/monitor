@@ -18,7 +18,8 @@ export class TransportData {
   private queue: Queue
   private beforeSend: unknown = null
   private configXhr: unknown = null
-  private version = '0.0.0'
+  // 需要根据当前sdk的地址
+  private sdkVersion = '1.0.0'
   private apikey = ''
   constructor(public url: string) {
     this.queue = new Queue()
@@ -59,7 +60,7 @@ export class TransportData {
   }
   getAuthInfo(): AuthInfo {
     return {
-      version: this.version,
+      sdkVersion: this.sdkVersion,
       apikey: this.apikey
     }
   }
@@ -78,7 +79,6 @@ export class TransportData {
     const { dsn, beforeSend, apikey, configXhr } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
     validateOption(dsn, 'dsn', 'string') && (this.url = dsn)
-    // validateOption(version, 'version', 'string') && (this.version = version)
     validateOption(beforeSend, 'beforeSend', 'function') && (this.beforeSend = beforeSend)
     validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr)
   }

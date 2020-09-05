@@ -3,7 +3,7 @@ import { BreadcrumbPushData } from './breadcrumb'
 
 export interface AuthInfo {
   apikey: string
-  version: string
+  sdkVersion: string
 }
 
 export interface TransportDataType {
