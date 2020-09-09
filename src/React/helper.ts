@@ -5,6 +5,24 @@ import { breadcrumb, transportData } from 'core'
 import { ReportDataType } from '@/types/transportData'
 import { Severity } from '@/utils/Severity'
 
-function formatComponent(vm) {}
-
-export function handleReactError(err: Error, vm, info: string, level: Severity, breadcrumbLevel: Severity): void {}
+export function handleReactError(err: Error, vm, info: string, level: Severity, breadcrumbLevel: Severity): void {
+  const propsData = Object.assign(vm.props, vm.state)
+  const data: ReportDataType = {
+    type: ERRORTYPES.REACT_ERROR,
+    message: `${err.message}(${info})`,
+    level,
+    url: getLocationHref(),
+    componentName: vm,
+    propsData: propsData || '',
+    name: err.name,
+    stack: err.stack || [],
+    time: getTimestamp()
+  }
+  breadcrumb.push({
+    type: BREADCRUMBTYPES.REACT,
+    category: breadcrumb.getCategory(BREADCRUMBTYPES.REACT),
+    data,
+    level: breadcrumbLevel
+  })
+  transportData.xhrPost(data)
+}

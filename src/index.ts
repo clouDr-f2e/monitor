@@ -1,4 +1,5 @@
 import { MitoVue } from './Vue/index'
+import { MitoReact } from './React/index'
 import { setupReplace } from './load'
 import { breadcrumb, transportData, log } from 'core'
 import { logger, setSilentFlag } from 'utils'
@@ -17,4 +18,4 @@ function bindOptions(options: InitOptions = {}) {
   transportData.bindOptions(options)
 }
 
-export default { MitoVue, SDK_VERSION, SDK_NAME, init, log }
+export default { MitoVue, MitoReact, SDK_VERSION, SDK_NAME, init, log }
