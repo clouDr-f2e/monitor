@@ -98,7 +98,7 @@ interface ReportDataType {
   componentName?: string
   propsData?: any
   // logerror
-  info?: string
+  customTag?: string
 }
 ```
 

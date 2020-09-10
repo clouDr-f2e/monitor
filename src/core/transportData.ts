@@ -46,7 +46,7 @@ export class TransportData {
       }
       const xhr = new XMLHttpRequest()
       xhr.open('POST', this.url)
-      xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8')
+      xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
       xhr.withCredentials = true
       if (typeof this.configXhr === 'function') {
         this.configXhr(xhr)
@@ -59,10 +59,16 @@ export class TransportData {
     this.queue.addFn(requestFun)
   }
   getAuthInfo(): AuthInfo {
+    const trackerId = this.getTrackerId()
     return {
+      trackerId,
       sdkVersion: this.sdkVersion,
       apikey: this.apikey
     }
+  }
+  getTrackerId(): string {
+    // 从app端获取id没有的话就设置到localstorage
+    return String(Math.random() * 10)
   }
   getTransportData(data: ReportDataType): TransportDataType {
     return {

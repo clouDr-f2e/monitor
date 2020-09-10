@@ -9,13 +9,14 @@ interface LogTypes {
   level: Severity
   info: string
   ex: any
+  tag: string
   type: ERRORTYPES
 }
 
 /**
  * 自定义上报事件
  */
-export function log({ info = 'emptyMsg', level = Severity.Critical, ex = '', type = ERRORTYPES.BUSINESS_ERROR }: LogTypes): void {
+export function log({ info = 'emptyMsg', tag = '', level = Severity.Critical, ex = '', type = ERRORTYPES.BUSINESS_ERROR }: LogTypes): void {
   let errorInfo = {}
   if (isError(ex)) {
     errorInfo = extractErrorStack(ex, level)
@@ -23,8 +24,9 @@ export function log({ info = 'emptyMsg', level = Severity.Critical, ex = '', typ
   const error = {
     ...errorInfo,
     type,
-    info,
+    customInfo: info,
     level,
+    custmerTag: tag,
     url: getLocationHref()
   }
   breadcrumb.push({

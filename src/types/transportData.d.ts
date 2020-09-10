@@ -4,6 +4,7 @@ import { BreadcrumbPushData } from './breadcrumb'
 export interface AuthInfo {
   apikey: string
   sdkVersion: string
+  trackerId: string
 }
 
 export interface TransportDataType {
@@ -39,5 +40,6 @@ export interface ReportDataType {
   componentName?: string
   propsData?: any
   // logError 手动报错 MITO.log
-  info?: string
+  customTag?: string
+  customInfo?: string
 }
