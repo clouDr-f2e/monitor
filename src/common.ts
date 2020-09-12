@@ -10,6 +10,7 @@ export enum ERRORTYPES {
   LOG_ERROR = 'LOG_ERROR',
   FETCH_ERROR = 'HTTP_ERROR',
   VUE_ERROR = 'VUE_ERROR',
+  REACT_ERROR = 'REACT_ERROR',
   RESOURCE_ERROR = 'RESOURCE_ERROR',
   PROMISE_ERROR = 'PROMISE_ERROR'
 }
@@ -24,6 +25,7 @@ export enum BREADCRUMBTYPES {
   FETCH = 'Fetch',
   UNHANDLEDREJECTION = 'Unhandledrejection',
   VUE = 'Vue',
+  REACT = 'React',
   RESOURCE = 'Resource',
   CODE_ERROR = 'Code Error',
   CUSTOMER = 'Customer'
@@ -51,7 +53,8 @@ export enum EVENTTYPES {
   HASHCHANGE = 'hashchange',
   UNHANDLEDREJECTION = 'unhandledrejection',
   MITO = 'mito',
-  VUE = 'Vue'
+  VUE = 'Vue',
+  REACT = 'React'
 }
 
 export enum HTTPTYPE {
