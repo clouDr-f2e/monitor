@@ -27,7 +27,7 @@ const esmPackage = {
 const localDebug = {
   input: 'src/index.ts',
   output: {
-    file: '/Users/ks/Desktop/groot/groot-front/src/bundle.js',
+    file: '/Users/ks/Desktop/tryCatch/github/mito-vue-demo/src/bundle.js',
     format: 'esm',
     name: 'MITO',
     context: 'window'
