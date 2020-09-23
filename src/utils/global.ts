@@ -31,7 +31,7 @@ export function getGlobal<T>(): T & MITOGlobal {
 }
 
 const _global = getGlobal<Window>()
-const _support = geGlobaltMitoSupport()
+const _support = getGlobalMitoSupport()
 
 export { _global, _support }
 
@@ -51,7 +51,7 @@ export function getFlag(replaceType: EVENTTYPES): boolean {
  *
  * @returns global variable of MITO
  */
-export function geGlobaltMitoSupport(): MitoSupport {
+export function getGlobalMitoSupport(): MitoSupport {
   _global.__MITO__ = _global.__MITO__ || ({} as MitoSupport)
   return _global.__MITO__
 }

@@ -337,11 +337,11 @@ function domReplace(): void {
     originalAddEventListener
   ): (eventName: string, fn: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) => void {
     return function (this: any, eventName: string, fn: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
-      const wrapperListner = (...args) => {
+      const wrapperListener = (...args) => {
         try {
           return (fn as Function).apply(this, args)
         } catch (error) {
-          console.log('wrapperListner', error)
+          console.log('wrapperListener', error)
           throw error
         }
       }
@@ -362,7 +362,7 @@ function domReplace(): void {
       //   default:
       //     break
       // }
-      return originalAddEventListener.call(this, eventName, wrapperListner, options)
+      return originalAddEventListener.call(this, eventName, wrapperListener, options)
     }
   })
 }

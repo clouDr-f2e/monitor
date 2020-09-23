@@ -64,7 +64,7 @@ var MITO = (function () {
     return isNodeEnv() ? global : typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : {}
   }
   const _global = getGlobal()
-  const _support = geGlobaltMitoSupport()
+  const _support = getGlobalMitoSupport()
   _support.replaceFlag = _support.replaceFlag || {}
   const replaceFlag = _support.replaceFlag
   function setFlag(replaceType, isSet) {
@@ -74,7 +74,7 @@ var MITO = (function () {
   function getFlag(replaceType) {
     return replaceFlag[replaceType] ? true : false
   }
-  function geGlobaltMitoSupport() {
+  function getGlobalMitoSupport() {
     _global.__MITO__ = _global.__MITO__ || {}
     return _global.__MITO__
   }
@@ -1009,15 +1009,15 @@ var MITO = (function () {
     }
     replaceOld(proto, 'addEventListener', function (originalAddEventListener) {
       return function (eventName, fn, options) {
-        const wrapperListner = (...args) => {
+        const wrapperListener = (...args) => {
           try {
             return fn.apply(this, args)
           } catch (error) {
-            console.log('wrapperListner', error)
+            console.log('wrapperListener', error)
             throw error
           }
         }
-        return originalAddEventListener.call(this, eventName, wrapperListner, options)
+        return originalAddEventListener.call(this, eventName, wrapperListener, options)
       }
     })
   }
