@@ -2,6 +2,7 @@ import { EVENTTYPES } from '@/common'
 import { TransportData } from '@/core/transportData'
 import { Breadcrumb } from '@/core/breadcrumb'
 import { Logger } from './logger'
+import { Options } from '@/core/options'
 
 // MITO的全局变量
 export interface MitoSupport {
@@ -10,6 +11,7 @@ export interface MitoSupport {
   transportData: TransportData
   replaceFlag: { [key in EVENTTYPES]?: boolean }
   record?: any[]
+  options?: Options
 }
 
 interface MITOGlobal {

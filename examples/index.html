@@ -8,7 +8,10 @@
   <script>
     MITO.init({
       debug: 'true',
-      maxBreadcrumbs: 10
+      maxBreadcrumbs: 10,
+      beforeAjaxSend(config, xhr) {
+        console.log(config, xhr)
+      }
     })
   </script>
 

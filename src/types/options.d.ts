@@ -1,7 +1,15 @@
 import { Breadcrumb } from '@/core/breadcrumb'
+import { MITOXMLHttpRequest } from 'core'
 import { BreadcrumbPushData } from './breadcrumb'
 import { ReportDataType } from './transportData'
 type CANCEL = null | undefined | boolean
+
+type IMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
+
+interface IRequestHeaderConfig {
+  url: IMethod
+  method: string
+}
 export interface InitOptions extends SilentEventTypes, HooksTypes {
   /**
    * dsn服务器地址
@@ -64,6 +72,11 @@ export interface HooksTypes {
    * @returns 如果返回 null | undefined | boolean 时，将忽略本次的上传
    */
   afterSuccessHttp?<T>(data: T): string | CANCEL
+  /**
+   * 在发布ajax请求前自行
+   * @param config 当前请求的
+   */
+  beforeAjaxSend?(config: IRequestHeaderConfig, xhr: MITOXMLHttpRequest): void
 }
 
 export interface SilentEventTypes {

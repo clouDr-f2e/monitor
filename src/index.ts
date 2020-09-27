@@ -4,6 +4,7 @@ import { breadcrumb, transportData, log } from 'core'
 import { logger, setSilentFlag } from 'utils'
 import { SDK_VERSION, SDK_NAME } from './config'
 import { InitOptions } from './types/options'
+import { options as initOptions } from '@/core/options'
 function init(options: InitOptions = {}): void {
   if (options.disabled) return
   bindOptions(options)
@@ -15,6 +16,7 @@ function bindOptions(options: InitOptions = {}) {
   breadcrumb.bindOptions(options)
   logger.bindOptions(options.debug)
   transportData.bindOptions(options)
+  initOptions.bindOptions(options)
 }
 
 export default { MitoVue, SDK_VERSION, SDK_NAME, init, log }

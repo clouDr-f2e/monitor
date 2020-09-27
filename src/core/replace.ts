@@ -16,6 +16,7 @@ import {
 import { voidFun, EVENTTYPES, HTTPTYPE } from '@/common'
 import { transportData } from './transportData'
 import { logger } from '@/utils/logger'
+import { options } from './options'
 
 export interface MITOHttp {
   type: HTTPTYPE
@@ -148,6 +149,9 @@ function xhrReplace(): void {
     'send',
     (originalSend: voidFun): voidFun => {
       return function (this: MITOXMLHttpRequest, ...args: any[]): void {
+        // beforeAjaxSend hook
+        const { method, url } = this.mito_xhr
+        options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, this)
         on(this, 'loadend', function (this: MITOXMLHttpRequest) {
           if (this.mito_xhr.isSdkUrl) return
           this.mito_xhr.reqData = args[0]

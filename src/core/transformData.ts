@@ -16,7 +16,7 @@ export function httpTransform(data: MITOHttp): ReportDataType {
     url: getLocationHref(),
     time: data.time,
     elapsedTime: data.elapsedTime,
-    level: Severity.High,
+    level: Severity.Normal,
     request: {
       httpType: data.type,
       method: data.method,

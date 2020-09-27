@@ -42,6 +42,7 @@ export class TransportData {
       }
       if (typeof this.beforeSend === 'function') {
         data = this.beforeSend(data)
+        // todo 加个判断 如果格式符合标准就不上传
         if (!data) return
       }
       const xhr = new XMLHttpRequest()
