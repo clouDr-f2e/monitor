@@ -28,6 +28,10 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
    */
   debug?: boolean
   /**
+   * 默认是开启traceId，每个请求都会生成一个uuid，放入请求头中
+   */
+  disableTraceId?: boolean
+  /**
    * 忽视某些错误不上传
    */
   // ignoreErrors?: Array<string | RegExp>
@@ -39,12 +43,11 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
   attachStacktrace?: boolean
   /** Maxium number of chars a single value can have before it will be truncated. */
   maxValueLength?: number
-  // todo 每个错误或者每个平台 分成多个store、一个总store，查询事件需要到单独的store里面去获取
-  // tags: any[{version: '1.0.0', dev: 'dev',}]
 }
 
 export interface HooksTypes {
   /**
+   * 钩子函数，配置发送到服务端的xhr
    * 可以对当前xhr实例做一些配置：xhr.setRequestHeader()、xhr.withCredentials
    * 会在xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8')、
    * xhr.withCredentials = true,后面调用该函数
@@ -73,10 +76,16 @@ export interface HooksTypes {
    */
   afterSuccessHttp?<T>(data: T): string | CANCEL
   /**
-   * 在发布ajax请求前自行
+   * 钩子函数，拦截用户页面的ajax请求，并在ajax请求发送前执行该hook，可以对用户发送的ajax请求做xhr.setRequestHeader
    * @param config 当前请求的
    */
   beforeAjaxSend?(config: IRequestHeaderConfig, xhr: MITOXMLHttpRequest): void
+
+  /**
+   * 钩子函数，在beforeSend后面调用，在整合上报数据和本身SDK信息数据前调用，当前函数执行完后立即将数据错误信息上报至服务端
+   * trackerId表示用户唯一键（可以理解成userId），需要trackerId的意义可以区分每个错误影响的用户数量
+   */
+  backTrackerId?(): string | number
 }
 
 export interface SilentEventTypes {

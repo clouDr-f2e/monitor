@@ -3,10 +3,14 @@ import { validateOption, _support } from 'utils'
 
 export class Options {
   beforeAjaxSend: any = null
-  constructor() {}
+  disableTraceId = false
+  constructor() {
+    this.disableTraceId = false
+  }
   bindOptions(options: InitOptions = {}): void {
-    const { beforeAjaxSend } = options
+    const { beforeAjaxSend, disableTraceId } = options
     validateOption(beforeAjaxSend, 'beforeAjaxSend', 'function') && (this.beforeAjaxSend = beforeAjaxSend)
+    validateOption(disableTraceId, 'disableTraceId', 'boolean') && (this.disableTraceId = disableTraceId)
   }
 }
 

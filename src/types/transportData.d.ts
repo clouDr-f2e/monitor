@@ -27,6 +27,7 @@ export interface ReportDataType {
   elapsedTime?: number
   request?: {
     httpType?: string
+    traceId?: string
     method: string
     url: string
     data: any

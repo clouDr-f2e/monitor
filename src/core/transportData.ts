@@ -1,4 +1,4 @@
-import { _support, validateOption } from 'utils'
+import { _support, validateOption, generateUUID, logger } from 'utils'
 import { splitObjToQuery, Queue } from 'utils'
 import createErrorId from '@/core/errorId'
 import { SERVER_URL } from '@/config'
@@ -17,6 +17,7 @@ export class TransportData {
   static img = new Image()
   private queue: Queue
   private beforeSend: unknown = null
+  private backTrackerId: InitOptions | unknown = null
   private configXhr: unknown = null
   // 需要根据当前sdk的地址
   private sdkVersion = '1.0.0'
@@ -62,14 +63,32 @@ export class TransportData {
   getAuthInfo(): AuthInfo {
     const trackerId = this.getTrackerId()
     return {
-      trackerId,
+      trackerId: String(trackerId),
       sdkVersion: this.sdkVersion,
       apikey: this.apikey
     }
   }
-  getTrackerId(): string {
-    // 从app端获取id没有的话就设置到localstorage
-    return String(Math.random() * 10)
+  getTrackerId(): string | number {
+    // 从外部获取trackerId，如果没有就自己设置一个到localstorage，下次进来时获取
+    if (typeof this.backTrackerId === 'function') {
+      const trackerId = this.backTrackerId()
+      if (typeof trackerId === 'string' || typeof trackerId === 'number') {
+        return trackerId
+      } else {
+        logger.error(`trackerId:${trackerId} 期望 string 或 number 类型，但是传入 ${typeof trackerId}类型，使用trackerId，已写入localStorage`)
+        return this.getLocalStorageTrackerId()
+      }
+    }
+    return this.getLocalStorageTrackerId()
+  }
+  getLocalStorageTrackerId(): string {
+    let trakcerId = localStorage.getItem('mito-trackerId')
+    if (trakcerId) {
+      return trakcerId
+    }
+    trakcerId = generateUUID()
+    localStorage.setItem('mito-trackerId', trakcerId)
+    return trakcerId
   }
   getTransportData(data: ReportDataType): TransportDataType {
     return {
@@ -83,11 +102,12 @@ export class TransportData {
     return targetUrl.includes(this.url)
   }
   bindOptions(options: InitOptions = {}): void {
-    const { dsn, beforeSend, apikey, configXhr } = options
+    const { dsn, beforeSend, apikey, configXhr, backTrackerId } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
     validateOption(dsn, 'dsn', 'string') && (this.url = dsn)
     validateOption(beforeSend, 'beforeSend', 'function') && (this.beforeSend = beforeSend)
     validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr)
+    validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId)
   }
   send(data: ReportDataType | Record<string, unknown>): void {
     this.xhrPost(<ReportDataType>data)

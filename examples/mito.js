@@ -189,6 +189,15 @@ var MITO = (function () {
       callback();
       globalVar.isLogAddBreadcrumb = true;
   }
+  function generateUUID() {
+      let d = new Date().getTime();
+      const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+          const r = (d + Math.random() * 16) % 16 | 0;
+          d = Math.floor(d / 16);
+          return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
+      });
+      return uuid;
+  }
 
   function htmlElementAsString(target) {
       const tagName = target.tagName.toLowerCase();
@@ -594,6 +603,7 @@ var MITO = (function () {
       constructor(url) {
           this.url = url;
           this.beforeSend = null;
+          this.backTrackerId = null;
           this.configXhr = null;
           this.sdkVersion = '1.0.0';
           this.apikey = '';
@@ -637,13 +647,32 @@ var MITO = (function () {
       getAuthInfo() {
           const trackerId = this.getTrackerId();
           return {
-              trackerId,
+              trackerId: String(trackerId),
               sdkVersion: this.sdkVersion,
               apikey: this.apikey
           };
       }
       getTrackerId() {
-          return String(Math.random() * 10);
+          if (typeof this.backTrackerId === 'function') {
+              const trackerId = this.backTrackerId();
+              if (typeof trackerId === 'string' || typeof trackerId === 'number') {
+                  return trackerId;
+              }
+              else {
+                  logger.error(`trackerId:${trackerId} 期望 string 或 number 类型，但是传入 ${typeof trackerId}类型，使用trackerId，已写入localStorage`);
+                  return this.getLocalStorageTrackerId();
+              }
+          }
+          return this.getLocalStorageTrackerId();
+      }
+      getLocalStorageTrackerId() {
+          let trakcerId = localStorage.getItem('mito-trackerId');
+          if (trakcerId) {
+              return trakcerId;
+          }
+          trakcerId = generateUUID();
+          localStorage.setItem('mito-trackerId', trakcerId);
+          return trakcerId;
       }
       getTransportData(data) {
           return {
@@ -657,11 +686,12 @@ var MITO = (function () {
           return targetUrl.includes(this.url);
       }
       bindOptions(options = {}) {
-          const { dsn, beforeSend, apikey, configXhr } = options;
+          const { dsn, beforeSend, apikey, configXhr, backTrackerId } = options;
           validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey);
           validateOption(dsn, 'dsn', 'string') && (this.url = dsn);
           validateOption(beforeSend, 'beforeSend', 'function') && (this.beforeSend = beforeSend);
           validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr);
+          validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId);
       }
       send(data) {
           this.xhrPost(data);
@@ -672,7 +702,7 @@ var MITO = (function () {
 
   const HandleEvents = {
       handleHttp(data, type) {
-          const isError = data.status >= 400 || data.status === 0;
+          const isError = data.status >= 402 || data.status === 0;
           breadcrumb.push({
               type,
               category: breadcrumb.getCategory(type),
@@ -807,10 +837,13 @@ var MITO = (function () {
   class Options {
       constructor() {
           this.beforeAjaxSend = null;
+          this.disableTraceId = false;
+          this.disableTraceId = false;
       }
       bindOptions(options = {}) {
-          const { beforeAjaxSend } = options;
+          const { beforeAjaxSend, disableTraceId } = options;
           validateOption(beforeAjaxSend, 'beforeAjaxSend', 'function') && (this.beforeAjaxSend = beforeAjaxSend);
+          validateOption(disableTraceId, 'disableTraceId', 'boolean') && (this.disableTraceId = disableTraceId);
       }
   }
   const options = _support.options || (_support.options = new Options());
@@ -890,6 +923,11 @@ var MITO = (function () {
       replaceOld(originalXhrProto, 'send', (originalSend) => {
           return function (...args) {
               const { method, url } = this.mito_xhr;
+              if (!options.disableTraceId) {
+                  const traceId = generateUUID();
+                  this.mito_xhr.trackerId = traceId;
+                  this.setRequestHeader('Trace-Id', traceId);
+              }
               options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, this);
               on(this, 'loadend', function () {
                   if (this.mito_xhr.isSdkUrl)

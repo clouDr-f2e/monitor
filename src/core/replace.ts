@@ -11,7 +11,8 @@ import {
   setFlag,
   getFlag,
   getLocationHref,
-  isExistProperty
+  isExistProperty,
+  generateUUID
 } from 'utils'
 import { voidFun, EVENTTYPES, HTTPTYPE } from '@/common'
 import { transportData } from './transportData'
@@ -20,6 +21,7 @@ import { options } from './options'
 
 export interface MITOHttp {
   type: HTTPTYPE
+  trackerId?: string
   method?: string
   url?: string
   status?: number
@@ -149,8 +151,13 @@ function xhrReplace(): void {
     'send',
     (originalSend: voidFun): voidFun => {
       return function (this: MITOXMLHttpRequest, ...args: any[]): void {
-        // beforeAjaxSend hook
         const { method, url } = this.mito_xhr
+        if (!options.disableTraceId) {
+          const traceId = generateUUID()
+          this.mito_xhr.trackerId = traceId
+          this.setRequestHeader('Trace-Id', traceId)
+        }
+        // beforeAjaxSend hook
         options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, this)
         on(this, 'loadend', function (this: MITOXMLHttpRequest) {
           if (this.mito_xhr.isSdkUrl) return

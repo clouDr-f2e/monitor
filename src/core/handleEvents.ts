@@ -20,7 +20,8 @@ const HandleEvents = {
    */
   handleHttp(data: MITOHttp, type: BREADCRUMBTYPES): void {
     // todo 是否需要加接口超过两秒的判断
-    const isError = data.status >= 400 || data.status === 0
+    // 401 表示未授权
+    const isError = data.status >= 402 || data.status === 0
     breadcrumb.push({
       type,
       category: breadcrumb.getCategory(type),
