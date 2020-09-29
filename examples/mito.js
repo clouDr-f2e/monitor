@@ -178,8 +178,17 @@ var MITO = (function () {
   function typeofAny(target, type) {
       return typeof target === type;
   }
+  function toStringAny(target, type) {
+      return Object.prototype.toString.call(target) === type;
+  }
   function validateOption(target, targetName, expectType) {
       if (typeofAny(target, expectType))
+          return true;
+      typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${typeof target}类型`);
+      return false;
+  }
+  function toStringValidateOption(target, targetName, expectType) {
+      if (toStringAny(target, expectType))
           return true;
       typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${typeof target}类型`);
       return false;
@@ -569,6 +578,7 @@ var MITO = (function () {
           level: Severity.Normal,
           request: {
               httpType: data.type,
+              traceId: data.traceId,
               method: data.method,
               url: data.url,
               data: data.reqData || ''
@@ -576,6 +586,7 @@ var MITO = (function () {
           response: {
               status: data.status,
               statusText: data.statusText,
+              data: data.responseText || '',
               description
           }
       };
@@ -602,7 +613,7 @@ var MITO = (function () {
   class TransportData {
       constructor(url) {
           this.url = url;
-          this.beforeSend = null;
+          this.beforeDataReport = null;
           this.backTrackerId = null;
           this.configXhr = null;
           this.sdkVersion = '1.0.0';
@@ -624,8 +635,8 @@ var MITO = (function () {
               if (typeof XMLHttpRequest === 'undefined') {
                   return;
               }
-              if (typeof this.beforeSend === 'function') {
-                  data = this.beforeSend(data);
+              if (typeof this.beforeDataReport === 'function') {
+                  data = this.beforeDataReport(data);
                   if (!data)
                       return;
               }
@@ -676,10 +687,10 @@ var MITO = (function () {
           return targetUrl.includes(this.url);
       }
       bindOptions(options = {}) {
-          const { dsn, beforeSend, apikey, configXhr, backTrackerId } = options;
+          const { dsn, beforeDataReport, apikey, configXhr, backTrackerId } = options;
           validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey);
           validateOption(dsn, 'dsn', 'string') && (this.url = dsn);
-          validateOption(beforeSend, 'beforeSend', 'function') && (this.beforeSend = beforeSend);
+          validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport);
           validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr);
           validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId);
       }
@@ -826,14 +837,15 @@ var MITO = (function () {
 
   class Options {
       constructor() {
-          this.beforeAjaxSend = null;
-          this.disableTraceId = false;
-          this.disableTraceId = false;
+          this.traceIdFieldName = 'Trace-Id';
+          this.enableTraceId = false;
       }
       bindOptions(options = {}) {
-          const { beforeAjaxSend, disableTraceId } = options;
+          const { beforeAjaxSend, enableTraceId, filterXhrUrlRegExp, traceIdFieldName } = options;
           validateOption(beforeAjaxSend, 'beforeAjaxSend', 'function') && (this.beforeAjaxSend = beforeAjaxSend);
-          validateOption(disableTraceId, 'disableTraceId', 'boolean') && (this.disableTraceId = disableTraceId);
+          validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId);
+          validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName);
+          toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp);
       }
   }
   const options = _support.options || (_support.options = new Options());
@@ -904,23 +916,23 @@ var MITO = (function () {
                   sTime: getTimestamp(),
                   type: HTTPTYPE.XHR
               };
-              if (this.mito_xhr.method === 'POST' && transportData.isSdkTransportUrl(url)) {
-                  this.mito_xhr.isSdkUrl = true;
-              }
               originalOpen.apply(this, args);
           };
       });
       replaceOld(originalXhrProto, 'send', (originalSend) => {
           return function (...args) {
               const { method, url } = this.mito_xhr;
-              if (!options.disableTraceId) {
+              if (options.enableTraceId) {
                   const traceId = generateUUID();
                   this.mito_xhr.traceId = traceId;
-                  this.setRequestHeader('Trace-Id', traceId);
+                  this.setRequestHeader(options.traceIdFieldName, traceId);
               }
+              const setRequestHeader = this.setRequestHeader;
               options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, this);
               on(this, 'loadend', function () {
-                  if (this.mito_xhr.isSdkUrl)
+                  if (method === 'POST' && transportData.isSdkTransportUrl(url))
+                      return;
+                  if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(this.mito_xhr.url))
                       return;
                   this.mito_xhr.reqData = args[0];
                   const eTime = getTimestamp();
@@ -942,32 +954,51 @@ var MITO = (function () {
       replaceOld(_global, EVENTTYPES.FETCH, (originalFetch) => {
           return function (url, config) {
               const sTime = getTimestamp();
+              const method = (config && config.method) || 'GET';
+              let handlerData = {
+                  type: HTTPTYPE.FETCH,
+                  method,
+                  reqData: config && config.body,
+                  url
+              };
+              const headers = new Headers(config.headers || {});
+              Object.assign(headers, {
+                  setRequestHeader: headers.set
+              });
+              options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, headers);
+              config = {
+                  ...config,
+                  headers
+              };
+              console.log(config.headers);
               return originalFetch.apply(_global, [url, config]).then((res) => {
                   const tempRes = res.clone();
                   const eTime = getTimestamp();
-                  const handlerData = {
+                  handlerData = {
+                      ...handlerData,
                       elapsedTime: eTime - sTime,
-                      type: HTTPTYPE.FETCH,
-                      reqData: config && config.body,
-                      method: (config && config.method) || 'GET',
-                      url,
                       status: tempRes.status,
                       statusText: tempRes.statusText,
                       time: eTime
                   };
                   tempRes.text().then((data) => {
+                      if (method === 'POST' && transportData.isSdkTransportUrl(url))
+                          return;
+                      if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url))
+                          return;
                       handlerData.responseText = data;
                       triggerHandlers(EVENTTYPES.FETCH, handlerData);
                   });
                   return res;
               }, (err) => {
                   const eTime = getTimestamp();
-                  const handlerData = {
+                  if (method === 'POST' && transportData.isSdkTransportUrl(url))
+                      return;
+                  if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url))
+                      return;
+                  handlerData = {
+                      ...handlerData,
                       elapsedTime: eTime - sTime,
-                      type: HTTPTYPE.FETCH,
-                      method: (config && config.method) || 'GET',
-                      reqData: config && config.body,
-                      url: url,
                       status: 0,
                       statusText: err.name + err.message,
                       time: eTime

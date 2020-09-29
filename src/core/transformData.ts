@@ -19,6 +19,7 @@ export function httpTransform(data: MITOHttp): ReportDataType {
     level: Severity.Normal,
     request: {
       httpType: data.type,
+      traceId: data.traceId,
       method: data.method,
       url: data.url,
       data: data.reqData || ''
@@ -26,6 +27,7 @@ export function httpTransform(data: MITOHttp): ReportDataType {
     response: {
       status: data.status,
       statusText: data.statusText,
+      data: data.responseText || '',
       description
     }
   }

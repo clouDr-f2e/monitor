@@ -16,7 +16,7 @@ import { AuthInfo, TransportDataType, ReportDataType } from '@/types/transportDa
 export class TransportData {
   static img = new Image()
   private queue: Queue
-  private beforeSend: unknown = null
+  private beforeDataReport: unknown = null
   private backTrackerId: InitOptions | unknown = null
   private configXhr: unknown = null
   // 需要根据当前sdk的地址
@@ -41,8 +41,8 @@ export class TransportData {
       if (typeof XMLHttpRequest === 'undefined') {
         return
       }
-      if (typeof this.beforeSend === 'function') {
-        data = this.beforeSend(data)
+      if (typeof this.beforeDataReport === 'function') {
+        data = this.beforeDataReport(data)
         // todo 加个判断 如果格式符合标准就不上传
         if (!data) return
       }
@@ -92,10 +92,10 @@ export class TransportData {
     return targetUrl.includes(this.url)
   }
   bindOptions(options: InitOptions = {}): void {
-    const { dsn, beforeSend, apikey, configXhr, backTrackerId } = options
+    const { dsn, beforeDataReport, apikey, configXhr, backTrackerId } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
     validateOption(dsn, 'dsn', 'string') && (this.url = dsn)
-    validateOption(beforeSend, 'beforeSend', 'function') && (this.beforeSend = beforeSend)
+    validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport)
     validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr)
     validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId)
   }

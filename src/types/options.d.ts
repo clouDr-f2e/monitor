@@ -1,14 +1,18 @@
 import { Breadcrumb } from '@/core/breadcrumb'
-import { MITOXMLHttpRequest } from 'core'
 import { BreadcrumbPushData } from './breadcrumb'
 import { ReportDataType } from './transportData'
 type CANCEL = null | undefined | boolean
 
-type IMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
+type TMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
 interface IRequestHeaderConfig {
-  url: IMethod
+  url: TMethod
   method: string
+}
+
+type TSetRequestHeader = (key: string, value: string) => {}
+interface IBeforeAjaxSendConfig {
+  setRequestHeader: TSetRequestHeader
 }
 export interface InitOptions extends SilentEventTypes, HooksTypes {
   /**
@@ -28,9 +32,13 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
    */
   debug?: boolean
   /**
-   * 默认是开启traceId，每个请求都会生成一个uuid，放入请求头中
+   * 默认是关闭traceId，开启时，页面的所有请求都会生成一个uuid，放入请求头中
    */
-  disableTraceId?: boolean
+  enableTraceId?: boolean
+  /**
+   * traceId放入请求头中的key，默认是Trace-Id
+   */
+  traceIdFieldName?: string
   /**
    * 忽视某些错误不上传
    */
@@ -39,10 +47,10 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
    * 默认20，最大100，超过100还是设置成100
    */
   maxBreadcrumbs?: number
-  /** Attaches stacktraces to pure capture message / log integrations */
-  attachStacktrace?: boolean
-  /** Maxium number of chars a single value can have before it will be truncated. */
-  maxValueLength?: number
+  /**
+   * 默认为空，所有ajax都会被监听，不为空时，filterXhrUrlRegExp.test(xhr.url)为true时过滤
+   */
+  filterXhrUrlRegExp?: RegExp
 }
 
 export interface HooksTypes {
@@ -60,7 +68,7 @@ export interface HooksTypes {
    * @param event 有SDK生成的错误事件
    * @returns 如果返回 null | undefined | boolean 时，将忽略本次上传
    */
-  beforeSend?(event: ReportDataType): PromiseLike<Event | null> | Event | CANCEL
+  beforeDataReport?(event: ReportDataType): PromiseLike<Event | null> | Event | CANCEL
   /**
    * 钩子函数，在每次添加用户行为事件前都会调用
    *
@@ -79,7 +87,7 @@ export interface HooksTypes {
    * 钩子函数，拦截用户页面的ajax请求，并在ajax请求发送前执行该hook，可以对用户发送的ajax请求做xhr.setRequestHeader
    * @param config 当前请求的
    */
-  beforeAjaxSend?(config: IRequestHeaderConfig, xhr: MITOXMLHttpRequest): void
+  beforeAjaxSend?(config: IRequestHeaderConfig, setRequestHeader: IBeforeAjaxSendConfig): void
 
   /**
    * 钩子函数，在beforeSend后面调用，在整合上报数据和本身SDK信息数据前调用，当前函数执行完后立即将数据错误信息上报至服务端

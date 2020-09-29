@@ -54,7 +54,7 @@ MITO.init({
 | `silentUnhandledrejection` | `boolean`  | `false`                  | 默认会监控unhandledrejection，为true时，将不在监控           |
 |     `silentHashchange`     | `boolean`  | `false`                  | 默认会监控hashchange，为true时，将不在监控                   |
 |        `silentVue`         | `boolean`  | `false`                  | 默认会监控Vue的错误，为true时，将不在监控                    |
-|        `beforeSend`        | `function` | `null`                   | 钩子函数：在每次发送事件前会调，如果返回null \| undefined \| false时，将忽略本次上传 |
+|        `beforeDataReport`        | `function` | `null`                   | 钩子函数：在每次发送事件前会调，如果返回null \| undefined \| false时，将忽略本次上传 |
 |     `beforePushBreadcrumb`     | `function` | `null`                   | 钩子函数：在每次添加用户行为事件前都会调用，如果返回null \| undefined \| false时，将忽略本次的push操作 |
 
 **示例：**用户行为栈最大长度为30
@@ -68,7 +68,7 @@ MITO.init({
 
 ### hooks
 
-#### beforeSend
+#### beforeDataReport
 
 ```typescript
 function(event: ReportDataType)
@@ -107,7 +107,7 @@ interface ReportDataType {
 ```js
 MITO.init({
   ...
-  beforeSend(event){
+  beforeDataReport(event){
   	if (event.url === 'test.com/test') return false
 	}
 })

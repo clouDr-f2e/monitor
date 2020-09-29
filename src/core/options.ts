@@ -1,16 +1,20 @@
 import { InitOptions } from '@/types/options'
-import { validateOption, _support } from 'utils'
+import { toStringValidateOption, validateOption, _support } from 'utils'
 
 export class Options {
-  beforeAjaxSend: any = null
-  disableTraceId = false
+  beforeAjaxSend: Function
+  enableTraceId: Boolean
+  filterXhrUrlRegExp: RegExp
+  traceIdFieldName = 'Trace-Id'
   constructor() {
-    this.disableTraceId = false
+    this.enableTraceId = false
   }
   bindOptions(options: InitOptions = {}): void {
-    const { beforeAjaxSend, disableTraceId } = options
+    const { beforeAjaxSend, enableTraceId, filterXhrUrlRegExp, traceIdFieldName } = options
     validateOption(beforeAjaxSend, 'beforeAjaxSend', 'function') && (this.beforeAjaxSend = beforeAjaxSend)
-    validateOption(disableTraceId, 'disableTraceId', 'boolean') && (this.disableTraceId = disableTraceId)
+    validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId)
+    validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName)
+    toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp)
   }
 }
 

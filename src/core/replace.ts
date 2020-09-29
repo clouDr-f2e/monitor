@@ -124,10 +124,6 @@ function xhrReplace(): void {
           sTime: getTimestamp(),
           type: HTTPTYPE.XHR
         }
-        // 需要判断如果是监控本身自己得请求做个标记，不发送请求
-        if (this.mito_xhr.method === 'POST' && transportData.isSdkTransportUrl(url)) {
-          this.mito_xhr.isSdkUrl = true
-        }
         // this.ontimeout = function () {
         //   console.log('超时', this)
         // }
@@ -152,15 +148,17 @@ function xhrReplace(): void {
     (originalSend: voidFun): voidFun => {
       return function (this: MITOXMLHttpRequest, ...args: any[]): void {
         const { method, url } = this.mito_xhr
-        if (!options.disableTraceId) {
+        if (options.enableTraceId) {
           const traceId = generateUUID()
           this.mito_xhr.traceId = traceId
-          this.setRequestHeader('Trace-Id', traceId)
+          this.setRequestHeader(options.traceIdFieldName, traceId)
         }
-        // beforeAjaxSend hook
+        // this.setRequestHeader('app-info', '12312')
+        const setRequestHeader = this.setRequestHeader
         options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, this)
         on(this, 'loadend', function (this: MITOXMLHttpRequest) {
-          if (this.mito_xhr.isSdkUrl) return
+          if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
+          if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(this.mito_xhr.url)) return
           this.mito_xhr.reqData = args[0]
           const eTime = getTimestamp()
           this.mito_xhr.time = eTime
@@ -183,21 +181,37 @@ function fetchReplace(): void {
   replaceOld(_global, EVENTTYPES.FETCH, (originalFetch: voidFun) => {
     return function (url: string, config: Request): void {
       const sTime = getTimestamp()
+      const method = (config && config.method) || 'GET'
+      let handlerData: MITOHttp = {
+        type: HTTPTYPE.FETCH,
+        method,
+        reqData: config && config.body,
+        url
+      }
+      const headers = new Headers(config.headers || {})
+      Object.assign(headers, {
+        setRequestHeader: headers.set
+      })
+      options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, headers)
+      config = {
+        ...config,
+        headers
+      }
+      console.log(config.headers)
       return originalFetch.apply(_global, [url, config]).then(
         (res: Response) => {
           const tempRes = res.clone()
           const eTime = getTimestamp()
-          const handlerData: MITOHttp = {
+          handlerData = {
+            ...handlerData,
             elapsedTime: eTime - sTime,
-            type: HTTPTYPE.FETCH,
-            reqData: config && config.body,
-            method: (config && config.method) || 'GET',
-            url,
             status: tempRes.status,
             statusText: tempRes.statusText,
             time: eTime
           }
           tempRes.text().then((data) => {
+            if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
+            if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url)) return
             handlerData.responseText = data
             triggerHandlers(EVENTTYPES.FETCH, handlerData)
           })
@@ -205,12 +219,11 @@ function fetchReplace(): void {
         },
         (err: Error) => {
           const eTime = getTimestamp()
-          const handlerData: MITOHttp = {
+          if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
+          if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url)) return
+          handlerData = {
+            ...handlerData,
             elapsedTime: eTime - sTime,
-            type: HTTPTYPE.FETCH,
-            method: (config && config.method) || 'GET',
-            reqData: config && config.body,
-            url: url,
             status: 0,
             statusText: err.name + err.message,
             time: eTime

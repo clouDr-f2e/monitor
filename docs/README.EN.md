@@ -41,8 +41,10 @@ MITO.init()
 |         `disabled`         | `boolean` | `true`                   | 默认是开启状态，为true时，会将sdk禁用                        |
 |          `apikey`          | `string`  | `""`                     | 每个项目对应一个apikey，用于存放错误集的唯一标识             |
 |          `debug`           | `boolean` | `false`                  | 默认不会在控制台打印用户行为和错误信息，为true时将会在控台打印 |
-|         `version`          | `string`  | `0.0.0`                  | 线上版本，服务端会做数据过滤，version就是其中一环，可以在页面更好的搜索错误日志 |
+|      `enableTraceId`      | `boolean` | `false`                  | 默认关闭`traceId`，开启时，页面的所有请求都会生成一个uuid，放入请求头中      |
+| `traceIdFieldName` | `string` | `Trace-Id` | enableTraceId为true时，traceId放入请求头中的key，默认是Trace-Id |
 |      `maxBreadcrumbs`      | `number`  | `20`                     | 用户行为存放的最大容量，最大是100，当你配置超过100时，最终还是会设置成100，一方面是防止占更多的内存、一方面是保存超过100条用户行为没多大意义 |
+| `filterXhrUrlRegExp` | `RegExp` | null | 默认为空，所有ajax都会被监听，不为空时，filterXhrUrlRegExp.test(xhr.url)为true时过滤 |
 |        `silentXhr`         | `boolean` | `false`                  | 默认会监控xhr，为true时，将不再监控                          |
 |       `silentFetch`        | `boolean` | `false`                  | 默认会监控fetch，为true时，将不再监控                        |
 |      `silentConsole`       | `boolean` | `false`                  | 默认会监控console，为true时，将不再监控                      |
