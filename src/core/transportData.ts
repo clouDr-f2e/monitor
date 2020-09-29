@@ -1,4 +1,4 @@
-import { _support, validateOption, generateUUID, logger } from 'utils'
+import { _support, validateOption, logger } from 'utils'
 import { splitObjToQuery, Queue } from 'utils'
 import createErrorId from '@/core/errorId'
 import { SERVER_URL } from '@/config'
@@ -75,20 +75,10 @@ export class TransportData {
       if (typeof trackerId === 'string' || typeof trackerId === 'number') {
         return trackerId
       } else {
-        logger.error(`trackerId:${trackerId} 期望 string 或 number 类型，但是传入 ${typeof trackerId}类型，使用trackerId，已写入localStorage`)
-        return this.getLocalStorageTrackerId()
+        logger.error(`trackerId:${trackerId} 期望 string 或 number 类型，但是传入 ${typeof trackerId}`)
       }
     }
-    return this.getLocalStorageTrackerId()
-  }
-  getLocalStorageTrackerId(): string {
-    let trakcerId = localStorage.getItem('mito-trackerId')
-    if (trakcerId) {
-      return trakcerId
-    }
-    trakcerId = generateUUID()
-    localStorage.setItem('mito-trackerId', trakcerId)
-    return trakcerId
+    return ''
   }
   getTransportData(data: ReportDataType): TransportDataType {
     return {

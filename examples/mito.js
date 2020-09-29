@@ -659,20 +659,10 @@ var MITO = (function () {
                   return trackerId;
               }
               else {
-                  logger.error(`trackerId:${trackerId} 期望 string 或 number 类型，但是传入 ${typeof trackerId}类型，使用trackerId，已写入localStorage`);
-                  return this.getLocalStorageTrackerId();
+                  logger.error(`trackerId:${trackerId} 期望 string 或 number 类型，但是传入 ${typeof trackerId}`);
               }
           }
-          return this.getLocalStorageTrackerId();
-      }
-      getLocalStorageTrackerId() {
-          let trakcerId = localStorage.getItem('mito-trackerId');
-          if (trakcerId) {
-              return trakcerId;
-          }
-          trakcerId = generateUUID();
-          localStorage.setItem('mito-trackerId', trakcerId);
-          return trakcerId;
+          return '';
       }
       getTransportData(data) {
           return {
@@ -925,7 +915,7 @@ var MITO = (function () {
               const { method, url } = this.mito_xhr;
               if (!options.disableTraceId) {
                   const traceId = generateUUID();
-                  this.mito_xhr.trackerId = traceId;
+                  this.mito_xhr.traceId = traceId;
                   this.setRequestHeader('Trace-Id', traceId);
               }
               options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, this);

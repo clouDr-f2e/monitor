@@ -21,7 +21,7 @@ import { options } from './options'
 
 export interface MITOHttp {
   type: HTTPTYPE
-  trackerId?: string
+  traceId?: string
   method?: string
   url?: string
   status?: number
@@ -154,7 +154,7 @@ function xhrReplace(): void {
         const { method, url } = this.mito_xhr
         if (!options.disableTraceId) {
           const traceId = generateUUID()
-          this.mito_xhr.trackerId = traceId
+          this.mito_xhr.traceId = traceId
           this.setRequestHeader('Trace-Id', traceId)
         }
         // beforeAjaxSend hook
