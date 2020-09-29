@@ -69,7 +69,6 @@ export class TransportData {
     }
   }
   getTrackerId(): string | number {
-    // 从外部获取trackerId，如果没有就自己设置一个到localstorage，下次进来时获取
     if (typeof this.backTrackerId === 'function') {
       const trackerId = this.backTrackerId()
       if (typeof trackerId === 'string' || typeof trackerId === 'number') {

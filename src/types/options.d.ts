@@ -82,7 +82,7 @@ export interface HooksTypes {
    * @param data 请求状态为200时返回的响应体
    * @returns 如果返回 null | undefined | boolean 时，将忽略本次的上传
    */
-  afterSuccessHttp?<T>(data: T): string | CANCEL
+  // afterSuccessHttp?<T>(data: T): string | CANCEL
   /**
    * 钩子函数，拦截用户页面的ajax请求，并在ajax请求发送前执行该hook，可以对用户发送的ajax请求做xhr.setRequestHeader
    * @param config 当前请求的
