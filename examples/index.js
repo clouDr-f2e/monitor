@@ -4,7 +4,7 @@ const path = require('path')
 const app = express()
 app.use(express.static(path.join(__dirname, '../examples')))
 
-app.listen(8000, () => {
-  console.log(`example run at port 8080`)
-  console.log('http://localhost:8000')
+app.listen(9000, () => {
+  console.log(`example run at port 9080`)
+  console.log('http://localhost:9000')
 })
