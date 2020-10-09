@@ -10,7 +10,6 @@ var MITO = (function () {
       ERRORTYPES["LOG_ERROR"] = "LOG_ERROR";
       ERRORTYPES["FETCH_ERROR"] = "HTTP_ERROR";
       ERRORTYPES["VUE_ERROR"] = "VUE_ERROR";
-      ERRORTYPES["REACT_ERROR"] = "REACT_ERROR";
       ERRORTYPES["RESOURCE_ERROR"] = "RESOURCE_ERROR";
       ERRORTYPES["PROMISE_ERROR"] = "PROMISE_ERROR";
   })(ERRORTYPES || (ERRORTYPES = {}));
@@ -23,7 +22,6 @@ var MITO = (function () {
       BREADCRUMBTYPES["FETCH"] = "Fetch";
       BREADCRUMBTYPES["UNHANDLEDREJECTION"] = "Unhandledrejection";
       BREADCRUMBTYPES["VUE"] = "Vue";
-      BREADCRUMBTYPES["REACT"] = "React";
       BREADCRUMBTYPES["RESOURCE"] = "Resource";
       BREADCRUMBTYPES["CODE_ERROR"] = "Code Error";
       BREADCRUMBTYPES["CUSTOMER"] = "Customer";
@@ -47,7 +45,6 @@ var MITO = (function () {
       EVENTTYPES["UNHANDLEDREJECTION"] = "unhandledrejection";
       EVENTTYPES["MITO"] = "mito";
       EVENTTYPES["VUE"] = "Vue";
-      EVENTTYPES["REACT"] = "React";
   })(EVENTTYPES || (EVENTTYPES = {}));
   var HTTPTYPE;
   (function (HTTPTYPE) {
@@ -1185,62 +1182,6 @@ var MITO = (function () {
       }
   };
 
-  function handleReactError(err, vm, info, level, breadcrumbLevel) {
-      const propsData = info;
-      const data = {
-          type: ERRORTYPES.REACT_ERROR,
-          message: `${err.message}(${info})`,
-          level,
-          url: getLocationHref(),
-          componentName: vm,
-          propsData: propsData || '',
-          name: err.name,
-          stack: err.stack || [],
-          time: getTimestamp()
-      };
-      breadcrumb.push({
-          type: BREADCRUMBTYPES.REACT,
-          category: breadcrumb.getCategory(BREADCRUMBTYPES.REACT),
-          data,
-          level: breadcrumbLevel
-      });
-      transportData.xhrPost(data);
-  }
-
-  const hasConsole$1 = typeof console !== 'undefined';
-  const MitoReact = {
-      install(React) {
-          setFlag(EVENTTYPES.REACT, true);
-          class ErrorBoundary extends React.Component {
-              constructor(props) {
-                  super(props);
-                  this.state = {
-                      hasError: false
-                  };
-              }
-              static getDerivedStateFromError(error) {
-                  return error;
-              }
-              componentDidCatch(error, info) {
-                  handleReactError(error, this, info, Severity.Normal, Severity.Error);
-                  if (hasConsole$1) {
-                      slientConsoleScope(() => {
-                          console.error('Error in' + info + ': ' + Error.toString() + '"', this);
-                          console.error('stack', info.componentStack);
-                      });
-                  }
-              }
-              render() {
-                  if (this.state.hasError) {
-                      return React.createElement('h1', null, 'Something went wrong');
-                  }
-                  return this.props.children;
-              }
-          }
-          return ErrorBoundary;
-      }
-  };
-
   function setupReplace() {
       addReplaceHandler({
           callback: (data) => {
@@ -1313,7 +1254,7 @@ var MITO = (function () {
       transportData.bindOptions(options$1);
       options.bindOptions(options$1);
   }
-  var index = { MitoVue, MitoReact, SDK_VERSION, SDK_NAME, init, log };
+  var index = { MitoVue, SDK_VERSION, SDK_NAME, init, log };
 
   return index;
 

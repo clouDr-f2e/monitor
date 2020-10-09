@@ -3,52 +3,39 @@
   <head>
     <meta charset="utf-8" />
     <title>测试</title>
-    <style></style>
   </head>
-  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-  <!-- <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script> -->
-  <script type="text/javascript" src="https://unpkg.com/antd@3.19.3/dist/antd.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.19.0/antd.css" />
   <script src="./mito.js" crossorigin="anonymous"></script>
   <script>
-    // MITO.init({
-    //   debug: 'true',
-    //   maxBreadcrumbs: 10,
-    //   beforeAjaxSend(config, xhr) {
-    //     console.log(config, xhr)
-    //   }
-    // })
+    MITO.init({
+      debug: 'true',
+      maxBreadcrumbs: 10,
+      beforeAjaxSend(config, xhr) {
+        console.log(config, xhr)
+      }
+    })
   </script>
 
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
 
   <body>
     <div>打开控制台调试</div>
-    <div style="width: 100%; height: 100px">
+    <div style="width: 100%; height: 100px;">
       <!-- <img src="https://seopic.699pic.com/photo/40011/0709.jpg_wh1222200.jpg"> -->
       <input type="number" />
     </div>
-    <!-- <div id="app">
+    <div id="app">
       <template>
         <el-select v-model="value" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-input v-model="test"></el-input>
       </template>
-    </div> -->
-    <div id="like_button_container">123</div>
-
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
-    <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
-    <!-- 加载 React。-->
-    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-
-    <!-- Load our React component. -->
-    <script src="./like_button.js"></script>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <!-- 资源错误 -->
-    <!-- <script src="https://csdnimg.cn/public/common/toolbar/js/content_toolbar.js"></script> -->
-    <!-- <script>
+    <script src="https://csdnimg.cn/public/common/toolbar/js/content_toolbar.js"></script>
+    <script>
       window.onload = function () {
         asyncXhr()
         var Main = {
@@ -84,7 +71,6 @@
         var Ctor = Vue.extend(Main)
         new Ctor().$mount('#app')
       }
-
       function syncXhr() {
         return new Promise((resolve, reject) => {
           setTimeout(() => {
@@ -104,6 +90,6 @@
           }
         }
       }
-    </script> -->
+    </script>
   </body>
 </html>
