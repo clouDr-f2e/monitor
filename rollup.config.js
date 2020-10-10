@@ -6,7 +6,7 @@ import { terser } from 'rollup-plugin-terser'
 const esmPackage = {
   input: 'src/index.ts',
   output: {
-    file: 'dist/mito.js',
+    file: 'dist/index.esm.js',
     format: 'esm',
     //iife/umd  包，同一页上的其他脚本可以访问它 生成var MyBundle = (function(){})()
     name: 'MITO',
@@ -21,6 +21,25 @@ const esmPackage = {
     typescript({
       useTsconfigDeclarationDir: true,
       declarationDir: 'dist/types/'
+    })
+  ]
+}
+const cjsPackage = {
+  input: 'src/index.ts',
+  output: {
+    file: 'dist/index.js',
+    format: 'cjs',
+    name: 'MITO',
+    sourcemap: true
+  },
+  plugins: [
+    resolve(),
+    commonjs({
+      exclude: 'node_modules'
+    }),
+    json(),
+    typescript({
+      tsconfigOverride: { compilerOptions: { declaration: false } }
     })
   ]
 }
@@ -46,7 +65,7 @@ const localDebug = {
 const iifePackage = {
   input: 'src/index.ts',
   output: {
-    file: 'dist/mito.min.js',
+    file: 'dist/index.min.js',
     format: 'iife',
     name: 'MITO',
     context: 'window'
@@ -66,7 +85,7 @@ const iifePackage = {
 const examplePackage = {
   input: 'src/index.ts',
   output: {
-    file: 'examples/mito.js',
+    file: 'examples/index.js',
     format: 'iife',
     name: 'MITO'
   },
@@ -85,7 +104,8 @@ const total = {
   esmPackage,
   iifePackage,
   examplePackage,
-  localDebug
+  localDebug,
+  cjsPackage
 }
 let result = total
 const ignore = process.env.IGNORE
