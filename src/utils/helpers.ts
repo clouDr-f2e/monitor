@@ -1,4 +1,4 @@
-import { voidFun, globalVar } from '@/common'
+import { voidFun, globalVar } from '../common'
 import { logger } from './logger'
 
 export function getLocationHref(): string {
@@ -12,12 +12,12 @@ type TotalEventName = keyof GlobalEventHandlersEventMap | keyof XMLHttpRequestEv
 /**
  * 添加事件监听器
  *
- * @export
- * @param {{ addEventListener: Function }} target
- * @param {keyof TotalEventName} eventName
- * @param {Function} handler
- * @param {(boolean | Object)} opitons
- * @returns
+ * ../export
+ * ../param {{ addEventListener: Function }} target
+ * ../param {keyof TotalEventName} eventName
+ * ../param {Function} handler
+ * ../param {(boolean | Object)} opitons
+ * ../returns
  */
 export function on(target: { addEventListener: Function }, eventName: TotalEventName, handler: Function, opitons: boolean | unknown = false): void {
   target.addEventListener(eventName, handler, opitons)
@@ -26,10 +26,10 @@ export function on(target: { addEventListener: Function }, eventName: TotalEvent
 /**
  *
  * 重写对象上面的某个属性
- * @param source 需要被重写的对象
- * @param name 需要被重写对象的key
- * @param replacement 以原有的函数作为参数，执行并重写原有函数
- * @returns void
+ * ../param source 需要被重写的对象
+ * ../param name 需要被重写对象的key
+ * ../param replacement 以原有的函数作为参数，执行并重写原有函数
+ * ../returns void
  */
 export function replaceOld(
   source: {
@@ -48,7 +48,7 @@ export function replaceOld(
 
 /**
  * 用&分割对象，返回a=1&b=2
- * @param obj 需要拼接的对象
+ * ../param obj 需要拼接的对象
  */
 export function splitObjToQuery(obj: Record<string, unknown>): string {
   return Object.entries(obj).reduce((result, [key, value], index) => {
@@ -63,8 +63,8 @@ export function splitObjToQuery(obj: Record<string, unknown>): string {
 const defaultFunctionName = '<anonymous>'
 /**
  * 需要获取函数名，匿名则返回<anonymous>
- * @param {unknown} fn 需要获取函数名的函数本体
- * @returns 返回传入的函数的函数名
+ * ../param {unknown} fn 需要获取函数名的函数本体
+ * ../returns 返回传入的函数的函数名
  */
 export function getFunctionName(fn: unknown): string {
   try {
@@ -80,10 +80,10 @@ export function getFunctionName(fn: unknown): string {
 // 函数防抖
 /**
  *
- * @param fn 需要防抖的函数
- * @param delay 防抖的时间间隔
- * @param isImmediate 是否需要立即执行，默认为false，第一次是不执行的
- * @returns 返回一个包含防抖功能的函数
+ * ../param fn 需要防抖的函数
+ * ../param delay 防抖的时间间隔
+ * ../param isImmediate 是否需要立即执行，默认为false，第一次是不执行的
+ * ../returns 返回一个包含防抖功能的函数
  */
 export const debounce = (fn: voidFun, delay: number, isImmediate = false): voidFun => {
   let timer = null
@@ -103,9 +103,9 @@ export const debounce = (fn: voidFun, delay: number, isImmediate = false): voidF
 // 函数节流
 /**
  *
- * @param fn 需要节流的函数
- * @param delay 节流的时间间隔
- * @returns 返回一个包含节流功能的函数
+ * ../param fn 需要节流的函数
+ * ../param delay 节流的时间间隔
+ * ../returns 返回一个包含节流功能的函数
  */
 export const throttle = (fn: Function, delay: number): Function => {
   let canRun = true
@@ -121,7 +121,7 @@ export const throttle = (fn: Function, delay: number): Function => {
 
 /**
  * 获取当前的时间戳
- * @returns 返回当前时间戳
+ * ../returns 返回当前时间戳
  */
 export function getTimestamp(): number {
   return Date.now()

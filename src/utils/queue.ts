@@ -1,4 +1,4 @@
-import { voidFun } from '@/common'
+import { voidFun } from '../common'
 export class Queue {
   private micro: Promise<void>
   private stack: any[] = []

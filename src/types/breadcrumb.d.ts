@@ -1,5 +1,5 @@
-import { Severity } from '@/utils/Severity'
-import { BREADCRUMBTYPES } from '@/common'
+import { Severity } from '../utils/Severity'
+import { BREADCRUMBTYPES } from '../common'
 
 export interface BreadcrumbPushData {
   /**

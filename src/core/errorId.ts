@@ -1,9 +1,9 @@
 import { ERRORTYPES } from '../common'
-import { ReportDataType } from '@/types/transportData'
+import { ReportDataType } from '../types/transportData'
 const allErrorNumber: unknown = {}
 /**
  * 优化error合并规则
- * @param data
+ * ../param data
  */
 export default function createErrorId(data: ReportDataType): number | null {
   let id: any
@@ -41,7 +41,7 @@ export default function createErrorId(data: ReportDataType): number | null {
 }
 /**
  * 排序对象键值对
- * @param reason promise.reject
+ * ../param reason promise.reject
  */
 function objectOrder(reason: any) {
   const sortFn = (obj: any) => {

@@ -2,7 +2,7 @@ import { getFlag, setFlag, slientConsoleScope } from 'utils'
 import { EVENTTYPES } from 'common'
 import { VueInstance, ViewModel } from './types'
 import { handleVueError } from './helper'
-import { Severity } from '@/utils/Severity'
+import { Severity } from '../utils/Severity'
 
 // 监听Vue的时候是否需要加配置项
 // interface VuePluginOption {}

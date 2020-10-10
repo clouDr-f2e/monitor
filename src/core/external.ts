@@ -1,8 +1,8 @@
-import { ERRORTYPES, BREADCRUMBTYPES } from '@/common'
+import { ERRORTYPES, BREADCRUMBTYPES } from '../common'
 import { isError, extractErrorStack, getLocationHref } from 'utils'
 import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
-import { Severity } from '@/utils/Severity'
+import { Severity } from '../utils/Severity'
 
 interface LogTypes {
   message: string

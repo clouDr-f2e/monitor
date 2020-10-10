@@ -14,9 +14,9 @@ import {
   isExistProperty,
   generateUUID
 } from 'utils'
-import { voidFun, EVENTTYPES, HTTPTYPE } from '@/common'
+import { voidFun, EVENTTYPES, HTTPTYPE } from '../common'
 import { transportData } from './transportData'
-import { logger } from '@/utils/logger'
+import { logger } from '../utils/logger'
 import { options } from './options'
 
 export interface MITOHttp {

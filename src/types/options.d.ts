@@ -1,4 +1,4 @@
-import { Breadcrumb } from '@/core/breadcrumb'
+import { Breadcrumb } from '../core/breadcrumb'
 import { BreadcrumbPushData } from './breadcrumb'
 import { ReportDataType } from './transportData'
 type CANCEL = null | undefined | boolean
@@ -59,33 +59,33 @@ export interface HooksTypes {
    * 可以对当前xhr实例做一些配置：xhr.setRequestHeader()、xhr.withCredentials
    * 会在xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8')、
    * xhr.withCredentials = true,后面调用该函数
-   * @param xhr XMLHttpRequest的实例
+   * ../param xhr XMLHttpRequest的实例
    */
   configXhr?(xhr: XMLHttpRequest): void
   /**
    * 钩子函数，在每次发送事件前会调用
    *
-   * @param event 有SDK生成的错误事件
-   * @returns 如果返回 null | undefined | boolean 时，将忽略本次上传
+   * ../param event 有SDK生成的错误事件
+   * ../returns 如果返回 null | undefined | boolean 时，将忽略本次上传
    */
   beforeDataReport?(event: ReportDataType): PromiseLike<Event | null> | Event | CANCEL
   /**
    * 钩子函数，在每次添加用户行为事件前都会调用
    *
-   * @param breadcrumb 由SDK生成的breacrumb事件栈
-   * @param hint 当次的生成的breadcrumb数据
-   * @returns 如果返回 null | undefined | boolean 时，将忽略本次的push
+   * ../param breadcrumb 由SDK生成的breacrumb事件栈
+   * ../param hint 当次的生成的breadcrumb数据
+   * ../returns 如果返回 null | undefined | boolean 时，将忽略本次的push
    */
   beforePushBreadcrumb?(breadcrumb: Breadcrumb, hint: BreadcrumbPushData): BreadcrumbPushData | CANCEL
   /**
    * 在状态小于400并且不等于0的时候回调用当前hook
-   * @param data 请求状态为200时返回的响应体
-   * @returns 如果返回 null | undefined | boolean 时，将忽略本次的上传
+   * ../param data 请求状态为200时返回的响应体
+   * ../returns 如果返回 null | undefined | boolean 时，将忽略本次的上传
    */
   // afterSuccessHttp?<T>(data: T): string | CANCEL
   /**
    * 钩子函数，拦截用户页面的ajax请求，并在ajax请求发送前执行该hook，可以对用户发送的ajax请求做xhr.setRequestHeader
-   * @param config 当前请求的
+   * ../param config 当前请求的
    */
   beforeAjaxSend?(config: IRequestHeaderConfig, setRequestHeader: IBeforeAjaxSendConfig): void
 

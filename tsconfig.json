@@ -51,6 +51,7 @@
   ],
   "exclude": [
     "node_modules",
+    // "src/types/",
     "**/*.spec.ts"
   ],
 }

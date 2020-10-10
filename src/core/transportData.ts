@@ -1,17 +1,17 @@
 import { _support, validateOption, logger } from 'utils'
 import { splitObjToQuery, Queue } from 'utils'
-import createErrorId from '@/core/errorId'
-import { SERVER_URL } from '@/config'
+import createErrorId from '../core/errorId'
+import { SERVER_URL } from '../config'
 import { breadcrumb } from './breadcrumb'
-import { InitOptions } from '@/types/options'
-import { AuthInfo, TransportDataType, ReportDataType } from '@/types/transportData'
+import { InitOptions } from '../types/options'
+import { AuthInfo, TransportDataType, ReportDataType } from '../types/transportData'
 
 /**
  * 用来传输数据类，包含img标签、xhr请求
  * 功能：支持img请求和xhr请求、可以断点续存（保存在localstorage），
  * 待开发：目前不需要断点续存，因为接口不是很多，只有错误时才触发，如果接口太多可以考虑合并接口、
  *
- * @class Transport
+ * ../class Transport
  */
 export class TransportData {
   static img = new Image()

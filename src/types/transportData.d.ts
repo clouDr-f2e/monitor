@@ -1,4 +1,4 @@
-import { ERRORTYPES } from '@/common'
+import { ERRORTYPES } from '../common'
 import { BreadcrumbPushData } from './breadcrumb'
 
 export interface AuthInfo {

@@ -1,9 +1,9 @@
 /**
  * Checks whether given value's type is one of a few Error or Error-like
- * {@link isError}.
+ * {../link isError}.
  *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
  */
 export function isError(wat: any): boolean {
   switch (Object.prototype.toString.call(wat)) {
@@ -20,10 +20,10 @@ export function isError(wat: any): boolean {
 
 /**
  * Checks whether given value's type is ErrorEvent
- * {@link isErrorEvent}.
+ * {../link isErrorEvent}.
  *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
  */
 export function isErrorEvent(wat: any): boolean {
   return Object.prototype.toString.call(wat) === '[object ErrorEvent]'
@@ -31,10 +31,10 @@ export function isErrorEvent(wat: any): boolean {
 
 /**
  * Checks whether given value's type is DOMError
- * {@link isDOMError}.
+ * {../link isDOMError}.
  *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
  */
 export function isDOMError(wat: any): boolean {
   return Object.prototype.toString.call(wat) === '[object DOMError]'
@@ -42,10 +42,10 @@ export function isDOMError(wat: any): boolean {
 
 /**
  * Checks whether given value's type is DOMException
- * {@link isDOMException}.
+ * {../link isDOMException}.
  *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
  */
 export function isDOMException(wat: any): boolean {
   return Object.prototype.toString.call(wat) === '[object DOMException]'
@@ -53,10 +53,10 @@ export function isDOMException(wat: any): boolean {
 
 /**
  * Checks whether given value's type is a string
- * {@link isString}.
+ * {../link isString}.
  *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
  */
 export function isString(wat: any): boolean {
   return Object.prototype.toString.call(wat) === '[object String]'
@@ -64,10 +64,10 @@ export function isString(wat: any): boolean {
 
 /**
  * Checks whether given value's is a primitive (undefined, null, number, boolean, string)
- * {@link isPrimitive}.
+ * {../link isPrimitive}.
  *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
  */
 export function isPrimitive(wat: any): boolean {
   return wat === null || (typeof wat !== 'object' && typeof wat !== 'function')
@@ -75,10 +75,10 @@ export function isPrimitive(wat: any): boolean {
 
 /**
  * Checks whether given value's type is an object literal
- * {@link isPlainObject}.
+ * {../link isPlainObject}.
  *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
  */
 export function isPlainObject(wat: any): boolean {
   return Object.prototype.toString.call(wat) === '[object Object]'
@@ -86,7 +86,7 @@ export function isPlainObject(wat: any): boolean {
 
 /**
  * 检查是否是空对象
- * @param obj 待检测的对象
+ * ../param obj 待检测的对象
  */
 export function isEmptyObject(obj: Object): boolean {
   return Object.keys(obj).length === 0
@@ -94,10 +94,10 @@ export function isEmptyObject(obj: Object): boolean {
 
 /**
  * Checks whether given value's type is an Event instance
- * {@link isEvent}.
+ * {../link isEvent}.
  *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
  */
 export function isEvent(wat: any): boolean {
   // tslint:disable-next-line:strict-type-predicates
@@ -106,10 +106,10 @@ export function isEvent(wat: any): boolean {
 
 /**
  * Checks whether given value's type is an Element instance
- * {@link isElement}.
+ * {../link isElement}.
  *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
  */
 export function isElement(wat: any): boolean {
   // tslint:disable-next-line:strict-type-predicates
@@ -118,10 +118,10 @@ export function isElement(wat: any): boolean {
 
 /**
  * Checks whether given value's type is an regexp
- * {@link isRegExp}.
+ * {../link isRegExp}.
  *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
  */
 export function isRegExp(wat: any): boolean {
   return Object.prototype.toString.call(wat) === '[object RegExp]'
@@ -129,7 +129,7 @@ export function isRegExp(wat: any): boolean {
 
 /**
  * Checks whether given value has a then function.
- * @param wat A value to be checked.
+ * ../param wat A value to be checked.
  */
 export function isThenable(wat: any): boolean {
   // tslint:disable:no-unsafe-any
@@ -139,10 +139,10 @@ export function isThenable(wat: any): boolean {
 
 /**
  * Checks whether given value's type is a SyntheticEvent
- * {@link isSyntheticEvent}.
+ * {../link isSyntheticEvent}.
  *
- * @param wat A value to be checked.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
  */
 export function isSyntheticEvent(wat: any): boolean {
   // tslint:disable-next-line:no-unsafe-any
@@ -150,11 +150,11 @@ export function isSyntheticEvent(wat: any): boolean {
 }
 /**
  * Checks whether given value's type is an instance of provided constructor.
- * {@link isInstanceOf}.
+ * {../link isInstanceOf}.
  *
- * @param wat A value to be checked.
- * @param base A constructor to be used in a check.
- * @returns A boolean representing the result.
+ * ../param wat A value to be checked.
+ * ../param base A constructor to be used in a check.
+ * ../returns A boolean representing the result.
  */
 export function isInstanceOf(wat: any, base: any): boolean {
   try {

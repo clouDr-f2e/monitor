@@ -3,24 +3,45 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
+import clear from 'rollup-plugin-clear'
+import alias from '@rollup/plugin-alias'
+import path from 'path'
 const esmPackage = {
   input: 'src/index.ts',
   output: {
     file: 'dist/index.esm.js',
     format: 'esm',
-    //iife/umd  包，同一页上的其他脚本可以访问它 生成var MyBundle = (function(){})()
     name: 'MITO',
     sourcemap: true
   },
   plugins: [
     resolve(),
+    alias({
+      entries: [
+        {
+          find: 'utils',
+          replacement: path.resolve(path.resolve(__dirname), 'src/utils/index.ts')
+        },
+        {
+          find: '@',
+          replacement: path.resolve(path.resolve(__dirname), 'src')
+        },
+        {
+          find: 'core',
+          replacement: path.resolve(path.resolve(__dirname), 'src/core')
+        }
+      ]
+    }),
     commonjs({
       exclude: 'node_modules'
     }),
     json(),
+    clear({
+      targets: ['dist']
+    }),
     typescript({
       useTsconfigDeclarationDir: true,
-      declarationDir: 'dist/types/'
+      clean: true
     })
   ]
 }

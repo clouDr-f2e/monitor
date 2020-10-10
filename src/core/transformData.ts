@@ -1,10 +1,10 @@
 import { MITOHttp } from './replace'
-import { ERRORTYPES } from '@/common'
+import { ERRORTYPES } from '../common'
 import { getLocationHref, getTimestamp } from 'utils'
 import { ResourceErrorTarget } from './handleEvents'
-import { ReportDataType } from '@/types/transportData'
-import { globalVar } from '@/common'
-import { Severity } from '@/utils/Severity'
+import { ReportDataType } from '../types/transportData'
+import { globalVar } from '../common'
+import { Severity } from '../utils/Severity'
 
 export function httpTransform(data: MITOHttp): ReportDataType {
   let description = data.responseText

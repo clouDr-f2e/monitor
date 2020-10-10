@@ -3,9 +3,9 @@ import { _global } from './global'
 
 /**
  * Tells whether current environment supports ErrorEvent objects
- * {@link supportsErrorEvent}.
+ * {../link supportsErrorEvent}.
  *
- * @returns Answer to the given question.
+ * ../returns Answer to the given question.
  */
 export function supportsErrorEvent(): boolean {
   try {
@@ -19,9 +19,9 @@ export function supportsErrorEvent(): boolean {
 
 /**
  * Tells whether current environment supports DOMException objects
- * {@link supportsDOMException}.
+ * {../link supportsDOMException}.
  *
- * @returns Answer to the given question.
+ * ../returns Answer to the given question.
  */
 export function supportsDOMException(): boolean {
   try {
@@ -35,9 +35,9 @@ export function supportsDOMException(): boolean {
 
 /**
  * Tells whether current environment supports Fetch API
- * {@link supportsFetch}.
+ * {../link supportsFetch}.
  *
- * @returns Answer to the given question.
+ * ../returns Answer to the given question.
  */
 export function supportsFetch(): boolean {
   if (!('fetch' in _global)) {
@@ -65,9 +65,9 @@ function isNativeFetch(func: Function): boolean {
 
 /**
  * Tells whether current environment supports Fetch API natively
- * {@link supportsNativeFetch}.
+ * {../link supportsNativeFetch}.
  *
- * @returns true if `window.fetch` is natively implemented, false otherwise
+ * ../returns true if `window.fetch` is natively implemented, false otherwise
  */
 export function supportsNativeFetch(): boolean {
   if (!supportsFetch()) {
@@ -98,9 +98,9 @@ export function supportsNativeFetch(): boolean {
 
 /**
  * Tells whether current environment supports ReportingObserver API
- * {@link supportsReportingObserver}.
+ * {../link supportsReportingObserver}.
  *
- * @returns Answer to the given question.
+ * ../returns Answer to the given question.
  */
 export function supportsReportingObserver(): boolean {
   // tslint:disable-next-line: no-unsafe-any
@@ -109,9 +109,9 @@ export function supportsReportingObserver(): boolean {
 
 /**
  * Tells whether current environment supports Referrer Policy API
- * {@link supportsReferrerPolicy}.
+ * {../link supportsReferrerPolicy}.
  *
- * @returns Answer to the given question.
+ * ../returns Answer to the given question.
  */
 export function supportsReferrerPolicy(): boolean {
   // Despite all stars in the sky saying that Edge supports old draft syntax, aka 'never', 'always', 'origin' and 'default
@@ -136,9 +136,9 @@ export function supportsReferrerPolicy(): boolean {
 
 /**
  * Tells whether current environment supports History API
- * {@link supportsHistory}.
+ * {../link supportsHistory}.
  *
- * @returns Answer to the given question.
+ * ../returns Answer to the given question.
  */
 export function supportsHistory(): boolean {
   // NOTE: in Chrome App environment, touching history.pushState, *even inside

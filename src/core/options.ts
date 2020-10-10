@@ -1,4 +1,4 @@
-import { InitOptions } from '@/types/options'
+import { InitOptions } from '../types/options'
 import { toStringValidateOption, validateOption, _support } from 'utils'
 
 export class Options {

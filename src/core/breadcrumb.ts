@@ -1,8 +1,8 @@
-import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '@/common'
+import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '../common'
 import { logger, validateOption, getTimestamp, slientConsoleScope } from 'utils'
-import { _support } from '@/utils/global'
-import { BreadcrumbPushData } from '@/types/breadcrumb'
-import { InitOptions } from '@/types/options'
+import { _support } from '../utils/global'
+import { BreadcrumbPushData } from '../types/breadcrumb'
+import { InitOptions } from '../types/options'
 
 export class Breadcrumb {
   private maxBreadcrumbs = 10
@@ -12,8 +12,8 @@ export class Breadcrumb {
   /**
    * 添加用户行为栈
    *
-   * @param {BreadcrumbPushData} data
-   * @memberof Breadcrumb
+   * ../param {BreadcrumbPushData} data
+   * ../memberof Breadcrumb
    */
   push(data: BreadcrumbPushData): void {
     if (typeof this.beforePushBreadcrumb === 'function') {

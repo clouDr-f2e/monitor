@@ -1,8 +1,8 @@
-import { EVENTTYPES } from '@/common'
-import { TransportData } from '@/core/transportData'
-import { Breadcrumb } from '@/core/breadcrumb'
+import { EVENTTYPES } from '../common'
+import { TransportData } from '../core/transportData'
+import { Breadcrumb } from '../core/breadcrumb'
 import { Logger } from './logger'
-import { Options } from '@/core/options'
+import { Options } from '../core/options'
 
 // MITO的全局变量
 export interface MitoSupport {
@@ -26,7 +26,7 @@ export function isNodeEnv(): boolean {
 /**
  * 获取全局变量
  *
- * @returns Global scope object
+ * ../returns Global scope object
  */
 export function getGlobal<T>(): T & MITOGlobal {
   return (isNodeEnv() ? global : typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : {}) as T & MITOGlobal
@@ -51,7 +51,7 @@ export function getFlag(replaceType: EVENTTYPES): boolean {
 /**
  * 获取全部变量__MITO__的引用地址
  *
- * @returns global variable of MITO
+ * ../returns global variable of MITO
  */
 export function getGlobalMitoSupport(): MitoSupport {
   _global.__MITO__ = _global.__MITO__ || ({} as MitoSupport)

@@ -1,12 +1,12 @@
 import { MITOHttp } from './replace'
-import { BREADCRUMBTYPES, ERRORTYPES, globalVar, ERROR_TYPE_RE } from '@/common'
+import { BREADCRUMBTYPES, ERRORTYPES, globalVar, ERROR_TYPE_RE } from '../common'
 import { resourceTransform, httpTransform } from './transformData'
 import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
 import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStack } from 'utils'
-import { ReportDataType } from '@/types/transportData'
-import { Severity } from '@/utils/Severity'
-import { Replace } from '@/types/replace'
+import { ReportDataType } from '../types/transportData'
+import { Severity } from '../utils/Severity'
+import { Replace } from '../types/replace'
 
 export interface ResourceErrorTarget {
   src?: string
