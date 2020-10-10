@@ -607,7 +607,7 @@ var MITO = (function () {
   }
 
   var name = "@zyf2e/mitojs";
-  var version = "1.0.7";
+  var version = "1.0.8";
 
   const SDK_NAME = name;
   const SDK_VERSION = version;

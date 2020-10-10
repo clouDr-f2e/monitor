@@ -1,10 +1,10 @@
 {
   "name": "@zyf2e/mitojs",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A SDK for monitoring browser errors",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/types/src/index.d.ts",
   "scripts": {
     "build": "cross-env IGNORE=localDebug rollup --config",
     "watch:example": "cross-env INCLUDE=examplePackage rollup --config --watch",

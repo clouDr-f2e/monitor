@@ -4,9 +4,6 @@ import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 import clear from 'rollup-plugin-clear'
-import alias from '@rollup/plugin-alias'
-import path from 'path'
-console.log(path.resolve(path.resolve(__dirname), 'src/utils/index'))
 const esmPackage = {
   input: 'src/index.ts',
   output: {
@@ -17,18 +14,6 @@ const esmPackage = {
   },
   plugins: [
     resolve(),
-    alias({
-      entries: [
-        {
-          find: 'utils',
-          replacement: path.resolve(path.resolve(__dirname), 'src/utils/index')
-        },
-        {
-          find: 'core',
-          replacement: path.resolve(path.resolve(__dirname), 'src/core/index')
-        }
-      ]
-    }),
     commonjs({
       exclude: 'node_modules'
     }),
