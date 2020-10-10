@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>vue-demo</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <h1>控制台输出信息调试</h1>
+      <button @click="onClick">代码错误</button>
+      <button @click="onClickFetchNormal">正常请求</button>
+      <button @click="onClickFetchError">异常请求</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="../mito.js"></script>
+    <script src="./initMito.js"></script>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: {},
+        watch: {
+          message(newVal, oldVal) {
+            console.log(newVal, oldVal)
+          },
+          code(value) {
+            console.log('t:', value)
+          }
+        },
+        methods: {
+          onClick() {
+            this.a.a = 1
+          },
+          onClickFetchNormal() {
+            const xhr = new XMLHttpRequest()
+            xhr.open('get', 'https://api.apiopen.top/likePoetry?name=李白')
+            xhr.setRequestHeader('content-type', 'application/json')
+            xhr.send()
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                console.log(xhr.responseText)
+              }
+            }
+          },
+          onClickFetchError() {
+            const xhr = new XMLHttpRequest()
+            xhr.open('get', 'http://asdas.aaa/info2')
+            xhr.setRequestHeader('content-type', 'application/json')
+            xhr.send()
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                console.log(xhr.responseText)
+              }
+            }
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
