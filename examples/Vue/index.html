@@ -15,10 +15,15 @@
       <button @click="onClickFetchNormal">正常请求</button>
       <button @click="onClickFetchError">异常请求</button>
     </div>
+    <button onclick="onClickNativeCodeError()">原生代码错误</button>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="../mito.js"></script>
     <script src="./initMito.js"></script>
     <script>
+      function onClickNativeCodeError() {
+        let obj = {}
+        obj.split('/')
+      }
       new Vue({
         el: '#app',
         data: {},

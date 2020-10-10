@@ -58,7 +58,6 @@ const HandleEvents = {
         data,
         level: Severity.Error
       })
-      // 上报错误
       return transportData.send(data)
     }
     // code error
@@ -67,30 +66,10 @@ const HandleEvents = {
     if (error && isError(error)) {
       result = extractErrorStack(error, Severity.High)
     } else {
-      let name: string | ERRORTYPES = ERRORTYPES.UNKNOWN
-      const url = filename || getLocationHref()
-      let msg = message
-      const matches = message.match(ERROR_TYPE_RE)
-      if (matches[1]) {
-        name = matches[1]
-        msg = matches[2]
-      }
-      const element = {
-        url,
-        func: ERRORTYPES.UNKNOWN_FUNCTION,
-        args: ERRORTYPES.UNKNOWN,
-        line: lineno,
-        col: colno
-      }
-      result = {
-        url,
-        name,
-        message: msg,
-        level: Severity.Normal,
-        time: getTimestamp(),
-        stack: [element]
-      }
+      result = HandleEvents.handleNotErrorInstance(message, filename, lineno, colno)
     }
+    // 处理SyntaxError，stack没有lineno、colno
+    result || (result = HandleEvents.handleNotErrorInstance(message, filename, lineno, colno))
     result.type = ERRORTYPES.JAVASCRIPT_ERROR
     breadcrumb.push({
       type: BREADCRUMBTYPES.CODE_ERROR,
@@ -99,6 +78,31 @@ const HandleEvents = {
       level: Severity.Error
     })
     transportData.send(result)
+  },
+  handleNotErrorInstance(message: string, filename: string, lineno: number, colno: number) {
+    let name: string | ERRORTYPES = ERRORTYPES.UNKNOWN
+    const url = filename || getLocationHref()
+    let msg = message
+    const matches = message.match(ERROR_TYPE_RE)
+    if (matches[1]) {
+      name = matches[1]
+      msg = matches[2]
+    }
+    const element = {
+      url,
+      func: ERRORTYPES.UNKNOWN_FUNCTION,
+      args: ERRORTYPES.UNKNOWN,
+      line: lineno,
+      col: colno
+    }
+    return {
+      url,
+      name,
+      message: msg,
+      level: Severity.Normal,
+      time: getTimestamp(),
+      stack: [element]
+    }
   },
   handleHistory(data: { [key: string]: any }): void {
     const { from, to } = data

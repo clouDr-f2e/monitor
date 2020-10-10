@@ -606,8 +606,11 @@ var MITO = (function () {
       };
   }
 
-  const SDK_NAME = 'MITO.browser';
-  const SDK_VERSION = '1.0.0';
+  var name = "@zyf2e/mitojs";
+  var version = "1.0.8";
+
+  const SDK_NAME = name;
+  const SDK_VERSION = version;
   const SERVER_URL = '//localhost:3000/api/error/error.gif';
 
   class TransportData {
@@ -739,30 +742,9 @@ var MITO = (function () {
               result = extractErrorStack(error, Severity.High);
           }
           else {
-              let name = ERRORTYPES.UNKNOWN;
-              const url = filename || getLocationHref();
-              let msg = message;
-              const matches = message.match(ERROR_TYPE_RE);
-              if (matches[1]) {
-                  name = matches[1];
-                  msg = matches[2];
-              }
-              const element = {
-                  url,
-                  func: ERRORTYPES.UNKNOWN_FUNCTION,
-                  args: ERRORTYPES.UNKNOWN,
-                  line: lineno,
-                  col: colno
-              };
-              result = {
-                  url,
-                  name,
-                  message: msg,
-                  level: Severity.Normal,
-                  time: getTimestamp(),
-                  stack: [element]
-              };
+              result = HandleEvents.handleNotErrorInstance(message, filename, lineno, colno);
           }
+          result || (result = HandleEvents.handleNotErrorInstance(message, filename, lineno, colno));
           result.type = ERRORTYPES.JAVASCRIPT_ERROR;
           breadcrumb.push({
               type: BREADCRUMBTYPES.CODE_ERROR,
@@ -771,6 +753,31 @@ var MITO = (function () {
               level: Severity.Error
           });
           transportData.send(result);
+      },
+      handleNotErrorInstance(message, filename, lineno, colno) {
+          let name = ERRORTYPES.UNKNOWN;
+          const url = filename || getLocationHref();
+          let msg = message;
+          const matches = message.match(ERROR_TYPE_RE);
+          if (matches[1]) {
+              name = matches[1];
+              msg = matches[2];
+          }
+          const element = {
+              url,
+              func: ERRORTYPES.UNKNOWN_FUNCTION,
+              args: ERRORTYPES.UNKNOWN,
+              line: lineno,
+              col: colno
+          };
+          return {
+              url,
+              name,
+              message: msg,
+              level: Severity.Normal,
+              time: getTimestamp(),
+              stack: [element]
+          };
       },
       handleHistory(data) {
           const { from, to } = data;

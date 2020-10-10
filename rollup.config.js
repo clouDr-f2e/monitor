@@ -88,7 +88,7 @@ const iifePackage = {
 const examplePackage = {
   input: 'src/index.ts',
   output: {
-    file: 'examples/index.js',
+    file: 'examples/mito.js',
     format: 'iife',
     name: 'MITO'
   },
