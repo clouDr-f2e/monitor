@@ -16,7 +16,7 @@ export interface TransportDataType {
 
 export interface ReportDataType {
   type?: ERRORTYPES
-  message?: string
+  message?: string | object
   url: string
   name?: string
   stack?: any

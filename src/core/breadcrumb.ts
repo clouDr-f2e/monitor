@@ -59,6 +59,7 @@ export class Breadcrumb {
       case BREADCRUMBTYPES.CODE_ERROR:
       case BREADCRUMBTYPES.RESOURCE:
       case BREADCRUMBTYPES.VUE:
+      case BREADCRUMBTYPES.REACT:
       default:
         return BREADCRUMBCATEGORYS.EXCEPTION
     }
