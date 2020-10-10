@@ -1,8 +1,7 @@
-import { EVENTTYPES, ERRORTYPES } from '@/common'
+import { EVENTTYPES, ERRORTYPES } from '../common'
 import { getLocationHref, getTimestamp } from './helpers'
 import { setFlag } from './global'
-import { InitOptions } from '@/types/options'
-import { ReportDataType } from '@/types/transportData'
+import { ReportDataType, InitOptions } from '../types/index'
 import { Severity } from './Severity'
 
 /**

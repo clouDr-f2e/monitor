@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser'
 import clear from 'rollup-plugin-clear'
 import alias from '@rollup/plugin-alias'
 import path from 'path'
+console.log(path.resolve(path.resolve(__dirname), 'src/utils/index'))
 const esmPackage = {
   input: 'src/index.ts',
   output: {
@@ -20,15 +21,11 @@ const esmPackage = {
       entries: [
         {
           find: 'utils',
-          replacement: path.resolve(path.resolve(__dirname), 'src/utils/index.ts')
-        },
-        {
-          find: '@',
-          replacement: path.resolve(path.resolve(__dirname), 'src')
+          replacement: path.resolve(path.resolve(__dirname), 'src/utils/index')
         },
         {
           find: 'core',
-          replacement: path.resolve(path.resolve(__dirname), 'src/core')
+          replacement: path.resolve(path.resolve(__dirname), 'src/core/index')
         }
       ]
     }),

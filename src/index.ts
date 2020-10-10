@@ -3,7 +3,7 @@ import { setupReplace } from './load'
 import { breadcrumb, transportData, log } from './core/index'
 import { logger, setSilentFlag } from './utils/index'
 import { SDK_VERSION, SDK_NAME } from './config'
-import { InitOptions } from './types/options'
+import { InitOptions } from './types/index'
 import { options as initOptions } from './core/options'
 function init(options: InitOptions = {}): void {
   if (options.disabled) return
