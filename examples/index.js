@@ -606,8 +606,11 @@ var MITO = (function () {
       };
   }
 
-  const SDK_NAME = 'MITO.browser';
-  const SDK_VERSION = '1.0.0';
+  var name = "@zyf2e/mitojs";
+  var version = "1.0.6";
+
+  const SDK_NAME = name;
+  const SDK_VERSION = version;
   const SERVER_URL = '//localhost:3000/api/error/error.gif';
 
   class TransportData {
