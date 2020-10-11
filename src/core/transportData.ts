@@ -1,3 +1,4 @@
+import CircularJSON from 'circular-json'
 import { _support, validateOption, logger } from 'utils'
 import { splitObjToQuery, Queue } from 'utils'
 import createErrorId from '../core/errorId'
@@ -56,7 +57,7 @@ export class TransportData {
       const errorId = createErrorId(data)
       if (!errorId) return
       data.errorId = errorId
-      xhr.send(JSON.stringify(this.getTransportData(data)))
+      xhr.send(CircularJSON.stringify(this.getTransportData(data)))
     }
     this.queue.addFn(requestFun)
   }

@@ -59,7 +59,9 @@
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.9.3"
   },
-  "dependencies": {},
+  "dependencies": {
+    "circular-json": "^0.5.9"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

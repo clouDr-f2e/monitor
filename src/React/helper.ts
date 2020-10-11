@@ -5,14 +5,13 @@ import { ReportDataType } from '../types/transportData'
 import { Severity } from '../utils/Severity'
 
 export function handleReactError(err: Error, info, stack: string, level: Severity, breadcrumbLevel: Severity): void {
-  const propsData = info
   const data: ReportDataType = {
     type: ERRORTYPES.REACT_ERROR,
     message: err,
     level,
     url: getLocationHref(),
     componentName: info,
-    propsData: propsData || '',
+    propsData: info || '',
     name: err.name,
     stack,
     time: getTimestamp()
