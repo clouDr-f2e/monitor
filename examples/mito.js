@@ -916,7 +916,6 @@ var MITO = (function () {
       const originalXhrProto = XMLHttpRequest.prototype;
       replaceOld(originalXhrProto, 'open', (originalOpen) => {
           return function (...args) {
-              const url = args[1];
               this.mito_xhr = {
                   method: isString(args[0]) ? args[0].toUpperCase() : args[0],
                   url: args[1],
@@ -934,7 +933,6 @@ var MITO = (function () {
                   this.mito_xhr.traceId = traceId;
                   this.setRequestHeader(options.traceIdFieldName, traceId);
               }
-              const setRequestHeader = this.setRequestHeader;
               options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, this);
               on(this, 'loadend', function () {
                   if (method === 'POST' && transportData.isSdkTransportUrl(url))

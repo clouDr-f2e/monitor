@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>react-demo</title>
-</head>
-<body>
-  <div id="root"></div>
-  <button onclick="onClickNativeCodeError()">原生代码错误</button>
 
-  <script src="./react.dev.js"></script>
-  <script src="./react-dom.dev.js"></script>
-  <script src="../mito.js"></script>
-  <script src="./initMito.js"></script>
-  <script src="./reactInit.js"></script>
-  <script>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>react-demo</title>
+  </head>
+
+  <body>
+    <h2>点击数字，点击3下就抛出异常</h2>
+    <div id="root"></div>
+    <button onclick="onClickNativeCodeError()">原生代码错误</button>
+
+    <script src="./react.dev.js"></script>
+    <script src="./react-dom.dev.js"></script>
+    <script src="./reactInit.js"></script>
+    <!-- <script src="./initMito.js"></script> -->
+    <!-- <script src="../mito.js"></script> -->
+    <script>
       function onClickNativeCodeError() {
         let obj = {}
         obj.split('/')
       }
-  </script>
-</body>
+    </script>
+  </body>
+
 </html>

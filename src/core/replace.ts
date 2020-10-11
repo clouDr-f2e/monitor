@@ -117,7 +117,6 @@ function xhrReplace(): void {
     'open',
     (originalOpen: voidFun): voidFun => {
       return function (this: MITOXMLHttpRequest, ...args: any[]): void {
-        const url = args[1]
         this.mito_xhr = {
           method: isString(args[0]) ? args[0].toUpperCase() : args[0],
           url: args[1],
@@ -153,8 +152,6 @@ function xhrReplace(): void {
           this.mito_xhr.traceId = traceId
           this.setRequestHeader(options.traceIdFieldName, traceId)
         }
-        // this.setRequestHeader('app-info', '12312')
-        const setRequestHeader = this.setRequestHeader
         options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, this)
         on(this, 'loadend', function (this: MITOXMLHttpRequest) {
           if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
