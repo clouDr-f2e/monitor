@@ -315,10 +315,7 @@ var MITO = (function () {
       if (!stack.length) {
           return null;
       }
-      return {
-          ...normal,
-          stack: stack
-      };
+      return Object.assign(Object.assign({}, normal), { stack: stack });
   }
 
   function nativeTryCatch(fn, errorFn) {
@@ -817,10 +814,7 @@ var MITO = (function () {
               level: Severity.Normal
           };
           if (isError(ev.reason)) {
-              data = {
-                  ...data,
-                  ...extractErrorStack(ev.reason, Severity.Normal)
-              };
+              data = Object.assign(Object.assign({}, data), extractErrorStack(ev.reason, Severity.Normal));
           }
           breadcrumb.push({
               type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
@@ -971,21 +965,12 @@ var MITO = (function () {
                   setRequestHeader: headers.set
               });
               options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, headers);
-              config = {
-                  ...config,
-                  headers
-              };
+              config = Object.assign(Object.assign({}, config), { headers });
               console.log(config.headers);
               return originalFetch.apply(_global, [url, config]).then((res) => {
                   const tempRes = res.clone();
                   const eTime = getTimestamp();
-                  handlerData = {
-                      ...handlerData,
-                      elapsedTime: eTime - sTime,
-                      status: tempRes.status,
-                      statusText: tempRes.statusText,
-                      time: eTime
-                  };
+                  handlerData = Object.assign(Object.assign({}, handlerData), { elapsedTime: eTime - sTime, status: tempRes.status, statusText: tempRes.statusText, time: eTime });
                   tempRes.text().then((data) => {
                       if (method === 'POST' && transportData.isSdkTransportUrl(url))
                           return;
@@ -1001,13 +986,7 @@ var MITO = (function () {
                       return;
                   if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url))
                       return;
-                  handlerData = {
-                      ...handlerData,
-                      elapsedTime: eTime - sTime,
-                      status: 0,
-                      statusText: err.name + err.message,
-                      time: eTime
-                  };
+                  handlerData = Object.assign(Object.assign({}, handlerData), { elapsedTime: eTime - sTime, status: 0, statusText: err.name + err.message, time: eTime });
                   triggerHandlers(EVENTTYPES.FETCH, handlerData);
                   throw err;
               });
@@ -1117,14 +1096,7 @@ var MITO = (function () {
       if (isError(ex)) {
           errorInfo = extractErrorStack(ex, level);
       }
-      const error = {
-          ...errorInfo,
-          type,
-          customInfo: info,
-          level,
-          custmerTag: tag,
-          url: getLocationHref()
-      };
+      const error = Object.assign(Object.assign({}, errorInfo), { type, customInfo: info, level, custmerTag: tag, url: getLocationHref() });
       breadcrumb.push({
           type: BREADCRUMBTYPES.CUSTOMER,
           data: info,

@@ -22,8 +22,8 @@
     "types": [ 
       "node",
     ],
-    "target": "ES2020", // 编译成什么版本
-    "module": "ES2015", // 指定生成哪个模块系统代码
+    "target": "ES6", // 编译成什么版本
+    "module": "ESNext", // 当前代码语法
     "outDir": "./dist/", // 输出目录
     "declaration": true, // 是否自动创建类型声明文件
     "declarationDir": "./dist/types/", // 类型声明文件的输出目录
