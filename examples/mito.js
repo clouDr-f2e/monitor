@@ -604,7 +604,7 @@ var MITO = (function () {
   }
 
   var name = "@zyf2e/mitojs";
-  var version = "1.0.8";
+  var version = "1.0.9";
 
   const SDK_NAME = name;
   const SDK_VERSION = version;
@@ -1071,24 +1071,6 @@ var MITO = (function () {
               data: this
           });
       }, true);
-      const proto = EventTarget && EventTarget.prototype;
-      if (!proto || !proto.hasOwnProperty || !proto.hasOwnProperty('addEventListener')) {
-          return;
-      }
-      replaceOld(proto, 'addEventListener', function (originalAddEventListener) {
-          return function (eventName, fn, options) {
-              const wrapperListener = (...args) => {
-                  try {
-                      return fn.apply(this, args);
-                  }
-                  catch (error) {
-                      console.log('wrapperListener', error);
-                      throw error;
-                  }
-              };
-              return originalAddEventListener.call(this, eventName, wrapperListener, options);
-          };
-      });
   }
 
   function log({ info = 'emptyMsg', tag = '', level = Severity.Normal, ex = '', type = ERRORTYPES.BUSINESS_ERROR }) {

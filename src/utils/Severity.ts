@@ -11,6 +11,7 @@ export enum Severity {
   High = 'high',
   Critical = 'critical'
 }
+
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Severity {
   /**

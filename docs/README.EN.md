@@ -29,12 +29,25 @@ MITO.init({})
 
 ```javascript
 <script></script>
-MITO.init()
+MITO.init({})
 ```
 
 
 
-# options
+## global event
+
+|    Name     |   Type   |                           Default                            | Description                              |
+| :---------: | :------: | :----------------------------------------------------------: | :--------------------------------------- |
+|   MitoVue   |  Object  |                      {install:Function}                      | Vue2.6 plugin,demo:Vue.use(MITO.MitoVue) |
+| SDK_VERSION |  String  |                   version in package.json                    | SDK version                              |
+|  SDK_NAME   |  String  |                     name in package.json                     | SDK name                                 |
+|    init     | Function |                     (option:InitOptions)                     | pass options you need to Initialize SDK  |
+|     log     | Function | (Info:string, tag:string, level = Severity.Normal, ex = '', type = ERRORTYPES.BUSINESS_ERROR) |                                          |
+
+
+
+
+## InitOptions
 |            Name            | Type      | Default                  | Description                                                  |
 | :------------------------: | --------- | ------------------------ | ------------------------------------------------------------ |
 |           `dsn`            | `string`  | `""`（需要来个默认地址） | dsn服务地址，上报接口的地址，post方法                        |
@@ -55,7 +68,7 @@ MITO.init()
 |     `silentHashchange`     | `boolean` | `false`                  | 默认会监控hashchange，为true时，将不在监控                   |
 |        `silentVue`         | `boolean` | `false`                  | 默认会监控Vue的错误，为true时，将不在监控                    |
 
-### options.hook
+### InitOptions-hook
 
 ```typescript
 export interface HooksTypes {
