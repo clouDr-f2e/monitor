@@ -1073,15 +1073,16 @@ var MITO = (function () {
       }, true);
   }
 
-  function log({ info = 'emptyMsg', tag = '', level = Severity.Normal, ex = '', type = ERRORTYPES.BUSINESS_ERROR }) {
+  function log({ message = 'emptyMsg', tag = '', level = Severity.Normal, ex = '' }) {
       let errorInfo = {};
       if (isError(ex)) {
           errorInfo = extractErrorStack(ex, level);
       }
-      const error = Object.assign(Object.assign({}, errorInfo), { type, customInfo: info, level, custmerTag: tag, url: getLocationHref() });
+      const error = Object.assign(Object.assign({}, errorInfo), { type: ERRORTYPES.LOG_ERROR, level,
+          message, name: 'MITO.log', custmerTag: tag, time: getTimestamp(), url: getLocationHref() });
       breadcrumb.push({
           type: BREADCRUMBTYPES.CUSTOMER,
-          data: info,
+          data: message,
           level: Severity.fromString(level.toString())
       });
       transportData.send(error);
@@ -1131,12 +1132,6 @@ var MITO = (function () {
                       console.error(err);
                   });
               }
-          };
-          Vue.config.warnHandler = function (msg, vm, trace) {
-              handleVueError.apply(null, [msg, vm, trace, Severity.Normal, Severity.Warning]);
-              slientConsoleScope(() => {
-                  hasConsole && console.error('[Vue warn]: ' + msg + trace);
-              });
           };
       }
   };

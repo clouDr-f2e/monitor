@@ -1,6 +1,6 @@
 import { _support, validateOption, logger } from 'utils'
 import { splitObjToQuery, Queue } from 'utils'
-import createErrorId from '../core/errorId'
+import createErrorId from '../errorId'
 import { SERVER_URL } from '../config'
 import { breadcrumb } from './breadcrumb'
 import { InitOptions } from '../types/options'

@@ -1,5 +1,5 @@
-import { ERRORTYPES } from '../common'
-import { ReportDataType } from '../types/transportData'
+import { ERRORTYPES } from './common'
+import { ReportDataType } from './types/transportData'
 const allErrorNumber: unknown = {}
 /**
  * 优化error合并规则
