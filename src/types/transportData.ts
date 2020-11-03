@@ -43,5 +43,4 @@ export interface ReportDataType {
   propsData?: any
   // logError 手动报错 MITO.log
   customTag?: string
-  customInfo?: string
 }

@@ -18,7 +18,7 @@ export class TransportData {
   private queue: Queue
   private beforeDataReport: unknown = null
   private backTrackerId: InitOptions | unknown = null
-  private configXhr: unknown = null
+  private configReportXhr: unknown = null
   // 需要根据当前sdk的地址
   private sdkVersion = '1.0.0'
   private apikey = ''
@@ -50,8 +50,8 @@ export class TransportData {
       xhr.open('POST', this.url)
       xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
       xhr.withCredentials = true
-      if (typeof this.configXhr === 'function') {
-        this.configXhr(xhr)
+      if (typeof this.configReportXhr === 'function') {
+        this.configReportXhr(xhr)
       }
       const errorId = createErrorId(data)
       if (!errorId) return
@@ -91,11 +91,11 @@ export class TransportData {
     return targetUrl.includes(this.url)
   }
   bindOptions(options: InitOptions = {}): void {
-    const { dsn, beforeDataReport, apikey, configXhr, backTrackerId } = options
+    const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
     validateOption(dsn, 'dsn', 'string') && (this.url = dsn)
     validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport)
-    validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr)
+    validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr)
     validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId)
   }
   send(data: ReportDataType | Record<string, unknown>): void {

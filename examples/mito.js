@@ -464,7 +464,7 @@ var MITO = (function () {
               break;
           case ERRORTYPES.BUSINESS_ERROR:
           case ERRORTYPES.LOG_ERROR:
-              id = data.type + data.name + data.message + locationUrl + data.customInfo;
+              id = data.type + data.name + data.message + locationUrl + data.message;
               break;
           case ERRORTYPES.PROMISE_ERROR:
               id = data.type + objectOrder(data.message) + locationUrl;
@@ -604,7 +604,7 @@ var MITO = (function () {
   }
 
   var name = "@zyf2e/mitojs";
-  var version = "1.1.0";
+  var version = "1.1.1";
 
   const SDK_NAME = name;
   const SDK_VERSION = version;
@@ -615,7 +615,7 @@ var MITO = (function () {
           this.url = url;
           this.beforeDataReport = null;
           this.backTrackerId = null;
-          this.configXhr = null;
+          this.configReportXhr = null;
           this.sdkVersion = '1.0.0';
           this.apikey = '';
           this.queue = new Queue();
@@ -644,8 +644,8 @@ var MITO = (function () {
               xhr.open('POST', this.url);
               xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
               xhr.withCredentials = true;
-              if (typeof this.configXhr === 'function') {
-                  this.configXhr(xhr);
+              if (typeof this.configReportXhr === 'function') {
+                  this.configReportXhr(xhr);
               }
               const errorId = createErrorId(data);
               if (!errorId)
@@ -687,11 +687,11 @@ var MITO = (function () {
           return targetUrl.includes(this.url);
       }
       bindOptions(options = {}) {
-          const { dsn, beforeDataReport, apikey, configXhr, backTrackerId } = options;
+          const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId } = options;
           validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey);
           validateOption(dsn, 'dsn', 'string') && (this.url = dsn);
           validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport);
-          validateOption(configXhr, 'configXhr', 'function') && (this.configXhr = configXhr);
+          validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr);
           validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId);
       }
       send(data) {
@@ -842,8 +842,8 @@ var MITO = (function () {
           this.enableTraceId = false;
       }
       bindOptions(options = {}) {
-          const { beforeAjaxSend, enableTraceId, filterXhrUrlRegExp, traceIdFieldName } = options;
-          validateOption(beforeAjaxSend, 'beforeAjaxSend', 'function') && (this.beforeAjaxSend = beforeAjaxSend);
+          const { beforeAppAjaxSend, enableTraceId, filterXhrUrlRegExp, traceIdFieldName } = options;
+          validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend);
           validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId);
           validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName);
           toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp);
@@ -927,7 +927,7 @@ var MITO = (function () {
                   this.mito_xhr.traceId = traceId;
                   this.setRequestHeader(options.traceIdFieldName, traceId);
               }
-              options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, this);
+              options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method, url }, this);
               on(this, 'loadend', function () {
                   if (method === 'POST' && transportData.isSdkTransportUrl(url))
                       return;
@@ -964,7 +964,7 @@ var MITO = (function () {
               Object.assign(headers, {
                   setRequestHeader: headers.set
               });
-              options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, headers);
+              options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method, url }, headers);
               config = Object.assign(Object.assign({}, config), { headers });
               console.log(config.headers);
               return originalFetch.apply(_global, [url, config]).then((res) => {

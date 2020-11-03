@@ -102,7 +102,7 @@ export interface HooksTypes {
    * xhr.withCredentials = true,后面调用该函数
    * @param xhr XMLHttpRequest的实例
    */
-  configXhr?(xhr: XMLHttpRequest): void
+  configReportXhr?(xhr: XMLHttpRequest): void
   /**
    * 钩子函数，在每次发送事件前会调用
    *
@@ -128,7 +128,7 @@ export interface HooksTypes {
    * 钩子函数，拦截用户页面的ajax请求，并在ajax请求发送前执行该hook，可以对用户发送的ajax请求做xhr.setRequestHeader
    * @param config 当前请求的
    */
-  beforeAjaxSend?(config: IRequestHeaderConfig, setRequestHeader: IBeforeAjaxSendConfig): void
+  beforeAppAjaxSend?(config: IRequestHeaderConfig, setRequestHeader: IBeforeAjaxSendConfig): void
 
   /**
    * 钩子函数，在beforeSend后面调用，在整合上报数据和本身SDK信息数据前调用，当前函数执行完后立即将数据错误信息上报至服务端

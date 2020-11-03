@@ -7,7 +7,6 @@ import { Severity } from '../utils/Severity'
 interface LogTypes {
   message: string
   level: Severity
-  info: string
   ex: any
   tag: string
   type: ERRORTYPES

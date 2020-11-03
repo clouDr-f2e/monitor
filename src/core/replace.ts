@@ -152,7 +152,7 @@ function xhrReplace(): void {
           this.mito_xhr.traceId = traceId
           this.setRequestHeader(options.traceIdFieldName, traceId)
         }
-        options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, this)
+        options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method, url }, this)
         on(this, 'loadend', function (this: MITOXMLHttpRequest) {
           if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
           if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(this.mito_xhr.url)) return
@@ -189,7 +189,7 @@ function fetchReplace(): void {
       Object.assign(headers, {
         setRequestHeader: headers.set
       })
-      options.beforeAjaxSend && options.beforeAjaxSend({ method, url }, headers)
+      options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method, url }, headers)
       config = {
         ...config,
         headers
