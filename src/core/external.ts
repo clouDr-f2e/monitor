@@ -32,6 +32,7 @@ export function log({ message = 'emptyMsg', tag = '', level = Severity.Normal, e
   }
   breadcrumb.push({
     type: BREADCRUMBTYPES.CUSTOMER,
+    category: breadcrumb.getCategory(BREADCRUMBTYPES.CUSTOMER),
     data: message,
     level: Severity.fromString(level.toString())
   })

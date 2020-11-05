@@ -19,9 +19,8 @@ const HandleEvents = {
    * 处理xhr、fetch回调
    */
   handleHttp(data: MITOHttp, type: BREADCRUMBTYPES): void {
-    // todo 是否需要加接口超过两秒的判断
     // 401 表示未授权
-    const isError = data.status >= 402 || data.status === 0
+    const isError = data.status === 0 || Number(data.statusText) >= 402
     breadcrumb.push({
       type,
       category: breadcrumb.getCategory(type),
@@ -39,7 +38,6 @@ const HandleEvents = {
       transportData.send(result)
     } else {
       // todo 需要加个hook，传入参数为请求的响应体
-      // data.responseText
     }
   },
   /**
@@ -48,8 +46,7 @@ const HandleEvents = {
   handleError(errorEvent: ErrorEvent): void {
     const target = errorEvent.target as ResourceErrorTarget
     if (target.localName) {
-      // 资源加载错误
-      // 提取有用数据
+      // 资源加载错误 提取有用数据
       const data = resourceTransform(errorEvent.target as ResourceErrorTarget)
       // push到行为栈
       breadcrumb.push({

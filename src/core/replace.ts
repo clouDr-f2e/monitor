@@ -194,7 +194,6 @@ function fetchReplace(): void {
         ...config,
         headers
       }
-      console.log(config.headers)
       return originalFetch.apply(_global, [url, config]).then(
         (res: Response) => {
           const tempRes = res.clone()
