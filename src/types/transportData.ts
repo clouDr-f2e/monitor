@@ -34,9 +34,7 @@ export interface ReportDataType {
   }
   response?: {
     status: number
-    statusText: string
     data: string
-    description: string
   }
   // vue
   componentName?: string

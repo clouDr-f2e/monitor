@@ -14,7 +14,7 @@ import {
   isExistProperty,
   generateUUID
 } from 'utils'
-import { voidFun, EVENTTYPES, HTTPTYPE } from '../common'
+import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '../common'
 import { transportData } from './transportData'
 import { logger } from '../utils/logger'
 import { options } from './options'
@@ -26,7 +26,7 @@ export interface MITOHttp {
   url?: string
   status?: number
   reqData?: any
-  statusText?: string
+  // statusText?: string
   sTime?: number
   elapsedTime?: number
   responseText?: any
@@ -160,8 +160,8 @@ function xhrReplace(): void {
           const eTime = getTimestamp()
           this.mito_xhr.time = eTime
           this.mito_xhr.status = this.status
-          this.mito_xhr.statusText = this.statusText
-          this.mito_xhr.responseText = this.responseText
+          // this.mito_xhr.statusText = this.statusText
+          this.mito_xhr.responseText = this.status > HTTP_CODE.UNAUTHORIZED && this.responseText
           this.mito_xhr.elapsedTime = eTime - this.mito_xhr.sTime
           triggerHandlers(EVENTTYPES.XHR, this.mito_xhr)
         })
@@ -176,7 +176,7 @@ function fetchReplace(): void {
     return
   }
   replaceOld(_global, EVENTTYPES.FETCH, (originalFetch: voidFun) => {
-    return function (url: string, config: Request): void {
+    return function (url: string, config: Partial<Request> = {}): void {
       const sTime = getTimestamp()
       const method = (config && config.method) || 'GET'
       let handlerData: MITOHttp = {
@@ -202,13 +202,13 @@ function fetchReplace(): void {
             ...handlerData,
             elapsedTime: eTime - sTime,
             status: tempRes.status,
-            statusText: tempRes.statusText,
+            // statusText: tempRes.statusText,
             time: eTime
           }
           tempRes.text().then((data) => {
             if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
             if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url)) return
-            handlerData.responseText = data
+            handlerData.responseText = tempRes.status > HTTP_CODE.UNAUTHORIZED && data
             triggerHandlers(EVENTTYPES.FETCH, handlerData)
           })
           return res
@@ -221,7 +221,7 @@ function fetchReplace(): void {
             ...handlerData,
             elapsedTime: eTime - sTime,
             status: 0,
-            statusText: err.name + err.message,
+            // statusText: err.name + err.message,
             time: eTime
           }
           triggerHandlers(EVENTTYPES.FETCH, handlerData)

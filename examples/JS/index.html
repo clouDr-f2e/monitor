@@ -13,10 +13,19 @@
       <button onclick="codeError()">代码错误</button>
       <button onclick="onClickFetchNormal()">正常请求</button>
       <button onclick="onClickFetchError()">异常请求</button>
+      <button onclick="onClickNativeFetch()">Fetch请求</button>
       <script>
         function codeError() {
-         let a = {} 
+         let a = {}
          a.split('/')
+        }
+        function onClickNativeFetch() {
+          fetch('https://api.apiopen.top/likePoetry?name=李白').then(res => {
+            res.text().then(res => {
+          })
+          },err => {
+            console.log('err', err.name, err.message)
+          })
         }
         function onClickFetchNormal() {
             const xhr = new XMLHttpRequest()

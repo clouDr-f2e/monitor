@@ -1,5 +1,5 @@
 import { MITOHttp } from './replace'
-import { BREADCRUMBTYPES, ERRORTYPES, globalVar, ERROR_TYPE_RE } from '../common'
+import { BREADCRUMBTYPES, ERRORTYPES, globalVar, ERROR_TYPE_RE, HTTP_CODE } from '../common'
 import { resourceTransform, httpTransform } from './transformData'
 import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
@@ -19,25 +19,22 @@ const HandleEvents = {
    * 处理xhr、fetch回调
    */
   handleHttp(data: MITOHttp, type: BREADCRUMBTYPES): void {
-    // 401 表示未授权
-    const isError = data.status === 0 || Number(data.statusText) >= 402
+    const isError = data.status === 0 || data.status > HTTP_CODE.UNAUTHORIZED
+    const result = httpTransform(data)
     breadcrumb.push({
       type,
       category: breadcrumb.getCategory(type),
-      data,
+      data: result,
       level: Severity.Info
     })
     if (isError) {
       breadcrumb.push({
         type,
         category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
-        data,
+        data: result,
         level: Severity.Error
       })
-      const result = httpTransform(data)
       transportData.send(result)
-    } else {
-      // todo 需要加个hook，传入参数为请求的响应体
     }
   },
   /**

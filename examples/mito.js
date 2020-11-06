@@ -51,6 +51,10 @@ var MITO = (function () {
       HTTPTYPE["XHR"] = "xhr";
       HTTPTYPE["FETCH"] = "fetch";
   })(HTTPTYPE || (HTTPTYPE = {}));
+  var HTTP_CODE;
+  (function (HTTP_CODE) {
+      HTTP_CODE[HTTP_CODE["UNAUTHORIZED"] = 401] = "UNAUTHORIZED";
+  })(HTTP_CODE || (HTTP_CODE = {}));
   const ERROR_TYPE_RE = /^(?:[Uu]ncaught (?:exception: )?)?(?:((?:Eval|Internal|Range|Reference|Syntax|Type|URI|)Error): )?(.*)$/;
   const globalVar = {
       isLogAddBreadcrumb: true,
@@ -464,7 +468,7 @@ var MITO = (function () {
               break;
           case ERRORTYPES.BUSINESS_ERROR:
           case ERRORTYPES.LOG_ERROR:
-              id = data.type + data.name + data.message + locationUrl + data.message;
+              id = data.type + data.name + data.message + locationUrl;
               break;
           case ERRORTYPES.PROMISE_ERROR:
               id = data.type + objectOrder(data.message) + locationUrl;
@@ -562,10 +566,70 @@ var MITO = (function () {
       Severity.fromString = fromString;
   })(Severity || (Severity = {}));
 
+  var SpanStatus;
+  (function (SpanStatus) {
+      SpanStatus["Ok"] = "ok";
+      SpanStatus["DeadlineExceeded"] = "deadline_exceeded";
+      SpanStatus["Unauthenticated"] = "unauthenticated";
+      SpanStatus["PermissionDenied"] = "permission_denied";
+      SpanStatus["NotFound"] = "not_found";
+      SpanStatus["ResourceExhausted"] = "resource_exhausted";
+      SpanStatus["InvalidArgument"] = "invalid_argument";
+      SpanStatus["Unimplemented"] = "unimplemented";
+      SpanStatus["Unavailable"] = "unavailable";
+      SpanStatus["InternalError"] = "internal_error";
+      SpanStatus["UnknownError"] = "unknown_error";
+      SpanStatus["Cancelled"] = "cancelled";
+      SpanStatus["AlreadyExists"] = "already_exists";
+      SpanStatus["FailedPrecondition"] = "failed_precondition";
+      SpanStatus["Aborted"] = "aborted";
+      SpanStatus["OutOfRange"] = "out_of_range";
+      SpanStatus["DataLoss"] = "data_loss";
+  })(SpanStatus || (SpanStatus = {}));
+  function fromHttpStatus(httpStatus) {
+      if (httpStatus < 400) {
+          return SpanStatus.Ok;
+      }
+      if (httpStatus >= 400 && httpStatus < 500) {
+          switch (httpStatus) {
+              case 401:
+                  return SpanStatus.Unauthenticated;
+              case 403:
+                  return SpanStatus.PermissionDenied;
+              case 404:
+                  return SpanStatus.NotFound;
+              case 409:
+                  return SpanStatus.AlreadyExists;
+              case 413:
+                  return SpanStatus.FailedPrecondition;
+              case 429:
+                  return SpanStatus.ResourceExhausted;
+              default:
+                  return SpanStatus.InvalidArgument;
+          }
+      }
+      if (httpStatus >= 500 && httpStatus < 600) {
+          switch (httpStatus) {
+              case 501:
+                  return SpanStatus.Unimplemented;
+              case 503:
+                  return SpanStatus.Unavailable;
+              case 504:
+                  return SpanStatus.DeadlineExceeded;
+              default:
+                  return SpanStatus.InternalError;
+          }
+      }
+      return SpanStatus.UnknownError;
+  }
+
   function httpTransform(data) {
-      let description = data.responseText;
+      let message = '';
       if (data.status === 0) {
-          description = data.elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制' : 'http请求失败，失败原因：超时';
+          message = data.elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制或域名不存在' : 'http请求失败，失败原因：超时';
+      }
+      else {
+          message = fromHttpStatus(data.status);
       }
       return {
           type: ERRORTYPES.FETCH_ERROR,
@@ -573,6 +637,8 @@ var MITO = (function () {
           time: data.time,
           elapsedTime: data.elapsedTime,
           level: Severity.Normal,
+          message,
+          name: `${data.type}--${data.method}`,
           request: {
               httpType: data.type,
               traceId: data.traceId,
@@ -582,24 +648,22 @@ var MITO = (function () {
           },
           response: {
               status: data.status,
-              statusText: data.statusText,
-              data: data.responseText || '',
-              description
+              data: data.status > HTTP_CODE.UNAUTHORIZED && data.responseText
           }
       };
   }
   const resourceMap = {
       img: '图片',
-      script: '脚本'
+      script: 'js脚本'
   };
   function resourceTransform(target) {
       return {
           type: ERRORTYPES.RESOURCE_ERROR,
           url: getLocationHref(),
-          message: '资源地址: ' + (target.src || target.href),
+          message: '资源地址: ' + (target.src.slice(0, 1000) || target.href.slice(0, 1000)),
           level: Severity.Low,
           time: getTimestamp(),
-          name: `${resourceMap[target.localName] || target.localName} failed to load`
+          name: `${resourceMap[target.localName] || target.localName} 加载失败`
       };
   }
 
@@ -703,21 +767,21 @@ var MITO = (function () {
 
   const HandleEvents = {
       handleHttp(data, type) {
-          const isError = data.status >= 402 || data.status === 0;
+          const isError = data.status === 0 || data.status > HTTP_CODE.UNAUTHORIZED;
+          const result = httpTransform(data);
           breadcrumb.push({
               type,
               category: breadcrumb.getCategory(type),
-              data,
+              data: result,
               level: Severity.Info
           });
           if (isError) {
               breadcrumb.push({
                   type,
                   category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
-                  data,
+                  data: result,
                   level: Severity.Error
               });
-              const result = httpTransform(data);
               transportData.send(result);
           }
       },
@@ -937,8 +1001,7 @@ var MITO = (function () {
                   const eTime = getTimestamp();
                   this.mito_xhr.time = eTime;
                   this.mito_xhr.status = this.status;
-                  this.mito_xhr.statusText = this.statusText;
-                  this.mito_xhr.responseText = this.responseText;
+                  this.mito_xhr.responseText = this.status > HTTP_CODE.UNAUTHORIZED && this.responseText;
                   this.mito_xhr.elapsedTime = eTime - this.mito_xhr.sTime;
                   triggerHandlers(EVENTTYPES.XHR, this.mito_xhr);
               });
@@ -951,7 +1014,7 @@ var MITO = (function () {
           return;
       }
       replaceOld(_global, EVENTTYPES.FETCH, (originalFetch) => {
-          return function (url, config) {
+          return function (url, config = {}) {
               const sTime = getTimestamp();
               const method = (config && config.method) || 'GET';
               let handlerData = {
@@ -966,17 +1029,16 @@ var MITO = (function () {
               });
               options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method, url }, headers);
               config = Object.assign(Object.assign({}, config), { headers });
-              console.log(config.headers);
               return originalFetch.apply(_global, [url, config]).then((res) => {
                   const tempRes = res.clone();
                   const eTime = getTimestamp();
-                  handlerData = Object.assign(Object.assign({}, handlerData), { elapsedTime: eTime - sTime, status: tempRes.status, statusText: tempRes.statusText, time: eTime });
+                  handlerData = Object.assign(Object.assign({}, handlerData), { elapsedTime: eTime - sTime, status: tempRes.status, time: eTime });
                   tempRes.text().then((data) => {
                       if (method === 'POST' && transportData.isSdkTransportUrl(url))
                           return;
                       if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url))
                           return;
-                      handlerData.responseText = data;
+                      handlerData.responseText = tempRes.status > HTTP_CODE.UNAUTHORIZED && data;
                       triggerHandlers(EVENTTYPES.FETCH, handlerData);
                   });
                   return res;
@@ -986,7 +1048,7 @@ var MITO = (function () {
                       return;
                   if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url))
                       return;
-                  handlerData = Object.assign(Object.assign({}, handlerData), { elapsedTime: eTime - sTime, status: 0, statusText: err.name + err.message, time: eTime });
+                  handlerData = Object.assign(Object.assign({}, handlerData), { elapsedTime: eTime - sTime, status: 0, time: eTime });
                   triggerHandlers(EVENTTYPES.FETCH, handlerData);
                   throw err;
               });
@@ -1082,6 +1144,7 @@ var MITO = (function () {
           message, name: 'MITO.log', custmerTag: tag, time: getTimestamp(), url: getLocationHref() });
       breadcrumb.push({
           type: BREADCRUMBTYPES.CUSTOMER,
+          category: breadcrumb.getCategory(BREADCRUMBTYPES.CUSTOMER),
           data: message,
           level: Severity.fromString(level.toString())
       });

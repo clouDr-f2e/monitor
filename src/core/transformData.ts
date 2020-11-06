@@ -1,15 +1,18 @@
 import { MITOHttp } from './replace'
-import { ERRORTYPES } from '../common'
+import { ERRORTYPES, HTTP_CODE } from '../common'
 import { getLocationHref, getTimestamp } from 'utils'
 import { ResourceErrorTarget } from './handleEvents'
 import { ReportDataType } from '../types/transportData'
 import { globalVar } from '../common'
 import { Severity } from '../utils/Severity'
+import { fromHttpStatus } from 'utils/httpStatus'
 
 export function httpTransform(data: MITOHttp): ReportDataType {
-  let description = data.responseText
+  let message = ''
   if (data.status === 0) {
-    description = data.elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制' : 'http请求失败，失败原因：超时'
+    message = data.elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制或域名不存在' : 'http请求失败，失败原因：超时'
+  } else {
+    message = fromHttpStatus(data.status)
   }
   return {
     type: ERRORTYPES.FETCH_ERROR,
@@ -17,8 +20,8 @@ export function httpTransform(data: MITOHttp): ReportDataType {
     time: data.time,
     elapsedTime: data.elapsedTime,
     level: Severity.Normal,
-    message: data.status ? '' : description,
-    name: `httpType:${data.type} method:${data.method}`,
+    message,
+    name: `${data.type}--${data.method}`,
     request: {
       httpType: data.type,
       traceId: data.traceId,
@@ -28,9 +31,8 @@ export function httpTransform(data: MITOHttp): ReportDataType {
     },
     response: {
       status: data.status,
-      statusText: data.statusText,
-      data: data.responseText || '',
-      description
+      // statusText: data.statusText,
+      data: data.status > HTTP_CODE.UNAUTHORIZED && data.responseText
     }
   }
 }

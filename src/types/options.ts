@@ -1,3 +1,4 @@
+import { MITOHttp } from 'core'
 import { Breadcrumb } from '../core/breadcrumb'
 import { BreadcrumbPushData } from './breadcrumb'
 import { ReportDataType } from './transportData'
@@ -88,6 +89,11 @@ export interface HooksTypes {
    * ../param config 当前请求的
    */
   beforeAppAjaxSend?(config: IRequestHeaderConfig, setRequestHeader: IBeforeAppAjaxSendConfig): void
+
+  /**
+   * 钩子函数：在页面拦截的ajax后，收集当次数据并传入该函数后并调用
+   */
+  // afterAppAjaxClose?(data: ReportDataType): ReportDataType
 
   /**
    * 钩子函数，在beforeSend后面调用，在整合上报数据和本身SDK信息数据前调用，当前函数执行完后立即将数据错误信息上报至服务端
