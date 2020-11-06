@@ -625,30 +625,31 @@ var MITO = (function () {
 
   function httpTransform(data) {
       let message = '';
-      if (data.status === 0) {
-          message = data.elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制或域名不存在' : 'http请求失败，失败原因：超时';
+      const { elapsedTime, time, method, traceId, type, status } = data;
+      if (status === 0) {
+          message = elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制或域名不存在' : 'http请求失败，失败原因：超时';
       }
       else {
-          message = fromHttpStatus(data.status);
+          message = fromHttpStatus(status);
       }
       return {
           type: ERRORTYPES.FETCH_ERROR,
           url: getLocationHref(),
-          time: data.time,
-          elapsedTime: data.elapsedTime,
+          time,
+          elapsedTime,
           level: Severity.Normal,
           message,
-          name: `${data.type}--${data.method}`,
+          name: `${type}--${method}`,
           request: {
-              httpType: data.type,
-              traceId: data.traceId,
-              method: data.method,
+              httpType: type,
+              traceId,
+              method,
               url: data.url,
               data: data.reqData || ''
           },
           response: {
               status: data.status,
-              data: data.status > HTTP_CODE.UNAUTHORIZED && data.responseText
+              data: status > HTTP_CODE.UNAUTHORIZED ? data.responseText : null
           }
       };
   }
@@ -668,7 +669,7 @@ var MITO = (function () {
   }
 
   var name = "@zyf2e/mitojs";
-  var version = "1.1.2";
+  var version = "1.1.4";
 
   const SDK_NAME = name;
   const SDK_VERSION = version;
