@@ -6,7 +6,7 @@
     "baseUrl": "./src", // 工作根目录
     "preserveConstEnums": true, // 使用 const enum 产生内联成员
     "experimentalDecorators": true, // 启用实验性的ES装饰器
-    "sourceMap": true, 
+    "sourceMap": true,
     "resolveJsonModule": true,
     "noImplicitAny": false, // 是否默认禁用 any
     "removeComments": true, // 是否移除注释
@@ -19,7 +19,7 @@
         "core/index"
       ],
     },
-    "types": [ 
+    "types": [
       "node",
     ],
     "target": "ES6", // 编译成什么版本
@@ -44,7 +44,7 @@
     "src/index.ts",
   ],
   "include": [
-    "src/**/*"
+    "src/**/*", "rollup.company.js"
   ],
   "exclude": [
     "node_modules",

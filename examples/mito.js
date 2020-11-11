@@ -1260,7 +1260,7 @@ var MITO = (function () {
   }
 
   function init(options = {}) {
-      if (options.disabled)
+      if (!('XMLHttpRequest' in _global) || options.disabled)
           return;
       bindOptions(options);
       setupReplace();

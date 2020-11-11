@@ -7,3 +7,7 @@ dist
 # test
 test
 .idea
+
+src/company
+
+rollup.company.js
