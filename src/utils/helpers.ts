@@ -162,3 +162,10 @@ export function generateUUID(): string {
   })
   return uuid
 }
+
+export function unknownToString(target: unknown) {
+  if (typeofAny(target, 'string')) {
+    return target
+  }
+  return JSON.stringify(target)
+}

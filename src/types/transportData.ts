@@ -4,6 +4,7 @@ import { BreadcrumbPushData } from './breadcrumb'
 export interface AuthInfo {
   apikey: string
   sdkVersion: string
+  sdkName: string
   trackerId: string
 }
 

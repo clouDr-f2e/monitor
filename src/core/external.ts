@@ -1,5 +1,5 @@
 import { ERRORTYPES, BREADCRUMBTYPES } from '../common'
-import { isError, extractErrorStack, getLocationHref, getTimestamp } from 'utils'
+import { isError, extractErrorStack, getLocationHref, getTimestamp, unknownToString } from 'utils'
 import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
 import { Severity } from '../utils/Severity'
@@ -24,9 +24,9 @@ export function log({ message = 'emptyMsg', tag = '', level = Severity.Normal, e
     ...errorInfo,
     type: ERRORTYPES.LOG_ERROR,
     level,
-    message,
+    message: unknownToString(message),
     name: 'MITO.log',
-    custmerTag: tag,
+    customTag: unknownToString(tag),
     time: getTimestamp(),
     url: getLocationHref()
   }

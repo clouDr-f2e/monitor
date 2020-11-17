@@ -1,7 +1,7 @@
 import { _support, validateOption, logger } from 'utils'
 import { splitObjToQuery, Queue } from 'utils'
 import createErrorId from '../errorId'
-import { SERVER_URL } from '../config'
+import { SDK_NAME, SDK_VERSION, SERVER_URL } from '../config'
 import { breadcrumb } from './breadcrumb'
 import { InitOptions } from '../types/options'
 import { AuthInfo, TransportDataType, ReportDataType } from '../types/transportData'
@@ -19,8 +19,6 @@ export class TransportData {
   private beforeDataReport: unknown = null
   private backTrackerId: InitOptions | unknown = null
   private configReportXhr: unknown = null
-  // 需要根据当前sdk的地址
-  private sdkVersion = '1.0.0'
   private apikey = ''
   constructor(public url: string) {
     this.queue = new Queue()
@@ -64,7 +62,8 @@ export class TransportData {
     const trackerId = this.getTrackerId()
     return {
       trackerId: String(trackerId),
-      sdkVersion: this.sdkVersion,
+      sdkVersion: SDK_VERSION,
+      sdkName: SDK_NAME,
       apikey: this.apikey
     }
   }
@@ -88,7 +87,7 @@ export class TransportData {
     }
   }
   isSdkTransportUrl(targetUrl: string): boolean {
-    return targetUrl.includes(this.url)
+    return targetUrl.indexOf(this.url) !== -1
   }
   bindOptions(options: InitOptions = {}): void {
     const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId } = options

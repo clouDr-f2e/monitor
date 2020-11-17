@@ -69,7 +69,7 @@ export interface HooksTypes {
    * ../param event 有SDK生成的错误事件
    * ../returns 如果返回 null | undefined | boolean 时，将忽略本次上传
    */
-  beforeDataReport?(event: ReportDataType): PromiseLike<Event | null> | Event | CANCEL
+  beforeDataReport?(event: ReportDataType): PromiseLike<ReportDataType | null> | ReportDataType | CANCEL
   /**
    * 钩子函数，在每次添加用户行为事件前都会调用
    *
