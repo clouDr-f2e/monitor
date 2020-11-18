@@ -96,7 +96,7 @@ export interface HooksTypes {
   // afterAppAjaxClose?(data: ReportDataType): ReportDataType
 
   /**
-   * 钩子函数，在beforeSend后面调用，在整合上报数据和本身SDK信息数据前调用，当前函数执行完后立即将数据错误信息上报至服务端
+   * 钩子函数，在beforeDataReport后面调用，在整合上报数据和本身SDK信息数据前调用，当前函数执行完后立即将数据错误信息上报至服务端
    * trackerId表示用户唯一键（可以理解成userId），需要trackerId的意义可以区分每个错误影响的用户数量
    */
   backTrackerId?(): string | number
