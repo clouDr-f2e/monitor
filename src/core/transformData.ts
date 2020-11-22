@@ -44,15 +44,12 @@ const resourceMap = {
 }
 
 export function resourceTransform(target: ResourceErrorTarget): ReportDataType {
-  // todo 移动端内嵌页面的资源地址同一个但是，每个手机的前缀不一样，会导致相同的问题，出现不同url，进而造成不同的errorId
-  // file:///data/user/0/com.kangmeng.prescription/files/internet-drugstore/111/index.html#/chooseConsultType
-
   return {
     type: ERRORTYPES.RESOURCE_ERROR,
     url: getLocationHref(),
-    message: '资源地址: ' + (target.src.slice(0, 1000) || target.href.slice(0, 1000)),
+    message: '资源地址: ' + (target.src.slice(0, 100) || target.href.slice(0, 100)),
     level: Severity.Low,
     time: getTimestamp(),
-    name: `${resourceMap[target.localName] || target.localName} 加载失败`
+    name: `${resourceMap[target.localName] || target.localName}加载失败`
   }
 }

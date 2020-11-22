@@ -4,21 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>js-demo</title>
-  <script src="https://test-mito.oss-cn-hangzhou.aliyuncs.com/mito.min.js" apikey="9683af30-150e-11eb-b4b8-f951678f9f1b" crossorigin="anonymous"></script>
+  <script src="../mito.js"></script>
+  <!-- <script src="https://test-mito.oss-cn-hangzhou.aliyuncs.com/mito.min.js" apikey="9683af30-150e-11eb-b4b8-f951678f9f1b" crossorigin="anonymous"></script> -->
 </head>
 <body>
       <!-- <script src="../mito.js"></script> -->
-      <!-- <script src="./initMito.js"></script> -->
+      <script src="./initMito.js"></script>
       <h1>控制台输出信息调试</h1>
       <button onclick="codeError()">代码错误</button>
       <button onclick="onClickFetchNormal()">正常请求</button>
       <button onclick="onClickFetchError()">异常请求</button>
       <button onclick="onClickNativeFetch()">Fetch请求</button>
       <button onclick="mitoLog()">log上报</button>
+      <button onclick="testPromise()">testPromise</button>
       <script>
         function codeError() {
          let a = {}
          a.split('/')
+        }
+        function testPromise() {
+          new Promise((resolve, reject) => {
+            reject('test')
+            // let a = 1
+            // a.split('')
+          })
         }
         function mitoLog() {
           MITO.log({message: {one:111}, tag: '测试', level:3})

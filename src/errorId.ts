@@ -1,13 +1,14 @@
-import { ERRORTYPES } from './common'
+import { getLocationHref } from 'utils'
+import { ERRORTYPES, EVENTTYPES } from './common'
 import { ReportDataType } from './types/transportData'
 const allErrorNumber: unknown = {}
 /**
- * 优化error合并规则
- * ../param data
+ * error合并规则
+ * @param data
  */
 export default function createErrorId(data: ReportDataType): number | null {
   let id: any
-  const locationUrl = getRealPath(data.url)
+  const locationUrl = getRealPageOrigin(data.url)
   switch (data.type) {
     case ERRORTYPES.FETCH_ERROR:
       id = data.type + data.request.method + data.response.status + getRealPath(data.request.url)
@@ -21,7 +22,7 @@ export default function createErrorId(data: ReportDataType): number | null {
       id = data.customTag + data.type + data.name + data.message + locationUrl
       break
     case ERRORTYPES.PROMISE_ERROR:
-      id = data.type + objectOrder(data.message) + locationUrl
+      id = generatePromiseErrorId(data)
       break
     default:
       id = data.type + data.message + locationUrl
@@ -33,12 +34,20 @@ export default function createErrorId(data: ReportDataType): number | null {
   } else {
     allErrorNumber[id] = 1
   }
-  // 如果当前应用的errorId重复两次，就认为这个错误没必要再次上传到服务端
   if (allErrorNumber[id] > 2) {
     return null
   }
   return id
 }
+
+function generatePromiseErrorId(data: ReportDataType) {
+  const locationUrl = getRealPath(data.url)
+  if (data.name === EVENTTYPES.UNHANDLEDREJECTION) {
+    return data.type + objectOrder(data.message) + getRealPageOrigin(getLocationHref())
+  }
+  return data.type + data.name + objectOrder(data.message) + locationUrl
+}
+
 /**
  * 排序对象键值对
  * ../param reason promise.reject
@@ -67,8 +76,21 @@ function objectOrder(reason: any) {
   }
 }
 
+/**
+ * http://.../project?id=1#a => http://.../project
+ * http://.../id/123=> http://.../id/{param}
+ *
+ * @param url
+ */
 function getRealPath(url: string): string {
-  return url.replace(/\?.*$/, '').replace(/\/\d+([\/]*$)/, '{param}$1')
+  return url.replace(/[\?#].*$/, '').replace(/\/\d+([\/]*$)/, '{param}$1')
+}
+/**
+ * http://.../#/project?id=1 => http://...
+ * @param url
+ */
+function getRealPageOrigin(url: string): string {
+  return getRealPath(url.replace(/(\S+)(\/#\/)(\S+)/, `$1`))
 }
 
 function hashCode(str: string): number {

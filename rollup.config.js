@@ -4,6 +4,8 @@ import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 import clear from 'rollup-plugin-clear'
+import cleanup from 'rollup-plugin-cleanup'
+
 const esmPackage = {
   input: 'src/index.ts',
   output: {
@@ -24,6 +26,9 @@ const esmPackage = {
     typescript({
       useTsconfigDeclarationDir: true,
       clean: true
+    }),
+    cleanup({
+      comments: 'none'
     })
   ]
 }
@@ -43,6 +48,9 @@ const cjsPackage = {
     json(),
     typescript({
       tsconfigOverride: { compilerOptions: { declaration: false } }
+    }),
+    cleanup({
+      comments: 'none'
     })
   ]
 }
@@ -62,6 +70,9 @@ const localDebug = {
     json(),
     typescript({
       tsconfigOverride: { compilerOptions: { declaration: false } }
+    }),
+    cleanup({
+      comments: 'none'
     })
   ]
 }
@@ -82,7 +93,10 @@ const iifePackage = {
     typescript({
       tsconfigOverride: { compilerOptions: { declaration: false } }
     }),
-    terser()
+    terser(),
+    cleanup({
+      comments: 'none'
+    })
   ]
 }
 const examplePackage = {
@@ -100,6 +114,9 @@ const examplePackage = {
     json(),
     typescript({
       tsconfigOverride: { compilerOptions: { declaration: false } }
+    }),
+    cleanup({
+      comments: 'none'
     })
   ]
 }

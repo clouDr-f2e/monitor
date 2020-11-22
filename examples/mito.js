@@ -1,21 +1,6 @@
 var MITO = (function () {
     'use strict';
 
-    /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation.
-
-    Permission to use, copy, modify, and/or distribute this software for any
-    purpose with or without fee is hereby granted.
-
-    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-    PERFORMANCE OF THIS SOFTWARE.
-    ***************************************************************************** */
-
     var __assign = function() {
         __assign = Object.assign || function __assign(t) {
             for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -26,7 +11,6 @@ var MITO = (function () {
         };
         return __assign.apply(this, arguments);
     };
-
     function __spreadArrays() {
         for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
         for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -526,7 +510,7 @@ var MITO = (function () {
     var allErrorNumber = {};
     function createErrorId(data) {
         var id;
-        var locationUrl = getRealPath(data.url);
+        var locationUrl = getRealPageOrigin(data.url);
         switch (data.type) {
             case ERRORTYPES.FETCH_ERROR:
                 id = data.type + data.request.method + data.response.status + getRealPath(data.request.url);
@@ -540,7 +524,7 @@ var MITO = (function () {
                 id = data.customTag + data.type + data.name + data.message + locationUrl;
                 break;
             case ERRORTYPES.PROMISE_ERROR:
-                id = data.type + objectOrder(data.message) + locationUrl;
+                id = generatePromiseErrorId(data);
                 break;
             default:
                 id = data.type + data.message + locationUrl;
@@ -557,6 +541,13 @@ var MITO = (function () {
             return null;
         }
         return id;
+    }
+    function generatePromiseErrorId(data) {
+        var locationUrl = getRealPath(data.url);
+        if (data.name === EVENTTYPES.UNHANDLEDREJECTION) {
+            return data.type + objectOrder(data.message) + getRealPageOrigin(getLocationHref());
+        }
+        return data.type + data.name + objectOrder(data.message) + locationUrl;
     }
     function objectOrder(reason) {
         var sortFn = function (obj) {
@@ -584,7 +575,10 @@ var MITO = (function () {
         }
     }
     function getRealPath(url) {
-        return url.replace(/\?.*$/, '').replace(/\/\d+([\/]*$)/, '{param}$1');
+        return url.replace(/[\?#].*$/, '').replace(/\/\d+([\/]*$)/, '{param}$1');
+    }
+    function getRealPageOrigin(url) {
+        return getRealPath(url.replace(/(\S+)(\/#\/)(\S+)/, "$1"));
     }
     function hashCode(str) {
         var hash = 0;
@@ -730,15 +724,15 @@ var MITO = (function () {
         return {
             type: ERRORTYPES.RESOURCE_ERROR,
             url: getLocationHref(),
-            message: '资源地址: ' + (target.src.slice(0, 1000) || target.href.slice(0, 1000)),
+            message: '资源地址: ' + (target.src.slice(0, 100) || target.href.slice(0, 100)),
             level: Severity.Low,
             time: getTimestamp(),
-            name: (resourceMap[target.localName] || target.localName) + " \u52A0\u8F7D\u5931\u8D25"
+            name: (resourceMap[target.localName] || target.localName) + "\u52A0\u8F7D\u5931\u8D25"
         };
     }
 
     var name = "@zyf2e/mitojs";
-    var version = "1.1.4";
+    var version = "1.1.6";
 
     var SDK_NAME = name;
     var SDK_VERSION = version;
