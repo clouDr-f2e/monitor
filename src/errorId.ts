@@ -1,4 +1,3 @@
-import { getLocationHref } from 'utils'
 import { ERRORTYPES, EVENTTYPES } from './common'
 import { ReportDataType } from './types/transportData'
 const allErrorNumber: unknown = {}
@@ -8,24 +7,24 @@ const allErrorNumber: unknown = {}
  */
 export default function createErrorId(data: ReportDataType): number | null {
   let id: any
-  const locationUrl = getRealPageOrigin(data.url)
+  const originUrl = getRealPageOrigin(data.url)
   switch (data.type) {
     case ERRORTYPES.FETCH_ERROR:
       id = data.type + data.request.method + data.response.status + getRealPath(data.request.url)
       break
     case ERRORTYPES.JAVASCRIPT_ERROR:
     case ERRORTYPES.VUE_ERROR:
-      id = data.type + data.name + data.message + locationUrl
+      id = data.type + data.name + data.message + originUrl
       break
     case ERRORTYPES.BUSINESS_ERROR:
     case ERRORTYPES.LOG_ERROR:
-      id = data.customTag + data.type + data.name + data.message + locationUrl
+      id = data.customTag + data.type + data.name + data.message + originUrl
       break
     case ERRORTYPES.PROMISE_ERROR:
-      id = generatePromiseErrorId(data)
+      id = generatePromiseErrorId(data, originUrl)
       break
     default:
-      id = data.type + data.message + locationUrl
+      id = data.type + data.message + originUrl
       break
   }
   id = hashCode(id)
@@ -40,10 +39,10 @@ export default function createErrorId(data: ReportDataType): number | null {
   return id
 }
 
-function generatePromiseErrorId(data: ReportDataType) {
+function generatePromiseErrorId(data: ReportDataType, originUrl: string) {
   const locationUrl = getRealPath(data.url)
   if (data.name === EVENTTYPES.UNHANDLEDREJECTION) {
-    return data.type + objectOrder(data.message) + getRealPageOrigin(getLocationHref())
+    return data.type + objectOrder(data.message) + originUrl
   }
   return data.type + data.name + objectOrder(data.message) + locationUrl
 }

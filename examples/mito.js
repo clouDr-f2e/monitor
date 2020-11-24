@@ -510,24 +510,24 @@ var MITO = (function () {
     var allErrorNumber = {};
     function createErrorId(data) {
         var id;
-        var locationUrl = getRealPageOrigin(data.url);
+        var originUrl = getRealPageOrigin(data.url);
         switch (data.type) {
             case ERRORTYPES.FETCH_ERROR:
                 id = data.type + data.request.method + data.response.status + getRealPath(data.request.url);
                 break;
             case ERRORTYPES.JAVASCRIPT_ERROR:
             case ERRORTYPES.VUE_ERROR:
-                id = data.type + data.name + data.message + locationUrl;
+                id = data.type + data.name + data.message + originUrl;
                 break;
             case ERRORTYPES.BUSINESS_ERROR:
             case ERRORTYPES.LOG_ERROR:
-                id = data.customTag + data.type + data.name + data.message + locationUrl;
+                id = data.customTag + data.type + data.name + data.message + originUrl;
                 break;
             case ERRORTYPES.PROMISE_ERROR:
-                id = generatePromiseErrorId(data);
+                id = generatePromiseErrorId(data, originUrl);
                 break;
             default:
-                id = data.type + data.message + locationUrl;
+                id = data.type + data.message + originUrl;
                 break;
         }
         id = hashCode(id);
@@ -542,10 +542,10 @@ var MITO = (function () {
         }
         return id;
     }
-    function generatePromiseErrorId(data) {
+    function generatePromiseErrorId(data, originUrl) {
         var locationUrl = getRealPath(data.url);
         if (data.name === EVENTTYPES.UNHANDLEDREJECTION) {
-            return data.type + objectOrder(data.message) + getRealPageOrigin(getLocationHref());
+            return data.type + objectOrder(data.message) + originUrl;
         }
         return data.type + data.name + objectOrder(data.message) + locationUrl;
     }
@@ -732,7 +732,7 @@ var MITO = (function () {
     }
 
     var name = "@zyf2e/mitojs";
-    var version = "1.1.6";
+    var version = "1.1.7";
 
     var SDK_NAME = name;
     var SDK_VERSION = version;
