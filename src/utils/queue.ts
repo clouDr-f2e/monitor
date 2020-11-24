@@ -1,14 +1,20 @@
 import { voidFun } from '../common'
+import { _global } from './global'
 export class Queue {
   private micro: Promise<void>
   private stack: any[] = []
   private isFlushing = false
   constructor() {
     // 默认认为有Promise，不考虑兼容老版本浏览器
+    if (!('Promise' in _global)) return
     this.micro = Promise.resolve()
   }
   addFn(fn: voidFun): void {
     if (typeof fn !== 'function') return
+    if (!('Promise' in _global)) {
+      fn()
+      return
+    }
     this.stack.push(fn)
     if (!this.isFlushing) {
       this.isFlushing = true
