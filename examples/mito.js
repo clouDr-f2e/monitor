@@ -382,8 +382,9 @@ var MITO = (function () {
         }
     }
 
+    var nativeToString = Object.prototype.toString;
     function isError(wat) {
-        switch (Object.prototype.toString.call(wat)) {
+        switch (nativeToString.call(wat)) {
             case '[object Error]':
                 return true;
             case '[object Exception]':
@@ -394,8 +395,11 @@ var MITO = (function () {
                 return isInstanceOf(wat, Error);
         }
     }
+    function isArray(wat) {
+        return nativeToString.call(wat) === '[object Array]';
+    }
     function isString(wat) {
-        return Object.prototype.toString.call(wat) === '[object String]';
+        return nativeToString.call(wat) === '[object String]';
     }
     function isInstanceOf(wat, base) {
         try {
@@ -421,12 +425,18 @@ var MITO = (function () {
         function Queue() {
             this.stack = [];
             this.isFlushing = false;
+            if (!('Promise' in _global))
+                return;
             this.micro = Promise.resolve();
         }
         Queue.prototype.addFn = function (fn) {
             var _this = this;
             if (typeof fn !== 'function')
                 return;
+            if (!('Promise' in _global)) {
+                fn();
+                return;
+            }
             this.stack.push(fn);
             if (!this.isFlushing) {
                 this.isFlushing = true;
@@ -752,7 +762,7 @@ var MITO = (function () {
         };
         TransportData.prototype.getRecord = function () {
             var recordData = _support.record;
-            if (recordData && Array.isArray(recordData) && recordData.length > 2) {
+            if (recordData && isArray(recordData) && recordData.length > 2) {
                 return recordData;
             }
             return [];

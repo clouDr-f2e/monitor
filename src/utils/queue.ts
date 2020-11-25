@@ -5,7 +5,6 @@ export class Queue {
   private stack: any[] = []
   private isFlushing = false
   constructor() {
-    // 默认认为有Promise，不考虑兼容老版本浏览器
     if (!('Promise' in _global)) return
     this.micro = Promise.resolve()
   }

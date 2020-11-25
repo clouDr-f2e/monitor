@@ -20,7 +20,7 @@
 ## 为什么使用mitojs
 * 🔨 监听请求错误、console、路由跳转、代码报错、click、资源加载错误
 * 🏅 自定义上报错误
-* 🤙 `mito.min.js`只需18k
+* 🤙 `mito.min.js`只需21k
 * 🚀 丰富的hooks和配置项
 * 👌 持续迭代与更新
 

@@ -1,4 +1,4 @@
-import { _support, validateOption, logger } from 'utils'
+import { _support, validateOption, logger, isArray } from 'utils'
 import { splitObjToQuery, Queue } from 'utils'
 import createErrorId from '../errorId'
 import { SDK_NAME, SDK_VERSION, SERVER_URL } from '../config'
@@ -28,7 +28,7 @@ export class TransportData {
   }
   getRecord(): any[] {
     const recordData = _support.record
-    if (recordData && Array.isArray(recordData) && recordData.length > 2) {
+    if (recordData && isArray(recordData) && recordData.length > 2) {
       return recordData
     }
     return []

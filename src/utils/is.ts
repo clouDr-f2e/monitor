@@ -1,3 +1,4 @@
+const nativeToString = Object.prototype.toString
 /**
  * Checks whether given value's type is one of a few Error or Error-like
  * {../link isError}.
@@ -6,7 +7,7 @@
  * ../returns A boolean representing the result.
  */
 export function isError(wat: any): boolean {
-  switch (Object.prototype.toString.call(wat)) {
+  switch (nativeToString.call(wat)) {
     case '[object Error]':
       return true
     case '[object Exception]':
@@ -18,6 +19,10 @@ export function isError(wat: any): boolean {
   }
 }
 
+export function isArray(wat: any): boolean {
+  return nativeToString.call(wat) === '[object Array]'
+}
+
 /**
  * Checks whether given value's type is ErrorEvent
  * {../link isErrorEvent}.
@@ -26,7 +31,7 @@ export function isError(wat: any): boolean {
  * ../returns A boolean representing the result.
  */
 export function isErrorEvent(wat: any): boolean {
-  return Object.prototype.toString.call(wat) === '[object ErrorEvent]'
+  return nativeToString.call(wat) === '[object ErrorEvent]'
 }
 
 /**
@@ -37,7 +42,7 @@ export function isErrorEvent(wat: any): boolean {
  * ../returns A boolean representing the result.
  */
 export function isDOMError(wat: any): boolean {
-  return Object.prototype.toString.call(wat) === '[object DOMError]'
+  return nativeToString.call(wat) === '[object DOMError]'
 }
 
 /**
@@ -48,7 +53,7 @@ export function isDOMError(wat: any): boolean {
  * ../returns A boolean representing the result.
  */
 export function isDOMException(wat: any): boolean {
-  return Object.prototype.toString.call(wat) === '[object DOMException]'
+  return nativeToString.call(wat) === '[object DOMException]'
 }
 
 /**
@@ -59,7 +64,7 @@ export function isDOMException(wat: any): boolean {
  * ../returns A boolean representing the result.
  */
 export function isString(wat: any): boolean {
-  return Object.prototype.toString.call(wat) === '[object String]'
+  return nativeToString.call(wat) === '[object String]'
 }
 
 /**
@@ -81,7 +86,7 @@ export function isPrimitive(wat: any): boolean {
  * ../returns A boolean representing the result.
  */
 export function isPlainObject(wat: any): boolean {
-  return Object.prototype.toString.call(wat) === '[object Object]'
+  return nativeToString.call(wat) === '[object Object]'
 }
 
 /**
@@ -124,7 +129,7 @@ export function isElement(wat: any): boolean {
  * ../returns A boolean representing the result.
  */
 export function isRegExp(wat: any): boolean {
-  return Object.prototype.toString.call(wat) === '[object RegExp]'
+  return nativeToString.call(wat) === '[object RegExp]'
 }
 
 /**
