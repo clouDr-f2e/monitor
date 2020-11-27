@@ -58,7 +58,7 @@ const HandleEvents = {
     const { message, filename, lineno, colno, error } = errorEvent
     let result: ReportDataType
     if (error && isError(error)) {
-      result = extractErrorStack(error, Severity.High)
+      result = extractErrorStack(error, Severity.Normal)
     } else {
       result = HandleEvents.handleNotErrorInstance(message, filename, lineno, colno)
     }
@@ -93,7 +93,7 @@ const HandleEvents = {
       url,
       name,
       message: msg,
-      level: Severity.Normal,
+      level: Severity.Low,
       time: getTimestamp(),
       stack: [element]
     }
@@ -133,12 +133,12 @@ const HandleEvents = {
       url: getLocationHref(),
       name: ev.type,
       time: getTimestamp(),
-      level: Severity.Normal
+      level: Severity.Low
     }
     if (isError(ev.reason)) {
       data = {
         ...data,
-        ...extractErrorStack(ev.reason, Severity.Normal)
+        ...extractErrorStack(ev.reason, Severity.Low)
       }
     }
     breadcrumb.push({

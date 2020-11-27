@@ -20,7 +20,7 @@ export function httpTransform(data: MITOHttp): ReportDataType {
     url: getLocationHref(),
     time,
     elapsedTime,
-    level: Severity.Normal,
+    level: Severity.Low,
     message,
     name: `${type}--${method}`,
     request: {

@@ -15,7 +15,7 @@ interface LogTypes {
 /**
  * 自定义上报事件
  */
-export function log({ message = 'emptyMsg', tag = '', level = Severity.Normal, ex = '' }: LogTypes): void {
+export function log({ message = 'emptyMsg', tag = '', level = Severity.Low, ex = '' }: LogTypes): void {
   let errorInfo = {}
   if (isError(ex)) {
     errorInfo = extractErrorStack(ex, level)

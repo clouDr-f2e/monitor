@@ -24,7 +24,7 @@ export const MitoVue = {
       }
     }
     // Vue.config.warnHandler = function (msg: string, vm: ViewModel, trace: string): void {
-    //   handleVueError.apply(null, [msg, vm, trace, Severity.Normal, Severity.Warning])
+    //   handleVueError.apply(null, [msg, vm, trace, Severity.Low, Severity.Warning])
     //   slientConsoleScope(() => {
     //     hasConsole && console.error('[Vue warn]: ' + msg + trace)
     //   })

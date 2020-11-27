@@ -627,7 +627,7 @@ var MITO = (function () {
                 case 'warning':
                     return Severity.Warning;
                 case Severity.Low:
-                case Severity.Normal:
+                case Severity.Low:
                 case Severity.High:
                 case Severity.Critical:
                 case 'error':
@@ -710,7 +710,7 @@ var MITO = (function () {
             url: getLocationHref(),
             time: time,
             elapsedTime: elapsedTime,
-            level: Severity.Normal,
+            level: Severity.Low,
             message: message,
             name: type + "--" + method,
             request: {
@@ -742,7 +742,7 @@ var MITO = (function () {
     }
 
     var name = "@zyf2e/mitojs";
-    var version = "1.1.7";
+    var version = "1.1.8";
 
     var SDK_NAME = name;
     var SDK_VERSION = version;
@@ -877,7 +877,7 @@ var MITO = (function () {
             var message = errorEvent.message, filename = errorEvent.filename, lineno = errorEvent.lineno, colno = errorEvent.colno, error = errorEvent.error;
             var result;
             if (error && isError(error)) {
-                result = extractErrorStack(error, Severity.High);
+                result = extractErrorStack(error, Severity.Normal);
             }
             else {
                 result = HandleEvents.handleNotErrorInstance(message, filename, lineno, colno);
@@ -912,7 +912,7 @@ var MITO = (function () {
                 url: url,
                 name: name,
                 message: msg,
-                level: Severity.Normal,
+                level: Severity.Low,
                 time: getTimestamp(),
                 stack: [element]
             };
@@ -952,10 +952,10 @@ var MITO = (function () {
                 url: getLocationHref(),
                 name: ev.type,
                 time: getTimestamp(),
-                level: Severity.Normal
+                level: Severity.Low
             };
             if (isError(ev.reason)) {
-                data = __assign(__assign({}, data), extractErrorStack(ev.reason, Severity.Normal));
+                data = __assign(__assign({}, data), extractErrorStack(ev.reason, Severity.Low));
             }
             breadcrumb.push({
                 type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
@@ -1236,7 +1236,7 @@ var MITO = (function () {
     }
 
     function log(_a) {
-        var _b = _a.message, message = _b === void 0 ? 'emptyMsg' : _b, _c = _a.tag, tag = _c === void 0 ? '' : _c, _d = _a.level, level = _d === void 0 ? Severity.Normal : _d, _e = _a.ex, ex = _e === void 0 ? '' : _e;
+        var _b = _a.message, message = _b === void 0 ? 'emptyMsg' : _b, _c = _a.tag, tag = _c === void 0 ? '' : _c, _d = _a.level, level = _d === void 0 ? Severity.Low : _d, _e = _a.ex, ex = _e === void 0 ? '' : _e;
         var errorInfo = {};
         if (isError(ex)) {
             errorInfo = extractErrorStack(ex, level);
