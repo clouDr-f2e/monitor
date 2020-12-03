@@ -75,7 +75,11 @@ export function setSilentFlag(opitons: InitOptions = {}): void {
   setFlag(EVENTTYPES.VUE, !!opitons.silentVue)
 }
 
-// 复用老的sdk，用来解析error的stack，并返回args、column、line、func、url:
+/**
+ * 解析error的stack，并返回args、column、line、func、url:
+ * @param ex
+ * @param level
+ */
 export function extractErrorStack(ex: any, level: Severity): ReportDataType {
   const normal = {
     time: getTimestamp(),
