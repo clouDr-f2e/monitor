@@ -30,7 +30,9 @@
           })
         }
         function mitoLog() {
-          MITO.log({message: {one:111}, tag: '测试', level:3})
+          // MITO.log({message: {one:111}, tag: '测试', level:3})
+          // 兼容老代码
+          // MITO.log('错误', {one:11})
         }
         function onClickNativeFetch() {
           fetch('https://api.apiopen.top/likePoetry?name=李白').then(res => {

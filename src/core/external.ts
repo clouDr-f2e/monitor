@@ -9,13 +9,12 @@ interface LogTypes {
   level: Severity
   ex: any
   tag: string
-  type: ERRORTYPES
 }
 
 /**
  * 自定义上报事件
  */
-export function log({ message = 'emptyMsg', tag = '', level = Severity.Low, ex = '' }: LogTypes): void {
+export function log({ message = 'emptyMsg', tag = '', level = Severity.Critical, ex = '' }: LogTypes): void {
   let errorInfo = {}
   if (isError(ex)) {
     errorInfo = extractErrorStack(ex, level)

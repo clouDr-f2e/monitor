@@ -530,7 +530,7 @@ function createErrorId(data) {
             break;
         case ERRORTYPES.BUSINESS_ERROR:
         case ERRORTYPES.LOG_ERROR:
-            id = data.customTag + data.type + data.name + data.message + originUrl;
+            id = data.customTag + data.type + data.name + originUrl;
             break;
         case ERRORTYPES.PROMISE_ERROR:
             id = generatePromiseErrorId(data, originUrl);
@@ -1235,7 +1235,7 @@ function domReplace() {
 }
 
 function log(_a) {
-    var _b = _a.message, message = _b === void 0 ? 'emptyMsg' : _b, _c = _a.tag, tag = _c === void 0 ? '' : _c, _d = _a.level, level = _d === void 0 ? Severity.Low : _d, _e = _a.ex, ex = _e === void 0 ? '' : _e;
+    var _b = _a.message, message = _b === void 0 ? 'emptyMsg' : _b, _c = _a.tag, tag = _c === void 0 ? '' : _c, _d = _a.level, level = _d === void 0 ? Severity.Critical : _d, _e = _a.ex, ex = _e === void 0 ? '' : _e;
     var errorInfo = {};
     if (isError(ex)) {
         errorInfo = extractErrorStack(ex, level);
