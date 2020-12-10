@@ -59,8 +59,6 @@ const HandleEvents = {
     let result: ReportDataType
     if (error && isError(error)) {
       result = extractErrorStack(error, Severity.Normal)
-    } else {
-      result = HandleEvents.handleNotErrorInstance(message, filename, lineno, colno)
     }
     // 处理SyntaxError，stack没有lineno、colno
     result || (result = HandleEvents.handleNotErrorInstance(message, filename, lineno, colno))
@@ -93,7 +91,7 @@ const HandleEvents = {
       url,
       name,
       message: msg,
-      level: Severity.Low,
+      level: Severity.Normal,
       time: getTimestamp(),
       stack: [element]
     }
