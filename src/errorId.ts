@@ -10,7 +10,7 @@ export default function createErrorId(data: ReportDataType): number | null {
   const originUrl = getRealPageOrigin(data.url)
   switch (data.type) {
     case ERRORTYPES.FETCH_ERROR:
-      id = data.type + data.request.method + data.response.status + getRealPath(data.request.url)
+      id = data.type + data.request.method + data.response.status + getRealPath(data.request.url) + originUrl
       break
     case ERRORTYPES.JAVASCRIPT_ERROR:
     case ERRORTYPES.VUE_ERROR:
@@ -85,11 +85,11 @@ function getRealPath(url: string): string {
   return url.replace(/[\?#].*$/, '').replace(/\/\d+([\/]*$)/, '{param}$1')
 }
 /**
- * http://.../#/project?id=1 => http://...
+ * http://a.b.com/#/project?id=1 => a.b.com
  * @param url
  */
 function getRealPageOrigin(url: string): string {
-  return getRealPath(url.replace(/(\S+)(\/#\/)(\S+)/, `$1`))
+  return getRealPath(url.replace(/(\S+)(\/#\/)(\S*)/, `$1`).replace(/(\S*)(\/\/)(\S+)/, '$3'))
 }
 
 function hashCode(str: string): number {
