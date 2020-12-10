@@ -3,6 +3,7 @@
     <img src="https://i.loli.net/2020/08/21/87uCfjsrWwhA5YL.jpg" alt="Ohbug" height="90">
     </a>
     <p>一款轻量级的收集页面的用户点击行为、路由跳转、接口报错、代码报错、并上报服务端的SDK</p>
+
 [![npm version](https://img.shields.io/npm/v/@zyf2e/mitojs.svg?style=flat-square)](https://www.npmjs.org/package/@zyf2e/mitojs)
 [![install size](https://packagephobia.now.sh/badge?p=@zyf2e/mitojs)](https://packagephobia.now.sh/result?p=@zyf2e/mitojs)
 [![npm downloads](https://img.shields.io/npm/dm/@zyf2e/mitojs.svg?style=flat-square)](http://npm-stat.com/charts.html?package=@zyf2e/mitojs)
@@ -20,15 +21,14 @@
 <!-- [![code coverage](https://img.shields.io/coveralls/mzabriskie/axios.svg?style=flat-square)](https://coveralls.io/r/mzabriskie/axios) -->
 
 ## 功能特性
-- [x] 🔨监听http请求错误
-- [x] 🔨监听console
-- [x] 🔨监听路由跳转
-- [x] 🔨监听代码报错
-- [x] 🔨监听click dom
-- [x] 🔨监听资源加载错误
-- [x] 🔨完整的用户行为：breadcrumb
+- [x] 🔨监听请求错误
+- [x] 🔨console
+- [x] 🔨路由跳转
+- [x] 🔨代码报错
+- [x] 🔨click
+- [x] 🔨资源加载错误
 - [x] 🏅自定义上报错误
-- [x] 🚀丰富的hooks和配置项：拦截页面ajax请求头、配置发送服务端前后的钩子函数等等
+- [x] 🚀丰富的hooks和配置项
 - [x] 🌝支持IE8以上
 - [x] 👌持续迭代与更新
 - [ ] 支持react
