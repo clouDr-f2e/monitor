@@ -25,6 +25,7 @@ var ERRORTYPES;
     ERRORTYPES["LOG_ERROR"] = "LOG_ERROR";
     ERRORTYPES["FETCH_ERROR"] = "HTTP_ERROR";
     ERRORTYPES["VUE_ERROR"] = "VUE_ERROR";
+    ERRORTYPES["REACT_ERROR"] = "REACT_ERROR";
     ERRORTYPES["RESOURCE_ERROR"] = "RESOURCE_ERROR";
     ERRORTYPES["PROMISE_ERROR"] = "PROMISE_ERROR";
 })(ERRORTYPES || (ERRORTYPES = {}));
@@ -37,6 +38,7 @@ var BREADCRUMBTYPES;
     BREADCRUMBTYPES["FETCH"] = "Fetch";
     BREADCRUMBTYPES["UNHANDLEDREJECTION"] = "Unhandledrejection";
     BREADCRUMBTYPES["VUE"] = "Vue";
+    BREADCRUMBTYPES["REACT"] = "React";
     BREADCRUMBTYPES["RESOURCE"] = "Resource";
     BREADCRUMBTYPES["CODE_ERROR"] = "Code Error";
     BREADCRUMBTYPES["CUSTOMER"] = "Customer";
@@ -502,6 +504,7 @@ var Breadcrumb = (function () {
             case BREADCRUMBTYPES.CODE_ERROR:
             case BREADCRUMBTYPES.RESOURCE:
             case BREADCRUMBTYPES.VUE:
+            case BREADCRUMBTYPES.REACT:
             default:
                 return BREADCRUMBCATEGORYS.EXCEPTION;
         }
@@ -626,6 +629,7 @@ var Severity;
             case 'warning':
                 return Severity.Warning;
             case Severity.Low:
+            case Severity.Normal:
             case Severity.High:
             case Severity.Critical:
             case 'error':
@@ -740,7 +744,7 @@ function resourceTransform(target) {
 }
 
 var name = "@zyf2e/mitojs";
-var version = "1.1.8";
+var version = "1.1.9";
 
 var SDK_NAME = name;
 var SDK_VERSION = version;
@@ -1356,6 +1360,21 @@ function setupReplace() {
     });
 }
 
+function errorBoundaryReport(ex) {
+    if (isError(ex)) {
+        var error = extractErrorStack(ex, Severity.Normal);
+        error.type = ERRORTYPES.REACT_ERROR;
+        breadcrumb.push({
+            type: BREADCRUMBTYPES.REACT,
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.REACT),
+            data: error.message,
+            level: Severity.fromString(error.level)
+        });
+        transportData.send(error);
+    }
+    console.log('传入的react error不是一个object Error');
+}
+
 function init(options) {
     if (options === void 0) { options = {}; }
     if (!('XMLHttpRequest' in _global) || options.disabled)
@@ -1371,7 +1390,7 @@ function bindOptions(options$1) {
     transportData.bindOptions(options$1);
     options.bindOptions(options$1);
 }
-var index = { MitoVue: MitoVue, SDK_VERSION: SDK_VERSION, SDK_NAME: SDK_NAME, init: init, log: log };
+var index = { MitoVue: MitoVue, SDK_VERSION: SDK_VERSION, SDK_NAME: SDK_NAME, init: init, log: log, errorBoundaryReport: errorBoundaryReport };
 
 export default index;
 //# sourceMappingURL=index.esm.js.map

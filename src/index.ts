@@ -5,6 +5,7 @@ import { logger, setSilentFlag, _global } from './utils/index'
 import { SDK_VERSION, SDK_NAME } from './config'
 import { InitOptions } from './types/index'
 import { options as initOptions } from './core/options'
+import { errorBoundaryReport } from 'React/index'
 function init(options: InitOptions = {}): void {
   if (!('XMLHttpRequest' in _global) || options.disabled) return
   bindOptions(options)
@@ -19,4 +20,4 @@ function bindOptions(options: InitOptions = {}) {
   initOptions.bindOptions(options)
 }
 
-export default { MitoVue, SDK_VERSION, SDK_NAME, init, log }
+export default { MitoVue, SDK_VERSION, SDK_NAME, init, log, errorBoundaryReport }

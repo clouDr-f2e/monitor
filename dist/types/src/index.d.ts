@@ -1,5 +1,6 @@
 import { log } from './core/index';
 import { InitOptions } from './types/index';
+import { errorBoundaryReport } from 'React/index';
 declare function init(options?: InitOptions): void;
 declare const _default: {
     MitoVue: {
@@ -9,5 +10,6 @@ declare const _default: {
     SDK_NAME: string;
     init: typeof init;
     log: typeof log;
+    errorBoundaryReport: typeof errorBoundaryReport;
 };
 export default _default;

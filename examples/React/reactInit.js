@@ -5,14 +5,15 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false }
   }
 
-  static getDerivedStateFromError(error) {
-    // 更新 state 使下一次渲染能够显示降级后的 UI
-    console.log('getDerivedStateFromError', error)
-    return error
-  }
+  // static getDerivedStateFromError(error) {
+  //   // 更新 state 使下一次渲染能够显示降级后的 UI
+  //   console.log('getDerivedStateFromError', error)
+  //   return error
+  // }
 
   componentDidCatch(error, errorInfo) {
     console.log('ErrorBoundary', error, errorInfo)
+    MITO.errorBoundaryReport(error)
     if (error) {
       this.setState({
         hasError: true

@@ -32,6 +32,7 @@ export namespace Severity {
       case 'warning':
         return Severity.Warning
       case Severity.Low:
+      case Severity.Normal:
       case Severity.High:
       case Severity.Critical:
       case 'error':
