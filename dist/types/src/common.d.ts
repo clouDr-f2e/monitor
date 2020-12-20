@@ -45,7 +45,9 @@ export declare enum HTTPTYPE {
     FETCH = "fetch"
 }
 export declare enum HTTP_CODE {
-    UNAUTHORIZED = 401
+    BAD_REQUEST = 400,
+    UNAUTHORIZED = 401,
+    INTERNAL_EXCEPTION = 500
 }
 export declare const ERROR_TYPE_RE: RegExp;
 declare const globalVar: {

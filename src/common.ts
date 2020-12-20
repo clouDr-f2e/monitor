@@ -60,7 +60,9 @@ export enum HTTPTYPE {
 }
 
 export enum HTTP_CODE {
-  UNAUTHORIZED = 401
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  INTERNAL_EXCEPTION = 500
 }
 
 export const ERROR_TYPE_RE = /^(?:[Uu]ncaught (?:exception: )?)?(?:((?:Eval|Internal|Range|Reference|Syntax|Type|URI|)Error): )?(.*)$/

@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>js-demo</title>
+  <!-- <script src="../../../../mito/dist/mito.qa.js"></script> -->
   <script src="../mito.js"></script>
-  <!-- <script src="https://test-mito.oss-cn-hangzhou.aliyuncs.com/mito.min.js" apikey="9683af30-150e-11eb-b4b8-f951678f9f1b" crossorigin="anonymous"></script> -->
+  <script>
+  </script>
 </head>
 <body>
-      <!-- <script src="../mito.js"></script> -->
       <script src="./initMito.js"></script>
       <h1>控制台输出信息调试</h1>
       <button onclick="codeError()">代码错误</button>
@@ -49,6 +50,8 @@
             xhr.send()
             xhr.onreadystatechange = function () {
               if (xhr.readyState === 4) {
+                console.log(xhr)
+                console.log('responseType', xhr.responseType)
                 console.log(xhr.responseText)
               }
             }

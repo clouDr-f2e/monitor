@@ -19,7 +19,7 @@ const HandleEvents = {
    * 处理xhr、fetch回调
    */
   handleHttp(data: MITOHttp, type: BREADCRUMBTYPES): void {
-    const isError = data.status === 0 || data.status > HTTP_CODE.UNAUTHORIZED
+    const isError = data.status === 0 || data.status === HTTP_CODE.BAD_REQUEST || data.status > HTTP_CODE.UNAUTHORIZED
     const result = httpTransform(data)
     breadcrumb.push({
       type,
