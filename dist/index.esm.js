@@ -68,7 +68,9 @@ var HTTPTYPE;
 })(HTTPTYPE || (HTTPTYPE = {}));
 var HTTP_CODE;
 (function (HTTP_CODE) {
+    HTTP_CODE[HTTP_CODE["BAD_REQUEST"] = 400] = "BAD_REQUEST";
     HTTP_CODE[HTTP_CODE["UNAUTHORIZED"] = 401] = "UNAUTHORIZED";
+    HTTP_CODE[HTTP_CODE["INTERNAL_EXCEPTION"] = 500] = "INTERNAL_EXCEPTION";
 })(HTTP_CODE || (HTTP_CODE = {}));
 var ERROR_TYPE_RE = /^(?:[Uu]ncaught (?:exception: )?)?(?:((?:Eval|Internal|Range|Reference|Syntax|Type|URI|)Error): )?(.*)$/;
 var globalVar = {
@@ -520,7 +522,7 @@ function createErrorId(data) {
     var originUrl = getRealPageOrigin(data.url);
     switch (data.type) {
         case ERRORTYPES.FETCH_ERROR:
-            id = data.type + data.request.method + data.response.status + getRealPath(data.request.url);
+            id = data.type + data.request.method + data.response.status + getRealPath(data.request.url) + originUrl;
             break;
         case ERRORTYPES.JAVASCRIPT_ERROR:
         case ERRORTYPES.VUE_ERROR:
@@ -585,7 +587,7 @@ function getRealPath(url) {
     return url.replace(/[\?#].*$/, '').replace(/\/\d+([\/]*$)/, '{param}$1');
 }
 function getRealPageOrigin(url) {
-    return getRealPath(url.replace(/(\S+)(\/#\/)(\S+)/, "$1"));
+    return getRealPath(url.replace(/(\S+)(\/#\/)(\S*)/, "$1").replace(/(\S*)(\/\/)(\S+)/, '$3'));
 }
 function hashCode(str) {
     var hash = 0;
@@ -623,7 +625,6 @@ var Severity;
             case 'warn':
             case 'warning':
                 return Severity.Warning;
-            case Severity.Low:
             case Severity.Low:
             case Severity.High:
             case Severity.Critical:
@@ -718,8 +719,8 @@ function httpTransform(data) {
             data: data.reqData || ''
         },
         response: {
-            status: data.status,
-            data: status > HTTP_CODE.UNAUTHORIZED ? data.responseText : null
+            status: status,
+            data: data.responseText
         }
     };
 }
@@ -841,7 +842,7 @@ var transportData = _support.transportData || (_support.transportData = new Tran
 
 var HandleEvents = {
     handleHttp: function (data, type) {
-        var isError = data.status === 0 || data.status > HTTP_CODE.UNAUTHORIZED;
+        var isError = data.status === 0 || data.status === HTTP_CODE.BAD_REQUEST || data.status > HTTP_CODE.UNAUTHORIZED;
         var result = httpTransform(data);
         breadcrumb.push({
             type: type,
@@ -876,9 +877,6 @@ var HandleEvents = {
         if (error && isError(error)) {
             result = extractErrorStack(error, Severity.Normal);
         }
-        else {
-            result = HandleEvents.handleNotErrorInstance(message, filename, lineno, colno);
-        }
         result || (result = HandleEvents.handleNotErrorInstance(message, filename, lineno, colno));
         result.type = ERRORTYPES.JAVASCRIPT_ERROR;
         breadcrumb.push({
@@ -909,7 +907,7 @@ var HandleEvents = {
             url: url,
             name: name,
             message: msg,
-            level: Severity.Low,
+            level: Severity.Normal,
             time: getTimestamp(),
             stack: [element]
         };
@@ -1081,11 +1079,14 @@ function xhrReplace() {
                     return;
                 if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(this.mito_xhr.url))
                     return;
+                var _a = this, responseType = _a.responseType, response = _a.response, status = _a.status;
                 this.mito_xhr.reqData = args[0];
                 var eTime = getTimestamp();
                 this.mito_xhr.time = eTime;
-                this.mito_xhr.status = this.status;
-                this.mito_xhr.responseText = this.status > HTTP_CODE.UNAUTHORIZED && this.responseText;
+                this.mito_xhr.status = status;
+                if (['', 'json', 'text'].indexOf(responseType) !== -1) {
+                    this.mito_xhr.responseText = typeof response === 'object' ? JSON.stringify(response) : response;
+                }
                 this.mito_xhr.elapsedTime = eTime - this.mito_xhr.sTime;
                 triggerHandlers(EVENTTYPES.XHR, this.mito_xhr);
             });
@@ -1238,7 +1239,7 @@ function log(_a) {
     if (isError(ex)) {
         errorInfo = extractErrorStack(ex, level);
     }
-    var error = __assign(__assign({}, errorInfo), { type: ERRORTYPES.LOG_ERROR, level: level, message: unknownToString(message), name: 'MITO.log', customTag: unknownToString(tag), time: getTimestamp(), url: getLocationHref() });
+    var error = __assign({ type: ERRORTYPES.LOG_ERROR, level: level, message: unknownToString(message), name: 'MITO.log', customTag: unknownToString(tag), time: getTimestamp(), url: getLocationHref() }, errorInfo);
     breadcrumb.push({
         type: BREADCRUMBTYPES.CUSTOMER,
         category: breadcrumb.getCategory(BREADCRUMBTYPES.CUSTOMER),

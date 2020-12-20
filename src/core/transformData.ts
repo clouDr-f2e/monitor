@@ -31,9 +31,8 @@ export function httpTransform(data: MITOHttp): ReportDataType {
       data: data.reqData || ''
     },
     response: {
-      status: data.status,
-      // statusText: data.statusText,
-      data: status > HTTP_CODE.UNAUTHORIZED ? data.responseText : null
+      status,
+      data: data.responseText
     }
   }
 }

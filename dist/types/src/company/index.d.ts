@@ -1,6 +1,6 @@
-import { log } from '../core/index';
 import { InitOptions } from '../types/index';
 declare function init(options?: InitOptions): void;
+declare function log(...args: any[]): void;
 declare const _default: {
     MitoVue: {
         install(Vue: import("../Vue/types").VueInstance): void;

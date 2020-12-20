@@ -156,12 +156,14 @@ function xhrReplace(): void {
         on(this, 'loadend', function (this: MITOXMLHttpRequest) {
           if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
           if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(this.mito_xhr.url)) return
+          const { responseType, response, status } = this
           this.mito_xhr.reqData = args[0]
           const eTime = getTimestamp()
           this.mito_xhr.time = eTime
-          this.mito_xhr.status = this.status
-          // this.mito_xhr.statusText = this.statusText
-          this.mito_xhr.responseText = this.status > HTTP_CODE.UNAUTHORIZED && this.responseText
+          this.mito_xhr.status = status
+          if (['', 'json', 'text'].indexOf(responseType) !== -1) {
+            this.mito_xhr.responseText = typeof response === 'object' ? JSON.stringify(response) : response
+          }
           this.mito_xhr.elapsedTime = eTime - this.mito_xhr.sTime
           triggerHandlers(EVENTTYPES.XHR, this.mito_xhr)
         })

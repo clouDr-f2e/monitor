@@ -42,7 +42,7 @@ export function setupReplace(): void {
     type: EVENTTYPES.UNHANDLEDREJECTION
   })
   addReplaceHandler({
-    callback: (data: BreadcrumbPushData) => {
+    callback: (data) => {
       const htmlString = htmlElementAsString(data.data.activeElement as HTMLElement)
       if (htmlString) {
         breadcrumb.push({

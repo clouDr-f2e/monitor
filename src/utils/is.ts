@@ -1,4 +1,27 @@
 const nativeToString = Object.prototype.toString
+// todo 待替换  将toString（）替换成以下方式
+function isType(type: string) {
+  return function (value: any): boolean {
+    return Object.prototype.toString.call(value) === `[object ${type}]`
+  }
+}
+
+/**
+ * 检测变量类型
+ * @param type
+ */
+export const variableTypeDetection = {
+  isNumber: isType('Number'),
+  isString: isType('String'),
+  isBoolean: isType('Boolean'),
+  isNull: isType('Null'),
+  isUndefined: isType('Undefined'),
+  isSymbol: isType('Symbol'),
+  isFunction: isType('Function'),
+  isObject: isType('Object'),
+  isArray: isType('Array')
+}
+
 /**
  * Checks whether given value's type is one of a few Error or Error-like
  * {../link isError}.
@@ -95,6 +118,10 @@ export function isPlainObject(wat: any): boolean {
  */
 export function isEmptyObject(obj: Object): boolean {
   return Object.keys(obj).length === 0
+}
+
+export function isEmpty(wat: any): boolean {
+  return (isString(wat) && wat.trim() === '') || wat === undefined || wat === null
 }
 
 /**

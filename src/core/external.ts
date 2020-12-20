@@ -20,14 +20,14 @@ export function log({ message = 'emptyMsg', tag = '', level = Severity.Critical,
     errorInfo = extractErrorStack(ex, level)
   }
   const error = {
-    ...errorInfo,
     type: ERRORTYPES.LOG_ERROR,
     level,
     message: unknownToString(message),
     name: 'MITO.log',
     customTag: unknownToString(tag),
     time: getTimestamp(),
-    url: getLocationHref()
+    url: getLocationHref(),
+    ...errorInfo
   }
   breadcrumb.push({
     type: BREADCRUMBTYPES.CUSTOMER,
