@@ -14,6 +14,7 @@ export default function createErrorId(data: ReportDataType): number | null {
       break
     case ERRORTYPES.JAVASCRIPT_ERROR:
     case ERRORTYPES.VUE_ERROR:
+    case ERRORTYPES.REACT_ERROR:
       id = data.type + data.name + data.message + originUrl
       break
     case ERRORTYPES.BUSINESS_ERROR:

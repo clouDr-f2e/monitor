@@ -1,4 +1,5 @@
 import { InitOptions } from '../types/index';
+import { errorBoundaryReport } from 'React/index';
 declare function init(options?: InitOptions): void;
 declare function log(...args: any[]): void;
 declare const _default: {
@@ -9,5 +10,6 @@ declare const _default: {
     SDK_NAME: string;
     init: typeof init;
     log: typeof log;
+    errorBoundaryReport: typeof errorBoundaryReport;
 };
 export default _default;

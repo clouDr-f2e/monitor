@@ -531,6 +531,7 @@ function createErrorId(data) {
             break;
         case ERRORTYPES.JAVASCRIPT_ERROR:
         case ERRORTYPES.VUE_ERROR:
+        case ERRORTYPES.REACT_ERROR:
             id = data.type + data.name + data.message + originUrl;
             break;
         case ERRORTYPES.BUSINESS_ERROR:
@@ -1374,7 +1375,7 @@ function errorBoundaryReport(ex) {
         });
         transportData.send(error);
     }
-    console.log('传入的react error不是一个object Error');
+    console.warn('传入的react error不是一个object Error');
 }
 
 function init(options) {

@@ -10,16 +10,17 @@ import { ReportDataType } from 'types/index'
  * @param ex ErrorBoundary中的componentDidCatch的一个参数error
  */
 export function errorBoundaryReport(ex: any): void {
-  if (isError(ex)) {
-    const error = extractErrorStack(ex, Severity.Normal) as ReportDataType
-    error.type = ERRORTYPES.REACT_ERROR
-    breadcrumb.push({
-      type: BREADCRUMBTYPES.REACT,
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.REACT),
-      data: error.message,
-      level: Severity.fromString(error.level)
-    })
-    transportData.send(error)
+  if (!isError(ex)) {
+    console.warn('传入的react error不是一个object Error')
+    return
   }
-  console.log('传入的react error不是一个object Error')
+  const error = extractErrorStack(ex, Severity.Normal) as ReportDataType
+  error.type = ERRORTYPES.REACT_ERROR
+  breadcrumb.push({
+    type: BREADCRUMBTYPES.REACT,
+    category: breadcrumb.getCategory(BREADCRUMBTYPES.REACT),
+    data: `${error.name}: ${error.message}`,
+    level: Severity.fromString(error.level)
+  })
+  transportData.send(error)
 }
