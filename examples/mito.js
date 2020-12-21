@@ -748,7 +748,7 @@ var MITO = (function () {
     }
 
     var name = "@zyf2e/mitojs";
-    var version = "1.1.9";
+    var version = "1.2.0";
 
     var SDK_NAME = name;
     var SDK_VERSION = version;
@@ -1365,18 +1365,19 @@ var MITO = (function () {
     }
 
     function errorBoundaryReport(ex) {
-        if (isError(ex)) {
-            var error = extractErrorStack(ex, Severity.Normal);
-            error.type = ERRORTYPES.REACT_ERROR;
-            breadcrumb.push({
-                type: BREADCRUMBTYPES.REACT,
-                category: breadcrumb.getCategory(BREADCRUMBTYPES.REACT),
-                data: error.message,
-                level: Severity.fromString(error.level)
-            });
-            transportData.send(error);
+        if (!isError(ex)) {
+            console.warn('传入的react error不是一个object Error');
+            return;
         }
-        console.warn('传入的react error不是一个object Error');
+        var error = extractErrorStack(ex, Severity.Normal);
+        error.type = ERRORTYPES.REACT_ERROR;
+        breadcrumb.push({
+            type: BREADCRUMBTYPES.REACT,
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.REACT),
+            data: error.name + ": " + error.message,
+            level: Severity.fromString(error.level)
+        });
+        transportData.send(error);
     }
 
     function init(options) {
