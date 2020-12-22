@@ -2,7 +2,7 @@ import { _global, _support } from './global'
 const PREFIX = 'MITO Logger'
 
 export class Logger {
-  private enabled = true
+  private enabled = false
   private _console: Console = {} as Console
   constructor() {
     const logType = ['log', 'debug', 'info', 'warn', 'error', 'assert']
