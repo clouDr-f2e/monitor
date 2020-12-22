@@ -1,3 +1,5 @@
+import { IStringObject } from 'types/common'
+
 export interface VueInstance {
   config?: VueConfiguration
   mixin(hooks: { [key: string]: () => void }): void
@@ -19,7 +21,7 @@ export interface ViewModel {
   $options: {
     [key: string]: any
     name?: string
-    propsData?: { [key: string]: any }
+    propsData?: IStringObject
     _componentTag?: string
     __file?: string
   }

@@ -7,6 +7,7 @@ import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStac
 import { ReportDataType } from '../types/transportData'
 import { Severity } from '../utils/Severity'
 import { Replace } from '../types/replace'
+import { IStringObject } from 'types/common'
 
 export interface ResourceErrorTarget {
   src?: string
@@ -96,7 +97,7 @@ const HandleEvents = {
       stack: [element]
     }
   },
-  handleHistory(data: { [key: string]: any }): void {
+  handleHistory(data: Replace.IRouter): void {
     const { from, to } = data
     const { relative: parsedFrom } = parseUrlToObj(from)
     const { relative: parsedTo } = parseUrlToObj(to)

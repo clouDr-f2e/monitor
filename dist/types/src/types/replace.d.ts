@@ -3,4 +3,8 @@ export declare namespace Replace {
         args: any[];
         level: string;
     }
+    interface IRouter {
+        from: string;
+        to: string;
+    }
 }

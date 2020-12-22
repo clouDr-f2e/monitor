@@ -24,9 +24,7 @@ declare const HandleEvents: {
             col: number;
         }[];
     };
-    handleHistory(data: {
-        [key: string]: any;
-    }): void;
+    handleHistory(data: Replace.IRouter): void;
     handleHashchange(data: HashChangeEvent): void;
     handleUnhandleRejection(ev: PromiseRejectionEvent): void;
     handleConsole(data: Replace.TriggerConsole): void;

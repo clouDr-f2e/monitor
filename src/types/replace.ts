@@ -4,4 +4,8 @@ export namespace Replace {
     args: any[]
     level: string
   }
+  export interface IRouter {
+    from: string
+    to: string
+  }
 }
