@@ -1,5 +1,5 @@
 import { InitOptions } from '../types/options'
-import { toStringValidateOption, validateOption, _support } from 'utils'
+import { generateUUID, toStringValidateOption, validateOption, _support } from 'utils'
 
 export class Options {
   beforeAppAjaxSend: Function
@@ -21,4 +21,12 @@ export class Options {
 }
 
 const options = _support.options || (_support.options = new Options())
+
+export function setTraceId(callback: (headerFieldName: string, traceId: string) => void) {
+  if (options.enableTraceId) {
+    const traceId = generateUUID()
+    callback(options.traceIdFieldName, traceId)
+  }
+}
+
 export { options }

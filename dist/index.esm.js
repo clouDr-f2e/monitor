@@ -993,6 +993,12 @@ var Options = (function () {
     return Options;
 }());
 var options = _support.options || (_support.options = new Options());
+function setTraceId(callback) {
+    if (options.enableTraceId) {
+        var traceId = generateUUID();
+        callback(options.traceIdFieldName, traceId);
+    }
+}
 
 var handlers = {};
 var clickThrottle = throttle(triggerHandlers, 600);
@@ -1046,6 +1052,9 @@ function triggerHandlers(type, data) {
         });
     });
 }
+function isFilterHttpUrl(url) {
+    return options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url);
+}
 function xhrReplace() {
     if (!('XMLHttpRequest' in _global)) {
         return;
@@ -1068,21 +1077,19 @@ function xhrReplace() {
     });
     replaceOld(originalXhrProto, 'send', function (originalSend) {
         return function () {
+            var _this = this;
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
             var _a = this.mito_xhr, method = _a.method, url = _a.url;
-            if (options.enableTraceId) {
-                var traceId = generateUUID();
-                this.mito_xhr.traceId = traceId;
-                this.setRequestHeader(options.traceIdFieldName, traceId);
-            }
+            setTraceId(function (headerFieldName, traceId) {
+                _this.mito_xhr.traceId = traceId;
+                _this.setRequestHeader(headerFieldName, traceId);
+            });
             options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method: method, url: url }, this);
             on(this, 'loadend', function () {
-                if (method === 'POST' && transportData.isSdkTransportUrl(url))
-                    return;
-                if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(this.mito_xhr.url))
+                if ((method === 'POST' && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url))
                     return;
                 var _a = this, responseType = _a.responseType, response = _a.response, status = _a.status;
                 this.mito_xhr.reqData = args[0];
@@ -1118,6 +1125,10 @@ function fetchReplace() {
             Object.assign(headers, {
                 setRequestHeader: headers.set
             });
+            setTraceId(function (headerFieldName, traceId) {
+                handlerData.traceId = traceId;
+                headers.set(headerFieldName, traceId);
+            });
             options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method: method, url: url }, headers);
             config = __assign(__assign({}, config), { headers: headers });
             return originalFetch.apply(_global, [url, config]).then(function (res) {
@@ -1127,7 +1138,7 @@ function fetchReplace() {
                 tempRes.text().then(function (data) {
                     if (method === 'POST' && transportData.isSdkTransportUrl(url))
                         return;
-                    if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url))
+                    if (isFilterHttpUrl(url))
                         return;
                     handlerData.responseText = tempRes.status > HTTP_CODE.UNAUTHORIZED && data;
                     triggerHandlers(EVENTTYPES.FETCH, handlerData);
@@ -1137,7 +1148,7 @@ function fetchReplace() {
                 var eTime = getTimestamp();
                 if (method === 'POST' && transportData.isSdkTransportUrl(url))
                     return;
-                if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url))
+                if (isFilterHttpUrl(url))
                     return;
                 handlerData = __assign(__assign({}, handlerData), { elapsedTime: eTime - sTime, status: 0, time: eTime });
                 triggerHandlers(EVENTTYPES.FETCH, handlerData);

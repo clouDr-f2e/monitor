@@ -17,7 +17,7 @@ import {
 import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '../common'
 import { transportData } from './transportData'
 import { logger } from '../utils/logger'
-import { options } from './options'
+import { options, setTraceId } from './options'
 
 export interface MITOHttp {
   type: HTTPTYPE
@@ -107,6 +107,10 @@ function triggerHandlers(type: EVENTTYPES, data: any): void {
   })
 }
 
+function isFilterHttpUrl(url: string) {
+  return options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url)
+}
+
 function xhrReplace(): void {
   if (!('XMLHttpRequest' in _global)) {
     return
@@ -147,15 +151,13 @@ function xhrReplace(): void {
     (originalSend: voidFun): voidFun => {
       return function (this: MITOXMLHttpRequest, ...args: any[]): void {
         const { method, url } = this.mito_xhr
-        if (options.enableTraceId) {
-          const traceId = generateUUID()
+        setTraceId((headerFieldName: string, traceId: string) => {
           this.mito_xhr.traceId = traceId
-          this.setRequestHeader(options.traceIdFieldName, traceId)
-        }
+          this.setRequestHeader(headerFieldName, traceId)
+        })
         options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method, url }, this)
         on(this, 'loadend', function (this: MITOXMLHttpRequest) {
-          if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
-          if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(this.mito_xhr.url)) return
+          if ((method === 'POST' && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) return
           const { responseType, response, status } = this
           this.mito_xhr.reqData = args[0]
           const eTime = getTimestamp()
@@ -191,11 +193,16 @@ function fetchReplace(): void {
       Object.assign(headers, {
         setRequestHeader: headers.set
       })
+      setTraceId((headerFieldName: string, traceId: string) => {
+        handlerData.traceId = traceId
+        headers.set(headerFieldName, traceId)
+      })
       options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method, url }, headers)
       config = {
         ...config,
         headers
       }
+
       return originalFetch.apply(_global, [url, config]).then(
         (res: Response) => {
           const tempRes = res.clone()
@@ -209,7 +216,7 @@ function fetchReplace(): void {
           }
           tempRes.text().then((data) => {
             if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
-            if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url)) return
+            if (isFilterHttpUrl(url)) return
             handlerData.responseText = tempRes.status > HTTP_CODE.UNAUTHORIZED && data
             triggerHandlers(EVENTTYPES.FETCH, handlerData)
           })
@@ -218,7 +225,7 @@ function fetchReplace(): void {
         (err: Error) => {
           const eTime = getTimestamp()
           if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
-          if (options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url)) return
+          if (isFilterHttpUrl(url)) return
           handlerData = {
             ...handlerData,
             elapsedTime: eTime - sTime,

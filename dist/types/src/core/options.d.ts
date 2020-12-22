@@ -9,4 +9,5 @@ export declare class Options {
     bindOptions(options?: InitOptions): void;
 }
 declare const options: Options;
+export declare function setTraceId(callback: (headerFieldName: string, traceId: string) => void): void;
 export { options };

@@ -12,7 +12,7 @@ interface IRequestHeaderConfig {
 }
 
 type TSetRequestHeader = (key: string, value: string) => {}
-interface IBeforeAppAjaxSendConfig {
+export interface IBeforeAppAjaxSendConfig {
   setRequestHeader: TSetRequestHeader
 }
 export interface InitOptions extends SilentEventTypes, HooksTypes {
@@ -52,6 +52,10 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
    * 默认为空，所有ajax都会被监听，不为空时，filterXhrUrlRegExp.test(xhr.url)为true时过滤
    */
   filterXhrUrlRegExp?: RegExp
+
+  /**
+   * 默认为空，所有ajax都会被监听，不为空时，filterXhrUrlRegExp.test(xhr.url)为true时过滤
+   */
 }
 
 export interface HooksTypes {
@@ -100,6 +104,12 @@ export interface HooksTypes {
    * trackerId表示用户唯一键（可以理解成userId），需要trackerId的意义可以区分每个错误影响的用户数量
    */
   backTrackerId?(): string | number
+
+  /**
+   *
+   * @param url http请求地址
+   */
+  filterTraceId?(url: string): boolean
 }
 
 export interface SilentEventTypes {
