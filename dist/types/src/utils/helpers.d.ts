@@ -15,7 +15,7 @@ export declare function typeofAny(target: any, type: string): boolean;
 export declare function toStringAny(target: any, type: string): boolean;
 export declare function validateOption(target: any, targetName: string, expectType: string): boolean;
 export declare function toStringValidateOption(target: any, targetName: string, expectType: string): boolean;
-export declare function slientConsoleScope(callback: any): void;
+export declare function slientConsoleScope(callback: Function): void;
 export declare function generateUUID(): string;
 export declare function unknownToString(target: unknown): unknown;
 export {};

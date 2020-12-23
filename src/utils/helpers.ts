@@ -142,7 +142,7 @@ export function toStringValidateOption(target: any, targetName: string, expectTy
   return false
 }
 
-export function slientConsoleScope(callback) {
+export function slientConsoleScope(callback: Function) {
   globalVar.isLogAddBreadcrumb = false
   callback()
   globalVar.isLogAddBreadcrumb = true

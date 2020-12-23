@@ -109,7 +109,7 @@ var PREFIX = 'MITO Logger';
 var Logger = (function () {
     function Logger() {
         var _this = this;
-        this.enabled = true;
+        this.enabled = false;
         this._console = {};
         var logType = ['log', 'debug', 'info', 'warn', 'error', 'assert'];
         logType.forEach(function (level) {
@@ -747,7 +747,7 @@ function resourceTransform(target) {
 }
 
 var name = "@zyf2e/mitojs";
-var version = "1.2.0";
+var version = "1.2.1";
 
 var SDK_NAME = name;
 var SDK_VERSION = version;
@@ -986,19 +986,24 @@ var Options = (function () {
     }
     Options.prototype.bindOptions = function (options) {
         if (options === void 0) { options = {}; }
-        var beforeAppAjaxSend = options.beforeAppAjaxSend, enableTraceId = options.enableTraceId, filterXhrUrlRegExp = options.filterXhrUrlRegExp, traceIdFieldName = options.traceIdFieldName;
+        var beforeAppAjaxSend = options.beforeAppAjaxSend, enableTraceId = options.enableTraceId, filterXhrUrlRegExp = options.filterXhrUrlRegExp, traceIdFieldName = options.traceIdFieldName, filterHttpTraceIdRegExp = options.filterHttpTraceIdRegExp;
         validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend);
         validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId);
         validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName);
         toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp);
+        toStringValidateOption(filterHttpTraceIdRegExp, 'filterHttpTraceIdRegExp', '[object RegExp]') && (this.filterHttpTraceIdRegExp = filterHttpTraceIdRegExp);
     };
     return Options;
 }());
 var options = _support.options || (_support.options = new Options());
-function setTraceId(callback) {
-    if (options.enableTraceId) {
-        var traceId = generateUUID();
-        callback(options.traceIdFieldName, traceId);
+function setTraceId(httpUrl, callback) {
+    var filterHttpTraceIdRegExp = options.filterHttpTraceIdRegExp, enableTraceId = options.enableTraceId;
+    if (enableTraceId) {
+        var isNotFilter = filterHttpTraceIdRegExp ? true : !filterHttpTraceIdRegExp.test(httpUrl);
+        if (isNotFilter) {
+            var traceId = generateUUID();
+            callback(options.traceIdFieldName, traceId);
+        }
     }
 }
 
@@ -1085,7 +1090,7 @@ function xhrReplace() {
                 args[_i] = arguments[_i];
             }
             var _a = this.mito_xhr, method = _a.method, url = _a.url;
-            setTraceId(function (headerFieldName, traceId) {
+            setTraceId(url, function (headerFieldName, traceId) {
                 _this.mito_xhr.traceId = traceId;
                 _this.setRequestHeader(headerFieldName, traceId);
             });
@@ -1127,7 +1132,7 @@ function fetchReplace() {
             Object.assign(headers, {
                 setRequestHeader: headers.set
             });
-            setTraceId(function (headerFieldName, traceId) {
+            setTraceId(url, function (headerFieldName, traceId) {
                 handlerData.traceId = traceId;
                 headers.set(headerFieldName, traceId);
             });

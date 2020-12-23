@@ -18,6 +18,7 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
     debug?: boolean;
     enableTraceId?: boolean;
     traceIdFieldName?: string;
+    filterHttpTraceIdRegExp?: RegExp;
     maxBreadcrumbs?: number;
     filterXhrUrlRegExp?: RegExp;
 }
@@ -27,7 +28,6 @@ export interface HooksTypes {
     beforePushBreadcrumb?(breadcrumb: Breadcrumb, hint: BreadcrumbPushData): BreadcrumbPushData | CANCEL;
     beforeAppAjaxSend?(config: IRequestHeaderConfig, setRequestHeader: IBeforeAppAjaxSendConfig): void;
     backTrackerId?(): string | number;
-    filterTraceId?(url: string): boolean;
 }
 export interface SilentEventTypes {
     silentXhr?: boolean;

@@ -44,10 +44,11 @@
     "src/index.ts",
   ],
   "include": [
-    "src/**/*", "rollup.company.js"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",
+    "src/company",
     // "src/types/",
     "**/*.spec.ts"
   ],

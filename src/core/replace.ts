@@ -151,7 +151,7 @@ function xhrReplace(): void {
     (originalSend: voidFun): voidFun => {
       return function (this: MITOXMLHttpRequest, ...args: any[]): void {
         const { method, url } = this.mito_xhr
-        setTraceId((headerFieldName: string, traceId: string) => {
+        setTraceId(url, (headerFieldName: string, traceId: string) => {
           this.mito_xhr.traceId = traceId
           this.setRequestHeader(headerFieldName, traceId)
         })
@@ -193,7 +193,7 @@ function fetchReplace(): void {
       Object.assign(headers, {
         setRequestHeader: headers.set
       })
-      setTraceId((headerFieldName: string, traceId: string) => {
+      setTraceId(url, (headerFieldName: string, traceId: string) => {
         handlerData.traceId = traceId
         headers.set(headerFieldName, traceId)
       })
