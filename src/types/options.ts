@@ -37,13 +37,18 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
    */
   enableTraceId?: boolean
   /**
+   * 如果开启了enableTraceId,也需要配置该配置项，includeHttpUrlTraceIdRegExp.test(xhr.url)为true时，才会在该请求头中添加traceId
+   * 由于考虑部分接口如果随便加上多余的请求头会造成跨域，所以这边用的是包含关系的正则
+   */
+  includeHttpUrlTraceIdRegExp?: RegExp
+  /**
    * traceId放入请求头中的key，默认是Trace-Id
    */
   traceIdFieldName?: string
   /**
-   * 默认为空，如果开启了enableTraceId，所有的http都会在请求头里面加上trace-Id，filterHttpTraceIdRegExp.test(xhr.url)为true时过滤
+   * 默认为空，所有ajax都会被监听，不为空时，filterXhrUrlRegExp.test(xhr.url)为true时过滤
    */
-  filterHttpTraceIdRegExp?: RegExp
+  filterXhrUrlRegExp?: RegExp
   /**
    * 忽视某些错误不上传
    */
@@ -52,10 +57,6 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
    * 默认20，最大100，超过100还是设置成100
    */
   maxBreadcrumbs?: number
-  /**
-   * 默认为空，所有ajax都会被监听，不为空时，filterXhrUrlRegExp.test(xhr.url)为true时过滤
-   */
-  filterXhrUrlRegExp?: RegExp
 }
 
 export interface HooksTypes {
