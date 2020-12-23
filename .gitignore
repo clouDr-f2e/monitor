@@ -6,6 +6,7 @@ node_modules
 
 # test
 test
+coverage
 .idea
 
 src/company

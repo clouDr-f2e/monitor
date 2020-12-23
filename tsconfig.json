@@ -7,6 +7,7 @@
     "preserveConstEnums": true, // 使用 const enum 产生内联成员
     "experimentalDecorators": true, // 启用实验性的ES装饰器
     "sourceMap": true,
+    "esModuleInterop": true,
     "resolveJsonModule": true,
     "noImplicitAny": false, // 是否默认禁用 any
     "removeComments": true, // 是否移除注释
@@ -21,6 +22,7 @@
     },
     "types": [
       "node",
+      "jest"
     ],
     "target": "ES5", // 编译成什么版本
     "module": "ESNext", // 当前代码语法
