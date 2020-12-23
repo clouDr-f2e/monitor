@@ -4,7 +4,7 @@ export declare class Options {
     afterAppAjaxClose: Function;
     enableTraceId: Boolean;
     filterXhrUrlRegExp: RegExp;
-    filterHttpTraceIdRegExp: RegExp;
+    includeHttpUrlTraceIdRegExp: RegExp;
     traceIdFieldName: string;
     constructor();
     bindOptions(options?: InitOptions): void;

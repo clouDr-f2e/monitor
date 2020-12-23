@@ -984,24 +984,22 @@ var Options = (function () {
     }
     Options.prototype.bindOptions = function (options) {
         if (options === void 0) { options = {}; }
-        var beforeAppAjaxSend = options.beforeAppAjaxSend, enableTraceId = options.enableTraceId, filterXhrUrlRegExp = options.filterXhrUrlRegExp, traceIdFieldName = options.traceIdFieldName, filterHttpTraceIdRegExp = options.filterHttpTraceIdRegExp;
+        var beforeAppAjaxSend = options.beforeAppAjaxSend, enableTraceId = options.enableTraceId, filterXhrUrlRegExp = options.filterXhrUrlRegExp, traceIdFieldName = options.traceIdFieldName, includeHttpUrlTraceIdRegExp = options.includeHttpUrlTraceIdRegExp;
         validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend);
         validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId);
         validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName);
         toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp);
-        toStringValidateOption(filterHttpTraceIdRegExp, 'filterHttpTraceIdRegExp', '[object RegExp]') && (this.filterHttpTraceIdRegExp = filterHttpTraceIdRegExp);
+        toStringValidateOption(includeHttpUrlTraceIdRegExp, 'includeHttpUrlTraceIdRegExp', '[object RegExp]') &&
+            (this.includeHttpUrlTraceIdRegExp = includeHttpUrlTraceIdRegExp);
     };
     return Options;
 }());
 var options = _support.options || (_support.options = new Options());
 function setTraceId(httpUrl, callback) {
-    var filterHttpTraceIdRegExp = options.filterHttpTraceIdRegExp, enableTraceId = options.enableTraceId;
-    if (enableTraceId) {
-        var isNotFilter = filterHttpTraceIdRegExp ? true : !filterHttpTraceIdRegExp.test(httpUrl);
-        if (isNotFilter) {
-            var traceId = generateUUID();
-            callback(options.traceIdFieldName, traceId);
-        }
+    var includeHttpUrlTraceIdRegExp = options.includeHttpUrlTraceIdRegExp, enableTraceId = options.enableTraceId;
+    if (enableTraceId && includeHttpUrlTraceIdRegExp && includeHttpUrlTraceIdRegExp.test(httpUrl)) {
+        var traceId = generateUUID();
+        callback(options.traceIdFieldName, traceId);
     }
 }
 

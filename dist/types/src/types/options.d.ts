@@ -17,10 +17,10 @@ export interface InitOptions extends SilentEventTypes, HooksTypes {
     apikey?: string;
     debug?: boolean;
     enableTraceId?: boolean;
+    includeHttpUrlTraceIdRegExp?: RegExp;
     traceIdFieldName?: string;
-    filterHttpTraceIdRegExp?: RegExp;
-    maxBreadcrumbs?: number;
     filterXhrUrlRegExp?: RegExp;
+    maxBreadcrumbs?: number;
 }
 export interface HooksTypes {
     configReportXhr?(xhr: XMLHttpRequest): void;
