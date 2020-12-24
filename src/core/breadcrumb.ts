@@ -20,7 +20,9 @@ export class Breadcrumb {
       let result: BreadcrumbPushData = null
       // 如果用户输入console，并且logger是打开的会造成无限递归，
       // 应该加入一个开关，执行这个函数前，把监听console的行为关掉
+      // todo const beforePushBreadcrumb = this.beforePushBreadcrumb
       slientConsoleScope(() => {
+        // todo beforePushBreadcrumb(data)
         result = (this.beforePushBreadcrumb as Function)(this, data)
       })
       if (result) {

@@ -5,6 +5,7 @@ import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 import clear from 'rollup-plugin-clear'
 import cleanup from 'rollup-plugin-cleanup'
+import { green } from 'chalk'
 
 const esmPackage = {
   input: 'src/index.ts',
@@ -59,8 +60,8 @@ const localDebug = {
   output: {
     file: '/Users/ks/Desktop/tryCatch/github/mito-vue-demo/src/bundle.js',
     format: 'esm',
-    name: 'MITO',
-    context: 'window'
+    name: 'MITO'
+    // context: 'window'
   },
   plugins: [
     resolve(),
@@ -81,8 +82,8 @@ const iifePackage = {
   output: {
     file: 'dist/index.min.js',
     format: 'iife',
-    name: 'MITO',
-    context: 'window'
+    name: 'MITO'
+    // context: 'window'
   },
   plugins: [
     resolve(),
@@ -130,7 +131,7 @@ const total = {
 let result = total
 const ignore = process.env.IGNORE
 const include = process.env.INCLUDE
-console.log(`ignore: ${ignore}, include: ${include}`)
+console.log(green(`ignore: ${ignore}, include: ${include}`))
 if (ignore) {
   delete total[ignore]
   result = total

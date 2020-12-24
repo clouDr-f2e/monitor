@@ -46,12 +46,13 @@
     "src/index.ts",
   ],
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "test/**/*",
   ],
   "exclude": [
     "node_modules",
-    "src/company",
+    // "src/company",
     // "src/types/",
-    "**/*.spec.ts"
+    // "**/*.spec.ts",
   ],
 }
