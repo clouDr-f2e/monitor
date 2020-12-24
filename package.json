@@ -12,7 +12,8 @@
     "watch": "rollup --config --watch",
     "company": "rollup  --config rollup.company.js",
     "run:example-js": "node examples/JS/index.js",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "author": "cjinhuo",
   "repository": {
@@ -54,6 +55,7 @@
     "express": "^4.17.1",
     "husky": "^4.2.5",
     "jest": "^26.6.3",
+    "karma": "^5.2.3",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "rollup": "^2.21.0",

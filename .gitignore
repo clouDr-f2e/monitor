@@ -5,7 +5,6 @@ node_modules
 # dist
 
 # test
-test
 coverage
 .idea
 
