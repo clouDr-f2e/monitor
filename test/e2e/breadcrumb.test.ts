@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const puppeteer = require('puppeteer')
+import puppeteer from 'puppeteer'
 const timeout = 5000
 let page
 describe('baidu', () => {

@@ -25,6 +25,7 @@ const esmPackage = {
       targets: ['dist']
     }),
     typescript({
+      tsconfig: 'build.tsconfig.json',
       useTsconfigDeclarationDir: true,
       clean: true
     }),

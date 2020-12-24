@@ -16,8 +16,7 @@ export default {
       diagnostics: false
     }
   },
-  globalSetup: './test/setup.js',
-  globalTeardown: './test/teardown.js',
-  // testEnvironment: 'node',
-  testEnvironment: './test/puppeteerEnvironment.js'
+  globalSetup: './test/config/setup.js',
+  globalTeardown: './test/config/teardown.js',
+  testEnvironment: './test/config/puppeteerEnvironment.js'
 }
