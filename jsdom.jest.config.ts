@@ -9,14 +9,11 @@ export default {
     '^.+\\.ts$': 'ts-jest'
   },
   moduleFileExtensions: ['js', 'ts'],
-  testMatch: ['**/*.test.ts'],
+  testMatch: ['**/*.spec.ts'],
   globals: {
     'ts-jest': {
       tsconfig: './tsconfig.json',
       diagnostics: false
     }
-  },
-  globalSetup: './test/config/setup.js',
-  globalTeardown: './test/config/teardown.js',
-  testEnvironment: './test/config/puppeteerEnvironment.js'
+  }
 }

@@ -5,17 +5,6 @@ import { ReportDataType, InitOptions } from '../types/index'
 import { Severity } from './Severity'
 
 /**
- * 获取当前script标签的apiKey属性值
- */
-export function getApiKey(): undefined | string {
-  const s = document.querySelector('script[apiKey]')
-  if (s) {
-    return s.getAttribute('apiKey')
-  }
-  return undefined
-}
-
-/**
  * 返回包含id、class、innerTextde字符串的标签
  * @param target html节点
  */

@@ -10,9 +10,11 @@
     "watch:example": "cross-env INCLUDE=examplePackage rollup --config --watch",
     "watch:groot": "cross-env INCLUDE=localDebug rollup  --config --watch",
     "watch": "rollup --config --watch",
-    "company": "rollup  --config rollup.company.js",
+    "company": "rollup  --config src/company/rollup.company.js",
     "run:example-js": "node examples/JS/index.js",
-    "test": "jest",
+    "e2e": "jest --config jest.config.ts",
+    "unit": "jest --config jsdom.jest.config.ts",
+    "test": "npm run e2e && npm run unit",
     "test:watch": "jest --watch"
   },
   "author": "cjinhuo",
