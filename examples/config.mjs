@@ -1,7 +1,7 @@
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
-export const port = 1233
+export const port = 2021
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const resolveDirname = (target) => resolve(__dirname, target)
 const JsFilePath = resolveDirname('./JS')

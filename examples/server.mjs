@@ -7,11 +7,11 @@ const server = http.createServer(app)
 
 const url = `http://localhost:${port}/JS/index.html`
 Object.entries(FilePaths).forEach(([path, resolvePath]) => {
-  console.log(path, resolvePath)
   app.use(path, express.static(resolvePath))
 })
 
-server.listen(port, () => {
+server.listen(port, () => {})
+if (process.env.NODE_ENV === 'demo') {
   console.log('examples is available at: http://localhost:' + port)
-})
-opn(url)
+  opn(url)
+}
