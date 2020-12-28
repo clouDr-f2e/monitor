@@ -18,9 +18,10 @@ export default {
       diagnostics: false
     }
   },
-  // moduleNameMapper: {
-  //   utils: '<rootDir>/src/utils/index'
-  // },
+  moduleNameMapper: {
+    // alias src/(.*) not work
+    '@/(.*)': '<rootDir>/src/$1'
+  },
   globalSetup: './test/config/setup.js',
   globalTeardown: './test/config/teardown.js',
   testEnvironment: './test/config/puppeteerEnvironment.js'

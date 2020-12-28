@@ -7,7 +7,7 @@ import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStac
 import { ReportDataType } from '../types/transportData'
 import { Severity } from '../utils/Severity'
 import { Replace } from '../types/replace'
-import { IStringObject } from 'types/common'
+import { IStringObject } from '../types/common'
 
 export interface ResourceErrorTarget {
   src?: string

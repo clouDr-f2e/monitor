@@ -1,4 +1,4 @@
-import { IStringObject } from 'types/common'
+import { IStringObject } from '../types/common'
 import { voidFun, globalVar } from '../common'
 import { logger } from './logger'
 

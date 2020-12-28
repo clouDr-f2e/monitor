@@ -2,7 +2,7 @@ import { BREADCRUMBTYPES, ERRORTYPES } from '../common'
 import { isError, extractErrorStack } from '../utils/index'
 import { Severity } from '../utils/Severity'
 import { breadcrumb, transportData } from '../core/index'
-import { ReportDataType } from 'types/index'
+import { ReportDataType } from '../types/index'
 
 /**
  * 收集react ErrorBoundary中的错误对象

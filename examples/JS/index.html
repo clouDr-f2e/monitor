@@ -11,14 +11,15 @@
 <body>
       <script src="./initMito.js"></script>
       <h1>native-js:控制台输出信息调试</h1>
-      <button onclick="codeError()">代码错误</button>
-      <button onclick="onClickFetchNormal()">正常请求</button>
-      <button onclick="onClickFetchError()">异常请求</button>
-      <button onclick="onClickNativeFetch()">Fetch请求</button>
-      <button onclick="mitoLog()">log上报</button>
+      <button id="codeErr" onclick="codeError()">代码错误</button>
+      <button id="normalReq" onclick="onClickFetchNormal()">正常请求</button>
+      <button id="exceptionReq" onclick="onClickFetchError()">异常请求</button>
+      <button id="normalFetch" onclick="onClickNativeFetch()">Fetch请求</button>
+      <button id="exceptionFetch" onclick="mitoLog()">log上报</button>
       <button onclick="testPromise()">testPromise</button>
       <a href="/Vue/index.html">跳到Vue页面</a>
-      <button onclick="testPromise()">testPromise</button>
+      <a href="/React/index.html">跳到React页面</a>
+      <a href="/Vue3/index.html">跳到Vue3页面</a>
       <script>
         function codeError() {
          let a = {}

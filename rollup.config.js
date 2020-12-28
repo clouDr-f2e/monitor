@@ -101,31 +101,9 @@ const iifePackage = {
     })
   ]
 }
-const examplePackage = {
-  input: 'src/index.ts',
-  output: {
-    file: 'examples/mito.js',
-    format: 'iife',
-    name: 'MITO'
-  },
-  plugins: [
-    resolve(),
-    commonjs({
-      exclude: 'node_modules'
-    }),
-    json(),
-    typescript({
-      tsconfigOverride: { compilerOptions: { declaration: false } }
-    }),
-    cleanup({
-      comments: 'none'
-    })
-  ]
-}
 const total = {
   esmPackage,
   iifePackage,
-  examplePackage,
   localDebug,
   cjsPackage
 }
