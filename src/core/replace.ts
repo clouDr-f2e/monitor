@@ -11,9 +11,8 @@ import {
   setFlag,
   getFlag,
   getLocationHref,
-  isExistProperty,
-  generateUUID
-} from 'utils'
+  isExistProperty
+} from '../utils/index'
 import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '../common'
 import { transportData } from './transportData'
 import { logger } from '../utils/logger'

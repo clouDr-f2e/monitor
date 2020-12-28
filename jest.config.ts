@@ -10,12 +10,17 @@ export default {
   },
   moduleFileExtensions: ['js', 'ts'],
   testMatch: ['**/*.test.ts'],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
+  preset: 'ts-jest',
   globals: {
     'ts-jest': {
       tsconfig: './tsconfig.json',
       diagnostics: false
     }
   },
+  // moduleNameMapper: {
+  //   utils: '<rootDir>/src/utils/index'
+  // },
   globalSetup: './test/config/setup.js',
   globalTeardown: './test/config/teardown.js',
   testEnvironment: './test/config/puppeteerEnvironment.js'

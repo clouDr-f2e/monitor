@@ -1,4 +1,4 @@
-import { IStringObject } from 'types/common';
+import { IStringObject } from '../types/common';
 export interface VueInstance {
     config?: VueConfiguration;
     mixin(hooks: {

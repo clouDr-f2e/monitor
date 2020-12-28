@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>js-demo</title>
-  <!-- <script src="../../../../mito/dist/mito.qa.js"></script> -->
-  <script src="../mito.js"></script>
+  <title>native-js-demo</title>
+  <script src="../../dist/index.min.js"></script>
   <script>
   </script>
 </head>
 <body>
       <script src="./initMito.js"></script>
-      <h1>控制台输出信息调试</h1>
+      <h1>native-js:控制台输出信息调试</h1>
       <button onclick="codeError()">代码错误</button>
       <button onclick="onClickFetchNormal()">正常请求</button>
       <button onclick="onClickFetchError()">异常请求</button>
       <button onclick="onClickNativeFetch()">Fetch请求</button>
       <button onclick="mitoLog()">log上报</button>
+      <button onclick="testPromise()">testPromise</button>
+      <a href="/Vue/index.html">跳到Vue页面</a>
       <button onclick="testPromise()">testPromise</button>
       <script>
         function codeError() {

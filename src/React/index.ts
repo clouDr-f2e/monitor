@@ -1,7 +1,7 @@
 import { BREADCRUMBTYPES, ERRORTYPES } from '../common'
-import { isError, extractErrorStack } from 'utils'
+import { isError, extractErrorStack } from '../utils/index'
 import { Severity } from '../utils/Severity'
-import { breadcrumb, transportData } from 'core'
+import { breadcrumb, transportData } from '../core/index'
 import { ReportDataType } from 'types/index'
 
 /**

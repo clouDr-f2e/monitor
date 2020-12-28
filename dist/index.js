@@ -182,16 +182,6 @@ function replaceOld(source, name, replacement) {
         source[name] = wrapped;
     }
 }
-function splitObjToQuery(obj) {
-    return Object.entries(obj).reduce(function (result, _a, index) {
-        var key = _a[0], value = _a[1];
-        if (index !== 0) {
-            result += '&';
-        }
-        result += key + "=" + value;
-        return result;
-    }, '');
-}
 var defaultFunctionName = '<anonymous>';
 function getFunctionName(fn) {
     try {
@@ -762,9 +752,6 @@ var TransportData = (function () {
         this.apikey = '';
         this.queue = new Queue();
     }
-    TransportData.prototype.imgRequest = function (data) {
-        TransportData.img.src = this.url + "?" + splitObjToQuery(data);
-    };
     TransportData.prototype.getRecord = function () {
         var recordData = _support.record;
         if (recordData && isArray(recordData) && recordData.length > 2) {
@@ -842,7 +829,6 @@ var TransportData = (function () {
     TransportData.prototype.send = function (data) {
         this.xhrPost(data);
     };
-    TransportData.img = new Image();
     return TransportData;
 }());
 var transportData = _support.transportData || (_support.transportData = new TransportData(SERVER_URL));

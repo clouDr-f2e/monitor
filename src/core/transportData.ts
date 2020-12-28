@@ -1,5 +1,5 @@
-import { _support, validateOption, logger, isArray } from 'utils'
-import { splitObjToQuery, Queue } from 'utils'
+import { _support, validateOption, logger, isArray } from '../utils/index'
+import { splitObjToQuery, Queue } from '../utils/index'
 import createErrorId from '../errorId'
 import { SDK_NAME, SDK_VERSION, SERVER_URL } from '../config'
 import { breadcrumb } from './breadcrumb'
@@ -14,7 +14,7 @@ import { AuthInfo, TransportDataType, ReportDataType } from '../types/transportD
  * ../class Transport
  */
 export class TransportData {
-  static img = new Image()
+  // static img = new Image()
   private queue: Queue
   private beforeDataReport: unknown = null
   private backTrackerId: InitOptions | unknown = null
@@ -23,9 +23,9 @@ export class TransportData {
   constructor(public url: string) {
     this.queue = new Queue()
   }
-  imgRequest(data: Record<string, unknown>): void {
-    TransportData.img.src = `${this.url}?${splitObjToQuery(data)}`
-  }
+  // imgRequest(data: Record<string, unknown>): void {
+  //   TransportData.img.src = `${this.url}?${splitObjToQuery(data)}`
+  // }
   getRecord(): any[] {
     const recordData = _support.record
     if (recordData && isArray(recordData) && recordData.length > 2) {

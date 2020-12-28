@@ -1,6 +1,5 @@
 import { ReportDataType, InitOptions } from '../types/index';
 import { Severity } from './Severity';
-export declare function getApiKey(): undefined | string;
 export declare function htmlElementAsString(target: HTMLElement): string;
 export declare function parseUrlToObj(url: string): {
     host?: string;

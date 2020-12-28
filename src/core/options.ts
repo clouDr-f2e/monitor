@@ -1,5 +1,5 @@
 import { InitOptions } from '../types/options'
-import { generateUUID, toStringValidateOption, validateOption, _support } from 'utils'
+import { generateUUID, toStringValidateOption, validateOption, _support } from '../utils/index'
 
 export class Options {
   beforeAppAjaxSend: Function

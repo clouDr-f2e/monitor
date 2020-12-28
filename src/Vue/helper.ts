@@ -1,7 +1,7 @@
-import { getLocationHref, getTimestamp } from 'utils'
+import { getLocationHref, getTimestamp } from '../utils/index'
 import { ERRORTYPES, BREADCRUMBTYPES } from '../common'
 import { ViewModel } from './types'
-import { breadcrumb, transportData } from 'core'
+import { breadcrumb, transportData } from '../core/index'
 import { ReportDataType } from '../types/transportData'
 import { Severity } from '../utils/Severity'
 function formatComponentName(vm: ViewModel) {

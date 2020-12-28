@@ -1,5 +1,5 @@
-import { addReplaceHandler, MITOHttp, breadcrumb, HandleEvents } from 'core'
-import { htmlElementAsString } from 'utils'
+import { addReplaceHandler, MITOHttp, breadcrumb, HandleEvents } from './core/index'
+import { htmlElementAsString } from './utils/index'
 import { EVENTTYPES, BREADCRUMBTYPES } from './common'
 import { BreadcrumbPushData } from './types/breadcrumb'
 import { Severity } from './utils/Severity'

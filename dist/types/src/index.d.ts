@@ -1,6 +1,6 @@
 import { log } from './core/index';
 import { InitOptions } from './types/index';
-import { errorBoundaryReport } from 'React/index';
+import { errorBoundaryReport } from './React/index';
 declare function init(options?: InitOptions): void;
 declare const _default: {
     MitoVue: {

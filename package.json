@@ -11,11 +11,12 @@
     "watch:groot": "cross-env INCLUDE=localDebug rollup  --config --watch",
     "watch": "rollup --config --watch",
     "company": "rollup  --config src/company/rollup.company.js",
-    "run:example-js": "node examples/JS/index.js",
+    "run:examples": "node --experimental-modules examples/server.mjs",
     "e2e": "jest --config jest.config.ts",
     "unit": "jest --config jsdom.jest.config.ts",
     "test": "npm run e2e && npm run unit",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "math": "node examples/run.mjs"
   },
   "author": "cjinhuo",
   "repository": {
@@ -46,6 +47,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
     "@rollup/plugin-typescript": "^4.1.2",
+    "@types/express": "^4.17.9",
     "@types/jest": "^26.0.19",
     "@types/node-fetch": "^2.5.7",
     "@types/puppeteer": "^5.4.2",
@@ -59,6 +61,7 @@
     "husky": "^4.2.5",
     "jest": "^26.6.3",
     "lint-staged": "^10.2.11",
+    "open": "^7.3.0",
     "prettier": "^2.0.5",
     "puppeteer": "^5.5.0",
     "rollup": "^2.21.0",
