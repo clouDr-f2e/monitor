@@ -15,7 +15,7 @@ export function htmlElementAsString(target: HTMLElement): string {
   }
   let classNames = target.classList.value
   classNames = classNames !== '' ? ` class="${classNames}"` : ''
-  const id = target.id ? ` id="${target.id}` : ''
+  const id = target.id ? ` id="${target.id}"` : ''
   const innerText = target.innerText
   return `<${tagName}${id}${classNames !== '' ? classNames : ''}>${innerText}</${tagName}>`
 }

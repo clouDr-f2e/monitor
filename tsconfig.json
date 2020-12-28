@@ -6,6 +6,7 @@
     "baseUrl": ".", // 工作根目录，会影响vscode import生成的路径
     "preserveConstEnums": true, // 使用 const enum 产生内联成员
     "experimentalDecorators": true, // 启用实验性的ES装饰器
+    "moduleResolution": "Node", // 引入package.json不会报红
     "sourceMap": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,

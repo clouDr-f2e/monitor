@@ -259,7 +259,7 @@ function htmlElementAsString(target) {
     }
     var classNames = target.classList.value;
     classNames = classNames !== '' ? " class=\"" + classNames + "\"" : '';
-    var id = target.id ? " id=\"" + target.id : '';
+    var id = target.id ? " id=\"" + target.id + "\"" : '';
     var innerText = target.innerText;
     return "<" + tagName + id + (classNames !== '' ? classNames : '') + ">" + innerText + "</" + tagName + ">";
 }
