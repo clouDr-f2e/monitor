@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -11,19 +10,14 @@
   <body>
     <div id="app">
       <h1>Vue2.6:控制台输出信息调试</h1>
-      <button @click="onClickCodeError">代码错误</button>
+      <button @click="onClickCodeError">Vue代码错误</button>
       <button @click="onClickFetchNormal">正常请求</button>
       <button @click="onClickFetchError">异常请求</button>
     </div>
-    <button onclick="onClickNativeCodeError()">原生代码错误</button>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="../mito.js"></script>
     <script src="./initMito.js"></script>
     <script>
-      function onClickNativeCodeError() {
-        let obj = {}
-        obj.split('/')
-      }
       new Vue({
         el: '#app',
         data: {},
