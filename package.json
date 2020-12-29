@@ -10,7 +10,7 @@
     "watch:groot": "cross-env INCLUDE=localDebug rollup  --config --watch",
     "watch": "rollup --config --watch",
     "company": "rollup  --config src/company/rollup.company.js",
-    "run:examples": "cross-env NODE_ENV=demo node --experimental-modules examples/server.mjs",
+    "examples": "cross-env NODE_ENV=demo node --experimental-modules examples/server.mjs",
     "e2e": "`nohup node --experimental-modules examples/server.mjs >/dev/null 2>&1 &` && jest --config jest.config.ts",
     "unit": "jest --config jsdom.jest.config.ts",
     "test": "npm run e2e && npm run unit",

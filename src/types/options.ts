@@ -4,10 +4,17 @@ import { BreadcrumbPushData } from './breadcrumb'
 import { ReportDataType } from './transportData'
 type CANCEL = null | undefined | boolean
 
-type TMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
+export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS'
+
+export enum EMethods {
+  Get = 'GET',
+  Post = 'POST',
+  Put = 'PUT',
+  Delete = 'DELETE'
+}
 
 interface IRequestHeaderConfig {
-  url: TMethod
+  url: HttpMethod
   method: string
 }
 

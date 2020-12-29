@@ -29,14 +29,15 @@ export default function createErrorId(data: ReportDataType): number | null {
       break
   }
   id = hashCode(id)
+  if (allErrorNumber[id] > 1) {
+    return null
+  }
   if (typeof allErrorNumber[id] === 'number') {
     allErrorNumber[id]++
   } else {
     allErrorNumber[id] = 1
   }
-  if (allErrorNumber[id] > 2) {
-    return null
-  }
+
   return id
 }
 
@@ -82,14 +83,14 @@ function objectOrder(reason: any) {
  *
  * @param url
  */
-function getRealPath(url: string): string {
+export function getRealPath(url: string): string {
   return url.replace(/[\?#].*$/, '').replace(/\/\d+([\/]*$)/, '{param}$1')
 }
 /**
  * http://a.b.com/#/project?id=1 => a.b.com
  * @param url
  */
-function getRealPageOrigin(url: string): string {
+export function getRealPageOrigin(url: string): string {
   return getRealPath(url.replace(/(\S+)(\/#\/)(\S*)/, `$1`).replace(/(\S*)(\/\/)(\S+)/, '$3'))
 }
 

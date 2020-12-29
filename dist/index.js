@@ -743,6 +743,14 @@ var SDK_NAME = name;
 var SDK_VERSION = version;
 var SERVER_URL = '//localhost:3000/api/error/error.gif';
 
+var EMethods;
+(function (EMethods) {
+    EMethods["Get"] = "GET";
+    EMethods["Post"] = "POST";
+    EMethods["Put"] = "PUT";
+    EMethods["Delete"] = "DELETE";
+})(EMethods || (EMethods = {}));
+
 var TransportData = (function () {
     function TransportData(url) {
         this.url = url;
@@ -771,7 +779,7 @@ var TransportData = (function () {
                     return;
             }
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', _this.url);
+            xhr.open(EMethods.Post, _this.url);
             xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
             xhr.withCredentials = true;
             if (typeof _this.configReportXhr === 'function') {
@@ -1080,7 +1088,7 @@ function xhrReplace() {
             });
             options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method: method, url: url }, this);
             on(this, 'loadend', function () {
-                if ((method === 'POST' && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url))
+                if ((method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url))
                     return;
                 var _a = this, responseType = _a.responseType, response = _a.response, status = _a.status;
                 this.mito_xhr.reqData = args[0];
@@ -1127,7 +1135,7 @@ function fetchReplace() {
                 var eTime = getTimestamp();
                 handlerData = __assign(__assign({}, handlerData), { elapsedTime: eTime - sTime, status: tempRes.status, time: eTime });
                 tempRes.text().then(function (data) {
-                    if (method === 'POST' && transportData.isSdkTransportUrl(url))
+                    if (method === EMethods.Post && transportData.isSdkTransportUrl(url))
                         return;
                     if (isFilterHttpUrl(url))
                         return;
@@ -1137,7 +1145,7 @@ function fetchReplace() {
                 return res;
             }, function (err) {
                 var eTime = getTimestamp();
-                if (method === 'POST' && transportData.isSdkTransportUrl(url))
+                if (method === EMethods.Post && transportData.isSdkTransportUrl(url))
                     return;
                 if (isFilterHttpUrl(url))
                     return;

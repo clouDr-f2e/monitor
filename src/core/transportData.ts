@@ -3,7 +3,7 @@ import { splitObjToQuery, Queue } from '../utils/index'
 import createErrorId from '../errorId'
 import { SDK_NAME, SDK_VERSION, SERVER_URL } from '../config'
 import { breadcrumb } from './breadcrumb'
-import { InitOptions } from '../types/options'
+import { EMethods, InitOptions } from '../types/options'
 import { AuthInfo, TransportDataType, ReportDataType } from '../types/transportData'
 
 /**
@@ -45,7 +45,7 @@ export class TransportData {
         if (!data) return
       }
       const xhr = new XMLHttpRequest()
-      xhr.open('POST', this.url)
+      xhr.open(EMethods.Post, this.url)
       xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
       xhr.withCredentials = true
       if (typeof this.configReportXhr === 'function') {

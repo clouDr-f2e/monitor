@@ -10,6 +10,12 @@ export default {
   },
   moduleFileExtensions: ['js', 'ts'],
   testMatch: ['**/*.spec.ts'],
+  moduleNameMapper: {
+    // alias src/(.*) not work
+    // 从上到下优先匹配
+    '@/test/(.*)': '<rootDir>/test/$1',
+    '@/(.*)': '<rootDir>/src/$1'
+  },
   globals: {
     'ts-jest': {
       tsconfig: './tsconfig.json',

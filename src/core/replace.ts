@@ -17,6 +17,7 @@ import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '../common'
 import { transportData } from './transportData'
 import { logger } from '../utils/logger'
 import { options, setTraceId } from './options'
+import { EMethods } from '../types/options'
 
 export interface MITOHttp {
   type: HTTPTYPE
@@ -156,7 +157,7 @@ function xhrReplace(): void {
         })
         options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method, url }, this)
         on(this, 'loadend', function (this: MITOXMLHttpRequest) {
-          if ((method === 'POST' && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) return
+          if ((method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) return
           const { responseType, response, status } = this
           this.mito_xhr.reqData = args[0]
           const eTime = getTimestamp()
@@ -214,7 +215,7 @@ function fetchReplace(): void {
             time: eTime
           }
           tempRes.text().then((data) => {
-            if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
+            if (method === EMethods.Post && transportData.isSdkTransportUrl(url)) return
             if (isFilterHttpUrl(url)) return
             handlerData.responseText = tempRes.status > HTTP_CODE.UNAUTHORIZED && data
             triggerHandlers(EVENTTYPES.FETCH, handlerData)
@@ -223,7 +224,7 @@ function fetchReplace(): void {
         },
         (err: Error) => {
           const eTime = getTimestamp()
-          if (method === 'POST' && transportData.isSdkTransportUrl(url)) return
+          if (method === EMethods.Post && transportData.isSdkTransportUrl(url)) return
           if (isFilterHttpUrl(url)) return
           handlerData = {
             ...handlerData,

@@ -2,9 +2,15 @@ import { Breadcrumb } from '../core/breadcrumb';
 import { BreadcrumbPushData } from './breadcrumb';
 import { ReportDataType } from './transportData';
 declare type CANCEL = null | undefined | boolean;
-declare type TMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export declare type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS';
+export declare enum EMethods {
+    Get = "GET",
+    Post = "POST",
+    Put = "PUT",
+    Delete = "DELETE"
+}
 interface IRequestHeaderConfig {
-    url: TMethod;
+    url: HttpMethod;
     method: string;
 }
 declare type TSetRequestHeader = (key: string, value: string) => {};
