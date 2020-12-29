@@ -32,7 +32,7 @@
       "jest"
     ],
     "target": "ES5", // 编译成什么版本
-    "module": "commonjs", // 当前代码语法
+    "module": "CommonJS", // 当前代码语法
     "outDir": "./dist/", // 输出目录
     "declaration": true, // 是否自动创建类型声明文件
     "declarationDir": "./dist/types/", // 类型声明文件的输出目录

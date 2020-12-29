@@ -3,7 +3,7 @@ import { BREADCRUMBTYPES, ERRORTYPES, globalVar, ERROR_TYPE_RE, HTTP_CODE } from
 import { resourceTransform, httpTransform } from './transformData'
 import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
-import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStack } from '../utils/index'
+import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStack, unknownToString } from '../utils/index'
 import { ReportDataType } from '../types/transportData'
 import { Severity } from '../utils/Severity'
 import { Replace } from '../types/replace'
@@ -128,7 +128,7 @@ const HandleEvents = {
   handleUnhandleRejection(ev: PromiseRejectionEvent): void {
     let data: ReportDataType = {
       type: ERRORTYPES.PROMISE_ERROR,
-      message: JSON.stringify(ev.reason),
+      message: unknownToString(ev.reason),
       url: getLocationHref(),
       name: ev.type,
       time: getTimestamp(),

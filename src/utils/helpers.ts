@@ -158,9 +158,9 @@ export function generateUUID(): string {
   return uuid
 }
 
-export function unknownToString(target: unknown) {
+export function unknownToString(target: unknown): string {
   if (typeofAny(target, 'string')) {
-    return target
+    return target as string
   }
   return JSON.stringify(target)
 }

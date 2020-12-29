@@ -1,74 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>native-js-demo</title>
-  <script src="../../dist/index.min.js"></script>
-  <script>
-  </script>
-</head>
-<body>
-      <script src="./initMito.js"></script>
-      <h1>native-js:控制台输出信息调试</h1>
-      <button id="codeErr" onclick="codeError()">代码错误</button>
-      <button id="normalReq" onclick="onClickFetchNormal()">正常请求</button>
-      <button id="exceptionReq" onclick="onClickFetchError()">异常请求</button>
-      <button id="normalFetch" onclick="onClickNativeFetch()">Fetch请求</button>
-      <button id="exceptionFetch" onclick="mitoLog()">log上报</button>
-      <button onclick="testPromise()">testPromise</button>
-      <a href="/Vue/index.html">跳到Vue页面</a>
-      <a href="/React/index.html">跳到React页面</a>
-      <a href="/Vue3/index.html">跳到Vue3页面</a>
-      <script>
-        function codeError() {
-         let a = {}
-         a.split('/')
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>native-js-demo</title>
+    <script src="../../dist/index.min.js"></script>
+    <script></script>
+  </head>
+  <body>
+    <script src="./initMito.js"></script>
+    <h1>native-js:控制台输出信息调试</h1>
+    <button id="codeErr" onclick="codeError()">代码错误</button>
+    <button id="normalReq" onclick="onClickXhrNormal()">xhr正常请求</button>
+    <button id="exceptionReq" onclick="onClickXhrError()">xhr异常请求</button>
+    <button id="normalFetch" onclick="onClickNativeFetch()">Fetch正常请求</button>
+    <button id="normalFetch" onclick="onClickNativeErrorFetch()">Fetch异常请求</button>
+    <button id="exceptionFetch" onclick="mitoLog()">log上报</button>
+    <button onclick="promiseError()">promiseError</button>
+    <a href="/Vue/index.html">跳到Vue页面</a>
+    <a href="/React/index.html">跳到React页面</a>
+    <a href="/Vue3/index.html">跳到Vue3页面</a>
+    <script>
+      function codeError() {
+        let a = {}
+        a.split('/')
+      }
+      function promiseError() {
+        const promiseWrap = () => new Promise((resolve, reject) => {
+          reject('promise reject')
+        })
+        promiseWrap().then(res => {
+          console.log('res', res)
+        })
+
+      }
+      function mitoLog() {
+        MITO.log({ message: { one: 111 }, tag: '测试' })
+      }
+      function onClickNativeFetch() {
+        fetch('/normal/post', {
+          method: 'POST',
+          body: JSON.stringify({ test: '测试请求体' }),
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then((res) => {
+          res.text().then((res) => console.log('res', res))
+        })
+      }
+      function onClickNativeErrorFetch() {
+        fetch('/exception/post', {
+          method: 'POST',
+          body: JSON.stringify({ test: '测试请求体' }),
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(
+          (res) => {
+            res.text().then((res) => console.log('res', res))
+          },
+          (err) => {
+            console.log('err', err)
+          }
+        )
+      }
+      function onClickXhrNormal() {
+        const xhr = new XMLHttpRequest()
+        xhr.open('get', '/normal')
+        xhr.setRequestHeader('content-type', 'application/json')
+        xhr.send()
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            console.log(xhr.responseText)
+          }
         }
-        function testPromise() {
-          new Promise((resolve, reject) => {
-            reject('test')
-            // let a = 1
-            // a.split('')
-          })
+      }
+      function onClickXhrError() {
+        const xhr = new XMLHttpRequest()
+        xhr.open('get', '/exception')
+        xhr.setRequestHeader('content-type', 'application/json')
+        xhr.send()
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            console.log(xhr.responseText)
+          }
         }
-        function mitoLog() {
-          MITO.log({message: {one:111}, tag: '测试'})
-          // 兼容老代码
-          // MITO.log('错误', {one:11})
-        }
-        function onClickNativeFetch() {
-          fetch('https://api.apiopen.top/likePoetry?name=李白').then(res => {
-            res.text().then(res => {
-          })
-          },err => {
-            console.log('err', err.name, err.message)
-          })
-        }
-        function onClickFetchNormal() {
-            const xhr = new XMLHttpRequest()
-            xhr.open('get', 'https://api.apiopen.top/likePoetry?name=李白')
-            xhr.setRequestHeader('content-type', 'application/json')
-            xhr.send()
-            xhr.onreadystatechange = function () {
-              if (xhr.readyState === 4) {
-                console.log(xhr)
-                console.log('responseType', xhr.responseType)
-                console.log(xhr.responseText)
-              }
-            }
-        }
-        function onClickFetchError() {
-            const xhr = new XMLHttpRequest()
-            xhr.open('get', 'http://asdas.aaa/info2')
-            xhr.setRequestHeader('content-type', 'application/json')
-            xhr.send()
-            xhr.onreadystatechange = function () {
-              if (xhr.readyState === 4) {
-                console.log(xhr.responseText)
-              }
-            }
-        }
-      </script>
-</body>
+      }
+    </script>
+  </body>
 </html>

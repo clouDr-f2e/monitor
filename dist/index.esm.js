@@ -534,14 +534,14 @@ function createErrorId(data) {
             break;
     }
     id = hashCode(id);
+    if (allErrorNumber[id] > 1) {
+        return null;
+    }
     if (typeof allErrorNumber[id] === 'number') {
         allErrorNumber[id]++;
     }
     else {
         allErrorNumber[id] = 1;
-    }
-    if (allErrorNumber[id] > 2) {
-        return null;
     }
     return id;
 }
@@ -739,7 +739,7 @@ var version = "1.2.1";
 
 var SDK_NAME = name;
 var SDK_VERSION = version;
-var SERVER_URL = '//localhost:3000/api/error/error.gif';
+var SERVER_URL = '//localhost:3000/api/error/upload';
 
 var EMethods;
 (function (EMethods) {
@@ -942,7 +942,7 @@ var HandleEvents = {
     handleUnhandleRejection: function (ev) {
         var data = {
             type: ERRORTYPES.PROMISE_ERROR,
-            message: JSON.stringify(ev.reason),
+            message: unknownToString(ev.reason),
             url: getLocationHref(),
             name: ev.type,
             time: getTimestamp(),

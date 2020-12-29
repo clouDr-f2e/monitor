@@ -49,6 +49,7 @@ const cjsPackage = {
     }),
     json(),
     typescript({
+      tsconfig: 'build.tsconfig.json',
       tsconfigOverride: { compilerOptions: { declaration: false } }
     }),
     cleanup({
@@ -71,6 +72,7 @@ const localDebug = {
     }),
     json(),
     typescript({
+      tsconfig: 'build.tsconfig.json',
       tsconfigOverride: { compilerOptions: { declaration: false } }
     }),
     cleanup({
@@ -93,6 +95,7 @@ const iifePackage = {
     }),
     json(),
     typescript({
+      tsconfig: 'build.tsconfig.json',
       tsconfigOverride: { compilerOptions: { declaration: false } }
     }),
     terser(),
