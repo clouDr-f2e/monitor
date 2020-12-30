@@ -6,5 +6,5 @@ rvm:
 install:
   - npm i
 scripts:
-  - npm run test
+  - npm test
   - npm run build
