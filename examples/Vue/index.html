@@ -10,12 +10,12 @@
   <body>
     <div id="app">
       <h1>Vue2.6:控制台输出信息调试</h1>
-      <button @click="onClickCodeError">Vue代码错误</button>
+      <button id="vueCodeError" @click="onClickCodeError">Vue代码错误</button>
       <button @click="onClickFetchNormal">正常请求</button>
       <button @click="onClickFetchError">异常请求</button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="../mito.js"></script>
+    <script src="../../dist/index.min.js"></script>
     <script src="./initMito.js"></script>
     <script>
       new Vue({

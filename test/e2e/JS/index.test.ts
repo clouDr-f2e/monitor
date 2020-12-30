@@ -6,7 +6,7 @@ import { Severity } from '@/utils/Severity'
 import { jsUrl } from '@/test/config'
 import { SpanStatus } from '@/utils/httpStatus'
 
-describe('JS html', () => {
+describe('Native JS e2e', () => {
   const timeout = 3000
   let page: puppeteer.Page
   let browser: puppeteer.Browser
@@ -40,6 +40,9 @@ describe('JS html', () => {
     browser.close()
   })
 
+  afterAll(() => {
+    browser.close()
+  })
   it(
     'Code Error btn click，breadcrumb stack should add two and upload this error',
     async () => {
