@@ -455,12 +455,13 @@ var Breadcrumb = (function () {
         var _this = this;
         if (typeof this.beforePushBreadcrumb === 'function') {
             var result_1 = null;
+            var beforePushBreadcrumb_1 = this.beforePushBreadcrumb;
             slientConsoleScope(function () {
-                result_1 = _this.beforePushBreadcrumb(_this, data);
+                result_1 = beforePushBreadcrumb_1(_this, data);
             });
-            if (result_1) {
-                this.immediatePush(result_1);
-            }
+            if (!result_1)
+                return;
+            this.immediatePush(result_1);
             return;
         }
         this.immediatePush(data);

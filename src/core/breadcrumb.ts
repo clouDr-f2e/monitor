@@ -20,14 +20,12 @@ export class Breadcrumb {
       let result: BreadcrumbPushData = null
       // 如果用户输入console，并且logger是打开的会造成无限递归，
       // 应该加入一个开关，执行这个函数前，把监听console的行为关掉
-      // todo const beforePushBreadcrumb = this.beforePushBreadcrumb
+      const beforePushBreadcrumb = this.beforePushBreadcrumb
       slientConsoleScope(() => {
-        // todo beforePushBreadcrumb(data)
-        result = (this.beforePushBreadcrumb as Function)(this, data)
+        result = beforePushBreadcrumb(this, data)
       })
-      if (result) {
-        this.immediatePush(result)
-      }
+      if (!result) return
+      this.immediatePush(result)
       return
     }
     this.immediatePush(data)
@@ -42,6 +40,9 @@ export class Breadcrumb {
   }
   shift(): boolean {
     return this.stack.shift() !== undefined
+  }
+  clear(): void {
+    this.stack = []
   }
   getStack(): BreadcrumbPushData[] {
     return this.stack

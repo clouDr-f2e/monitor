@@ -4,7 +4,7 @@
  */
 
 export default {
-  collectCoverage: false,
+  collectCoverage: true,
   transform: {
     '^.+\\.ts$': 'ts-jest'
   },

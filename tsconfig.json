@@ -14,12 +14,6 @@
     "removeComments": true, // 是否移除注释
     "forceConsistentCasingInFileNames": true, //禁止对同一个文件的不一致的引用。
     "paths": { // 指定模块的路径，和baseUrl有关联
-      "utils": [
-        "./src/utils/index"
-      ],
-      "core": [
-        "./src/core/index"
-      ],
       "@/*": [
         "src/*"
       ],

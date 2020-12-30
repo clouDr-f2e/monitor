@@ -1,4 +1,3 @@
-import { MITOHttp } from 'core'
 import { Breadcrumb } from '../core/breadcrumb'
 import { BreadcrumbPushData } from './breadcrumb'
 import { ReportDataType } from './transportData'
