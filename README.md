@@ -10,6 +10,8 @@
 [![build status](https://img.shields.io/travis/clouDr-f2e/mitojs/master.svg?style=flat-square)](https://travis-ci.com/github/clouDr-f2e/mitojs)
 [![license](https://img.shields.io/github/license/clouDr-f2e/mitojs)](https://github.com/clouDr-f2e/mitojs/blob/dev/LICENSE)
 [![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+<!-- [![codecov](https://codecov.io/gh/codecov/example-typescript/branch/master/graph/badge.svg)](https://codecov.io/gh/codecov/example-typescript) -->
+
 </div>
 
 

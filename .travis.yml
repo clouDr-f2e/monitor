@@ -1,4 +1,6 @@
 languages: node_js
+after_success:
+  - codecov
 node_js:
   - "12.18.3"
 rvm:
@@ -6,5 +8,6 @@ rvm:
 install:
   - npm i
 scripts:
+  - npm install codecov -g
   - npm test
   - npm run build
