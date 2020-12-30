@@ -29,6 +29,10 @@ class PuppeteerEnvironment extends NodeEnvironment {
 
   async teardown() {
     console.log(chalk.yellow('Teardown Test Environment.'))
+    process.on('unhandledRejection', (reason) => {
+      // console.error('Unhandled Rejection at:', 'reason:', reason)
+      // process.exit(1)
+    })
     await super.teardown()
   }
 
