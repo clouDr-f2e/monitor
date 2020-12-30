@@ -5,14 +5,7 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false }
   }
 
-  // static getDerivedStateFromError(error) {
-  //   // 更新 state 使下一次渲染能够显示降级后的 UI
-  //   console.log('getDerivedStateFromError', error)
-  //   return error
-  // }
-
   componentDidCatch(error, errorInfo) {
-    console.log('ErrorBoundary', error, errorInfo)
     MITO.errorBoundaryReport(error)
     if (error) {
       this.setState({
@@ -45,7 +38,7 @@ class BuggyCounter extends React.Component {
     if (this.state.counter === 3) {
       throw new Error('I crashed!')
     }
-    return h('h1', { onClick: this.handleClick }, this.state.counter)
+    return h('h1', { onClick: this.handleClick, id: 'numException' }, this.state.counter)
   }
 }
 ReactDOM.render(h(ErrorBoundary, { children: h(BuggyCounter) }), document.getElementById('root'))
