@@ -15,13 +15,6 @@
 </div>
 
 
-
-
-
-<!-- [![CDNJS](https://img.shields.io/cdnjs/v/@zyf2e/mitojs.svg?style=flat-square)](https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/mito.min.js) -->
-
-<!-- [![code coverage](https://img.shields.io/coveralls/mzabriskie/axios.svg?style=flat-square)](https://coveralls.io/r/mzabriskie/axios) -->
-
 ## 功能特性
 - [x] 🔨监听请求错误
 - [x] 🔨console
@@ -33,10 +26,12 @@
 - [x] 🚀丰富的hooks和配置项
 - [x] 🌝支持IE8以上
 - [x] 👌持续迭代与更新
-- [x] 支持react
+- [x] 支持react@next
+- [x] 支持Vue2.6
+- [ ] 支持Vue3.0
 - [x] 完善的e2e测试
-- [ ] 完善的单元测试
-- [ ] 支持小程序框架
+- [ ] 完善的单元测试（coding）
+- [ ] 支持小程序框架（coding）
 
 
 
