@@ -1,9 +1,10 @@
 languages: node_js
 node_js:
   - "12.18.3"
-rvm: 
-  - 
-install: 
+rvm:
+  -
+install:
   - npm i
-scripts: 
+scripts:
+  - npm run test
   - npm run build
