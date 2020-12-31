@@ -13,11 +13,12 @@ import {
   getLocationHref,
   isExistProperty
 } from '../utils/index'
-import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '../common'
+import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '../common/common'
 import { transportData } from './transportData'
 import { logger } from '../utils/logger'
 import { options, setTraceId } from './options'
 import { EMethods } from '../types/options'
+import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subscribe'
 
 export interface MITOHttp {
   type: HTTPTYPE
@@ -39,17 +40,11 @@ export interface MITOXMLHttpRequest extends XMLHttpRequest {
   mito_xhr?: MITOHttp
 }
 
-interface ReplaceHandler {
-  type: EVENTTYPES
-  callback: ReplaceCallback
-}
-
-type ReplaceCallback = (data: any) => void
-
-const handlers: { [key in EVENTTYPES]?: ReplaceCallback[] } = {}
-
 const clickThrottle = throttle(triggerHandlers, 600)
-// const keypressThrottle = throttle(triggerHandlers, 500)
+
+function isFilterHttpUrl(url: string) {
+  return options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url)
+}
 
 function replace(type: EVENTTYPES) {
   switch (type) {
@@ -63,10 +58,10 @@ function replace(type: EVENTTYPES) {
       listenError()
       break
     case EVENTTYPES.CONSOLE:
-      replaceConsole()
+      consoleReplace()
       break
     case EVENTTYPES.HISTORY:
-      replaceHistory()
+      historyReplace()
       break
     case EVENTTYPES.UNHANDLEDREJECTION:
       unhandledrejectionReplace()
@@ -82,33 +77,9 @@ function replace(type: EVENTTYPES) {
   }
 }
 
-export function addReplaceHandler(handler: ReplaceHandler): void {
-  if (!handler) {
-    return
-  }
-  if (getFlag(handler.type)) return
-  setFlag(handler.type, true)
-  handlers[handler.type] = handlers[handler.type] || []
-  handlers[handler.type].push(handler.callback)
+export function addReplaceHandler(handler: ReplaceHandler) {
+  subscribeEvent(handler)
   replace(handler.type)
-}
-
-function triggerHandlers(type: EVENTTYPES, data: any): void {
-  if (!type || !handlers[type]) return
-  handlers[type].forEach((callback) => {
-    nativeTryCatch(
-      () => {
-        callback(data)
-      },
-      (e: Error) => {
-        logger.error(`重写事件triggerHandlers的回调函数发生错误\nType:${type}\nName: ${getFunctionName(callback)}\nError: ${e}`)
-      }
-    )
-  })
-}
-
-function isFilterHttpUrl(url: string) {
-  return options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url)
 }
 
 function xhrReplace(): void {
@@ -260,7 +231,7 @@ function listenError(): void {
   )
 }
 
-function replaceConsole(): void {
+function consoleReplace(): void {
   if (!('console' in _global)) {
     return
   }
@@ -282,7 +253,7 @@ function replaceConsole(): void {
 // 上一次的路由
 let lastHref: string
 lastHref = getLocationHref()
-function replaceHistory(): void {
+function historyReplace(): void {
   if (!supportsHistory()) return
   const oldOnpopstate = _global.onpopstate
   _global.onpopstate = function (this: WindowEventHandlers, ...args: any[]): any {

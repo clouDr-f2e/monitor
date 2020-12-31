@@ -1,4 +1,4 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE } from '@/common'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE } from '@/common/common'
 import { version, name } from '../../../package.json'
 import puppeteer from 'puppeteer'
 import { BreadcrumbPushData, EMethods, ReportDataType, TransportDataType } from '@/types/index'
@@ -6,7 +6,7 @@ import { Severity } from '@/utils/Severity'
 import { jsUrl } from '@/test/config'
 import { SpanStatus } from '@/utils/httpStatus'
 
-describe('Native JS e2e', () => {
+describe('Native JS e2e:', () => {
   const timeout = 3000
   let page: puppeteer.Page
   let browser: puppeteer.Browser

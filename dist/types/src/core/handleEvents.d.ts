@@ -1,5 +1,5 @@
 import { MITOHttp } from './replace';
-import { BREADCRUMBTYPES, ERRORTYPES } from '../common';
+import { BREADCRUMBTYPES, ERRORTYPES } from '../common/common';
 import { Severity } from '../utils/Severity';
 import { Replace } from '../types/replace';
 export interface ResourceErrorTarget {

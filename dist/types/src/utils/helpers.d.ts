@@ -1,5 +1,5 @@
 import { IStringObject } from '../types/common';
-import { voidFun } from '../common';
+import { voidFun } from '../common/common';
 export declare function getLocationHref(): string;
 declare type TotalEventName = keyof GlobalEventHandlersEventMap | keyof XMLHttpRequestEventTargetEventMap | keyof WindowEventMap;
 export declare function on(target: {

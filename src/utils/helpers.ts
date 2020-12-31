@@ -1,5 +1,5 @@
 import { IStringObject } from '../types/common'
-import { voidFun, globalVar } from '../common'
+import { voidFun, globalVar } from '../common/common'
 import { logger } from './logger'
 
 export function getLocationHref(): string {

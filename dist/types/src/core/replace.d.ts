@@ -1,4 +1,5 @@
-import { EVENTTYPES, HTTPTYPE } from '../common';
+import { HTTPTYPE } from '../common/common';
+import { ReplaceHandler } from '../common/subscribe';
 export interface MITOHttp {
     type: HTTPTYPE;
     traceId?: string;
@@ -16,10 +17,4 @@ export interface MITOXMLHttpRequest extends XMLHttpRequest {
     [key: string]: any;
     mito_xhr?: MITOHttp;
 }
-interface ReplaceHandler {
-    type: EVENTTYPES;
-    callback: ReplaceCallback;
-}
-declare type ReplaceCallback = (data: any) => void;
 export declare function addReplaceHandler(handler: ReplaceHandler): void;
-export {};

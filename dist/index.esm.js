@@ -477,6 +477,9 @@ var Breadcrumb = (function () {
     Breadcrumb.prototype.shift = function () {
         return this.stack.shift() !== undefined;
     };
+    Breadcrumb.prototype.clear = function () {
+        this.stack = [];
+    };
     Breadcrumb.prototype.getStack = function () {
         return this.stack;
     };
@@ -999,7 +1002,32 @@ function setTraceId(httpUrl, callback) {
 }
 
 var handlers = {};
+function subscribeEvent(handler) {
+    if (!handler) {
+        return;
+    }
+    if (getFlag(handler.type))
+        return;
+    setFlag(handler.type, true);
+    handlers[handler.type] = handlers[handler.type] || [];
+    handlers[handler.type].push(handler.callback);
+}
+function triggerHandlers(type, data) {
+    if (!type || !handlers[type])
+        return;
+    handlers[type].forEach(function (callback) {
+        nativeTryCatch(function () {
+            callback(data);
+        }, function (e) {
+            logger.error("\u91CD\u5199\u4E8B\u4EF6triggerHandlers\u7684\u56DE\u8C03\u51FD\u6570\u53D1\u751F\u9519\u8BEF\nType:" + type + "\nName: " + getFunctionName(callback) + "\nError: " + e);
+        });
+    });
+}
+
 var clickThrottle = throttle(triggerHandlers, 600);
+function isFilterHttpUrl(url) {
+    return options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url);
+}
 function replace(type) {
     switch (type) {
         case EVENTTYPES.XHR:
@@ -1012,10 +1040,10 @@ function replace(type) {
             listenError();
             break;
         case EVENTTYPES.CONSOLE:
-            replaceConsole();
+            consoleReplace();
             break;
         case EVENTTYPES.HISTORY:
-            replaceHistory();
+            historyReplace();
             break;
         case EVENTTYPES.UNHANDLEDREJECTION:
             unhandledrejectionReplace();
@@ -1029,29 +1057,8 @@ function replace(type) {
     }
 }
 function addReplaceHandler(handler) {
-    if (!handler) {
-        return;
-    }
-    if (getFlag(handler.type))
-        return;
-    setFlag(handler.type, true);
-    handlers[handler.type] = handlers[handler.type] || [];
-    handlers[handler.type].push(handler.callback);
+    subscribeEvent(handler);
     replace(handler.type);
-}
-function triggerHandlers(type, data) {
-    if (!type || !handlers[type])
-        return;
-    handlers[type].forEach(function (callback) {
-        nativeTryCatch(function () {
-            callback(data);
-        }, function (e) {
-            logger.error("\u91CD\u5199\u4E8B\u4EF6triggerHandlers\u7684\u56DE\u8C03\u51FD\u6570\u53D1\u751F\u9519\u8BEF\nType:" + type + "\nName: " + getFunctionName(callback) + "\nError: " + e);
-        });
-    });
-}
-function isFilterHttpUrl(url) {
-    return options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url);
 }
 function xhrReplace() {
     if (!('XMLHttpRequest' in _global)) {
@@ -1167,7 +1174,7 @@ function listenError() {
         triggerHandlers(EVENTTYPES.ERROR, e);
     }, true);
 }
-function replaceConsole() {
+function consoleReplace() {
     if (!('console' in _global)) {
         return;
     }
@@ -1192,7 +1199,7 @@ function replaceConsole() {
 }
 var lastHref;
 lastHref = getLocationHref();
-function replaceHistory() {
+function historyReplace() {
     if (!supportsHistory())
         return;
     var oldOnpopstate = _global.onpopstate;

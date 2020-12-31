@@ -1,7 +1,6 @@
-import { addReplaceHandler, MITOHttp, breadcrumb, HandleEvents } from './core/index'
+import { MITOHttp, breadcrumb, HandleEvents, addReplaceHandler } from './core/index'
 import { htmlElementAsString } from './utils/index'
-import { EVENTTYPES, BREADCRUMBTYPES } from './common'
-import { BreadcrumbPushData } from './types/breadcrumb'
+import { EVENTTYPES, BREADCRUMBTYPES } from './common/common'
 import { Severity } from './utils/Severity'
 export function setupReplace(): void {
   addReplaceHandler({

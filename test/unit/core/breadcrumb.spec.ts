@@ -1,4 +1,4 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES } from '@/common'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES } from '@/common/common'
 import { breadcrumb } from '@/core/breadcrumb'
 import { BreadcrumbPushData } from '@/types'
 import { Severity } from '@/utils/Severity'
@@ -20,12 +20,12 @@ describe('breadcrumb.ts', () => {
     level: Severity.Debug
   }
 
-  it("breadcrumb's max lenght is less than 16", () => {
+  it("should less than 16 of breadcrumb's max lenght", () => {
     new Array(20).fill('').forEach(() => breadcrumb.push(breadcrumbDemo))
     expect(breadcrumb.getStack().length === 16)
   })
 
-  it('beforePushBreadcrumb should work', () => {
+  it('should work on beforePushBreadcrumb', () => {
     breadcrumb.bindOptions({
       beforePushBreadcrumb(breadcrumb, hint) {
         if (hint.category === BREADCRUMBCATEGORYS.DEBUG) {
@@ -41,7 +41,7 @@ describe('breadcrumb.ts', () => {
     expect(breadcrumb.getStack().length).toBe(1)
   })
 
-  it('breadcrumb.getCategory should work', () => {
+  it('should work on breadcrumb.getCategory ', () => {
     expect(breadcrumb.getCategory(BREADCRUMBTYPES.XHR)).toBe(BREADCRUMBCATEGORYS.HTTP)
     expect(breadcrumb.getCategory(BREADCRUMBTYPES.FETCH)).toBe(BREADCRUMBCATEGORYS.HTTP)
     expect(breadcrumb.getCategory(BREADCRUMBTYPES.CLICK)).toBe(BREADCRUMBCATEGORYS.USER)

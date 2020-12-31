@@ -1,4 +1,4 @@
-import { EVENTTYPES, ERRORTYPES } from '../common'
+import { EVENTTYPES, ERRORTYPES } from '../common/common'
 import { getLocationHref, getTimestamp } from './helpers'
 import { setFlag } from './global'
 import { ReportDataType, InitOptions } from '../types/index'

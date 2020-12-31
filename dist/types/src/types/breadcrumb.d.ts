@@ -1,5 +1,5 @@
 import { Severity } from '../utils/Severity';
-import { BREADCRUMBTYPES } from '../common';
+import { BREADCRUMBTYPES } from '../common/common';
 import { ReportDataType } from './transportData';
 import { Replace } from './replace';
 export interface BreadcrumbPushData {

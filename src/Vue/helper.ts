@@ -1,5 +1,5 @@
 import { getLocationHref, getTimestamp } from '../utils/index'
-import { ERRORTYPES, BREADCRUMBTYPES } from '../common'
+import { ERRORTYPES, BREADCRUMBTYPES } from '../common/common'
 import { ViewModel } from './types'
 import { breadcrumb, transportData } from '../core/index'
 import { ReportDataType } from '../types/transportData'

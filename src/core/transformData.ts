@@ -1,9 +1,9 @@
 import { MITOHttp } from './replace'
-import { ERRORTYPES, HTTP_CODE } from '../common'
+import { ERRORTYPES, HTTP_CODE } from '../common/common'
 import { getLocationHref, getTimestamp } from '../utils/index'
 import { ResourceErrorTarget } from './handleEvents'
 import { ReportDataType } from '../types/transportData'
-import { globalVar } from '../common'
+import { globalVar } from '../common/common'
 import { Severity } from '../utils/Severity'
 import { fromHttpStatus } from '../utils/httpStatus'
 

@@ -1,4 +1,4 @@
-import { EVENTTYPES } from '../common';
+import { EVENTTYPES } from '../common/common';
 import { TransportData } from '../core/transportData';
 import { Breadcrumb } from '../core/breadcrumb';
 import { Logger } from './logger';
