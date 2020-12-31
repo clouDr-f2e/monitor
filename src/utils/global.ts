@@ -3,6 +3,7 @@ import { TransportData } from '../core/transportData'
 import { Breadcrumb } from '../core/breadcrumb'
 import { Logger } from './logger'
 import { Options } from '../core/options'
+import { variableTypeDetection } from './is'
 
 // MITO的全局变量
 export interface MitoSupport {
@@ -15,24 +16,28 @@ export interface MitoSupport {
 }
 
 interface MITOGlobal {
-  console: Console
-  __MITO__: MitoSupport
+  console?: Console
+  __MITO__?: MitoSupport
 }
 
-export function isNodeEnv(): boolean {
-  // tslint:disable:strict-type-predicates
-  return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]'
-}
+export const isNodeEnv = (): boolean => variableTypeDetection.isProcess(typeof process !== 'undefined' ? process : 0)
+
+export const isWxMiniEnv = (): boolean =>
+  variableTypeDetection.isObject(typeof wx !== 'undefined' ? wx : 0) && variableTypeDetection.isObject(typeof App !== 'undefined' ? App : 0)
+
+export const isBrowserEnv = (): boolean => variableTypeDetection.isWindow(typeof window !== 'undefined' ? window : 0)
 /**
  * 获取全局变量
  *
  * ../returns Global scope object
  */
-export function getGlobal<T>(): T & MITOGlobal {
-  return (isNodeEnv() ? global : typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : {}) as T & MITOGlobal
+export function getGlobal<T>() {
+  if (isBrowserEnv()) return (window as unknown) as MITOGlobal & T
+  if (isWxMiniEnv()) return (wx as unknown) as MITOGlobal & T
+  if (isNodeEnv()) return (process as unknown) as MITOGlobal & T
 }
 
-const _global = getGlobal<Window>()
+const _global = getGlobal<Window & WechatMiniprogram.Wx>()
 const _support = getGlobalMitoSupport()
 
 export { _global, _support }

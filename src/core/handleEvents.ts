@@ -1,4 +1,3 @@
-import { MITOHttp } from './replace'
 import { BREADCRUMBTYPES, ERRORTYPES, globalVar, ERROR_TYPE_RE, HTTP_CODE } from '../common/common'
 import { resourceTransform, httpTransform } from './transformData'
 import { transportData } from './transportData'
@@ -7,7 +6,7 @@ import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStac
 import { ReportDataType } from '../types/transportData'
 import { Severity } from '../utils/Severity'
 import { Replace } from '../types/replace'
-import { IStringObject } from '../types/common'
+import { MITOHttp } from '../types/common'
 
 export interface ResourceErrorTarget {
   src?: string

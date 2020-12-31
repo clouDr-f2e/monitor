@@ -1,7 +1,7 @@
-import { MITOHttp } from './replace';
 import { BREADCRUMBTYPES, ERRORTYPES } from '../common/common';
 import { Severity } from '../utils/Severity';
 import { Replace } from '../types/replace';
+import { MITOHttp } from '../types/common';
 export interface ResourceErrorTarget {
     src?: string;
     href?: string;

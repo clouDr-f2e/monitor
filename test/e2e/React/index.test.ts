@@ -6,7 +6,7 @@ import { Severity } from '@/utils/Severity'
 import puppeteer from 'puppeteer'
 import { BreadcrumbPushData } from '@/types/breadcrumb'
 
-describe('Vue e2e', () => {
+describe('React e2e', () => {
   const timeout = 3000
   let page: puppeteer.Page
   let browser: puppeteer.Browser

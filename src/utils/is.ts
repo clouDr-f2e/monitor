@@ -1,5 +1,4 @@
 const nativeToString = Object.prototype.toString
-// todo 待替换  将toString（）替换成以下方式
 function isType(type: string) {
   return function (value: any): boolean {
     return Object.prototype.toString.call(value) === `[object ${type}]`
@@ -19,7 +18,9 @@ export const variableTypeDetection = {
   isSymbol: isType('Symbol'),
   isFunction: isType('Function'),
   isObject: isType('Object'),
-  isArray: isType('Array')
+  isArray: isType('Array'),
+  isProcess: isType('process'),
+  isWindow: isType('Window')
 }
 
 /**

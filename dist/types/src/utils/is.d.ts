@@ -8,6 +8,8 @@ export declare const variableTypeDetection: {
     isFunction: (value: any) => boolean;
     isObject: (value: any) => boolean;
     isArray: (value: any) => boolean;
+    isProcess: (value: any) => boolean;
+    isWindow: (value: any) => boolean;
 };
 export declare function isError(wat: any): boolean;
 export declare function isArray(wat: any): boolean;

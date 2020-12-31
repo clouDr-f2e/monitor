@@ -1,3 +1,4 @@
+/// <reference types="wechat-miniprogram" />
 import { EVENTTYPES } from '../common/common';
 import { TransportData } from '../core/transportData';
 import { Breadcrumb } from '../core/breadcrumb';
@@ -14,12 +15,14 @@ export interface MitoSupport {
     options?: Options;
 }
 interface MITOGlobal {
-    console: Console;
-    __MITO__: MitoSupport;
+    console?: Console;
+    __MITO__?: MitoSupport;
 }
-export declare function isNodeEnv(): boolean;
-export declare function getGlobal<T>(): T & MITOGlobal;
-declare const _global: Window & MITOGlobal;
+export declare const isNodeEnv: () => boolean;
+export declare const isWxMiniEnv: () => boolean;
+export declare const isBrowserEnv: () => boolean;
+export declare function getGlobal<T>(): MITOGlobal & T;
+declare const _global: MITOGlobal & Window & WechatMiniprogram.Wx;
 declare const _support: MitoSupport;
 export { _global, _support };
 export declare function setFlag(replaceType: EVENTTYPES, isSet: boolean): void;

@@ -19,11 +19,12 @@
       ],
       "@/test/*": [
         "test/*"
-      ]
+      ],
     },
     "types": [
       "node",
-      "jest"
+      "jest",
+      "wechat-miniprogram"
     ],
     "target": "ES5", // 编译成什么版本
     "module": "CommonJS", // 当前代码语法

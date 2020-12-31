@@ -1,44 +1,10 @@
-import {
-  _global,
-  on,
-  getTimestamp,
-  supportsHistory,
-  getFunctionName,
-  replaceOld,
-  isString,
-  nativeTryCatch,
-  throttle,
-  setFlag,
-  getFlag,
-  getLocationHref,
-  isExistProperty
-} from '../utils/index'
+import { _global, on, getTimestamp, supportsHistory, replaceOld, isString, throttle, getLocationHref, isExistProperty } from '../utils/index'
 import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '../common/common'
 import { transportData } from './transportData'
-import { logger } from '../utils/logger'
 import { options, setTraceId } from './options'
 import { EMethods } from '../types/options'
 import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subscribe'
-
-export interface MITOHttp {
-  type: HTTPTYPE
-  traceId?: string
-  method?: string
-  url?: string
-  status?: number
-  reqData?: any
-  // statusText?: string
-  sTime?: number
-  elapsedTime?: number
-  responseText?: any
-  time?: number
-  isSdkUrl?: boolean
-}
-
-export interface MITOXMLHttpRequest extends XMLHttpRequest {
-  [key: string]: any
-  mito_xhr?: MITOHttp
-}
+import { MITOHttp, MITOXMLHttpRequest } from '../types/common'
 
 const clickThrottle = throttle(triggerHandlers, 600)
 
@@ -237,9 +203,7 @@ function consoleReplace(): void {
   }
   const logType = ['log', 'debug', 'info', 'warn', 'error', 'assert']
   logType.forEach(function (level: string): void {
-    if (!(level in _global.console)) {
-      return
-    }
+    if (!(level in _global.console)) return
     replaceOld(_global.console, level, function (originalConsole: () => any): Function {
       return function (...args: any[]): void {
         if (originalConsole) {

@@ -80,11 +80,67 @@ var globalVar = {
     crossOriginThreshold: 1000
 };
 
-function isNodeEnv() {
-    return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
+var nativeToString = Object.prototype.toString;
+function isType(type) {
+    return function (value) {
+        return Object.prototype.toString.call(value) === "[object " + type + "]";
+    };
 }
+var variableTypeDetection = {
+    isNumber: isType('Number'),
+    isString: isType('String'),
+    isBoolean: isType('Boolean'),
+    isNull: isType('Null'),
+    isUndefined: isType('Undefined'),
+    isSymbol: isType('Symbol'),
+    isFunction: isType('Function'),
+    isObject: isType('Object'),
+    isArray: isType('Array'),
+    isProcess: isType('process'),
+    isWindow: isType('Window')
+};
+function isError(wat) {
+    switch (nativeToString.call(wat)) {
+        case '[object Error]':
+            return true;
+        case '[object Exception]':
+            return true;
+        case '[object DOMException]':
+            return true;
+        default:
+            return isInstanceOf(wat, Error);
+    }
+}
+function isArray(wat) {
+    return nativeToString.call(wat) === '[object Array]';
+}
+function isString(wat) {
+    return nativeToString.call(wat) === '[object String]';
+}
+function isInstanceOf(wat, base) {
+    try {
+        return wat instanceof base;
+    }
+    catch (_e) {
+        return false;
+    }
+}
+function isExistProperty(obj, key) {
+    return obj.hasOwnProperty(key);
+}
+
+var isNodeEnv = function () { return variableTypeDetection.isProcess(typeof process !== 'undefined' ? process : 0); };
+var isWxMiniEnv = function () {
+    return variableTypeDetection.isObject(typeof wx !== 'undefined' ? wx : 0) && variableTypeDetection.isObject(typeof App !== 'undefined' ? App : 0);
+};
+var isBrowserEnv = function () { return variableTypeDetection.isWindow(typeof window !== 'undefined' ? window : 0); };
 function getGlobal() {
-    return (isNodeEnv() ? global : typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : {});
+    if (isBrowserEnv())
+        return window;
+    if (isWxMiniEnv())
+        return wx;
+    if (isNodeEnv())
+        return process;
 }
 var _global = getGlobal();
 var _support = getGlobalMitoSupport();
@@ -371,37 +427,6 @@ function nativeTryCatch(fn, errorFn) {
             errorFn(err);
         }
     }
-}
-
-var nativeToString = Object.prototype.toString;
-function isError(wat) {
-    switch (nativeToString.call(wat)) {
-        case '[object Error]':
-            return true;
-        case '[object Exception]':
-            return true;
-        case '[object DOMException]':
-            return true;
-        default:
-            return isInstanceOf(wat, Error);
-    }
-}
-function isArray(wat) {
-    return nativeToString.call(wat) === '[object Array]';
-}
-function isString(wat) {
-    return nativeToString.call(wat) === '[object String]';
-}
-function isInstanceOf(wat, base) {
-    try {
-        return wat instanceof base;
-    }
-    catch (_e) {
-        return false;
-    }
-}
-function isExistProperty(obj, key) {
-    return obj.hasOwnProperty(key);
 }
 
 function supportsHistory() {
@@ -1180,9 +1205,8 @@ function consoleReplace() {
     }
     var logType = ['log', 'debug', 'info', 'warn', 'error', 'assert'];
     logType.forEach(function (level) {
-        if (!(level in _global.console)) {
+        if (!(level in _global.console))
             return;
-        }
         replaceOld(_global.console, level, function (originalConsole) {
             return function () {
                 var args = [];
