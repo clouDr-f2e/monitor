@@ -6,6 +6,7 @@ export interface VueInstance {
   util: {
     warn(...input: any): void
   }
+  version: string
 }
 export interface VueConfiguration {
   silent: boolean
@@ -21,8 +22,11 @@ export interface ViewModel {
   $options: {
     [key: string]: any
     name?: string
+    // vue2.6
     propsData?: IStringObject
     _componentTag?: string
     __file?: string
+    props?: IStringObject
   }
+  $props: Record<string, unknown>
 }

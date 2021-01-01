@@ -1,12 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://unpkg.com/vue@next"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue3-demo</title>
+  </head>
 
-</body>
+  <body>
+    <div id="app">
+      <h1>Vue2.6:控制台输出信息调试</h1>
+      <error-button btn-name="点击:Vue3错误上报"></error-button>
+    </div>
+    <script src="./vue@next.x-javascript.js" crossorigin="anonymous"></script>
+    <script src="../../dist/index.min.js"></script>
+    <script>
+      const demo = {
+        data() {},
+        methods: {}
+      }
+      const app = Vue.createApp(demo)
+      // 定义一个名为 button-counter 的新全局组件
+      app.component('error-button', {
+        name: 'error-button',
+        props: {
+          btnName: String
+        },
+        data() {
+          return {}
+        },
+        methods: {
+          onClickCodeError() {
+            this.a.a = 1
+          }
+        },
+        template: `
+     <button id="vueCodeError" @click="onClickCodeError">{{btnName}}</button>`
+      })
+      app.mount('#app')
+      window.RootVue = app
+    </script>
+    <script src="./initMito.js"></script>
+  </body>
 </html>

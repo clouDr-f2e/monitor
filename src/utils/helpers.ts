@@ -164,3 +164,7 @@ export function unknownToString(target: unknown): string {
   }
   return JSON.stringify(target)
 }
+
+export function getBigVersion(version: string) {
+  return Number(version.split('.')[0])
+}

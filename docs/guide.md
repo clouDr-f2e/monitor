@@ -25,12 +25,23 @@ MITO.init({
 ```
 
 ### Vue2.6引入CDN
+
+需要在main.js中暴露出Vue
+
+**main.js**
+
+```
+import Vue from 'vue'
+window.Vue = Vue
+```
+
 **index.html**
 
 ```js
     <header>
       <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/mito.min.js"></script>
       <script>
+        Vue.use(MITO.MitoVue)
         MITO.init({
           // 服务器地址
           dsn: 'http://test.com/error',
@@ -40,6 +51,57 @@ MITO.init({
       </script>
     </header>
 ```
+### Vue3 NPM包形式
+
+**main.ts**
+
+```javascript
+import App from './App.vue';
+import {createApp} from 'vue';
+import MITO from '@zyf2e/mitojs'
+const app = createApp(App);
+app.use(MITO.MitoVue)
+MITO.init({
+  dsn: 'http://test.com/error',
+  apikey: '123-2223-123-123',
+})
+app.mount('#app');
+
+```
+
+### Vue3引入CDN
+
+需要在main.ts中暴露出根示例app
+
+**main.ts**
+
+```
+import {createApp} from 'vue';
+import App from './App.vue';
+const app = createApp(App);
+window.Vue = app
+app.mount('#app');
+```
+
+**index.html**
+
+```js
+    <header>
+      <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/mito.min.js"></script>
+      <script>
+        Vue.use(MITO.MitoVue)
+        MITO.init({
+          // 服务器地址
+          dsn: 'http://test.com/error',
+          // 项目对应apikey
+          apikey: '123-2223-123-123',
+        });
+      </script>
+    </header>
+```
+
+
+
 ## React
 
 ### CDN形式
