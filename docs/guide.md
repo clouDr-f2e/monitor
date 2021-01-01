@@ -6,7 +6,7 @@
 
 ### 使用CDN
 
-`<script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/mito.min.js"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.min.js"></script>`
 
 ## 使用环境
 
@@ -39,7 +39,7 @@ window.Vue = Vue
 
 ```js
     <header>
-      <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/mito.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.min.js"></script>
       <script>
         Vue.use(MITO.MitoVue)
         MITO.init({
@@ -87,7 +87,7 @@ app.mount('#app');
 
 ```js
     <header>
-      <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/mito.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.min.js"></script>
       <script>
         Vue.use(MITO.MitoVue)
         MITO.init({
@@ -110,7 +110,7 @@ app.mount('#app');
 
 ```html
 <header>
-  <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/mito.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.min.js"></script>
   <script>
     MITO.init({
       // 服务器地址
@@ -175,7 +175,7 @@ class ErrorBoundary extends React.Component {
 
 ```html
 <header>
-  <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/mito.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.min.js"></script>
   <script>
     MITO.init({
       // 服务器地址
