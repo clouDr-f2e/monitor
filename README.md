@@ -44,13 +44,7 @@
 
 [使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md)
 
-## 代码贡献
 
-如果你还不清楚怎么在 GitHub 上提 Pull Request ，可以阅读下面这篇文章来学习：[如何优雅地在 GitHub 上贡献代码](https://segmentfault.com/a/1190000000736629)
-
-
-
-只要有提升代码质量或者添加额外功能的`pr`都会过的
 
 
 ## issue
@@ -58,3 +52,28 @@
 欢迎所有人提`issue`，如果有什么好的建议和问题可以直接联系本人微信（备注mitojs）：
 
 <img src="https://i.loli.net/2020/08/19/prtQbEcF7yu1MfZ.jpg" width="240px" />
+
+## FAQ
+<details>
+ <summary>这个SDK具体是怎么使用的？</summary>
+该SDK是为了抓取前端页面的错误，然后上报到你所配置的接口。至于服务端和错误可视化界面是需要自己实现，适合给有意向自己研发前端监控系统的开发者使用最佳。
+</details>
+
+
+
+<details>
+ <summary>这个SDK的稳定如何？能不能用到正式环境？</summary>
+
+目前本人所在的公司的监控系统也在使用当前SDK，所以也在迭代中，到目前而言稳定性还是OK的，而且已经码完e2e，单测也coding中。
+
+</details>
+
+
+
+<details>
+ <summary>后续后端会不会开源出来？有没有免费的sass服务可以直接使用？</summary>
+
+目前后端也在持续迭代中，等迭代稳定后会考虑将sass服务开放出来，至于是不是免费的看我boss的意愿了！
+
+</details>
+
