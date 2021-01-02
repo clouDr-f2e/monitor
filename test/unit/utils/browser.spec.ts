@@ -3,7 +3,7 @@ import { Severity } from '@/utils/Severity'
 
 describe('browser.ts', () => {
   describe('htmlElementAsString function', () => {
-    it('body Tag', () => {
+    it('should return null if ele is body', () => {
       const ele = document.createElement('body')
       ele.className = 'my-class-name'
       expect(htmlElementAsString(ele)).toBeNull()
@@ -11,7 +11,7 @@ describe('browser.ts', () => {
     /**
      * @jest-environment jsdom
      */
-    it('div Tag', () => {
+    it('should work on div tag', () => {
       const ele = document.createElement('div')
       ele.innerText = 'testDiv'
       ele.className = 'my-class class-one'
@@ -20,7 +20,7 @@ describe('browser.ts', () => {
       expect(htmlElementAsString(ele)).toBe(result)
     })
   })
-  describe('parseUrlToObj function should work', () => {
+  it('parseUrlToObj function should work', () => {
     const url = 'http://a.b.com/c/JS/index/abc?a=1'
     const result = {
       host: 'a.b.com',
@@ -30,8 +30,8 @@ describe('browser.ts', () => {
     }
     expect(parseUrlToObj(url)).toEqual(result)
   })
-  describe('extractErrorStack function should work', () => {
-    it('object Error should parsed', () => {
+  describe('extractErrorStack function', () => {
+    it('should should parsed on object Error ', () => {
       try {
         const a = 6
         const b = (a as unknown) as String
