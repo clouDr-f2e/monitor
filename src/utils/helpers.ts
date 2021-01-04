@@ -32,12 +32,13 @@ export function on(target: { addEventListener: Function }, eventName: TotalEvent
  * ../param replacement 以原有的函数作为参数，执行并重写原有函数
  * ../returns void
  */
-export function replaceOld(source: IStringObject, name: string, replacement: (...args: any[]) => any): void {
-  if (!(name in source)) return
-  const original = source[name]
-  const wrapped = replacement(original)
-  if (typeof wrapped === 'function') {
-    source[name] = wrapped
+export function replaceOld(source: IStringObject, name: string, replacement: (...args: any[]) => any, isForced = false): void {
+  if (name in source || isForced) {
+    const original = source[name]
+    const wrapped = replacement(original)
+    if (typeof wrapped === 'function') {
+      source[name] = wrapped
+    }
   }
 }
 

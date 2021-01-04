@@ -9,13 +9,15 @@ export declare class TransportData {
     private apikey;
     constructor(url: string);
     getRecord(): any[];
+    beforePost(data: ReportDataType): string | false;
     xhrPost(data: ReportDataType): void;
+    wxPost(data: ReportDataType): void;
     getAuthInfo(): AuthInfo;
     getTrackerId(): string | number;
     getTransportData(data: ReportDataType): TransportDataType;
     isSdkTransportUrl(targetUrl: string): boolean;
     bindOptions(options?: InitOptions): void;
-    send(data: ReportDataType | Record<string, unknown>): void;
+    send(data: ReportDataType): void;
 }
 declare const transportData: TransportData;
 export { transportData };

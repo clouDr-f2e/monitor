@@ -6,9 +6,24 @@ import { terser } from 'rollup-plugin-terser'
 import clear from 'rollup-plugin-clear'
 import cleanup from 'rollup-plugin-cleanup'
 import { green } from 'chalk'
-
-const esmPackage = {
+const common = {
   input: 'src/index.ts',
+  plugins: [
+    resolve(),
+    commonjs({
+      exclude: 'node_modules'
+    }),
+    json(),
+    cleanup({
+      comments: 'none'
+    })
+  ],
+  typescript: {
+    tsconfig: 'build.tsconfig.json'
+  }
+}
+const esmPackage = {
+  input: common.input,
   output: {
     file: 'dist/index.esm.js',
     format: 'esm',
@@ -16,26 +31,19 @@ const esmPackage = {
     sourcemap: true
   },
   plugins: [
-    resolve(),
-    commonjs({
-      exclude: 'node_modules'
-    }),
-    json(),
+    ...common.plugins,
     clear({
       targets: ['dist']
     }),
     typescript({
-      tsconfig: 'build.tsconfig.json',
+      ...common.typescript,
       useTsconfigDeclarationDir: true,
       clean: true
-    }),
-    cleanup({
-      comments: 'none'
     })
   ]
 }
 const cjsPackage = {
-  input: 'src/index.ts',
+  input: common.input,
   output: {
     file: 'dist/index.js',
     format: 'cjs',
@@ -43,65 +51,42 @@ const cjsPackage = {
     sourcemap: true
   },
   plugins: [
-    resolve(),
-    commonjs({
-      exclude: 'node_modules'
-    }),
-    json(),
+    ...common.plugins,
     typescript({
-      tsconfig: 'build.tsconfig.json',
+      ...common.typescript,
       tsconfigOverride: { compilerOptions: { declaration: false } }
-    }),
-    cleanup({
-      comments: 'none'
     })
   ]
 }
 const localDebug = {
-  input: 'src/index.ts',
+  input: common.input,
   output: {
     file: '/Users/ks/Desktop/tryCatch/github/mito-vue-demo/src/bundle.js',
     format: 'esm',
     name: 'MITO'
-    // context: 'window'
   },
   plugins: [
-    resolve(),
-    commonjs({
-      exclude: 'node_modules'
-    }),
-    json(),
+    ...common.plugins,
     typescript({
-      tsconfig: 'build.tsconfig.json',
+      ...common.typescript,
       tsconfigOverride: { compilerOptions: { declaration: false } }
-    }),
-    cleanup({
-      comments: 'none'
     })
   ]
 }
 const iifePackage = {
-  input: 'src/index.ts',
+  input: common.input,
   output: {
     file: 'dist/index.min.js',
     format: 'iife',
     name: 'MITO'
-    // context: 'window'
   },
   plugins: [
-    resolve(),
-    commonjs({
-      exclude: 'node_modules'
-    }),
-    json(),
+    ...common.plugins,
     typescript({
-      tsconfig: 'build.tsconfig.json',
+      ...common.typescript,
       tsconfigOverride: { compilerOptions: { declaration: false } }
     }),
-    terser(),
-    cleanup({
-      comments: 'none'
-    })
+    terser()
   ]
 }
 const total = {

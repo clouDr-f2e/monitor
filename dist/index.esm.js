@@ -29,6 +29,16 @@ var ERRORTYPES;
     ERRORTYPES["RESOURCE_ERROR"] = "RESOURCE_ERROR";
     ERRORTYPES["PROMISE_ERROR"] = "PROMISE_ERROR";
 })(ERRORTYPES || (ERRORTYPES = {}));
+var WxEvents;
+(function (WxEvents) {
+    WxEvents["OnLaunch"] = "onLaunch";
+    WxEvents["OnShow"] = "onShow";
+    WxEvents["OnHide"] = "onHide";
+    WxEvents["OnError"] = "onError";
+    WxEvents["OnPageNotFound"] = "onPageNotFound";
+    WxEvents["OnUnhandledRejection"] = "onUnhandledRejection";
+})(WxEvents || (WxEvents = {}));
+var CompositeEvents = __assign(__assign({}, WxEvents), ERRORTYPES);
 var BREADCRUMBTYPES;
 (function (BREADCRUMBTYPES) {
     BREADCRUMBTYPES["ROUTE"] = "Route";
@@ -129,17 +139,15 @@ function isExistProperty(obj, key) {
     return obj.hasOwnProperty(key);
 }
 
-var isNodeEnv = function () { return variableTypeDetection.isProcess(typeof process !== 'undefined' ? process : 0); };
-var isWxMiniEnv = function () {
-    return variableTypeDetection.isObject(typeof wx !== 'undefined' ? wx : 0) && variableTypeDetection.isObject(typeof App !== 'undefined' ? App : 0);
-};
-var isBrowserEnv = function () { return variableTypeDetection.isWindow(typeof window !== 'undefined' ? window : 0); };
+var isNodeEnv = variableTypeDetection.isProcess(typeof process !== 'undefined' ? process : 0);
+var isWxMiniEnv = variableTypeDetection.isObject(typeof wx !== 'undefined' ? wx : 0) && variableTypeDetection.isFunction(typeof App !== 'undefined' ? App : 0);
+var isBrowserEnv = variableTypeDetection.isWindow(typeof window !== 'undefined' ? window : 0);
 function getGlobal() {
-    if (isBrowserEnv())
+    if (isBrowserEnv)
         return window;
-    if (isWxMiniEnv())
+    if (isWxMiniEnv)
         return wx;
-    if (isNodeEnv())
+    if (isNodeEnv)
         return process;
 }
 var _global = getGlobal();
@@ -165,12 +173,14 @@ var Logger = (function () {
         var _this = this;
         this.enabled = false;
         this._console = {};
-        var logType = ['log', 'debug', 'info', 'warn', 'error', 'assert'];
-        logType.forEach(function (level) {
-            if (!(level in _global.console))
-                return;
-            _this._console[level] = _global.console[level];
-        });
+        if (_global.console) {
+            var logType = ['log', 'debug', 'info', 'warn', 'error', 'assert'];
+            logType.forEach(function (level) {
+                if (!(level in _global.console))
+                    return;
+                _this._console[level] = _global.console[level];
+            });
+        }
     }
     Logger.prototype.disable = function () {
         this.enabled = false;
@@ -227,13 +237,14 @@ function on(target, eventName, handler, opitons) {
     if (opitons === void 0) { opitons = false; }
     target.addEventListener(eventName, handler, opitons);
 }
-function replaceOld(source, name, replacement) {
-    if (!(name in source))
-        return;
-    var original = source[name];
-    var wrapped = replacement(original);
-    if (typeof wrapped === 'function') {
-        source[name] = wrapped;
+function replaceOld(source, name, replacement, isForced) {
+    if (isForced === void 0) { isForced = false; }
+    if (name in source || isForced) {
+        var original = source[name];
+        var wrapped = replacement(original);
+        if (typeof wrapped === 'function') {
+            source[name] = wrapped;
+        }
     }
 }
 var defaultFunctionName = '<anonymous>';
@@ -797,17 +808,24 @@ var TransportData = (function () {
         }
         return [];
     };
+    TransportData.prototype.beforePost = function (data) {
+        if (typeof this.beforeDataReport === 'function') {
+            data = this.beforeDataReport(data);
+            if (!data)
+                return false;
+        }
+        var errorId = createErrorId(data);
+        if (!errorId)
+            return false;
+        data.errorId = errorId;
+        return JSON.stringify(this.getTransportData(data));
+    };
     TransportData.prototype.xhrPost = function (data) {
         var _this = this;
+        var result = this.beforePost(data);
+        if (!result)
+            return;
         var requestFun = function () {
-            if (typeof XMLHttpRequest === 'undefined') {
-                return;
-            }
-            if (typeof _this.beforeDataReport === 'function') {
-                data = _this.beforeDataReport(data);
-                if (!data)
-                    return;
-            }
             var xhr = new XMLHttpRequest();
             xhr.open(EMethods.Post, _this.url);
             xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
@@ -815,11 +833,24 @@ var TransportData = (function () {
             if (typeof _this.configReportXhr === 'function') {
                 _this.configReportXhr(xhr);
             }
-            var errorId = createErrorId(data);
-            if (!errorId)
-                return;
-            data.errorId = errorId;
-            xhr.send(JSON.stringify(_this.getTransportData(data)));
+            xhr.send(result);
+        };
+        this.queue.addFn(requestFun);
+    };
+    TransportData.prototype.wxPost = function (data) {
+        var _this = this;
+        var result = this.beforePost(data);
+        if (!result)
+            return;
+        var requestFun = function () {
+            wx.request({
+                method: 'POST',
+                header: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                url: _this.url,
+                data: result
+            });
         };
         this.queue.addFn(requestFun);
     };
@@ -865,7 +896,12 @@ var TransportData = (function () {
         validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId);
     };
     TransportData.prototype.send = function (data) {
-        this.xhrPost(data);
+        if (isBrowserEnv) {
+            return this.xhrPost(data);
+        }
+        if (isWxMiniEnv) {
+            return this.wxPost(data);
+        }
     };
     return TransportData;
 }());

@@ -11,6 +11,33 @@ export declare enum ERRORTYPES {
     RESOURCE_ERROR = "RESOURCE_ERROR",
     PROMISE_ERROR = "PROMISE_ERROR"
 }
+export declare enum WxEvents {
+    OnLaunch = "onLaunch",
+    OnShow = "onShow",
+    OnHide = "onHide",
+    OnError = "onError",
+    OnPageNotFound = "onPageNotFound",
+    OnUnhandledRejection = "onUnhandledRejection"
+}
+export declare const CompositeEvents: {
+    UNKNOWN: ERRORTYPES.UNKNOWN;
+    UNKNOWN_FUNCTION: ERRORTYPES.UNKNOWN_FUNCTION;
+    JAVASCRIPT_ERROR: ERRORTYPES.JAVASCRIPT_ERROR;
+    BUSINESS_ERROR: ERRORTYPES.BUSINESS_ERROR;
+    LOG_ERROR: ERRORTYPES.LOG_ERROR;
+    FETCH_ERROR: ERRORTYPES.FETCH_ERROR;
+    VUE_ERROR: ERRORTYPES.VUE_ERROR;
+    REACT_ERROR: ERRORTYPES.REACT_ERROR;
+    RESOURCE_ERROR: ERRORTYPES.RESOURCE_ERROR;
+    PROMISE_ERROR: ERRORTYPES.PROMISE_ERROR;
+    OnLaunch: WxEvents.OnLaunch;
+    OnShow: WxEvents.OnShow;
+    OnHide: WxEvents.OnHide;
+    OnError: WxEvents.OnError;
+    OnPageNotFound: WxEvents.OnPageNotFound;
+    OnUnhandledRejection: WxEvents.OnUnhandledRejection;
+};
+export declare type CompositeEvents = typeof CompositeEvents;
 export declare enum BREADCRUMBTYPES {
     ROUTE = "Route",
     CLICK = "UI.Click",

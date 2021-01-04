@@ -1,7 +1,7 @@
-import { EVENTTYPES } from './common'
+import { EVENTTYPES, WxEvents } from './common'
 import { getFlag, getFunctionName, logger, nativeTryCatch, setFlag } from '../utils'
 export interface ReplaceHandler {
-  type: EVENTTYPES
+  type: EVENTTYPES | WxEvents
   callback: ReplaceCallback
 }
 
@@ -19,7 +19,7 @@ export function subscribeEvent(handler: ReplaceHandler): void {
   handlers[handler.type].push(handler.callback)
 }
 
-export function triggerHandlers(type: EVENTTYPES, data: any): void {
+export function triggerHandlers(type: EVENTTYPES | WxEvents, data: any): void {
   if (!type || !handlers[type]) return
   handlers[type].forEach((callback) => {
     nativeTryCatch(

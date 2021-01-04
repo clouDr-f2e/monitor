@@ -14,6 +14,23 @@ export enum ERRORTYPES {
   RESOURCE_ERROR = 'RESOURCE_ERROR',
   PROMISE_ERROR = 'PROMISE_ERROR'
 }
+
+export enum WxEvents {
+  OnLaunch = 'onLaunch',
+  OnShow = 'onShow',
+  OnHide = 'onHide',
+  OnError = 'onError',
+  OnPageNotFound = 'onPageNotFound',
+  OnUnhandledRejection = 'onUnhandledRejection'
+}
+
+export const CompositeEvents = {
+  ...WxEvents,
+  ...ERRORTYPES
+}
+
+export type CompositeEvents = typeof CompositeEvents
+
 /**
  * 用户行为栈事件类型
  */

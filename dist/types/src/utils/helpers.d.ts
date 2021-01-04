@@ -5,7 +5,7 @@ declare type TotalEventName = keyof GlobalEventHandlersEventMap | keyof XMLHttpR
 export declare function on(target: {
     addEventListener: Function;
 }, eventName: TotalEventName, handler: Function, opitons?: boolean | unknown): void;
-export declare function replaceOld(source: IStringObject, name: string, replacement: (...args: any[]) => any): void;
+export declare function replaceOld(source: IStringObject, name: string, replacement: (...args: any[]) => any, isForced?: boolean): void;
 export declare function splitObjToQuery(obj: Record<string, unknown>): string;
 export declare function getFunctionName(fn: unknown): string;
 export declare const debounce: (fn: voidFun, delay: number, isImmediate?: boolean) => voidFun;

@@ -45,7 +45,7 @@ function replace(type: EVENTTYPES) {
 
 export function addReplaceHandler(handler: ReplaceHandler) {
   subscribeEvent(handler)
-  replace(handler.type)
+  replace(handler.type as EVENTTYPES)
 }
 
 function xhrReplace(): void {

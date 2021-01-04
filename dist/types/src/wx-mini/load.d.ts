@@ -1,1 +1,1 @@
-declare function setupReplace(): void;
+export declare function setupReplace(): void;

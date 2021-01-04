@@ -1,5 +1,5 @@
-import { _support, validateOption, logger, isArray } from '../utils/index'
-import { splitObjToQuery, Queue } from '../utils/index'
+import { _support, validateOption, logger, isArray, isBrowserEnv, isWxMiniEnv } from '../utils/index'
+import { Queue } from '../utils/index'
 import createErrorId from '../errorId'
 import { SDK_NAME, SDK_VERSION, SERVER_URL } from '../config'
 import { breadcrumb } from './breadcrumb'
@@ -33,17 +33,21 @@ export class TransportData {
     }
     return []
   }
+  beforePost(data: ReportDataType) {
+    if (typeof this.beforeDataReport === 'function') {
+      data = this.beforeDataReport(data)
+      // todo  ? 是否需要加个判断 如果格式符合标准就不上传
+      if (!data) return false
+    }
+    const errorId = createErrorId(data)
+    if (!errorId) return false
+    data.errorId = errorId
+    return JSON.stringify(this.getTransportData(data))
+  }
   xhrPost(data: ReportDataType): void {
+    const result = this.beforePost(data)
+    if (!result) return
     const requestFun = (): void => {
-      //screw IE
-      if (typeof XMLHttpRequest === 'undefined') {
-        return
-      }
-      if (typeof this.beforeDataReport === 'function') {
-        data = this.beforeDataReport(data)
-        // todo 加个判断 如果格式符合标准就不上传
-        if (!data) return
-      }
       const xhr = new XMLHttpRequest()
       xhr.open(EMethods.Post, this.url)
       xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
@@ -51,10 +55,23 @@ export class TransportData {
       if (typeof this.configReportXhr === 'function') {
         this.configReportXhr(xhr)
       }
-      const errorId = createErrorId(data)
-      if (!errorId) return
-      data.errorId = errorId
-      xhr.send(JSON.stringify(this.getTransportData(data)))
+      xhr.send(result)
+    }
+    this.queue.addFn(requestFun)
+  }
+  // 需要抽离函数
+  wxPost(data: ReportDataType) {
+    const result = this.beforePost(data)
+    if (!result) return
+    const requestFun = (): void => {
+      wx.request({
+        method: 'POST',
+        header: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
+        url: this.url,
+        data: result
+      })
     }
     this.queue.addFn(requestFun)
   }
@@ -97,8 +114,13 @@ export class TransportData {
     validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr)
     validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId)
   }
-  send(data: ReportDataType | Record<string, unknown>): void {
-    this.xhrPost(<ReportDataType>data)
+  send(data: ReportDataType): void {
+    if (isBrowserEnv) {
+      return this.xhrPost(data)
+    }
+    if (isWxMiniEnv) {
+      return this.wxPost(data)
+    }
   }
 }
 const transportData = _support.transportData || (_support.transportData = new TransportData(SERVER_URL))

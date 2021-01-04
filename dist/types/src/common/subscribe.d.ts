@@ -1,9 +1,9 @@
-import { EVENTTYPES } from './common';
+import { EVENTTYPES, WxEvents } from './common';
 export interface ReplaceHandler {
-    type: EVENTTYPES;
+    type: EVENTTYPES | WxEvents;
     callback: ReplaceCallback;
 }
 declare type ReplaceCallback = (data: any) => void;
 export declare function subscribeEvent(handler: ReplaceHandler): void;
-export declare function triggerHandlers(type: EVENTTYPES, data: any): void;
+export declare function triggerHandlers(type: EVENTTYPES | WxEvents, data: any): void;
 export {};
