@@ -1,4 +1,4 @@
-import { IStringObject } from '../types/common'
+import { IAnyObject } from '../types/common'
 
 export interface VueInstance {
   config?: VueConfiguration
@@ -23,10 +23,10 @@ export interface ViewModel {
     [key: string]: any
     name?: string
     // vue2.6
-    propsData?: IStringObject
+    propsData?: IAnyObject
     _componentTag?: string
     __file?: string
-    props?: IStringObject
+    props?: IAnyObject
   }
   $props: Record<string, unknown>
 }

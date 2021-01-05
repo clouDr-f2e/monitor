@@ -2,7 +2,8 @@ import { options } from '../core/options'
 import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subscribe'
 import { replaceOld, throttle } from '../utils/helpers'
 import HandleWxEvents from './handleWxEvents'
-import { CompositeEvents, WxEvents } from '../common/common'
+import { WxEvents } from '../common/common'
+import { variableTypeDetection } from '@/utils'
 
 const clickThrottle = throttle(triggerHandlers, 600)
 
@@ -12,8 +13,8 @@ function isFilterHttpUrl(url: string) {
 
 function replace(type: WxEvents) {
   switch (type) {
-    case WxEvents.OnUnhandledRejection:
-      // replaceOnUnhandledRejection()
+    case WxEvents.Console:
+      replaceConsole()
       break
     default:
       break
@@ -25,19 +26,22 @@ export function addReplaceHandler(handler: ReplaceHandler) {
   replace(handler.type as WxEvents)
 }
 
-// 默认必须重写这些方法，不提供静默配置项
 export function replaceApp() {
   if (App) {
     const originApp = App
     App = function (appOptions: WechatMiniprogram.App.Option) {
       const methods = [WxEvents.OnLaunch, WxEvents.OnShow, WxEvents.OnError, WxEvents.OnUnhandledRejection, WxEvents.OnPageNotFound]
       methods.forEach((method) => {
+        addReplaceHandler({
+          callback: (data) => HandleWxEvents[method](data),
+          type: method
+        })
         replaceOld(
           appOptions,
           method,
-          function (originMethod) {
+          function (originMethod: (args: any) => void) {
             return function (args: any): void {
-              HandleWxEvents[method](args)
+              triggerHandlers(method, args)
               if (originMethod) {
                 originMethod(args)
               }
@@ -50,3 +54,25 @@ export function replaceApp() {
     } as WechatMiniprogram.App.Constructor
   }
 }
+function replaceConsole() {
+  if (console && variableTypeDetection.isObject(console)) {
+    const logType = ['log', 'debug', 'info', 'warn', 'error', 'assert']
+    logType.forEach(function (level: string): void {
+      if (!(level in console)) return
+      replaceOld(console, level, function (originalConsole): Function {
+        return function (...args: any[]): void {
+          if (originalConsole) {
+            triggerHandlers(WxEvents.Console, { args, level })
+            originalConsole.apply(console, args)
+          }
+        }
+      })
+    })
+  }
+}
+
+// todo 类比 xhrReplace
+function replaceRequest() {}
+
+// todo 类比 historyReplace
+function replaceRoute() {}

@@ -1,6 +1,6 @@
 import { HTTPTYPE } from '../common/common'
 
-export interface IStringObject {
+export interface IAnyObject {
   [key: string]: any
 }
 

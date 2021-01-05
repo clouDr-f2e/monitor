@@ -21,7 +21,8 @@ export enum WxEvents {
   OnHide = 'onHide',
   OnError = 'onError',
   OnPageNotFound = 'onPageNotFound',
-  OnUnhandledRejection = 'onUnhandledRejection'
+  OnUnhandledRejection = 'onUnhandledRejection',
+  Console = 'wxConsole'
 }
 
 export const CompositeEvents = {
@@ -45,7 +46,10 @@ export enum BREADCRUMBTYPES {
   REACT = 'React',
   RESOURCE = 'Resource',
   CODE_ERROR = 'Code Error',
-  CUSTOMER = 'Customer'
+  CUSTOMER = 'Customer',
+  // wx life cycle
+  ON_SHOW = 'On Show',
+  ON_LAUNCH = 'On Launch'
 }
 
 /**
@@ -55,7 +59,8 @@ export enum BREADCRUMBCATEGORYS {
   HTTP = 'http',
   USER = 'user',
   DEBUG = 'debug',
-  EXCEPTION = 'exception'
+  EXCEPTION = 'exception',
+  LIFECYCLE = 'lifecycle'
 }
 /**
  * 重写的事件类型

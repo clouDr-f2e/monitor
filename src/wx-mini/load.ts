@@ -6,8 +6,8 @@ export function setupReplace() {
   replaceApp()
   addReplaceHandler({
     callback: (data) => {
-      HandleWxEvents.onUnhandledRejection(data)
+      HandleWxEvents.console(data)
     },
-    type: WxEvents.OnUnhandledRejection
+    type: WxEvents.Console
   })
 }

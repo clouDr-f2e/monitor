@@ -1,4 +1,4 @@
-import { IStringObject } from '../types/common'
+import { IAnyObject } from '../types/common'
 import { voidFun, globalVar } from '../common/common'
 import { logger } from './logger'
 
@@ -32,7 +32,7 @@ export function on(target: { addEventListener: Function }, eventName: TotalEvent
  * ../param replacement 以原有的函数作为参数，执行并重写原有函数
  * ../returns void
  */
-export function replaceOld(source: IStringObject, name: string, replacement: (...args: any[]) => any, isForced = false): void {
+export function replaceOld(source: IAnyObject, name: string, replacement: (...args: any[]) => any, isForced = false): void {
   if (name in source || isForced) {
     const original = source[name]
     const wrapped = replacement(original)
