@@ -1,4 +1,4 @@
-import { _global, on, getTimestamp, supportsHistory, replaceOld, throttle, getLocationHref, isExistProperty, variableTypeDetection } from '../utils/index'
+import { _global, on, getTimestamp, replaceOld, throttle, getLocationHref, isExistProperty, variableTypeDetection, isSupportsHistory } from '../utils/index'
 import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '../common/common'
 import { transportData } from '../core/transportData'
 import { options, setTraceId } from '../core/options'
@@ -218,7 +218,7 @@ function consoleReplace(): void {
 let lastHref: string
 lastHref = getLocationHref()
 function historyReplace(): void {
-  if (!supportsHistory()) return
+  if (!isSupportsHistory()) return
   const oldOnpopstate = _global.onpopstate
   _global.onpopstate = function (this: WindowEventHandlers, ...args: any[]): any {
     const to = getLocationHref()

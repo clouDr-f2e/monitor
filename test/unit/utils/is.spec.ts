@@ -1,5 +1,8 @@
-import { variableTypeDetection } from '../../../src/utils/is'
-test('variableTypeDetection', () => {
-  const arr = []
-  expect(variableTypeDetection.isArray(arr)).toBe(true)
+import { variableTypeDetection } from '@/utils'
+
+describe('is.ts', () => {
+  it('variableTypeDetection', () => {
+    const arr = []
+    expect(variableTypeDetection.isArray(arr)).toBe(true)
+  })
 })
