@@ -1,4 +1,4 @@
-import { IStringObject } from '../types/common';
+import { IAnyObject } from '../types/common';
 export interface VueInstance {
     config?: VueConfiguration;
     mixin(hooks: {
@@ -25,10 +25,10 @@ export interface ViewModel {
     $options: {
         [key: string]: any;
         name?: string;
-        propsData?: IStringObject;
+        propsData?: IAnyObject;
         _componentTag?: string;
         __file?: string;
-        props?: IStringObject;
+        props?: IAnyObject;
     };
     $props: Record<string, unknown>;
 }

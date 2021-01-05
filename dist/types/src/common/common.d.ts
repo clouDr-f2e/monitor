@@ -17,7 +17,8 @@ export declare enum WxEvents {
     OnHide = "onHide",
     OnError = "onError",
     OnPageNotFound = "onPageNotFound",
-    OnUnhandledRejection = "onUnhandledRejection"
+    OnUnhandledRejection = "onUnhandledRejection",
+    Console = "wxConsole"
 }
 export declare const CompositeEvents: {
     UNKNOWN: ERRORTYPES.UNKNOWN;
@@ -36,6 +37,7 @@ export declare const CompositeEvents: {
     OnError: WxEvents.OnError;
     OnPageNotFound: WxEvents.OnPageNotFound;
     OnUnhandledRejection: WxEvents.OnUnhandledRejection;
+    Console: WxEvents.Console;
 };
 export declare type CompositeEvents = typeof CompositeEvents;
 export declare enum BREADCRUMBTYPES {
@@ -49,13 +51,16 @@ export declare enum BREADCRUMBTYPES {
     REACT = "React",
     RESOURCE = "Resource",
     CODE_ERROR = "Code Error",
-    CUSTOMER = "Customer"
+    CUSTOMER = "Customer",
+    ON_SHOW = "On Show",
+    ON_LAUNCH = "On Launch"
 }
 export declare enum BREADCRUMBCATEGORYS {
     HTTP = "http",
     USER = "user",
     DEBUG = "debug",
-    EXCEPTION = "exception"
+    EXCEPTION = "exception",
+    LIFECYCLE = "lifecycle"
 }
 export declare enum EVENTTYPES {
     XHR = "xhr",

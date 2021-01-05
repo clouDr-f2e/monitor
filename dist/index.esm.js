@@ -37,6 +37,7 @@ var WxEvents;
     WxEvents["OnError"] = "onError";
     WxEvents["OnPageNotFound"] = "onPageNotFound";
     WxEvents["OnUnhandledRejection"] = "onUnhandledRejection";
+    WxEvents["Console"] = "wxConsole";
 })(WxEvents || (WxEvents = {}));
 var CompositeEvents = __assign(__assign({}, WxEvents), ERRORTYPES);
 var BREADCRUMBTYPES;
@@ -52,6 +53,8 @@ var BREADCRUMBTYPES;
     BREADCRUMBTYPES["RESOURCE"] = "Resource";
     BREADCRUMBTYPES["CODE_ERROR"] = "Code Error";
     BREADCRUMBTYPES["CUSTOMER"] = "Customer";
+    BREADCRUMBTYPES["ON_SHOW"] = "On Show";
+    BREADCRUMBTYPES["ON_LAUNCH"] = "On Launch";
 })(BREADCRUMBTYPES || (BREADCRUMBTYPES = {}));
 var BREADCRUMBCATEGORYS;
 (function (BREADCRUMBCATEGORYS) {
@@ -59,6 +62,7 @@ var BREADCRUMBCATEGORYS;
     BREADCRUMBCATEGORYS["USER"] = "user";
     BREADCRUMBCATEGORYS["DEBUG"] = "debug";
     BREADCRUMBCATEGORYS["EXCEPTION"] = "exception";
+    BREADCRUMBCATEGORYS["LIFECYCLE"] = "lifecycle";
 })(BREADCRUMBCATEGORYS || (BREADCRUMBCATEGORYS = {}));
 var EVENTTYPES;
 (function (EVENTTYPES) {
@@ -533,6 +537,9 @@ var Breadcrumb = (function () {
             case BREADCRUMBTYPES.CUSTOMER:
             case BREADCRUMBTYPES.CONSOLE:
                 return BREADCRUMBCATEGORYS.DEBUG;
+            case BREADCRUMBTYPES.ON_LAUNCH:
+            case BREADCRUMBTYPES.ON_SHOW:
+                return BREADCRUMBCATEGORYS.LIFECYCLE;
             case BREADCRUMBTYPES.UNHANDLEDREJECTION:
             case BREADCRUMBTYPES.CODE_ERROR:
             case BREADCRUMBTYPES.RESOURCE:
@@ -1490,20 +1497,21 @@ function errorBoundaryReport(ex) {
     transportData.send(error);
 }
 
-function init(options) {
-    if (options === void 0) { options = {}; }
-    if (!('XMLHttpRequest' in _global) || options.disabled)
-        return;
-    bindOptions(options);
-    setupReplace();
-}
-function bindOptions(options$1) {
+function initOptions(options$1) {
     if (options$1 === void 0) { options$1 = {}; }
     setSilentFlag(options$1);
     breadcrumb.bindOptions(options$1);
     logger.bindOptions(options$1.debug);
     transportData.bindOptions(options$1);
     options.bindOptions(options$1);
+}
+
+function init(options) {
+    if (options === void 0) { options = {}; }
+    if (!('XMLHttpRequest' in _global) || options.disabled)
+        return;
+    initOptions(options);
+    setupReplace();
 }
 var index = { MitoVue: MitoVue, SDK_VERSION: SDK_VERSION, SDK_NAME: SDK_NAME, init: init, log: log, errorBoundaryReport: errorBoundaryReport };
 

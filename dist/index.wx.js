@@ -305,6 +305,18 @@ function parseUrlToObj(url) {
         relative: match[5] + query + fragment
     };
 }
+function setSilentFlag(opitons) {
+    if (opitons === void 0) { opitons = {}; }
+    setFlag(EVENTTYPES.XHR, !!opitons.silentXhr);
+    setFlag(EVENTTYPES.FETCH, !!opitons.silentFetch);
+    setFlag(EVENTTYPES.CONSOLE, !!opitons.silentConsole);
+    setFlag(EVENTTYPES.DOM, !!opitons.silentDom);
+    setFlag(EVENTTYPES.HISTORY, !!opitons.silentHistory);
+    setFlag(EVENTTYPES.ERROR, !!opitons.silentError);
+    setFlag(EVENTTYPES.HASHCHANGE, !!opitons.silentHashchange);
+    setFlag(EVENTTYPES.UNHANDLEDREJECTION, !!opitons.silentUnhandledrejection);
+    setFlag(EVENTTYPES.VUE, !!opitons.silentVue);
+}
 function extractErrorStack(ex, level) {
     var normal = {
         time: getTimestamp(),
@@ -578,6 +590,164 @@ function hashCode(str) {
     return hash;
 }
 
+var name = "@zyf2e/mitojs";
+var version = "1.2.2";
+
+var SDK_NAME = name;
+var SDK_VERSION = version;
+var SERVER_URL = '//localhost:3000/api/error/upload';
+
+var EMethods;
+(function (EMethods) {
+    EMethods["Get"] = "GET";
+    EMethods["Post"] = "POST";
+    EMethods["Put"] = "PUT";
+    EMethods["Delete"] = "DELETE";
+})(EMethods || (EMethods = {}));
+
+var TransportData = (function () {
+    function TransportData(url) {
+        this.url = url;
+        this.beforeDataReport = null;
+        this.backTrackerId = null;
+        this.configReportXhr = null;
+        this.apikey = '';
+        this.queue = new Queue();
+    }
+    TransportData.prototype.getRecord = function () {
+        var recordData = _support.record;
+        if (recordData && isArray(recordData) && recordData.length > 2) {
+            return recordData;
+        }
+        return [];
+    };
+    TransportData.prototype.beforePost = function (data) {
+        if (typeof this.beforeDataReport === 'function') {
+            data = this.beforeDataReport(data);
+            if (!data)
+                return false;
+        }
+        var errorId = createErrorId(data);
+        if (!errorId)
+            return false;
+        data.errorId = errorId;
+        return JSON.stringify(this.getTransportData(data));
+    };
+    TransportData.prototype.xhrPost = function (data) {
+        var _this = this;
+        var result = this.beforePost(data);
+        if (!result)
+            return;
+        var requestFun = function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open(EMethods.Post, _this.url);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.withCredentials = true;
+            if (typeof _this.configReportXhr === 'function') {
+                _this.configReportXhr(xhr);
+            }
+            xhr.send(result);
+        };
+        this.queue.addFn(requestFun);
+    };
+    TransportData.prototype.wxPost = function (data) {
+        var _this = this;
+        var result = this.beforePost(data);
+        if (!result)
+            return;
+        var requestFun = function () {
+            wx.request({
+                method: 'POST',
+                header: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                url: _this.url,
+                data: result
+            });
+        };
+        this.queue.addFn(requestFun);
+    };
+    TransportData.prototype.getAuthInfo = function () {
+        var trackerId = this.getTrackerId();
+        return {
+            trackerId: String(trackerId),
+            sdkVersion: SDK_VERSION,
+            sdkName: SDK_NAME,
+            apikey: this.apikey
+        };
+    };
+    TransportData.prototype.getTrackerId = function () {
+        if (typeof this.backTrackerId === 'function') {
+            var trackerId = this.backTrackerId();
+            if (typeof trackerId === 'string' || typeof trackerId === 'number') {
+                return trackerId;
+            }
+            else {
+                logger.error("trackerId:" + trackerId + " \u671F\u671B string \u6216 number \u7C7B\u578B\uFF0C\u4F46\u662F\u4F20\u5165 " + typeof trackerId);
+            }
+        }
+        return '';
+    };
+    TransportData.prototype.getTransportData = function (data) {
+        return {
+            authInfo: this.getAuthInfo(),
+            breadcrumb: breadcrumb.getStack(),
+            data: data,
+            record: this.getRecord()
+        };
+    };
+    TransportData.prototype.isSdkTransportUrl = function (targetUrl) {
+        return targetUrl.indexOf(this.url) !== -1;
+    };
+    TransportData.prototype.bindOptions = function (options) {
+        if (options === void 0) { options = {}; }
+        var dsn = options.dsn, beforeDataReport = options.beforeDataReport, apikey = options.apikey, configReportXhr = options.configReportXhr, backTrackerId = options.backTrackerId;
+        validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey);
+        validateOption(dsn, 'dsn', 'string') && (this.url = dsn);
+        validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport);
+        validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr);
+        validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId);
+    };
+    TransportData.prototype.send = function (data) {
+        if (isBrowserEnv) {
+            return this.xhrPost(data);
+        }
+        if (isWxMiniEnv) {
+            return this.wxPost(data);
+        }
+    };
+    return TransportData;
+}());
+var transportData = _support.transportData || (_support.transportData = new TransportData(SERVER_URL));
+
+var Options = (function () {
+    function Options() {
+        this.traceIdFieldName = 'Trace-Id';
+        this.enableTraceId = false;
+    }
+    Options.prototype.bindOptions = function (options) {
+        if (options === void 0) { options = {}; }
+        var beforeAppAjaxSend = options.beforeAppAjaxSend, enableTraceId = options.enableTraceId, filterXhrUrlRegExp = options.filterXhrUrlRegExp, traceIdFieldName = options.traceIdFieldName, includeHttpUrlTraceIdRegExp = options.includeHttpUrlTraceIdRegExp;
+        validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend);
+        validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId);
+        validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName);
+        toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp);
+        toStringValidateOption(includeHttpUrlTraceIdRegExp, 'includeHttpUrlTraceIdRegExp', '[object RegExp]') &&
+            (this.includeHttpUrlTraceIdRegExp = includeHttpUrlTraceIdRegExp);
+    };
+    return Options;
+}());
+var options = _support.options || (_support.options = new Options());
+
+function initOptions(options$1) {
+    if (options$1 === void 0) { options$1 = {}; }
+    setSilentFlag(options$1);
+    breadcrumb.bindOptions(options$1);
+    logger.bindOptions(options$1.debug);
+    transportData.bindOptions(options$1);
+    options.bindOptions(options$1);
+}
+
 var Severity;
 (function (Severity) {
     Severity["Else"] = "else";
@@ -717,136 +887,6 @@ function resourceTransform(target) {
     };
 }
 
-var name = "@zyf2e/mitojs";
-var version = "1.2.2";
-
-var SDK_NAME = name;
-var SDK_VERSION = version;
-var SERVER_URL = '//localhost:3000/api/error/upload';
-
-var EMethods;
-(function (EMethods) {
-    EMethods["Get"] = "GET";
-    EMethods["Post"] = "POST";
-    EMethods["Put"] = "PUT";
-    EMethods["Delete"] = "DELETE";
-})(EMethods || (EMethods = {}));
-
-var TransportData = (function () {
-    function TransportData(url) {
-        this.url = url;
-        this.beforeDataReport = null;
-        this.backTrackerId = null;
-        this.configReportXhr = null;
-        this.apikey = '';
-        this.queue = new Queue();
-    }
-    TransportData.prototype.getRecord = function () {
-        var recordData = _support.record;
-        if (recordData && isArray(recordData) && recordData.length > 2) {
-            return recordData;
-        }
-        return [];
-    };
-    TransportData.prototype.beforePost = function (data) {
-        if (typeof this.beforeDataReport === 'function') {
-            data = this.beforeDataReport(data);
-            if (!data)
-                return false;
-        }
-        var errorId = createErrorId(data);
-        if (!errorId)
-            return false;
-        data.errorId = errorId;
-        return JSON.stringify(this.getTransportData(data));
-    };
-    TransportData.prototype.xhrPost = function (data) {
-        var _this = this;
-        var result = this.beforePost(data);
-        if (!result)
-            return;
-        var requestFun = function () {
-            var xhr = new XMLHttpRequest();
-            xhr.open(EMethods.Post, _this.url);
-            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-            xhr.withCredentials = true;
-            if (typeof _this.configReportXhr === 'function') {
-                _this.configReportXhr(xhr);
-            }
-            xhr.send(result);
-        };
-        this.queue.addFn(requestFun);
-    };
-    TransportData.prototype.wxPost = function (data) {
-        var _this = this;
-        var result = this.beforePost(data);
-        if (!result)
-            return;
-        var requestFun = function () {
-            wx.request({
-                method: 'POST',
-                header: {
-                    'Content-Type': 'application/json;charset=UTF-8'
-                },
-                url: _this.url,
-                data: result
-            });
-        };
-        this.queue.addFn(requestFun);
-    };
-    TransportData.prototype.getAuthInfo = function () {
-        var trackerId = this.getTrackerId();
-        return {
-            trackerId: String(trackerId),
-            sdkVersion: SDK_VERSION,
-            sdkName: SDK_NAME,
-            apikey: this.apikey
-        };
-    };
-    TransportData.prototype.getTrackerId = function () {
-        if (typeof this.backTrackerId === 'function') {
-            var trackerId = this.backTrackerId();
-            if (typeof trackerId === 'string' || typeof trackerId === 'number') {
-                return trackerId;
-            }
-            else {
-                logger.error("trackerId:" + trackerId + " \u671F\u671B string \u6216 number \u7C7B\u578B\uFF0C\u4F46\u662F\u4F20\u5165 " + typeof trackerId);
-            }
-        }
-        return '';
-    };
-    TransportData.prototype.getTransportData = function (data) {
-        return {
-            authInfo: this.getAuthInfo(),
-            breadcrumb: breadcrumb.getStack(),
-            data: data,
-            record: this.getRecord()
-        };
-    };
-    TransportData.prototype.isSdkTransportUrl = function (targetUrl) {
-        return targetUrl.indexOf(this.url) !== -1;
-    };
-    TransportData.prototype.bindOptions = function (options) {
-        if (options === void 0) { options = {}; }
-        var dsn = options.dsn, beforeDataReport = options.beforeDataReport, apikey = options.apikey, configReportXhr = options.configReportXhr, backTrackerId = options.backTrackerId;
-        validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey);
-        validateOption(dsn, 'dsn', 'string') && (this.url = dsn);
-        validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport);
-        validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr);
-        validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId);
-    };
-    TransportData.prototype.send = function (data) {
-        if (isBrowserEnv) {
-            return this.xhrPost(data);
-        }
-        if (isWxMiniEnv) {
-            return this.wxPost(data);
-        }
-    };
-    return TransportData;
-}());
-var transportData = _support.transportData || (_support.transportData = new TransportData(SERVER_URL));
-
 var HandleEvents = {
     handleHttp: function (data, type) {
         var isError = data.status === 0 || data.status === HTTP_CODE.BAD_REQUEST || data.status > HTTP_CODE.UNAUTHORIZED;
@@ -978,25 +1018,6 @@ var HandleEvents = {
         }
     }
 };
-
-var Options = (function () {
-    function Options() {
-        this.traceIdFieldName = 'Trace-Id';
-        this.enableTraceId = false;
-    }
-    Options.prototype.bindOptions = function (options) {
-        if (options === void 0) { options = {}; }
-        var beforeAppAjaxSend = options.beforeAppAjaxSend, enableTraceId = options.enableTraceId, filterXhrUrlRegExp = options.filterXhrUrlRegExp, traceIdFieldName = options.traceIdFieldName, includeHttpUrlTraceIdRegExp = options.includeHttpUrlTraceIdRegExp;
-        validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend);
-        validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId);
-        validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName);
-        toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp);
-        toStringValidateOption(includeHttpUrlTraceIdRegExp, 'includeHttpUrlTraceIdRegExp', '[object RegExp]') &&
-            (this.includeHttpUrlTraceIdRegExp = includeHttpUrlTraceIdRegExp);
-    };
-    return Options;
-}());
-var options = _support.options || (_support.options = new Options());
 
 var handlers = {};
 function subscribeEvent(handler) {
@@ -1150,9 +1171,11 @@ function setupReplace() {
     });
 }
 
-function init() {
+function init(options) {
+    if (options === void 0) { options = {}; }
     if (!isWxMiniEnv)
         return;
+    initOptions(options);
     setupReplace();
 }
 var index = { init: init };
