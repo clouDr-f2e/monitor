@@ -1,5 +1,5 @@
 import { getFlag, setFlag, slientConsoleScope } from '../utils/index'
-import { EVENTTYPES } from '../common/common'
+import { EVENTTYPES } from '../common/constant'
 import { VueInstance, ViewModel } from './types'
 import { handleVueError } from './helper'
 import { Severity } from '../utils/Severity'

@@ -1,4 +1,4 @@
-import { globalVar } from '@/common/common'
+import { globalVar } from '@/common/constant'
 import {
   defaultFunctionName,
   generateUUID,

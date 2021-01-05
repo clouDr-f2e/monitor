@@ -1,4 +1,4 @@
-import { BREADCRUMBTYPES } from '@/common/common'
+import { BREADCRUMBTYPES } from '@/common/constant'
 import { breadcrumb, log } from '@/core'
 import { Severity } from '@/utils/Severity'
 

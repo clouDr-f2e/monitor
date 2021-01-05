@@ -1,4 +1,4 @@
-import { voidFun } from '../common/common'
+import { voidFun } from '../common/constant'
 
 /**
  * 原生try函数

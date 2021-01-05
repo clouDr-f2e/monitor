@@ -1,4 +1,4 @@
-import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '../common/common'
+import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '../common/constant'
 import { logger, validateOption, getTimestamp, slientConsoleScope } from '../utils/index'
 import { _support } from '../utils/global'
 import { BreadcrumbPushData } from '../types/breadcrumb'

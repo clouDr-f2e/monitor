@@ -1,4 +1,4 @@
-import { voidFun } from '../common/common'
+import { voidFun } from '../common/constant'
 import { _global } from './global'
 export class Queue {
   private micro: Promise<void>

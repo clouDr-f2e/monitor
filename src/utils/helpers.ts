@@ -1,5 +1,5 @@
 import { IAnyObject } from '../types/common'
-import { voidFun, globalVar } from '../common/common'
+import { voidFun, globalVar } from '../common/constant'
 import { logger } from './logger'
 import { nativeToString, variableTypeDetection } from './is'
 

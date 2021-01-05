@@ -1,4 +1,4 @@
-import { ERRORTYPES, BREADCRUMBTYPES } from '../common/common'
+import { ERRORTYPES, BREADCRUMBTYPES } from '../common/constant'
 import { isError, extractErrorStack, getLocationHref, getTimestamp, unknownToString } from '../utils/index'
 import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'

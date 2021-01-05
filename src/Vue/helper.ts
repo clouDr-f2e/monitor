@@ -1,5 +1,5 @@
 import { getBigVersion, getLocationHref, getTimestamp, variableTypeDetection } from '../utils/index'
-import { ERRORTYPES, BREADCRUMBTYPES } from '../common/common'
+import { ERRORTYPES, BREADCRUMBTYPES } from '../common/constant'
 import { ViewModel, VueInstance } from './types'
 import { breadcrumb, transportData } from '../core/index'
 import { ReportDataType } from '../types/transportData'

@@ -1,4 +1,4 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES } from '@/common/common'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES } from '@/common/constant'
 import { breadcrumb } from '@/core/breadcrumb'
 import { BreadcrumbPushData } from '@/types'
 import { Severity } from '@/utils/Severity'

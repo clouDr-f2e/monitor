@@ -1,4 +1,4 @@
-import { BREADCRUMBTYPES } from '@/common/common'
+import { BREADCRUMBTYPES } from '@/common/constant'
 import { breadcrumb, transportData } from '../core'
 import { ReportDataType } from '@/types'
 import { WxLifeCycleBreadcrumb } from '@/types/breadcrumb'

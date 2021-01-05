@@ -46,6 +46,7 @@ export enum BREADCRUMBTYPES {
   REACT = 'React',
   RESOURCE = 'Resource',
   CODE_ERROR = 'Code Error',
+
   CUSTOMER = 'Customer',
   // wx life cycle
   ON_SHOW = 'On Show',

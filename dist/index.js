@@ -166,6 +166,12 @@ function getGlobalMitoSupport() {
     _global.__MITO__ = _global.__MITO__ || {};
     return _global.__MITO__;
 }
+function supportsHistory() {
+    var chrome = _global.chrome;
+    var isChromePackagedApp = chrome && chrome.app && chrome.app.runtime;
+    var hasHistoryApi = 'history' in _global && !!_global.history.pushState && !!_global.history.replaceState;
+    return !isChromePackagedApp && hasHistoryApi;
+}
 
 var PREFIX = 'MITO Logger';
 var Logger = (function () {
@@ -436,14 +442,6 @@ function nativeTryCatch(fn, errorFn) {
             errorFn(err);
         }
     }
-}
-
-function supportsHistory() {
-    var global = _global;
-    var chrome = global.chrome;
-    var isChromePackagedApp = chrome && chrome.app && chrome.app.runtime;
-    var hasHistoryApi = 'history' in global && !!global.history.pushState && !!global.history.replaceState;
-    return !isChromePackagedApp && hasHistoryApi;
 }
 
 var Queue = (function () {

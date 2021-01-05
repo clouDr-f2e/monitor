@@ -1,4 +1,4 @@
-import { BREADCRUMBTYPES, ERRORTYPES, globalVar, ERROR_TYPE_RE, HTTP_CODE } from '../common/common'
+import { BREADCRUMBTYPES, ERRORTYPES, globalVar, ERROR_TYPE_RE, HTTP_CODE } from '../common/constant'
 import { resourceTransform, httpTransform } from '../core/transformData'
 import { transportData } from '../core/transportData'
 import { breadcrumb } from '../core/breadcrumb'

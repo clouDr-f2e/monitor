@@ -1,6 +1,6 @@
-import { EVENTTYPES } from '@/common/common'
+import { EVENTTYPES } from '@/common/constant'
 import browserIndex from '@/index'
-import { getFlag, getGlobal, getGlobalMitoSupport, isBrowserEnv, isNodeEnv, isWxMiniEnv, setFlag } from '@/utils'
+import { getFlag, getGlobal, getGlobalMitoSupport, isBrowserEnv, isNodeEnv, isWxMiniEnv, setFlag, supportsHistory } from '@/utils'
 
 describe('global.ts', () => {
   it('should getGLoabl func work', () => {
@@ -25,4 +25,8 @@ describe('global.ts', () => {
     // mock browser env by node
     expect(isBrowserEnv).toBeTruthy()
   })
+
+  // it('should supportsHistory func work', () => {
+  //   expect(supportsHistory()).toBeTruthy()
+  // })
 })

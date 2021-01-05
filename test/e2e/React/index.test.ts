@@ -1,4 +1,4 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES } from '@/common/common'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES } from '@/common/constant'
 import { reactUrl, vueUrl } from '@/test/config'
 import { TransportDataType } from '@/types/transportData'
 import { version, name } from '../../../package.json'

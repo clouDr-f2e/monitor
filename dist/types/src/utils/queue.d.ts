@@ -1,4 +1,4 @@
-import { voidFun } from '../common/common';
+import { voidFun } from '../common/constant';
 export declare class Queue {
     private micro;
     private stack;

@@ -2,7 +2,7 @@ import { options } from '../core/options'
 import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subscribe'
 import { replaceOld, throttle } from '../utils/helpers'
 import HandleWxEvents from './handleWxEvents'
-import { WxEvents } from '../common/common'
+import { WxEvents } from '../common/constant'
 import { variableTypeDetection } from '@/utils'
 
 const clickThrottle = throttle(triggerHandlers, 600)

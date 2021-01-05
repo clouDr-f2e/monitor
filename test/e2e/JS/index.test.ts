@@ -1,4 +1,4 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE } from '@/common/common'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE } from '@/common/constant'
 import { version, name } from '../../../package.json'
 import puppeteer from 'puppeteer'
 import { BreadcrumbPushData, EMethods, ReportDataType, TransportDataType } from '@/types/index'

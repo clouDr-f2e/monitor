@@ -1,6 +1,6 @@
 import { HandleEvents } from './handleEvents'
 import { htmlElementAsString } from '../utils/index'
-import { EVENTTYPES, BREADCRUMBTYPES } from '../common/common'
+import { EVENTTYPES, BREADCRUMBTYPES } from '../common/constant'
 import { Severity } from '../utils/Severity'
 import { addReplaceHandler } from './replace'
 import { breadcrumb } from '../core'

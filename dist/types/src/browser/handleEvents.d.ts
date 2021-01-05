@@ -1,4 +1,4 @@
-import { BREADCRUMBTYPES, ERRORTYPES } from '../common/common';
+import { BREADCRUMBTYPES, ERRORTYPES } from '../common/constant';
 import { Severity } from '../utils/Severity';
 import { Replace } from '../types/replace';
 import { MITOHttp } from '../types/common';

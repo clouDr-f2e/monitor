@@ -1,5 +1,5 @@
 import { Severity } from '../utils/Severity'
-import { BREADCRUMBTYPES } from '../common/common'
+import { BREADCRUMBTYPES } from '../common/constant'
 import { ReportDataType } from './transportData'
 import { Replace } from './replace'
 import { IAnyObject } from './common'

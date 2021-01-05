@@ -1,5 +1,5 @@
 /// <reference types="wechat-miniprogram" />
-import { EVENTTYPES, WxEvents } from '../common/common';
+import { EVENTTYPES, WxEvents } from '../common/constant';
 import { TransportData } from '../core/transportData';
 import { Breadcrumb } from '../core/breadcrumb';
 import { Logger } from './logger';
@@ -28,3 +28,4 @@ export { _global, _support };
 export declare function setFlag(replaceType: EVENTTYPES | WxEvents, isSet: boolean): void;
 export declare function getFlag(replaceType: EVENTTYPES | WxEvents): boolean;
 export declare function getGlobalMitoSupport(): MitoSupport;
+export declare function supportsHistory(): boolean;

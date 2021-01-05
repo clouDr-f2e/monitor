@@ -1,4 +1,4 @@
-import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '../common/common';
+import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '../common/constant';
 import { BreadcrumbPushData } from '../types/breadcrumb';
 import { InitOptions } from '../types/options';
 export declare class Breadcrumb {

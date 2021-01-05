@@ -155,16 +155,3 @@ export function isInstanceOf(wat: any, base: any): boolean {
 export function isExistProperty(obj: Object, key: string | number | symbol): boolean {
   return obj.hasOwnProperty(key)
 }
-
-export function isSupportsHistory(): boolean {
-  // NOTE: in Chrome App environment, touching history.pushState, *even inside
-  //       a try/catch block*, will cause Chrome to output an error to console.error
-  // borrowed from: https://github.com/angular/angular.js/pull/13945/files
-  const global = _global
-  const chrome = (global as any).chrome
-  // tslint:disable-next-line:no-unsafe-any
-  const isChromePackagedApp = chrome && chrome.app && chrome.app.runtime
-  const hasHistoryApi = 'history' in global && !!global.history.pushState && !!global.history.replaceState
-
-  return !isChromePackagedApp && hasHistoryApi
-}

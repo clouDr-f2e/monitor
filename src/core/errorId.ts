@@ -1,5 +1,5 @@
 import { variableTypeDetection } from '@/utils'
-import { ERRORTYPES, EVENTTYPES } from '../common/common'
+import { ERRORTYPES, EVENTTYPES } from '../common/constant'
 import { ReportDataType } from '../types/transportData'
 const allErrorNumber: unknown = {}
 /**
@@ -41,7 +41,12 @@ export default function createErrorId(data: ReportDataType): number | null {
 
   return id
 }
-
+/**
+ * 如果是UNHANDLEDREJECTION，则按照项目主域名来生成
+ * 如果是其他的，按照当前页面来生成
+ * @param data
+ * @param originUrl
+ */
 function generatePromiseErrorId(data: ReportDataType, originUrl: string) {
   const locationUrl = getRealPath(data.url)
   if (data.name === EVENTTYPES.UNHANDLEDREJECTION) {

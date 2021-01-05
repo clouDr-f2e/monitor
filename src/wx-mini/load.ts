@@ -1,4 +1,4 @@
-import { WxEvents } from '@/common/common'
+import { WxEvents } from '@/common/constant'
 import HandleWxEvents from './handleWxEvents'
 import { addReplaceHandler, replaceApp } from './replace'
 

@@ -1,4 +1,4 @@
-import { BREADCRUMBTYPES, ERRORTYPES } from '../common/common'
+import { BREADCRUMBTYPES, ERRORTYPES } from '../common/constant'
 import { isError, extractErrorStack } from '../utils/index'
 import { Severity } from '../utils/Severity'
 import { breadcrumb, transportData } from '../core/index'

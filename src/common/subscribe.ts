@@ -1,4 +1,4 @@
-import { EVENTTYPES, WxEvents } from './common'
+import { EVENTTYPES, WxEvents } from './constant'
 import { getFlag, getFunctionName, logger, nativeTryCatch, setFlag } from '../utils'
 export interface ReplaceHandler {
   type: EVENTTYPES | WxEvents

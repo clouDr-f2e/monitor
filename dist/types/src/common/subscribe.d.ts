@@ -1,4 +1,4 @@
-import { EVENTTYPES, WxEvents } from './common';
+import { EVENTTYPES, WxEvents } from './constant';
 export interface ReplaceHandler {
     type: EVENTTYPES | WxEvents;
     callback: ReplaceCallback;

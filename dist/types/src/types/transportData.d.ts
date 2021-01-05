@@ -1,4 +1,4 @@
-import { ERRORTYPES } from '../common/common';
+import { ERRORTYPES } from '../common/constant';
 import { BreadcrumbPushData } from './breadcrumb';
 export interface AuthInfo {
     apikey: string;
