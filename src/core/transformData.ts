@@ -1,4 +1,4 @@
-import { ERRORTYPES, HTTP_CODE } from '../common/common'
+import { ERRORTYPES } from '../common/common'
 import { getLocationHref, getTimestamp } from '../utils/index'
 import { ResourceErrorTarget } from '../browser/handleEvents'
 import { ReportDataType } from '../types/transportData'

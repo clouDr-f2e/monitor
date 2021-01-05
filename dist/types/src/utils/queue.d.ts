@@ -5,5 +5,6 @@ export declare class Queue {
     private isFlushing;
     constructor();
     addFn(fn: voidFun): void;
+    getStack(): any[];
     flushStack(): void;
 }

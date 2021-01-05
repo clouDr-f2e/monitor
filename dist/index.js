@@ -479,6 +479,9 @@ var Queue = (function () {
             this.micro.then(function () { return _this.flushStack(); });
         }
     };
+    Queue.prototype.getStack = function () {
+        return this.stack;
+    };
     Queue.prototype.flushStack = function () {
         var temp = this.stack.slice(0);
         this.stack.length = 0;
