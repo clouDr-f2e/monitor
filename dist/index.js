@@ -647,145 +647,6 @@ function hashCode(str) {
     return hash;
 }
 
-var Severity;
-(function (Severity) {
-    Severity["Else"] = "else";
-    Severity["Error"] = "error";
-    Severity["Warning"] = "warning";
-    Severity["Info"] = "info";
-    Severity["Debug"] = "debug";
-    Severity["Low"] = "low";
-    Severity["Normal"] = "normal";
-    Severity["High"] = "high";
-    Severity["Critical"] = "critical";
-})(Severity || (Severity = {}));
-(function (Severity) {
-    function fromString(level) {
-        switch (level) {
-            case 'debug':
-                return Severity.Debug;
-            case 'info':
-            case 'log':
-            case 'assert':
-                return Severity.Info;
-            case 'warn':
-            case 'warning':
-                return Severity.Warning;
-            case Severity.Low:
-            case Severity.Normal:
-            case Severity.High:
-            case Severity.Critical:
-            case 'error':
-                return Severity.Error;
-            default:
-                return Severity.Else;
-        }
-    }
-    Severity.fromString = fromString;
-})(Severity || (Severity = {}));
-
-var SpanStatus;
-(function (SpanStatus) {
-    SpanStatus["Ok"] = "ok";
-    SpanStatus["DeadlineExceeded"] = "deadline_exceeded";
-    SpanStatus["Unauthenticated"] = "unauthenticated";
-    SpanStatus["PermissionDenied"] = "permission_denied";
-    SpanStatus["NotFound"] = "not_found";
-    SpanStatus["ResourceExhausted"] = "resource_exhausted";
-    SpanStatus["InvalidArgument"] = "invalid_argument";
-    SpanStatus["Unimplemented"] = "unimplemented";
-    SpanStatus["Unavailable"] = "unavailable";
-    SpanStatus["InternalError"] = "internal_error";
-    SpanStatus["UnknownError"] = "unknown_error";
-    SpanStatus["Cancelled"] = "cancelled";
-    SpanStatus["AlreadyExists"] = "already_exists";
-    SpanStatus["FailedPrecondition"] = "failed_precondition";
-    SpanStatus["Aborted"] = "aborted";
-    SpanStatus["OutOfRange"] = "out_of_range";
-    SpanStatus["DataLoss"] = "data_loss";
-})(SpanStatus || (SpanStatus = {}));
-function fromHttpStatus(httpStatus) {
-    if (httpStatus < 400) {
-        return SpanStatus.Ok;
-    }
-    if (httpStatus >= 400 && httpStatus < 500) {
-        switch (httpStatus) {
-            case 401:
-                return SpanStatus.Unauthenticated;
-            case 403:
-                return SpanStatus.PermissionDenied;
-            case 404:
-                return SpanStatus.NotFound;
-            case 409:
-                return SpanStatus.AlreadyExists;
-            case 413:
-                return SpanStatus.FailedPrecondition;
-            case 429:
-                return SpanStatus.ResourceExhausted;
-            default:
-                return SpanStatus.InvalidArgument;
-        }
-    }
-    if (httpStatus >= 500 && httpStatus < 600) {
-        switch (httpStatus) {
-            case 501:
-                return SpanStatus.Unimplemented;
-            case 503:
-                return SpanStatus.Unavailable;
-            case 504:
-                return SpanStatus.DeadlineExceeded;
-            default:
-                return SpanStatus.InternalError;
-        }
-    }
-    return SpanStatus.UnknownError;
-}
-
-function httpTransform(data) {
-    var message = '';
-    var elapsedTime = data.elapsedTime, time = data.time, method = data.method, traceId = data.traceId, type = data.type, status = data.status;
-    if (status === 0) {
-        message = elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制或域名不存在' : 'http请求失败，失败原因：超时';
-    }
-    else {
-        message = fromHttpStatus(status);
-    }
-    return {
-        type: ERRORTYPES.FETCH_ERROR,
-        url: getLocationHref(),
-        time: time,
-        elapsedTime: elapsedTime,
-        level: Severity.Low,
-        message: message,
-        name: type + "--" + method,
-        request: {
-            httpType: type,
-            traceId: traceId,
-            method: method,
-            url: data.url,
-            data: data.reqData || ''
-        },
-        response: {
-            status: status,
-            data: data.responseText
-        }
-    };
-}
-var resourceMap = {
-    img: '图片',
-    script: 'js脚本'
-};
-function resourceTransform(target) {
-    return {
-        type: ERRORTYPES.RESOURCE_ERROR,
-        url: getLocationHref(),
-        message: '资源地址: ' + (target.src.slice(0, 100) || target.href.slice(0, 100)),
-        level: Severity.Low,
-        time: getTimestamp(),
-        name: (resourceMap[target.localName] || target.localName) + "\u52A0\u8F7D\u5931\u8D25"
-    };
-}
-
 var name = "@zyf2e/mitojs";
 var version = "1.2.2";
 
@@ -915,6 +776,269 @@ var TransportData = (function () {
     return TransportData;
 }());
 var transportData = _support.transportData || (_support.transportData = new TransportData(SERVER_URL));
+
+var Severity;
+(function (Severity) {
+    Severity["Else"] = "else";
+    Severity["Error"] = "error";
+    Severity["Warning"] = "warning";
+    Severity["Info"] = "info";
+    Severity["Debug"] = "debug";
+    Severity["Low"] = "low";
+    Severity["Normal"] = "normal";
+    Severity["High"] = "high";
+    Severity["Critical"] = "critical";
+})(Severity || (Severity = {}));
+(function (Severity) {
+    function fromString(level) {
+        switch (level) {
+            case 'debug':
+                return Severity.Debug;
+            case 'info':
+            case 'log':
+            case 'assert':
+                return Severity.Info;
+            case 'warn':
+            case 'warning':
+                return Severity.Warning;
+            case Severity.Low:
+            case Severity.Normal:
+            case Severity.High:
+            case Severity.Critical:
+            case 'error':
+                return Severity.Error;
+            default:
+                return Severity.Else;
+        }
+    }
+    Severity.fromString = fromString;
+})(Severity || (Severity = {}));
+
+function log(_a) {
+    var _b = _a.message, message = _b === void 0 ? 'emptyMsg' : _b, _c = _a.tag, tag = _c === void 0 ? '' : _c, _d = _a.level, level = _d === void 0 ? Severity.Critical : _d, _e = _a.ex, ex = _e === void 0 ? '' : _e;
+    var errorInfo = {};
+    if (isError(ex)) {
+        errorInfo = extractErrorStack(ex, level);
+    }
+    var error = __assign({ type: ERRORTYPES.LOG_ERROR, level: level, message: unknownToString(message), name: 'MITO.log', customTag: unknownToString(tag), time: getTimestamp(), url: getLocationHref() }, errorInfo);
+    breadcrumb.push({
+        type: BREADCRUMBTYPES.CUSTOMER,
+        category: breadcrumb.getCategory(BREADCRUMBTYPES.CUSTOMER),
+        data: message,
+        level: Severity.fromString(level.toString())
+    });
+    transportData.send(error);
+}
+
+var SpanStatus;
+(function (SpanStatus) {
+    SpanStatus["Ok"] = "ok";
+    SpanStatus["DeadlineExceeded"] = "deadline_exceeded";
+    SpanStatus["Unauthenticated"] = "unauthenticated";
+    SpanStatus["PermissionDenied"] = "permission_denied";
+    SpanStatus["NotFound"] = "not_found";
+    SpanStatus["ResourceExhausted"] = "resource_exhausted";
+    SpanStatus["InvalidArgument"] = "invalid_argument";
+    SpanStatus["Unimplemented"] = "unimplemented";
+    SpanStatus["Unavailable"] = "unavailable";
+    SpanStatus["InternalError"] = "internal_error";
+    SpanStatus["UnknownError"] = "unknown_error";
+    SpanStatus["Cancelled"] = "cancelled";
+    SpanStatus["AlreadyExists"] = "already_exists";
+    SpanStatus["FailedPrecondition"] = "failed_precondition";
+    SpanStatus["Aborted"] = "aborted";
+    SpanStatus["OutOfRange"] = "out_of_range";
+    SpanStatus["DataLoss"] = "data_loss";
+})(SpanStatus || (SpanStatus = {}));
+function fromHttpStatus(httpStatus) {
+    if (httpStatus < 400) {
+        return SpanStatus.Ok;
+    }
+    if (httpStatus >= 400 && httpStatus < 500) {
+        switch (httpStatus) {
+            case 401:
+                return SpanStatus.Unauthenticated;
+            case 403:
+                return SpanStatus.PermissionDenied;
+            case 404:
+                return SpanStatus.NotFound;
+            case 409:
+                return SpanStatus.AlreadyExists;
+            case 413:
+                return SpanStatus.FailedPrecondition;
+            case 429:
+                return SpanStatus.ResourceExhausted;
+            default:
+                return SpanStatus.InvalidArgument;
+        }
+    }
+    if (httpStatus >= 500 && httpStatus < 600) {
+        switch (httpStatus) {
+            case 501:
+                return SpanStatus.Unimplemented;
+            case 503:
+                return SpanStatus.Unavailable;
+            case 504:
+                return SpanStatus.DeadlineExceeded;
+            default:
+                return SpanStatus.InternalError;
+        }
+    }
+    return SpanStatus.UnknownError;
+}
+
+function httpTransform(data) {
+    var message = '';
+    var elapsedTime = data.elapsedTime, time = data.time, method = data.method, traceId = data.traceId, type = data.type, status = data.status;
+    if (status === 0) {
+        message = elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制或域名不存在' : 'http请求失败，失败原因：超时';
+    }
+    else {
+        message = fromHttpStatus(status);
+    }
+    return {
+        type: ERRORTYPES.FETCH_ERROR,
+        url: getLocationHref(),
+        time: time,
+        elapsedTime: elapsedTime,
+        level: Severity.Low,
+        message: message,
+        name: type + "--" + method,
+        request: {
+            httpType: type,
+            traceId: traceId,
+            method: method,
+            url: data.url,
+            data: data.reqData || ''
+        },
+        response: {
+            status: status,
+            data: data.responseText
+        }
+    };
+}
+var resourceMap = {
+    img: '图片',
+    script: 'js脚本'
+};
+function resourceTransform(target) {
+    return {
+        type: ERRORTYPES.RESOURCE_ERROR,
+        url: getLocationHref(),
+        message: '资源地址: ' + (target.src.slice(0, 100) || target.href.slice(0, 100)),
+        level: Severity.Low,
+        time: getTimestamp(),
+        name: (resourceMap[target.localName] || target.localName) + "\u52A0\u8F7D\u5931\u8D25"
+    };
+}
+
+var Options = (function () {
+    function Options() {
+        this.traceIdFieldName = 'Trace-Id';
+        this.enableTraceId = false;
+    }
+    Options.prototype.bindOptions = function (options) {
+        if (options === void 0) { options = {}; }
+        var beforeAppAjaxSend = options.beforeAppAjaxSend, enableTraceId = options.enableTraceId, filterXhrUrlRegExp = options.filterXhrUrlRegExp, traceIdFieldName = options.traceIdFieldName, includeHttpUrlTraceIdRegExp = options.includeHttpUrlTraceIdRegExp;
+        validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend);
+        validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId);
+        validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName);
+        toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp);
+        toStringValidateOption(includeHttpUrlTraceIdRegExp, 'includeHttpUrlTraceIdRegExp', '[object RegExp]') &&
+            (this.includeHttpUrlTraceIdRegExp = includeHttpUrlTraceIdRegExp);
+    };
+    return Options;
+}());
+var options = _support.options || (_support.options = new Options());
+function setTraceId(httpUrl, callback) {
+    var includeHttpUrlTraceIdRegExp = options.includeHttpUrlTraceIdRegExp, enableTraceId = options.enableTraceId;
+    if (enableTraceId && includeHttpUrlTraceIdRegExp && includeHttpUrlTraceIdRegExp.test(httpUrl)) {
+        var traceId = generateUUID();
+        callback(options.traceIdFieldName, traceId);
+    }
+}
+
+function handleVueError(err, vm, info, level, breadcrumbLevel, Vue) {
+    var version = Vue === null || Vue === void 0 ? void 0 : Vue.version;
+    var data = {
+        type: ERRORTYPES.VUE_ERROR,
+        message: err.message + "(" + info + ")",
+        level: level,
+        url: getLocationHref(),
+        name: err.name,
+        stack: err.stack || [],
+        time: getTimestamp()
+    };
+    if (variableTypeDetection.isString(version)) {
+        console.log('getBigVersion', getBigVersion(version));
+        switch (getBigVersion(version)) {
+            case 2:
+                data = __assign(__assign({}, data), vue2VmHandler(vm));
+                break;
+            case 3:
+                data = __assign(__assign({}, data), vue3VmHandler(vm));
+                break;
+            default:
+                return;
+        }
+    }
+    breadcrumb.push({
+        type: BREADCRUMBTYPES.VUE,
+        category: breadcrumb.getCategory(BREADCRUMBTYPES.VUE),
+        data: data,
+        level: breadcrumbLevel
+    });
+    transportData.send(data);
+}
+function vue2VmHandler(vm) {
+    var componentName = '';
+    if (vm.$root === vm) {
+        componentName = 'root';
+    }
+    else {
+        var name_1 = vm._isVue ? (vm.$options && vm.$options.name) || (vm.$options && vm.$options._componentTag) : vm.name;
+        componentName =
+            (name_1 ? 'component <' + name_1 + '>' : 'anonymous component') +
+                (vm._isVue && vm.$options && vm.$options.__file ? ' at ' + (vm.$options && vm.$options.__file) : '');
+    }
+    return {
+        componentName: componentName,
+        propsData: vm.$options && vm.$options.propsData
+    };
+}
+function vue3VmHandler(vm) {
+    var componentName = '';
+    if (vm.$root === vm) {
+        componentName = 'root';
+    }
+    else {
+        console.log(vm.$options);
+        var name_2 = vm.$options && vm.$options.name;
+        componentName = name_2 ? 'component <' + name_2 + '>' : 'anonymous component';
+    }
+    return {
+        componentName: componentName,
+        propsData: vm.$props
+    };
+}
+
+var hasConsole = typeof console !== 'undefined';
+var MitoVue = {
+    install: function (Vue) {
+        if (getFlag(EVENTTYPES.VUE) || !Vue || !Vue.config)
+            return;
+        setFlag(EVENTTYPES.VUE, true);
+        Vue.config.errorHandler = function (err, vm, info) {
+            handleVueError.apply(null, [err, vm, info, Severity.Normal, Severity.Error, Vue]);
+            if (hasConsole && !Vue.config.silent) {
+                slientConsoleScope(function () {
+                    console.error('Error in ' + info + ': "' + err.toString() + '"', vm);
+                    console.error(err);
+                });
+            }
+        };
+    }
+};
 
 var HandleEvents = {
     handleHttp: function (data, type) {
@@ -1047,32 +1171,6 @@ var HandleEvents = {
         }
     }
 };
-
-var Options = (function () {
-    function Options() {
-        this.traceIdFieldName = 'Trace-Id';
-        this.enableTraceId = false;
-    }
-    Options.prototype.bindOptions = function (options) {
-        if (options === void 0) { options = {}; }
-        var beforeAppAjaxSend = options.beforeAppAjaxSend, enableTraceId = options.enableTraceId, filterXhrUrlRegExp = options.filterXhrUrlRegExp, traceIdFieldName = options.traceIdFieldName, includeHttpUrlTraceIdRegExp = options.includeHttpUrlTraceIdRegExp;
-        validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend);
-        validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId);
-        validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName);
-        toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp);
-        toStringValidateOption(includeHttpUrlTraceIdRegExp, 'includeHttpUrlTraceIdRegExp', '[object RegExp]') &&
-            (this.includeHttpUrlTraceIdRegExp = includeHttpUrlTraceIdRegExp);
-    };
-    return Options;
-}());
-var options = _support.options || (_support.options = new Options());
-function setTraceId(httpUrl, callback) {
-    var includeHttpUrlTraceIdRegExp = options.includeHttpUrlTraceIdRegExp, enableTraceId = options.enableTraceId;
-    if (enableTraceId && includeHttpUrlTraceIdRegExp && includeHttpUrlTraceIdRegExp.test(httpUrl)) {
-        var traceId = generateUUID();
-        callback(options.traceIdFieldName, traceId);
-    }
-}
 
 var handlers = {};
 function subscribeEvent(handler) {
@@ -1325,104 +1423,6 @@ function domReplace() {
         });
     }, true);
 }
-
-function log(_a) {
-    var _b = _a.message, message = _b === void 0 ? 'emptyMsg' : _b, _c = _a.tag, tag = _c === void 0 ? '' : _c, _d = _a.level, level = _d === void 0 ? Severity.Critical : _d, _e = _a.ex, ex = _e === void 0 ? '' : _e;
-    var errorInfo = {};
-    if (isError(ex)) {
-        errorInfo = extractErrorStack(ex, level);
-    }
-    var error = __assign({ type: ERRORTYPES.LOG_ERROR, level: level, message: unknownToString(message), name: 'MITO.log', customTag: unknownToString(tag), time: getTimestamp(), url: getLocationHref() }, errorInfo);
-    breadcrumb.push({
-        type: BREADCRUMBTYPES.CUSTOMER,
-        category: breadcrumb.getCategory(BREADCRUMBTYPES.CUSTOMER),
-        data: message,
-        level: Severity.fromString(level.toString())
-    });
-    transportData.send(error);
-}
-
-function handleVueError(err, vm, info, level, breadcrumbLevel, Vue) {
-    var version = Vue === null || Vue === void 0 ? void 0 : Vue.version;
-    var data = {
-        type: ERRORTYPES.VUE_ERROR,
-        message: err.message + "(" + info + ")",
-        level: level,
-        url: getLocationHref(),
-        name: err.name,
-        stack: err.stack || [],
-        time: getTimestamp()
-    };
-    if (variableTypeDetection.isString(version)) {
-        console.log('getBigVersion', getBigVersion(version));
-        switch (getBigVersion(version)) {
-            case 2:
-                data = __assign(__assign({}, data), vue2VmHandler(vm));
-                break;
-            case 3:
-                data = __assign(__assign({}, data), vue3VmHandler(vm));
-                break;
-            default:
-                return;
-        }
-    }
-    breadcrumb.push({
-        type: BREADCRUMBTYPES.VUE,
-        category: breadcrumb.getCategory(BREADCRUMBTYPES.VUE),
-        data: data,
-        level: breadcrumbLevel
-    });
-    transportData.send(data);
-}
-function vue2VmHandler(vm) {
-    var componentName = '';
-    if (vm.$root === vm) {
-        componentName = 'root';
-    }
-    else {
-        var name_1 = vm._isVue ? (vm.$options && vm.$options.name) || (vm.$options && vm.$options._componentTag) : vm.name;
-        componentName =
-            (name_1 ? 'component <' + name_1 + '>' : 'anonymous component') +
-                (vm._isVue && vm.$options && vm.$options.__file ? ' at ' + (vm.$options && vm.$options.__file) : '');
-    }
-    return {
-        componentName: componentName,
-        propsData: vm.$options && vm.$options.propsData
-    };
-}
-function vue3VmHandler(vm) {
-    var componentName = '';
-    if (vm.$root === vm) {
-        componentName = 'root';
-    }
-    else {
-        console.log(vm.$options);
-        var name_2 = vm.$options && vm.$options.name;
-        componentName = name_2 ? 'component <' + name_2 + '>' : 'anonymous component';
-    }
-    return {
-        componentName: componentName,
-        propsData: vm.$props
-    };
-}
-
-var hasConsole = typeof console !== 'undefined';
-var MitoVue = {
-    install: function (Vue) {
-        if (getFlag(EVENTTYPES.VUE) || !Vue || !Vue.config)
-            return;
-        setFlag(EVENTTYPES.VUE, true);
-        Vue.config.errorHandler = function (err, vm, info) {
-            handleVueError.apply(null, [err, vm, info, Severity.Normal, Severity.Error, Vue]);
-            if (hasConsole && !Vue.config.silent) {
-                slientConsoleScope(function () {
-                    console.error('Error in ' + info + ': "' + err.toString() + '"', vm);
-                    console.error(err);
-                });
-            }
-        };
-    }
-};
 
 function setupReplace() {
     addReplaceHandler({

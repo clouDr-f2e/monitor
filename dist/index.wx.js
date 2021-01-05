@@ -887,6 +887,10 @@ function resourceTransform(target) {
     };
 }
 
+function getCurrentRoute() {
+    return getCurrentPages().pop().route;
+}
+
 var HandleEvents = {
     handleHttp: function (data, type) {
         var isError = data.status === 0 || data.status === HTTP_CODE.BAD_REQUEST || data.status > HTTP_CODE.UNAUTHORIZED;
@@ -1019,36 +1023,6 @@ var HandleEvents = {
     }
 };
 
-var handlers = {};
-function subscribeEvent(handler) {
-    if (!handler) {
-        return;
-    }
-    if (getFlag(handler.type))
-        return;
-    setFlag(handler.type, true);
-    handlers[handler.type] = handlers[handler.type] || [];
-    handlers[handler.type].push(handler.callback);
-}
-function triggerHandlers(type, data) {
-    if (!type || !handlers[type])
-        return;
-    handlers[type].forEach(function (callback) {
-        nativeTryCatch(function () {
-            callback(data);
-        }, function (e) {
-            logger.error("\u91CD\u5199\u4E8B\u4EF6triggerHandlers\u7684\u56DE\u8C03\u51FD\u6570\u53D1\u751F\u9519\u8BEF\nType:" + type + "\nName: " + getFunctionName(callback) + "\nError: " + e);
-        });
-    });
-}
-
-var lastHref;
-lastHref = getLocationHref();
-
-function getCurrentRoute() {
-    return getCurrentPages().pop().route;
-}
-
 var HandleWxEvents = {
     onLaunch: function (options) {
         console.log('onLaunch', options);
@@ -1104,6 +1078,29 @@ var HandleWxEvents = {
         HandleEvents.handleConsole(data);
     }
 };
+
+var handlers = {};
+function subscribeEvent(handler) {
+    if (!handler) {
+        return;
+    }
+    if (getFlag(handler.type))
+        return;
+    setFlag(handler.type, true);
+    handlers[handler.type] = handlers[handler.type] || [];
+    handlers[handler.type].push(handler.callback);
+}
+function triggerHandlers(type, data) {
+    if (!type || !handlers[type])
+        return;
+    handlers[type].forEach(function (callback) {
+        nativeTryCatch(function () {
+            callback(data);
+        }, function (e) {
+            logger.error("\u91CD\u5199\u4E8B\u4EF6triggerHandlers\u7684\u56DE\u8C03\u51FD\u6570\u53D1\u751F\u9519\u8BEF\nType:" + type + "\nName: " + getFunctionName(callback) + "\nError: " + e);
+        });
+    });
+}
 
 function replace(type) {
     switch (type) {

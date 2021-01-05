@@ -1,11 +1,12 @@
 import { BREADCRUMBTYPES } from '@/common/common'
-import { breadcrumb, HandleEvents, transportData } from '@/core'
+import { breadcrumb, transportData } from '../core'
 import { ReportDataType } from '@/types'
 import { WxLifeCycleBreadcrumb } from '@/types/breadcrumb'
 import { Replace } from '@/types/replace'
 import { getTimestamp } from '@/utils'
 import { Severity } from '@/utils/Severity'
 import { getCurrentRoute } from './utils'
+import { HandleEvents } from '@/browser/handleEvents'
 
 const HandleWxEvents = {
   // app

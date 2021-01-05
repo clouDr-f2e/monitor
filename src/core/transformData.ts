@@ -1,6 +1,6 @@
 import { ERRORTYPES, HTTP_CODE } from '../common/common'
 import { getLocationHref, getTimestamp } from '../utils/index'
-import { ResourceErrorTarget } from './handleEvents'
+import { ResourceErrorTarget } from '../browser/handleEvents'
 import { ReportDataType } from '../types/transportData'
 import { globalVar } from '../common/common'
 import { Severity } from '../utils/Severity'

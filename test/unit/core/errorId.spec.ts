@@ -1,5 +1,5 @@
 import { ERRORTYPES } from '@/common/common'
-import createErrorId, { getRealPageOrigin, getRealPath } from '@/errorId'
+import createErrorId, { getRealPageOrigin, getRealPath } from '@/core/errorId'
 import { ReportDataType } from '@/types'
 import { Severity } from '@/utils/Severity'
 

@@ -1,6 +1,6 @@
-import initOptions from '@/initOpitons'
-import { InitOptions } from '@/types/options'
-import { isWxMiniEnv } from '@/utils'
+import initOptions from '../common/initOpitons'
+import { InitOptions } from '../types/options'
+import { isWxMiniEnv } from '../utils'
 import { setupReplace } from './load'
 
 function init(options: InitOptions = {}) {
