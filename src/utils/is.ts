@@ -1,7 +1,7 @@
-const nativeToString = Object.prototype.toString
+export const nativeToString = Object.prototype.toString
 function isType(type: string) {
   return function (value: any): boolean {
-    return Object.prototype.toString.call(value) === `[object ${type}]`
+    return nativeToString.call(value) === `[object ${type}]`
   }
 }
 
@@ -43,10 +43,6 @@ export function isError(wat: any): boolean {
   }
 }
 
-export function isArray(wat: any): boolean {
-  return nativeToString.call(wat) === '[object Array]'
-}
-
 /**
  * Checks whether given value's type is ErrorEvent
  * {../link isErrorEvent}.
@@ -54,9 +50,9 @@ export function isArray(wat: any): boolean {
  * ../param wat A value to be checked.
  * ../returns A boolean representing the result.
  */
-export function isErrorEvent(wat: any): boolean {
-  return nativeToString.call(wat) === '[object ErrorEvent]'
-}
+// export function isErrorEvent(wat: any): boolean {
+//   return nativeToString.call(wat) === '[object ErrorEvent]'
+// }
 
 /**
  * Checks whether given value's type is DOMError
@@ -65,9 +61,9 @@ export function isErrorEvent(wat: any): boolean {
  * ../param wat A value to be checked.
  * ../returns A boolean representing the result.
  */
-export function isDOMError(wat: any): boolean {
-  return nativeToString.call(wat) === '[object DOMError]'
-}
+// export function isDOMError(wat: any): boolean {
+//   return nativeToString.call(wat) === '[object DOMError]'
+// }
 
 /**
  * Checks whether given value's type is DOMException
@@ -76,20 +72,9 @@ export function isDOMError(wat: any): boolean {
  * ../param wat A value to be checked.
  * ../returns A boolean representing the result.
  */
-export function isDOMException(wat: any): boolean {
-  return nativeToString.call(wat) === '[object DOMException]'
-}
-
-/**
- * Checks whether given value's type is a string
- * {../link isString}.
- *
- * ../param wat A value to be checked.
- * ../returns A boolean representing the result.
- */
-export function isString(wat: any): boolean {
-  return nativeToString.call(wat) === '[object String]'
-}
+// export function isDOMException(wat: any): boolean {
+//   return nativeToString.call(wat) === '[object DOMException]'
+// }
 
 /**
  * Checks whether given value's is a primitive (undefined, null, number, boolean, string)
@@ -103,17 +88,6 @@ export function isPrimitive(wat: any): boolean {
 }
 
 /**
- * Checks whether given value's type is an object literal
- * {../link isPlainObject}.
- *
- * ../param wat A value to be checked.
- * ../returns A boolean representing the result.
- */
-export function isPlainObject(wat: any): boolean {
-  return nativeToString.call(wat) === '[object Object]'
-}
-
-/**
  * 检查是否是空对象
  * ../param obj 待检测的对象
  */
@@ -122,7 +96,7 @@ export function isEmptyObject(obj: Object): boolean {
 }
 
 export function isEmpty(wat: any): boolean {
-  return (isString(wat) && wat.trim() === '') || wat === undefined || wat === null
+  return (variableTypeDetection.isString(wat) && wat.trim() === '') || wat === undefined || wat === null
 }
 
 /**
@@ -150,17 +124,6 @@ export function isElement(wat: any): boolean {
 }
 
 /**
- * Checks whether given value's type is an regexp
- * {../link isRegExp}.
- *
- * ../param wat A value to be checked.
- * ../returns A boolean representing the result.
- */
-export function isRegExp(wat: any): boolean {
-  return nativeToString.call(wat) === '[object RegExp]'
-}
-
-/**
  * Checks whether given value has a then function.
  * ../param wat A value to be checked.
  */
@@ -170,17 +133,6 @@ export function isThenable(wat: any): boolean {
   // tslint:enable:no-unsafe-any
 }
 
-/**
- * Checks whether given value's type is a SyntheticEvent
- * {../link isSyntheticEvent}.
- *
- * ../param wat A value to be checked.
- * ../returns A boolean representing the result.
- */
-export function isSyntheticEvent(wat: any): boolean {
-  // tslint:disable-next-line:no-unsafe-any
-  return isPlainObject(wat) && 'nativeEvent' in wat && 'preventDefault' in wat && 'stopPropagation' in wat
-}
 /**
  * Checks whether given value's type is an instance of provided constructor.
  * {../link isInstanceOf}.

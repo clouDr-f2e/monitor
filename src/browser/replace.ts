@@ -1,4 +1,4 @@
-import { _global, on, getTimestamp, supportsHistory, replaceOld, isString, throttle, getLocationHref, isExistProperty } from '../utils/index'
+import { _global, on, getTimestamp, supportsHistory, replaceOld, throttle, getLocationHref, isExistProperty, variableTypeDetection } from '../utils/index'
 import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '../common/common'
 import { transportData } from '../core/transportData'
 import { options, setTraceId } from '../core/options'
@@ -59,7 +59,7 @@ function xhrReplace(): void {
     (originalOpen: voidFun): voidFun => {
       return function (this: MITOXMLHttpRequest, ...args: any[]): void {
         this.mito_xhr = {
-          method: isString(args[0]) ? args[0].toUpperCase() : args[0],
+          method: variableTypeDetection.isString(args[0]) ? args[0].toUpperCase() : args[0],
           url: args[1],
           sTime: getTimestamp(),
           type: HTTPTYPE.XHR

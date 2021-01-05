@@ -1,3 +1,4 @@
+export declare const nativeToString: () => string;
 export declare const variableTypeDetection: {
     isNumber: (value: any) => boolean;
     isString: (value: any) => boolean;
@@ -12,19 +13,11 @@ export declare const variableTypeDetection: {
     isWindow: (value: any) => boolean;
 };
 export declare function isError(wat: any): boolean;
-export declare function isArray(wat: any): boolean;
-export declare function isErrorEvent(wat: any): boolean;
-export declare function isDOMError(wat: any): boolean;
-export declare function isDOMException(wat: any): boolean;
-export declare function isString(wat: any): boolean;
 export declare function isPrimitive(wat: any): boolean;
-export declare function isPlainObject(wat: any): boolean;
 export declare function isEmptyObject(obj: Object): boolean;
 export declare function isEmpty(wat: any): boolean;
 export declare function isEvent(wat: any): boolean;
 export declare function isElement(wat: any): boolean;
-export declare function isRegExp(wat: any): boolean;
 export declare function isThenable(wat: any): boolean;
-export declare function isSyntheticEvent(wat: any): boolean;
 export declare function isInstanceOf(wat: any, base: any): boolean;
 export declare function isExistProperty(obj: Object, key: string | number | symbol): boolean;

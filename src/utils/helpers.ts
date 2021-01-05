@@ -1,6 +1,7 @@
 import { IAnyObject } from '../types/common'
 import { voidFun, globalVar } from '../common/common'
 import { logger } from './logger'
+import { nativeToString, variableTypeDetection } from './is'
 
 export function getLocationHref(): string {
   if (typeof document === 'undefined' || document.location == null) return ''
@@ -46,31 +47,27 @@ export function replaceOld(source: IAnyObject, name: string, replacement: (...ar
  * 用&分割对象，返回a=1&b=2
  * ../param obj 需要拼接的对象
  */
-export function splitObjToQuery(obj: Record<string, unknown>): string {
-  return Object.entries(obj).reduce((result, [key, value], index) => {
-    if (index !== 0) {
-      result += '&'
-    }
-    result += `${key}=${value}`
-    return result
-  }, '')
-}
+// export function splitObjToQuery(obj: Record<string, unknown>): string {
+//   return Object.entries(obj).reduce((result, [key, value], index) => {
+//     if (index !== 0) {
+//       result += '&'
+//     }
+//     result += `${key}=${value}`
+//     return result
+//   }, '')
+// }
 
-const defaultFunctionName = '<anonymous>'
+export const defaultFunctionName = '<anonymous>'
 /**
  * 需要获取函数名，匿名则返回<anonymous>
  * ../param {unknown} fn 需要获取函数名的函数本体
  * ../returns 返回传入的函数的函数名
  */
 export function getFunctionName(fn: unknown): string {
-  try {
-    if (!fn || typeof fn !== 'function') {
-      return defaultFunctionName
-    }
-    return fn.name || defaultFunctionName
-  } catch (e) {
+  if (!fn || typeof fn !== 'function') {
     return defaultFunctionName
   }
+  return fn.name || defaultFunctionName
 }
 
 // 函数防抖
@@ -81,20 +78,20 @@ export function getFunctionName(fn: unknown): string {
  * ../param isImmediate 是否需要立即执行，默认为false，第一次是不执行的
  * ../returns 返回一个包含防抖功能的函数
  */
-export const debounce = (fn: voidFun, delay: number, isImmediate = false): voidFun => {
-  let timer = null
-  return function (...args: any) {
-    if (isImmediate) {
-      fn.apply(this, args)
-      isImmediate = false
-      return
-    }
-    clearTimeout(timer)
-    timer = setTimeout(() => {
-      fn.apply(this, args)
-    }, delay)
-  }
-}
+// export const debounce = (fn: voidFun, delay: number, isImmediate = false): voidFun => {
+//   let timer = null
+//   return function (...args: any) {
+//     if (isImmediate) {
+//       fn.apply(this, args)
+//       isImmediate = false
+//       return
+//     }
+//     clearTimeout(timer)
+//     timer = setTimeout(() => {
+//       fn.apply(this, args)
+//     }, delay)
+//   }
+// }
 
 // 函数节流
 /**
@@ -128,7 +125,7 @@ export function typeofAny(target: any, type: string): boolean {
 }
 
 export function toStringAny(target: any, type: string): boolean {
-  return Object.prototype.toString.call(target) === type
+  return nativeToString.call(target) === type
 }
 
 export function validateOption(target: any, targetName: string, expectType: string): boolean {
@@ -139,7 +136,7 @@ export function validateOption(target: any, targetName: string, expectType: stri
 
 export function toStringValidateOption(target: any, targetName: string, expectType: string): boolean {
   if (toStringAny(target, expectType)) return true
-  typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${typeof target}类型`)
+  typeof target !== 'undefined' && logger.error(`${targetName}期望传入${expectType}类型，目前是${nativeToString.call(target)}类型`)
   return false
 }
 
@@ -160,7 +157,7 @@ export function generateUUID(): string {
 }
 
 export function unknownToString(target: unknown): string {
-  if (typeofAny(target, 'string')) {
+  if (variableTypeDetection.isString(target)) {
     return target as string
   }
   return JSON.stringify(target)

@@ -1,3 +1,4 @@
+import { variableTypeDetection } from '@/utils'
 import { ERRORTYPES, EVENTTYPES } from '../common/common'
 import { ReportDataType } from '../types/transportData'
 const allErrorNumber: unknown = {}
@@ -58,7 +59,7 @@ function objectOrder(reason: any) {
     return Object.keys(obj)
       .sort()
       .reduce((total, key) => {
-        if (Object.prototype.toString.call(obj[key]) === '[object Object]') {
+        if (variableTypeDetection.isObject(obj[key])) {
           total[key] = sortFn(obj[key])
         } else {
           total[key] = obj[key]

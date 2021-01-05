@@ -1,4 +1,4 @@
-import { _support, validateOption, logger, isArray, isBrowserEnv, isWxMiniEnv } from '../utils/index'
+import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection } from '../utils/index'
 import { Queue } from '../utils/index'
 import createErrorId from './errorId'
 import { SDK_NAME, SDK_VERSION, SERVER_URL } from '../common/config'
@@ -28,7 +28,7 @@ export class TransportData {
   // }
   getRecord(): any[] {
     const recordData = _support.record
-    if (recordData && isArray(recordData) && recordData.length > 2) {
+    if (recordData && variableTypeDetection.isArray(recordData) && recordData.length > 2) {
       return recordData
     }
     return []

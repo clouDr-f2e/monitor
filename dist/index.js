@@ -99,7 +99,7 @@ var globalVar = {
 var nativeToString = Object.prototype.toString;
 function isType(type) {
     return function (value) {
-        return Object.prototype.toString.call(value) === "[object " + type + "]";
+        return nativeToString.call(value) === "[object " + type + "]";
     };
 }
 var variableTypeDetection = {
@@ -126,12 +126,6 @@ function isError(wat) {
         default:
             return isInstanceOf(wat, Error);
     }
-}
-function isArray(wat) {
-    return nativeToString.call(wat) === '[object Array]';
-}
-function isString(wat) {
-    return nativeToString.call(wat) === '[object String]';
 }
 function isInstanceOf(wat, base) {
     try {
@@ -255,15 +249,10 @@ function replaceOld(source, name, replacement, isForced) {
 }
 var defaultFunctionName = '<anonymous>';
 function getFunctionName(fn) {
-    try {
-        if (!fn || typeof fn !== 'function') {
-            return defaultFunctionName;
-        }
-        return fn.name || defaultFunctionName;
-    }
-    catch (e) {
+    if (!fn || typeof fn !== 'function') {
         return defaultFunctionName;
     }
+    return fn.name || defaultFunctionName;
 }
 var throttle = function (fn, delay) {
     var canRun = true;
@@ -288,7 +277,7 @@ function typeofAny(target, type) {
     return typeof target === type;
 }
 function toStringAny(target, type) {
-    return Object.prototype.toString.call(target) === type;
+    return nativeToString.call(target) === type;
 }
 function validateOption(target, targetName, expectType) {
     if (typeofAny(target, expectType))
@@ -299,7 +288,7 @@ function validateOption(target, targetName, expectType) {
 function toStringValidateOption(target, targetName, expectType) {
     if (toStringAny(target, expectType))
         return true;
-    typeof target !== 'undefined' && logger.error(targetName + "\u671F\u671B\u4F20\u5165" + expectType + "\u7C7B\u578B\uFF0C\u76EE\u524D\u662F" + typeof target + "\u7C7B\u578B");
+    typeof target !== 'undefined' && logger.error(targetName + "\u671F\u671B\u4F20\u5165" + expectType + "\u7C7B\u578B\uFF0C\u76EE\u524D\u662F" + nativeToString.call(target) + "\u7C7B\u578B");
     return false;
 }
 function slientConsoleScope(callback) {
@@ -317,7 +306,7 @@ function generateUUID() {
     return uuid;
 }
 function unknownToString(target) {
-    if (typeofAny(target, 'string')) {
+    if (variableTypeDetection.isString(target)) {
         return target;
     }
     return JSON.stringify(target);
@@ -612,7 +601,7 @@ function objectOrder(reason) {
         return Object.keys(obj)
             .sort()
             .reduce(function (total, key) {
-            if (Object.prototype.toString.call(obj[key]) === '[object Object]') {
+            if (variableTypeDetection.isObject(obj[key])) {
                 total[key] = sortFn(obj[key]);
             }
             else {
@@ -676,7 +665,7 @@ var TransportData = (function () {
     }
     TransportData.prototype.getRecord = function () {
         var recordData = _support.record;
-        if (recordData && isArray(recordData) && recordData.length > 2) {
+        if (recordData && variableTypeDetection.isArray(recordData) && recordData.length > 2) {
             return recordData;
         }
         return [];
@@ -1246,7 +1235,7 @@ function xhrReplace() {
                 args[_i] = arguments[_i];
             }
             this.mito_xhr = {
-                method: isString(args[0]) ? args[0].toUpperCase() : args[0],
+                method: variableTypeDetection.isString(args[0]) ? args[0].toUpperCase() : args[0],
                 url: args[1],
                 sTime: getTimestamp(),
                 type: HTTPTYPE.XHR
