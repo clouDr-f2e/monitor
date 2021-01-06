@@ -25,6 +25,10 @@ export class Logger {
     this.enabled = true
   }
 
+  getEnableStatus() {
+    return this.enabled
+  }
+
   log(...args: any[]): void {
     if (!this.enabled) {
       return

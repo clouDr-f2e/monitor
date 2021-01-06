@@ -1,5 +1,12 @@
+import { logger } from '@/utils'
+
 describe('logger.ts', () => {
-  it('1', () => {
-    expect(1).toBe(1)
+  it('should logger config enabled can take effect', () => {
+    logger.bindOptions(true)
+    expect(logger.getEnableStatus()).toBeTruthy()
+    logger.disable()
+    expect(logger.getEnableStatus()).toBeFalsy()
+    logger.enable()
+    expect(logger.getEnableStatus()).toBeTruthy()
   })
 })
