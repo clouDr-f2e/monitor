@@ -1,5 +1,3 @@
-import { _global } from './global'
-
 export const nativeToString = Object.prototype.toString
 function isType(type: string) {
   return function (value: any): boolean {
