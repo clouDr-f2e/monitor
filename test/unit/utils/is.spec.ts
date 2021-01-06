@@ -1,4 +1,4 @@
-import { isError, isExistProperty, isInstanceOf, nativeToString, variableTypeDetection } from '@/utils'
+import { isEmpty, isEmptyObject, isError, isExistProperty, isInstanceOf, nativeToString, variableTypeDetection } from '@/utils'
 
 describe('is.ts', () => {
   it('should nativeToString var work', () => {
@@ -35,5 +35,17 @@ describe('is.ts', () => {
   it('should isError func work', () => {
     const err = new Error('test')
     expect(isError(err)).toBeTruthy()
+  })
+  it('should isEmptyObject func work', () => {
+    expect(isEmptyObject({})).toBeTruthy()
+    expect(isEmptyObject(1)).toBeFalsy()
+    expect(isEmptyObject({ test: 1 })).toBeFalsy()
+  })
+  it('should isEmpty func work', () => {
+    expect(isEmpty('')).toBeTruthy()
+    expect(isEmpty(undefined)).toBeTruthy()
+    expect(isEmpty(null)).toBeTruthy()
+    expect(isEmpty(0)).toBeFalsy()
+    expect(isEmpty({ test: 1 })).toBeFalsy()
   })
 })

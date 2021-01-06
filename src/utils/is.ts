@@ -44,55 +44,11 @@ export function isError(wat: any): boolean {
 }
 
 /**
- * Checks whether given value's type is ErrorEvent
- * {../link isErrorEvent}.
- *
- * ../param wat A value to be checked.
- * ../returns A boolean representing the result.
- */
-// export function isErrorEvent(wat: any): boolean {
-//   return nativeToString.call(wat) === '[object ErrorEvent]'
-// }
-
-/**
- * Checks whether given value's type is DOMError
- * {../link isDOMError}.
- *
- * ../param wat A value to be checked.
- * ../returns A boolean representing the result.
- */
-// export function isDOMError(wat: any): boolean {
-//   return nativeToString.call(wat) === '[object DOMError]'
-// }
-
-/**
- * Checks whether given value's type is DOMException
- * {../link isDOMException}.
- *
- * ../param wat A value to be checked.
- * ../returns A boolean representing the result.
- */
-// export function isDOMException(wat: any): boolean {
-//   return nativeToString.call(wat) === '[object DOMException]'
-// }
-
-/**
- * Checks whether given value's is a primitive (undefined, null, number, boolean, string)
- * {../link isPrimitive}.
- *
- * ../param wat A value to be checked.
- * ../returns A boolean representing the result.
- */
-export function isPrimitive(wat: any): boolean {
-  return wat === null || (typeof wat !== 'object' && typeof wat !== 'function')
-}
-
-/**
  * 检查是否是空对象
  * ../param obj 待检测的对象
  */
 export function isEmptyObject(obj: Object): boolean {
-  return Object.keys(obj).length === 0
+  return variableTypeDetection.isObject(obj) && Object.keys(obj).length === 0
 }
 
 export function isEmpty(wat: any): boolean {
@@ -100,38 +56,14 @@ export function isEmpty(wat: any): boolean {
 }
 
 /**
- * Checks whether given value's type is an Event instance
- * {../link isEvent}.
- *
- * ../param wat A value to be checked.
- * ../returns A boolean representing the result.
- */
-export function isEvent(wat: any): boolean {
-  // tslint:disable-next-line:strict-type-predicates
-  return typeof Event !== 'undefined' && isInstanceOf(wat, Event)
-}
-
-/**
- * Checks whether given value's type is an Element instance
- * {../link isElement}.
- *
- * ../param wat A value to be checked.
- * ../returns A boolean representing the result.
- */
-export function isElement(wat: any): boolean {
-  // tslint:disable-next-line:strict-type-predicates
-  return typeof Element !== 'undefined' && isInstanceOf(wat, Element)
-}
-
-/**
  * Checks whether given value has a then function.
  * ../param wat A value to be checked.
  */
-export function isThenable(wat: any): boolean {
-  // tslint:disable:no-unsafe-any
-  return Boolean(wat && wat.then && typeof wat.then === 'function')
-  // tslint:enable:no-unsafe-any
-}
+// export function isThenable(wat: any): boolean {
+//   // tslint:disable:no-unsafe-any
+//   return Boolean(wat && wat.then && typeof wat.then === 'function')
+//   // tslint:enable:no-unsafe-any
+// }
 
 /**
  * Checks whether given value's type is an instance of provided constructor.
