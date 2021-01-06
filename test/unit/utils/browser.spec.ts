@@ -8,9 +8,7 @@ describe('browser.ts', () => {
       ele.className = 'my-class-name'
       expect(htmlElementAsString(ele)).toBeNull()
     })
-    /**
-     * @jest-environment jsdom
-     */
+
     it('should work on div tag', () => {
       const ele = document.createElement('div')
       ele.innerText = 'testDiv'
@@ -29,20 +27,21 @@ describe('browser.ts', () => {
       relative: '/c/JS/index/abc?a=1'
     }
     expect(parseUrlToObj(url)).toEqual(result)
+    expect(parseUrlToObj('')).toEqual({})
   })
-  describe('extractErrorStack function', () => {
-    it('should should parsed on object Error ', () => {
-      try {
-        const a = 6
-        const b = (a as unknown) as String
-        b.split(',')
-      } catch (error) {
-        const level = Severity.Normal
-        const errInfo = extractErrorStack(error, level)
-        expect(errInfo.level).toBe(level)
-        expect(errInfo.message).toBe('b.split is not a function')
-        expect(errInfo.name).toBe('TypeError')
-      }
-    })
+  it('should extractErrorStack func work parsed on object Error ', () => {
+    try {
+      const a = 6
+      const b = (a as unknown) as String
+      b.split(',')
+    } catch (error) {
+      const level = Severity.Normal
+      const errInfo = extractErrorStack(error, level)
+      expect(errInfo.level).toBe(level)
+      expect(errInfo.message).toBe('b.split is not a function')
+      expect(errInfo.name).toBe('TypeError')
+    }
+
+    //todo UNKNOWN_FUNCTION
   })
 })

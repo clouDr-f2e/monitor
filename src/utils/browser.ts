@@ -121,7 +121,7 @@ export function extractErrorStack(ex: any, level: Severity): ReportDataType {
     } else if ((parts = gecko.exec(lines[i]))) {
       const isEval = parts[3] && parts[3].indexOf(' > eval') > -1
       if (isEval && (submatch = geckoEval.exec(parts[3]))) {
-        // throw out eval line/column and use top-most line number
+        // throw out eval line/coluqqqqqqqqqqqqqqqqqqqqqqqqqqqqmn and use top-most line number
         parts[3] = submatch[1]
         parts[4] = submatch[2]
         parts[5] = null // no column when eval
