@@ -1,5 +1,5 @@
 import { ERRORTYPES, EVENTTYPES } from '@/common/constant'
-import createErrorId, { getRealPageOrigin, getRealPath } from '@/core/errorId'
+import createErrorId, { getFlutterRealOrigin, getFlutterRealPath, getRealPageOrigin, getRealPath } from '@/core/errorId'
 import { ReportDataType } from '@/types'
 import { Severity } from '@/utils/Severity'
 
@@ -130,7 +130,18 @@ describe('errorId.ts', () => {
     it('获取hash路由的前半段&&去掉http前缀', () => {
       const url = 'http://a.b.com/#/project?id=1'
       expect(getRealPageOrigin(url)).toBe('a.b.com')
+      const flutterUrl =
+        'file:///var/mobile/Containers/Data/Application/D1A0783A-2495-41B4-8599-EC58B5B252CD/Documents/SailerBuild/36/index.html?/#/search-page'
+      expect(getRealPageOrigin(flutterUrl)).toBe('SailerBuild/36/index.html?')
     })
     // todo 需要支持browser history
+  })
+  it('should getFlutterRealPath func work', () => {
+    const url = 'file:///var/mobile/Containers/Data/Application/D1A0783A-2495-41B4-8599-EC58B5B252CD/Documents/SailerBuild/36/index.html?/#/search-page'
+    expect(getFlutterRealPath(url)).toBe('SailerBuild/36/index.html?/#/search-page')
+  })
+  it('should getFlutterRealOrigin func work', () => {
+    const url = 'file:///var/mobile/Containers/Data/Application/D1A0783A-2495-41B4-8599-EC58B5B252CD/Documents/SailerBuild/36/index.html?/#/search-page'
+    expect(getFlutterRealOrigin(url)).toBe('SailerBuild/36/index.html?')
   })
 })

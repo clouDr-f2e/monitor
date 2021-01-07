@@ -13,11 +13,7 @@ export declare const variableTypeDetection: {
     isWindow: (value: any) => boolean;
 };
 export declare function isError(wat: any): boolean;
-export declare function isPrimitive(wat: any): boolean;
 export declare function isEmptyObject(obj: Object): boolean;
 export declare function isEmpty(wat: any): boolean;
-export declare function isEvent(wat: any): boolean;
-export declare function isElement(wat: any): boolean;
-export declare function isThenable(wat: any): boolean;
 export declare function isInstanceOf(wat: any, base: any): boolean;
 export declare function isExistProperty(obj: Object, key: string | number | symbol): boolean;

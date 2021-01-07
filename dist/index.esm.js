@@ -195,6 +195,9 @@ var Logger = (function () {
     Logger.prototype.enable = function () {
         this.enabled = true;
     };
+    Logger.prototype.getEnableStatus = function () {
+        return this.enabled;
+    };
     Logger.prototype.log = function () {
         var _a;
         var args = [];
@@ -620,8 +623,21 @@ function objectOrder(reason) {
 function getRealPath(url) {
     return url.replace(/[\?#].*$/, '').replace(/\/\d+([\/]*$)/, '{param}$1');
 }
+function getFlutterRealOrigin(url) {
+    return removeHashPath(getFlutterRealPath(url));
+}
+function getFlutterRealPath(url) {
+    return url.replace(/(\S+)(\/Documents\/)(\S*)/, "$3");
+}
 function getRealPageOrigin(url) {
-    return getRealPath(url.replace(/(\S+)(\/#\/)(\S*)/, "$1").replace(/(\S*)(\/\/)(\S+)/, '$3'));
+    var fileStartReg = /^file:\/\//;
+    if (fileStartReg.test(url)) {
+        return getFlutterRealOrigin(url);
+    }
+    return getRealPath(removeHashPath(url).replace(/(\S*)(\/\/)(\S+)/, '$3'));
+}
+function removeHashPath(url) {
+    return url.replace(/(\S+)(\/#\/)(\S*)/, "$1");
 }
 function hashCode(str) {
     var hash = 0;

@@ -92,12 +92,38 @@ function objectOrder(reason: any) {
 export function getRealPath(url: string): string {
   return url.replace(/[\?#].*$/, '').replace(/\/\d+([\/]*$)/, '{param}$1')
 }
+
+/**
+ *
+ * @param url
+ */
+export function getFlutterRealOrigin(url: string): string {
+  // for apple
+  return removeHashPath(getFlutterRealPath(url))
+}
+
+/**
+ * 获取flutter的原始地址：每个用户的文件夹hash不同
+ * @param url
+ */
+export function getFlutterRealPath(url: string): string {
+  // for apple
+  return url.replace(/(\S+)(\/Documents\/)(\S*)/, `$3`)
+}
 /**
  * http://a.b.com/#/project?id=1 => a.b.com
  * @param url
  */
 export function getRealPageOrigin(url: string): string {
-  return getRealPath(url.replace(/(\S+)(\/#\/)(\S*)/, `$1`).replace(/(\S*)(\/\/)(\S+)/, '$3'))
+  const fileStartReg = /^file:\/\//
+  if (fileStartReg.test(url)) {
+    return getFlutterRealOrigin(url)
+  }
+  return getRealPath(removeHashPath(url).replace(/(\S*)(\/\/)(\S+)/, '$3'))
+}
+
+export function removeHashPath(url: string): string {
+  return url.replace(/(\S+)(\/#\/)(\S*)/, `$1`)
 }
 
 function hashCode(str: string): number {

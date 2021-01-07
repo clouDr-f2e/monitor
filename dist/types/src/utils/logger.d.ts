@@ -5,6 +5,7 @@ export declare class Logger {
     disable(): void;
     bindOptions(debug: boolean): void;
     enable(): void;
+    getEnableStatus(): boolean;
     log(...args: any[]): void;
     warn(...args: any[]): void;
     error(...args: any[]): void;
