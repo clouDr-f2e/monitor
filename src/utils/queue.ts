@@ -20,6 +20,9 @@ export class Queue {
       this.micro.then(() => this.flushStack())
     }
   }
+  clear() {
+    this.stack = []
+  }
   getStack() {
     return this.stack
   }
