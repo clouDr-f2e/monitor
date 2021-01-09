@@ -1,7 +1,7 @@
 import { BREADCRUMBTYPES, ERRORTYPES } from '@/common/constant'
 import { breadcrumb, transportData } from '../core'
 import { ReportDataType } from '@/types'
-import { WxLifeCycleBreadcrumb } from '@/types/breadcrumb'
+import { WxLifeCycleBreadcrumb, WxOnShareAppMessageBreadcrumb } from '@/types/breadcrumb'
 import { Replace } from '@/types/replace'
 import { getTimestamp, isError, unknownToString } from '@/utils'
 import { Severity } from '@/utils/Severity'
@@ -121,10 +121,24 @@ const HandleWxPageEvents = {
       path: page.route,
       query: page.options
     }
-    console.log(data)
     breadcrumb.push({
       category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_HIDE),
       type: BREADCRUMBTYPES.PAGE_ON_HIDE,
+      data,
+      level: Severity.Info
+    })
+  },
+  onShareAppMessage(options: WechatMiniprogram.Page.IShareAppMessageOption) {
+    console.log('page onShareAppMessage')
+    const page = getCurrentPages().pop()
+    const data: WxOnShareAppMessageBreadcrumb = {
+      path: page.route,
+      query: page.options,
+      options
+    }
+    breadcrumb.push({
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE),
+      type: BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE,
       data,
       level: Severity.Info
     })

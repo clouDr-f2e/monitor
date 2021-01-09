@@ -26,7 +26,8 @@ export enum WxAppEvents {
 
 export enum WxPageEvents {
   PageOnShow = 'PageOnShow',
-  PageOnHide = 'PageOnHide'
+  PageOnHide = 'PageOnHide',
+  PageOnShareAppMessage = 'PageOnShareAppMessage'
 }
 
 export enum WxConsoleEvents {
@@ -65,7 +66,8 @@ export enum BREADCRUMBTYPES {
   APP_ON_LAUNCH = 'App On Launch',
   APP_ON_HIDE = 'App On Hide',
   PAGE_ON_SHOW = 'Page On Show',
-  PAGE_ON_HIDE = 'Page On Hide'
+  PAGE_ON_HIDE = 'Page On Hide',
+  PAGE_ON_SHARE_APP_MESSAGE = 'Page On Share App Message'
 }
 
 /**
