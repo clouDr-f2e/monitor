@@ -81,6 +81,12 @@ const HandleWxEvents = {
   },
   onPageNotFound(data: WechatMiniprogram.OnPageNotFoundCallbackResult) {
     console.log('OnPageNotFoundCallbackResult', data)
+    breadcrumb.push({
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
+      type: BREADCRUMBTYPES.ROUTE,
+      data,
+      level: Severity.Error
+    })
   },
   console(data: Replace.TriggerConsole) {
     HandleEvents.handleConsole(data)

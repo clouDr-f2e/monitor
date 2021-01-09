@@ -30,8 +30,7 @@ export function replaceApp() {
   if (App) {
     const originApp = App
     App = function g(appOptions: WechatMiniprogram.App.Option) {
-      // const methods = [WxEvents.OnLaunch, WxEvents.OnShow, WxEvents.OnError, WxEvents.OnUnhandledRejection, WxEvents.OnPageNotFound]
-      const methods = [WxEvents.OnLaunch, WxEvents.OnShow, WxEvents.OnError, WxEvents.OnUnhandledRejection]
+      const methods = [WxEvents.OnLaunch, WxEvents.OnShow, WxEvents.OnError, WxEvents.OnUnhandledRejection, WxEvents.OnPageNotFound]
       methods.forEach((method) => {
         addReplaceHandler({
           callback: (data) => HandleWxEvents[method](data),
