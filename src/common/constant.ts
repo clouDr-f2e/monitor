@@ -15,18 +15,30 @@ export enum ERRORTYPES {
   PROMISE_ERROR = 'PROMISE_ERROR'
 }
 
-export enum WxEvents {
-  OnLaunch = 'onLaunch',
-  OnShow = 'onShow',
-  OnHide = 'onHide',
-  OnError = 'onError',
-  OnPageNotFound = 'onPageNotFound',
-  OnUnhandledRejection = 'onUnhandledRejection',
+export enum WxAppEvents {
+  AppOnLaunch = 'AppOnLaunch',
+  AppOnShow = 'AppOnShow',
+  AppOnHide = 'AppOnHide',
+  AppOnError = 'AppOnError',
+  AppOnPageNotFound = 'AppOnPageNotFound',
+  AppOnUnhandledRejection = 'AppOnUnhandledRejection'
+}
+
+export enum WxPageEvents {
+  PageOnShow = 'PageOnShow',
+  PageOnHide = 'PageOnHide'
+}
+
+export enum WxConsoleEvents {
   Console = 'wxConsole'
 }
 
+export type WxEvents = WxAppEvents | WxPageEvents | WxConsoleEvents
+
 export const CompositeEvents = {
-  ...WxEvents,
+  ...WxAppEvents,
+  ...WxPageEvents,
+  ...WxConsoleEvents,
   ...ERRORTYPES
 }
 
@@ -49,8 +61,11 @@ export enum BREADCRUMBTYPES {
 
   CUSTOMER = 'Customer',
   // wx life cycle
-  ON_SHOW = 'On Show',
-  ON_LAUNCH = 'On Launch'
+  APP_ON_SHOW = 'App On Show',
+  APP_ON_LAUNCH = 'App On Launch',
+  APP_ON_HIDE = 'App On Hide',
+  PAGE_ON_SHOW = 'Page On Show',
+  PAGE_ON_HIDE = 'Page On Hide'
 }
 
 /**

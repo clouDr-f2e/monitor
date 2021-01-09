@@ -3,36 +3,45 @@ import { breadcrumb, transportData } from '../core'
 import { ReportDataType } from '@/types'
 import { WxLifeCycleBreadcrumb } from '@/types/breadcrumb'
 import { Replace } from '@/types/replace'
-import { getTimestamp, isError, extractErrorStack, unknownToString } from '@/utils'
+import { getTimestamp, isError, unknownToString } from '@/utils'
 import { Severity } from '@/utils/Severity'
-import { getCurrentRoute } from './utils'
+import { getCurrentRoute, extractErrorStack } from './utils'
 import { HandleEvents } from '@/browser/handleEvents'
 
-const HandleWxEvents = {
+const HandleWxAppEvents = {
   // app
   onLaunch(options: WechatMiniprogram.App.LaunchShowOption) {
-    console.log('onLaunch', options)
+    console.log('app onLaunch', options)
     const data: WxLifeCycleBreadcrumb = {
       path: options.path,
       query: options.query
     }
     breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.ON_LAUNCH),
-      type: BREADCRUMBTYPES.ON_LAUNCH,
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_LAUNCH),
+      type: BREADCRUMBTYPES.APP_ON_LAUNCH,
       data,
       level: Severity.Info
     })
   },
   onShow(options: WechatMiniprogram.App.LaunchShowOption) {
-    console.log('onShow', options)
+    console.log('app onShow', options)
     const data: WxLifeCycleBreadcrumb = {
       path: options.path,
       query: options.query
     }
     breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.ON_SHOW),
-      type: BREADCRUMBTYPES.ON_SHOW,
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_SHOW),
+      type: BREADCRUMBTYPES.APP_ON_SHOW,
       data,
+      level: Severity.Info
+    })
+  },
+  onHide() {
+    console.log('app onHide')
+    breadcrumb.push({
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_HIDE),
+      type: BREADCRUMBTYPES.APP_ON_HIDE,
+      data: null,
       level: Severity.Info
     })
   },
@@ -87,10 +96,45 @@ const HandleWxEvents = {
       data,
       level: Severity.Error
     })
+  }
+}
+
+const HandleWxPageEvents = {
+  onShow() {
+    console.log('page onShow')
+    const page = getCurrentPages().pop()
+    const data: WxLifeCycleBreadcrumb = {
+      path: page.route,
+      query: page.options
+    }
+    breadcrumb.push({
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHOW),
+      type: BREADCRUMBTYPES.PAGE_ON_SHOW,
+      data,
+      level: Severity.Info
+    })
   },
+  onHide() {
+    console.log('page onHide')
+    const page = getCurrentPages().pop()
+    const data: WxLifeCycleBreadcrumb = {
+      path: page.route,
+      query: page.options
+    }
+    console.log(data)
+    breadcrumb.push({
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_HIDE),
+      type: BREADCRUMBTYPES.PAGE_ON_HIDE,
+      data,
+      level: Severity.Info
+    })
+  }
+}
+
+const HandleWxConsoleEvents = {
   console(data: Replace.TriggerConsole) {
     HandleEvents.handleConsole(data)
   }
 }
 
-export default HandleWxEvents
+export { HandleWxAppEvents, HandleWxPageEvents, HandleWxConsoleEvents }

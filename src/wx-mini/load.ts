@@ -1,13 +1,14 @@
-import { WxEvents } from '@/common/constant'
-import HandleWxEvents from './handleWxEvents'
-import { addReplaceHandler, replaceApp } from './replace'
+import { WxConsoleEvents } from '@/common/constant'
+import { HandleWxConsoleEvents } from './handleWxEvents'
+import { addReplaceHandler, replaceApp, replacePage } from './replace'
 
 export function setupReplace() {
   replaceApp()
+  replacePage()
   addReplaceHandler({
     callback: (data) => {
-      HandleWxEvents.console(data)
+      HandleWxConsoleEvents.console(data)
     },
-    type: WxEvents.Console
+    type: WxConsoleEvents.Console
   })
 }
