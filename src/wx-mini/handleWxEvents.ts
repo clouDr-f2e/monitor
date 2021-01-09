@@ -1,9 +1,9 @@
-import { BREADCRUMBTYPES } from '@/common/constant'
+import { BREADCRUMBTYPES, ERRORTYPES } from '@/common/constant'
 import { breadcrumb, transportData } from '../core'
 import { ReportDataType } from '@/types'
 import { WxLifeCycleBreadcrumb } from '@/types/breadcrumb'
 import { Replace } from '@/types/replace'
-import { getTimestamp } from '@/utils'
+import { getTimestamp, isError, extractErrorStack, unknownToString } from '@/utils'
 import { Severity } from '@/utils/Severity'
 import { getCurrentRoute } from './utils'
 import { HandleEvents } from '@/browser/handleEvents'
@@ -55,8 +55,29 @@ const HandleWxEvents = {
     })
     transportData.send(data)
   },
-  onUnhandledRejection(data: WechatMiniprogram.OnUnhandledRejectionCallbackResult) {
-    console.log('onUnhandledRejection', data)
+  onUnhandledRejection(ev: WechatMiniprogram.OnUnhandledRejectionCallbackResult) {
+    console.log('onUnhandledRejection', ev)
+    let data: ReportDataType = {
+      type: ERRORTYPES.PROMISE_ERROR,
+      message: unknownToString(ev.reason),
+      url: getCurrentRoute(),
+      name: 'unhandledrejection', // 小程序当初onUnhandledRejection回调中无type参数，故写死
+      time: getTimestamp(),
+      level: Severity.Low
+    }
+    if (isError(ev.reason)) {
+      data = {
+        ...data,
+        ...extractErrorStack(ev.reason, Severity.Low)
+      }
+    }
+    breadcrumb.push({
+      type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
+      data: data,
+      level: Severity.Error
+    })
+    transportData.send(data)
   },
   onPageNotFound(data: WechatMiniprogram.OnPageNotFoundCallbackResult) {
     console.log('OnPageNotFoundCallbackResult', data)
