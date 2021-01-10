@@ -1,7 +1,7 @@
 import { BREADCRUMBTYPES, ERRORTYPES } from '@/common/constant'
 import { breadcrumb, transportData } from '../core'
 import { ReportDataType } from '@/types'
-import { WxLifeCycleBreadcrumb, WxOnShareAppMessageBreadcrumb } from '@/types/breadcrumb'
+import { WxLifeCycleBreadcrumb, WxOnShareAppMessageBreadcrumb, WxOnTabItemTapBreadcrumb } from '@/types/breadcrumb'
 import { Replace } from '@/types/replace'
 import { getTimestamp, isError, unknownToString } from '@/utils'
 import { Severity } from '@/utils/Severity'
@@ -139,6 +139,35 @@ const HandleWxPageEvents = {
     breadcrumb.push({
       category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE),
       type: BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE,
+      data,
+      level: Severity.Info
+    })
+  },
+  onShareTimeline() {
+    console.log('page onShareTimeline')
+    const page = getCurrentPages().pop()
+    const data: WxLifeCycleBreadcrumb = {
+      path: page.route,
+      query: page.options
+    }
+    breadcrumb.push({
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHARE_TIMELINE),
+      type: BREADCRUMBTYPES.PAGE_ON_SHARE_TIMELINE,
+      data,
+      level: Severity.Info
+    })
+  },
+  onTabItemTap(options: WechatMiniprogram.Page.ITabItemTapOption) {
+    console.log('page onTabItemTap')
+    const page = getCurrentPages().pop()
+    const data: WxOnTabItemTapBreadcrumb = {
+      path: page.route,
+      query: page.options,
+      options
+    }
+    breadcrumb.push({
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_TAB_ITEM_TAP),
+      type: BREADCRUMBTYPES.PAGE_ON_TAB_ITEM_TAP,
       data,
       level: Severity.Info
     })

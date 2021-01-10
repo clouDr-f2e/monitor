@@ -33,3 +33,9 @@ export interface WxOnShareAppMessageBreadcrumb {
   query: IAnyObject
   options: WechatMiniprogram.Page.IShareAppMessageOption
 }
+
+export interface WxOnTabItemTapBreadcrumb {
+  path: string
+  query: IAnyObject
+  options: WechatMiniprogram.Page.ITabItemTapOption
+}

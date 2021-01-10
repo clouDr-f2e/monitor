@@ -68,7 +68,13 @@ export function replacePage() {
   }
   const originPage = Page
   Page = function (appOptions: WechatMiniprogram.Page.ILifetime) {
-    const methods = [WxPageEvents.PageOnShow, WxPageEvents.PageOnHide, WxPageEvents.PageOnShareAppMessage]
+    const methods = [
+      WxPageEvents.PageOnShow,
+      WxPageEvents.PageOnHide,
+      WxPageEvents.PageOnShareAppMessage,
+      WxPageEvents.PageOnShareTimeline,
+      WxPageEvents.PageOnTabItemTap
+    ]
     methods.forEach((method) => {
       addReplaceHandler({
         callback: (data) => HandleWxPageEvents[method.replace('PageOn', 'on')](data),
