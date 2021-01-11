@@ -115,6 +115,10 @@ function replaceConsole() {
   }
 }
 
+function isHttpSuccess(code) {
+  return code >= 200 && code < 400
+}
+
 // wx.request
 export function replaceRequest() {
   const originRequest = wx.request
@@ -124,15 +128,26 @@ export function replaceRequest() {
     configurable: true,
     value: function () {
       const options = arguments[0]
-      const failHanlder = function (err) {
+      const successHandler = function (res) {
+        if (!isHttpSuccess(res.statusCode)) {
+          // statusCode异常时进行上报
+          HandleNetworkEvents.requestStatusCodeError(options, res)
+        }
+        if (typeof options.success === 'function') {
+          return options.success(res)
+        }
+      }
+      const failHandler = function (err) {
+        // 系统和网络层面的失败
+        HandleNetworkEvents.requestFail(options, err)
         if (typeof options.fail === 'function') {
-          HandleNetworkEvents.request(options, err)
           return options.fail(err)
         }
       }
       const actOptions = {
         ...options,
-        fail: failHanlder
+        success: successHandler,
+        fail: failHandler
       }
       return originRequest.call(this, actOptions)
     }

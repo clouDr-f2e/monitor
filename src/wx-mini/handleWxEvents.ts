@@ -181,8 +181,8 @@ const HandleWxConsoleEvents = {
 }
 
 const HandleNetworkEvents = {
-  request(requestOptions: WechatMiniprogram.RequestOption, error: WechatMiniprogram.GeneralCallbackResult) {
-    console.log('sdk request err', error)
+  // 处理request请求系统和网络层面的错误
+  requestFail(requestOptions: WechatMiniprogram.RequestOption, error: WechatMiniprogram.GeneralCallbackResult) {
     const type = BREADCRUMBTYPES.MINIPROGRAM_REQUEST
     const data: ReportDataType = {
       type: ERRORTYPES.MINIPROGRAM_REQUEST_ERROR,
@@ -191,6 +191,25 @@ const HandleNetworkEvents = {
       time: getTimestamp(),
       url: requestOptions.url,
       message: error.errMsg,
+      level: Severity.Info
+    }
+    breadcrumb.push({
+      type: BREADCRUMBTYPES.MINIPROGRAM_REQUEST,
+      category: breadcrumb.getCategory(type),
+      data,
+      level: Severity.Info
+    })
+    transportData.send(data)
+  },
+  requestStatusCodeError(requestOptions: WechatMiniprogram.RequestOption, res: WechatMiniprogram.RequestSuccessCallbackResult) {
+    const type = BREADCRUMBTYPES.MINIPROGRAM_REQUEST
+    const data: ReportDataType = {
+      type: ERRORTYPES.MINIPROGRAM_REQUEST_ERROR,
+      stack: [],
+      name: '',
+      time: getTimestamp(),
+      url: requestOptions.url,
+      message: res.errMsg,
       level: Severity.Info
     }
     breadcrumb.push({
