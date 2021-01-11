@@ -15,7 +15,7 @@ import { AuthInfo, TransportDataType, ReportDataType } from '../types/transportD
  */
 export class TransportData {
   // static img = new Image()
-  private queue: Queue
+  queue: Queue
   private beforeDataReport: unknown = null
   private backTrackerId: InitOptions | unknown = null
   private configReportXhr: unknown = null
