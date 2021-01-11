@@ -1,4 +1,4 @@
-import { ERRORTYPES } from '../common/constant'
+import { ERRORTYPES, HTTP_CODE } from '../common/constant'
 import { getTimestamp } from '../utils/helpers'
 import { ReportDataType } from '../types/index'
 import { Severity } from '../utils/Severity'

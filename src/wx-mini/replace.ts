@@ -1,20 +1,27 @@
-import { options } from '../core/options'
+import { options as sdkOptions } from '../core/options'
 import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subscribe'
-import { replaceOld, throttle } from '../utils/helpers'
-import { HandleWxAppEvents, HandleWxPageEvents, HandleNetworkEvents } from './handleWxEvents'
-import { WxAppEvents, WxPageEvents, WxConsoleEvents, WxEvents } from '../common/constant'
+import { getTimestamp, replaceOld, throttle } from '../utils/helpers'
+import { HandleWxAppEvents, HandleWxPageEvents, HandleNetworkEvents, HandleWxRouteEvents } from './handleWxEvents'
+import { WxAppEvents, WxPageEvents, WxConsoleEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE } from '../common/constant'
 import { variableTypeDetection } from '@/utils'
+import { HandleEvents } from '@/browser/handleEvents'
+import { MITOHttp } from '@/types/common'
+import { transportData } from '@/core'
+import { EMethods } from '@/types'
 
 const clickThrottle = throttle(triggerHandlers, 600)
 
 function isFilterHttpUrl(url: string) {
-  return options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url)
+  return sdkOptions.filterXhrUrlRegExp && sdkOptions.filterXhrUrlRegExp.test(url)
 }
 
-function replace(type: WxEvents) {
+function replace(type: WxEvents | EVENTTYPES) {
   switch (type) {
     case WxConsoleEvents.Console:
       replaceConsole()
+      break
+    case EVENTTYPES.XHR:
+      replaceRequest()
       break
     default:
       break
@@ -115,10 +122,6 @@ function replaceConsole() {
   }
 }
 
-function isHttpSuccess(code) {
-  return code >= 200 && code < 400
-}
-
 // wx.request
 export function replaceRequest() {
   const originRequest = wx.request
@@ -127,19 +130,40 @@ export function replaceRequest() {
     enumerable: true,
     configurable: true,
     value: function () {
-      const options = arguments[0]
-      const successHandler = function (res) {
-        if (!isHttpSuccess(res.statusCode)) {
-          // statusCode异常时进行上报
-          HandleNetworkEvents.requestStatusCodeError(options, res)
-        }
+      // console.log('defineProperty')
+      const options: WechatMiniprogram.RequestOption = arguments[0]
+      const url = options.url
+      if ((options.method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) {
+        return originRequest.call(this, options)
+      }
+      // const traceId = options.header[sdkOptions.traceIdFieldName]
+
+      const data: MITOHttp = {
+        // traceId,
+        type: HTTPTYPE.XHR,
+        method: options.method,
+        url,
+        reqData: options.data,
+        sTime: getTimestamp()
+      }
+      const successHandler: WechatMiniprogram.RequestSuccessCallback = function (res) {
+        const endTime = getTimestamp()
+        data.responseText = typeof res.data === ('string' || 'object') && res.data
+        data.elapsedTime = endTime - data.sTime
+        data.status = res.statusCode
+        data.errMsg = res.errMsg
         if (typeof options.success === 'function') {
           return options.success(res)
         }
+        triggerHandlers(EVENTTYPES.XHR, data)
       }
-      const failHandler = function (err) {
+      const failHandler: WechatMiniprogram.RequestFailCallback = function (err) {
         // 系统和网络层面的失败
-        HandleNetworkEvents.requestFail(options, err)
+        const endTime = getTimestamp()
+        data.elapsedTime = endTime - data.sTime
+        data.errMsg = err.errMsg
+
+        triggerHandlers(EVENTTYPES.XHR, data)
         if (typeof options.fail === 'function') {
           return options.fail(err)
         }
@@ -149,11 +173,32 @@ export function replaceRequest() {
         success: successHandler,
         fail: failHandler
       }
+
       return originRequest.call(this, actOptions)
     }
   })
 }
 
-// todo 类比 historyReplace
-// wx.navigateTo等属性是readonly的，无法被修改
-function replaceRoute() {}
+// wx Route
+export function replaceRoute() {
+  const methods = [WxRouteEvents.SwitchTab, WxRouteEvents.ReLaunch, WxRouteEvents.RedirectTo, WxRouteEvents.NavigateTo, WxRouteEvents.NavigateBack]
+  methods.forEach((method) => {
+    addReplaceHandler({
+      callback: (data) => HandleWxRouteEvents[method](data),
+      type: method
+    })
+    // replaceOld(
+    //   appOptions,
+    //   method.replace('AppOn', 'on'),
+    //   function (originMethod: (args: any) => void) {
+    //     return function (args: any): void {
+    //       triggerHandlers(method, args)
+    //       if (originMethod) {
+    //         originMethod.apply(this, arguments)
+    //       }
+    //     }
+    //   },
+    //   true
+    // )
+  })
+}

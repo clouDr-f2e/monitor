@@ -1,12 +1,13 @@
-import { BREADCRUMBTYPES, ERRORTYPES } from '@/common/constant'
-import { breadcrumb, transportData } from '../core'
+import { BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE } from '@/common/constant'
+import { breadcrumb, httpTransform, transportData } from '../core'
 import { ReportDataType } from '@/types'
 import { WxLifeCycleBreadcrumb, WxOnShareAppMessageBreadcrumb, WxOnTabItemTapBreadcrumb } from '@/types/breadcrumb'
 import { Replace } from '@/types/replace'
-import { getTimestamp, isError, unknownToString } from '@/utils'
+import { getTimestamp, isError, isHttpFail, unknownToString } from '@/utils'
 import { Severity } from '@/utils/Severity'
 import { getCurrentRoute, extractErrorStack } from './utils'
 import { HandleEvents } from '@/browser/handleEvents'
+import { MITOHttp } from '@/types/common'
 
 const HandleWxAppEvents = {
   // app
@@ -181,45 +182,84 @@ const HandleWxConsoleEvents = {
 }
 
 const HandleNetworkEvents = {
-  // 处理request请求系统和网络层面的错误
-  requestFail(requestOptions: WechatMiniprogram.RequestOption, error: WechatMiniprogram.GeneralCallbackResult) {
-    const type = BREADCRUMBTYPES.MINIPROGRAM_REQUEST
-    const data: ReportDataType = {
-      type: ERRORTYPES.MINIPROGRAM_REQUEST_ERROR,
-      stack: [],
-      name: '',
-      time: getTimestamp(),
-      url: requestOptions.url,
-      message: error.errMsg,
-      level: Severity.Info
+  // // 处理request请求系统和网络层面的错误
+  // requestFail(requestOptions: WechatMiniprogram.RequestOption, error: WechatMiniprogram.GeneralCallbackResult) {
+  //   const type = BREADCRUMBTYPES.MINIPROGRAM_REQUEST
+  //   const data: ReportDataType = {
+  //     type: ERRORTYPES.MINIPROGRAM_REQUEST_ERROR,
+  //     stack: [],
+  //     name: '',
+  //     time: getTimestamp(),
+  //     url: requestOptions.url,
+  //     message: error.errMsg,
+  //     level: Severity.Info
+  //   }
+  //   breadcrumb.push({
+  //     type: BREADCRUMBTYPES.MINIPROGRAM_REQUEST,
+  //     category: breadcrumb.getCategory(type),
+  //     data,
+  //     level: Severity.Info
+  //   })
+  //   transportData.send(data)
+  // },
+  // requestStatusCodeError(requestOptions: WechatMiniprogram.RequestOption, res: WechatMiniprogram.RequestSuccessCallbackResult) {
+  //   // const data: MITOHttp = {
+  //   //   type: HTTPTYPE.XHR,
+  //   //   traceId?: string
+  //   //   method?: string
+  //   //   url?: string
+  //   //   status?: number
+  //   //   reqData?: any
+  //   //   // statusText?: string
+  //   //   sTime?: number
+  //   //   elapsedTime?: number
+  //   //   responseText?: any
+  //   //   time?: number
+  //   //   isSdkUrl?: boolean
+  //   // }
+  //   const type = BREADCRUMBTYPES.MINIPROGRAM_REQUEST
+  //   // const data: ReportDataType = {
+  //   //   type: ERRORTYPES.MINIPROGRAM_REQUEST_ERROR,
+  //   //   stack: [],
+  //   //   name: '',
+  //   //   time: getTimestamp(),
+  //   //   url: requestOptions.url,
+  //   //   message: res.,
+  //   //   level: Severity.Info
+  //   // }
+  //   breadcrumb.push({
+  //     type: BREADCRUMBTYPES.MINIPROGRAM_REQUEST,
+  //     category: breadcrumb.getCategory(type),
+  //     data,
+  //     level: Severity.Info
+  //   })
+  //   transportData.send(data)
+  // },
+  handleRequest(data: MITOHttp): void {
+    const result = httpTransform(data)
+    result.url = getCurrentRoute()
+    if (data.status === undefined) {
+      result.message = data.errMsg
     }
+    const type = BREADCRUMBTYPES.XHR
     breadcrumb.push({
-      type: BREADCRUMBTYPES.MINIPROGRAM_REQUEST,
+      type,
       category: breadcrumb.getCategory(type),
-      data,
+      data: result,
       level: Severity.Info
     })
-    transportData.send(data)
-  },
-  requestStatusCodeError(requestOptions: WechatMiniprogram.RequestOption, res: WechatMiniprogram.RequestSuccessCallbackResult) {
-    const type = BREADCRUMBTYPES.MINIPROGRAM_REQUEST
-    const data: ReportDataType = {
-      type: ERRORTYPES.MINIPROGRAM_REQUEST_ERROR,
-      stack: [],
-      name: '',
-      time: getTimestamp(),
-      url: requestOptions.url,
-      message: res.errMsg,
-      level: Severity.Info
+    if (isHttpFail) {
+      breadcrumb.push({
+        type,
+        category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
+        data: result,
+        level: Severity.Error
+      })
+      transportData.send(result)
     }
-    breadcrumb.push({
-      type: BREADCRUMBTYPES.MINIPROGRAM_REQUEST,
-      category: breadcrumb.getCategory(type),
-      data,
-      level: Severity.Info
-    })
-    transportData.send(data)
   }
 }
 
-export { HandleWxAppEvents, HandleWxPageEvents, HandleWxConsoleEvents, HandleNetworkEvents }
+const HandleWxRouteEvents = {}
+
+export { HandleWxAppEvents, HandleWxPageEvents, HandleWxConsoleEvents, HandleNetworkEvents, HandleWxRouteEvents }

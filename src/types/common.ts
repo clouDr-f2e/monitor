@@ -17,6 +17,8 @@ export interface MITOHttp {
   responseText?: any
   time?: number
   isSdkUrl?: boolean
+  // for wx
+  errMsg?: string
 }
 
 export interface MITOXMLHttpRequest extends XMLHttpRequest {

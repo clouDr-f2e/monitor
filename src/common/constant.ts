@@ -37,7 +37,15 @@ export enum WxConsoleEvents {
   Console = 'wxConsole'
 }
 
-export type WxEvents = WxAppEvents | WxPageEvents | WxConsoleEvents
+export enum WxRouteEvents {
+  SwitchTab = 'switchTab',
+  ReLaunch = 'reLaunch',
+  RedirectTo = 'redirectTo',
+  NavigateTo = 'navigateTo',
+  NavigateBack = 'navigateBack'
+}
+
+export type WxEvents = WxAppEvents | WxPageEvents | WxConsoleEvents | WxRouteEvents
 
 export const CompositeEvents = {
   ...WxAppEvents,
