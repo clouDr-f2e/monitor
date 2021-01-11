@@ -30,18 +30,38 @@ var ERRORTYPES;
     ERRORTYPES["REACT_ERROR"] = "REACT_ERROR";
     ERRORTYPES["RESOURCE_ERROR"] = "RESOURCE_ERROR";
     ERRORTYPES["PROMISE_ERROR"] = "PROMISE_ERROR";
+    ERRORTYPES["MINIPROGRAM_REQUEST_ERROR"] = "MINIPROGRAM_REQUEST_ERROR";
 })(ERRORTYPES || (ERRORTYPES = {}));
-var WxEvents;
-(function (WxEvents) {
-    WxEvents["OnLaunch"] = "onLaunch";
-    WxEvents["OnShow"] = "onShow";
-    WxEvents["OnHide"] = "onHide";
-    WxEvents["OnError"] = "onError";
-    WxEvents["OnPageNotFound"] = "onPageNotFound";
-    WxEvents["OnUnhandledRejection"] = "onUnhandledRejection";
-    WxEvents["Console"] = "wxConsole";
-})(WxEvents || (WxEvents = {}));
-var CompositeEvents = __assign(__assign({}, WxEvents), ERRORTYPES);
+var WxAppEvents;
+(function (WxAppEvents) {
+    WxAppEvents["AppOnLaunch"] = "AppOnLaunch";
+    WxAppEvents["AppOnShow"] = "AppOnShow";
+    WxAppEvents["AppOnHide"] = "AppOnHide";
+    WxAppEvents["AppOnError"] = "AppOnError";
+    WxAppEvents["AppOnPageNotFound"] = "AppOnPageNotFound";
+    WxAppEvents["AppOnUnhandledRejection"] = "AppOnUnhandledRejection";
+})(WxAppEvents || (WxAppEvents = {}));
+var WxPageEvents;
+(function (WxPageEvents) {
+    WxPageEvents["PageOnShow"] = "PageOnShow";
+    WxPageEvents["PageOnHide"] = "PageOnHide";
+    WxPageEvents["PageOnShareAppMessage"] = "PageOnShareAppMessage";
+    WxPageEvents["PageOnShareTimeline"] = "PageOnShareTimeline";
+    WxPageEvents["PageOnTabItemTap"] = "PageOnTabItemTap";
+})(WxPageEvents || (WxPageEvents = {}));
+var WxConsoleEvents;
+(function (WxConsoleEvents) {
+    WxConsoleEvents["Console"] = "wxConsole";
+})(WxConsoleEvents || (WxConsoleEvents = {}));
+var WxRouteEvents;
+(function (WxRouteEvents) {
+    WxRouteEvents["SwitchTab"] = "switchTab";
+    WxRouteEvents["ReLaunch"] = "reLaunch";
+    WxRouteEvents["RedirectTo"] = "redirectTo";
+    WxRouteEvents["NavigateTo"] = "navigateTo";
+    WxRouteEvents["NavigateBack"] = "navigateBack";
+})(WxRouteEvents || (WxRouteEvents = {}));
+var CompositeEvents = __assign(__assign(__assign(__assign({}, WxAppEvents), WxPageEvents), WxConsoleEvents), ERRORTYPES);
 var BREADCRUMBTYPES;
 (function (BREADCRUMBTYPES) {
     BREADCRUMBTYPES["ROUTE"] = "Route";
@@ -55,8 +75,15 @@ var BREADCRUMBTYPES;
     BREADCRUMBTYPES["RESOURCE"] = "Resource";
     BREADCRUMBTYPES["CODE_ERROR"] = "Code Error";
     BREADCRUMBTYPES["CUSTOMER"] = "Customer";
-    BREADCRUMBTYPES["ON_SHOW"] = "On Show";
-    BREADCRUMBTYPES["ON_LAUNCH"] = "On Launch";
+    BREADCRUMBTYPES["APP_ON_SHOW"] = "App On Show";
+    BREADCRUMBTYPES["APP_ON_LAUNCH"] = "App On Launch";
+    BREADCRUMBTYPES["APP_ON_HIDE"] = "App On Hide";
+    BREADCRUMBTYPES["PAGE_ON_SHOW"] = "Page On Show";
+    BREADCRUMBTYPES["PAGE_ON_HIDE"] = "Page On Hide";
+    BREADCRUMBTYPES["PAGE_ON_SHARE_APP_MESSAGE"] = "Page On Share App Message";
+    BREADCRUMBTYPES["PAGE_ON_SHARE_TIMELINE"] = "Page On Share Timeline";
+    BREADCRUMBTYPES["PAGE_ON_TAB_ITEM_TAP"] = "Page On Tab Item Tap";
+    BREADCRUMBTYPES["MINIPROGRAM_REQUEST"] = "Miniprogram Request";
 })(BREADCRUMBTYPES || (BREADCRUMBTYPES = {}));
 var BREADCRUMBCATEGORYS;
 (function (BREADCRUMBCATEGORYS) {
@@ -65,6 +92,7 @@ var BREADCRUMBCATEGORYS;
     BREADCRUMBCATEGORYS["DEBUG"] = "debug";
     BREADCRUMBCATEGORYS["EXCEPTION"] = "exception";
     BREADCRUMBCATEGORYS["LIFECYCLE"] = "lifecycle";
+    BREADCRUMBCATEGORYS["NETWORK"] = "network";
 })(BREADCRUMBCATEGORYS || (BREADCRUMBCATEGORYS = {}));
 var EVENTTYPES;
 (function (EVENTTYPES) {
@@ -282,6 +310,9 @@ function unknownToString(target) {
     }
     return JSON.stringify(target);
 }
+function isHttpFail(code) {
+    return code === 0 || code === HTTP_CODE.BAD_REQUEST || code > HTTP_CODE.UNAUTHORIZED;
+}
 
 function parseUrlToObj(url) {
     if (!url) {
@@ -480,9 +511,17 @@ var Breadcrumb = (function () {
             case BREADCRUMBTYPES.CUSTOMER:
             case BREADCRUMBTYPES.CONSOLE:
                 return BREADCRUMBCATEGORYS.DEBUG;
-            case BREADCRUMBTYPES.ON_LAUNCH:
-            case BREADCRUMBTYPES.ON_SHOW:
+            case BREADCRUMBTYPES.APP_ON_LAUNCH:
+            case BREADCRUMBTYPES.APP_ON_SHOW:
+            case BREADCRUMBTYPES.APP_ON_HIDE:
+            case BREADCRUMBTYPES.PAGE_ON_SHOW:
+            case BREADCRUMBTYPES.PAGE_ON_HIDE:
+            case BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE:
+            case BREADCRUMBTYPES.PAGE_ON_SHARE_TIMELINE:
+            case BREADCRUMBTYPES.PAGE_ON_TAB_ITEM_TAP:
                 return BREADCRUMBCATEGORYS.LIFECYCLE;
+            case BREADCRUMBTYPES.MINIPROGRAM_REQUEST:
+                return BREADCRUMBCATEGORYS.NETWORK;
             case BREADCRUMBTYPES.UNHANDLEDREJECTION:
             case BREADCRUMBTYPES.CODE_ERROR:
             case BREADCRUMBTYPES.RESOURCE:
@@ -899,7 +938,78 @@ function resourceTransform(target) {
 }
 
 function getCurrentRoute() {
-    return getCurrentPages().pop().route;
+    var pages = getCurrentPages();
+    return pages.length ? getCurrentPages().pop().route : 'App';
+}
+function extractErrorStack$1(ex, level) {
+    var normal = {
+        time: getTimestamp(),
+        url: getCurrentRoute(),
+        name: ex.name,
+        level: level,
+        message: ex.message
+    };
+    if (typeof ex.stack === 'undefined' || !ex.stack) {
+        return normal;
+    }
+    var chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i, gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$/i, winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i, geckoEval = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i, chromeEval = /\((\S*)(?::(\d+))(?::(\d+))\)/, lines = ex.stack.split('\n'), stack = [];
+    var submatch, parts, element;
+    for (var i = 0, j = lines.length; i < j; ++i) {
+        if ((parts = chrome.exec(lines[i]))) {
+            var isNative = parts[2] && parts[2].indexOf('native') === 0;
+            var isEval = parts[2] && parts[2].indexOf('eval') === 0;
+            if (isEval && (submatch = chromeEval.exec(parts[2]))) {
+                parts[2] = submatch[1];
+                parts[3] = submatch[2];
+                parts[4] = submatch[3];
+            }
+            element = {
+                url: !isNative ? parts[2] : null,
+                func: parts[1] || ERRORTYPES.UNKNOWN_FUNCTION,
+                args: isNative ? [parts[2]] : [],
+                line: parts[3] ? +parts[3] : null,
+                column: parts[4] ? +parts[4] : null
+            };
+        }
+        else if ((parts = winjs.exec(lines[i]))) {
+            element = {
+                url: parts[2],
+                func: parts[1] || ERRORTYPES.UNKNOWN_FUNCTION,
+                args: [],
+                line: +parts[3],
+                column: parts[4] ? +parts[4] : null
+            };
+        }
+        else if ((parts = gecko.exec(lines[i]))) {
+            var isEval = parts[3] && parts[3].indexOf(' > eval') > -1;
+            if (isEval && (submatch = geckoEval.exec(parts[3]))) {
+                parts[3] = submatch[1];
+                parts[4] = submatch[2];
+                parts[5] = null;
+            }
+            else if (i === 0 && !parts[5] && typeof ex.columnNumber !== 'undefined') {
+                stack[0].column = ex.columnNumber + 1;
+            }
+            element = {
+                url: parts[3],
+                func: parts[1] || ERRORTYPES.UNKNOWN_FUNCTION,
+                args: parts[2] ? parts[2].split(',') : [],
+                line: parts[4] ? +parts[4] : null,
+                column: parts[5] ? +parts[5] : null
+            };
+        }
+        else {
+            continue;
+        }
+        if (!element.func && element.line) {
+            element.func = ERRORTYPES.UNKNOWN_FUNCTION;
+        }
+        stack.push(element);
+    }
+    if (!stack.length) {
+        return null;
+    }
+    return __assign(__assign({}, normal), { stack: stack });
 }
 
 var HandleEvents = {
@@ -1034,35 +1144,40 @@ var HandleEvents = {
     }
 };
 
-var HandleWxEvents = {
+var HandleWxAppEvents = {
     onLaunch: function (options) {
-        console.log('onLaunch', options);
         var data = {
             path: options.path,
             query: options.query
         };
         breadcrumb.push({
-            category: breadcrumb.getCategory(BREADCRUMBTYPES.ON_LAUNCH),
-            type: BREADCRUMBTYPES.ON_LAUNCH,
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_LAUNCH),
+            type: BREADCRUMBTYPES.APP_ON_LAUNCH,
             data: data,
             level: Severity.Info
         });
     },
     onShow: function (options) {
-        console.log('onShow', options);
         var data = {
             path: options.path,
             query: options.query
         };
         breadcrumb.push({
-            category: breadcrumb.getCategory(BREADCRUMBTYPES.ON_SHOW),
-            type: BREADCRUMBTYPES.ON_SHOW,
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_SHOW),
+            type: BREADCRUMBTYPES.APP_ON_SHOW,
             data: data,
             level: Severity.Info
         });
     },
+    onHide: function () {
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_HIDE),
+            type: BREADCRUMBTYPES.APP_ON_HIDE,
+            data: null,
+            level: Severity.Info
+        });
+    },
     onError: function (error) {
-        console.log('onError', error);
         var data = {
             stack: [],
             message: '',
@@ -1079,14 +1194,132 @@ var HandleWxEvents = {
         });
         transportData.send(data);
     },
-    onUnhandledRejection: function (data) {
-        console.log('onUnhandledRejection', data);
+    onUnhandledRejection: function (ev) {
+        var data = {
+            type: ERRORTYPES.PROMISE_ERROR,
+            message: unknownToString(ev.reason),
+            url: getCurrentRoute(),
+            name: 'unhandledrejection',
+            time: getTimestamp(),
+            level: Severity.Low
+        };
+        if (isError(ev.reason)) {
+            data = __assign(__assign({}, data), extractErrorStack$1(ev.reason, Severity.Low));
+        }
+        breadcrumb.push({
+            type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
+            data: data,
+            level: Severity.Error
+        });
+        transportData.send(data);
     },
     onPageNotFound: function (data) {
-        console.log('OnPageNotFoundCallbackResult', data);
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
+            type: BREADCRUMBTYPES.ROUTE,
+            data: data,
+            level: Severity.Error
+        });
+    }
+};
+var HandleWxPageEvents = {
+    onShow: function () {
+        var page = getCurrentPages().pop();
+        var data = {
+            path: page.route,
+            query: page.options
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHOW),
+            type: BREADCRUMBTYPES.PAGE_ON_SHOW,
+            data: data,
+            level: Severity.Info
+        });
     },
+    onHide: function () {
+        var page = getCurrentPages().pop();
+        var data = {
+            path: page.route,
+            query: page.options
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_HIDE),
+            type: BREADCRUMBTYPES.PAGE_ON_HIDE,
+            data: data,
+            level: Severity.Info
+        });
+    },
+    onShareAppMessage: function (options) {
+        var page = getCurrentPages().pop();
+        var data = {
+            path: page.route,
+            query: page.options,
+            options: options
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE),
+            type: BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE,
+            data: data,
+            level: Severity.Info
+        });
+    },
+    onShareTimeline: function () {
+        var page = getCurrentPages().pop();
+        var data = {
+            path: page.route,
+            query: page.options
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHARE_TIMELINE),
+            type: BREADCRUMBTYPES.PAGE_ON_SHARE_TIMELINE,
+            data: data,
+            level: Severity.Info
+        });
+    },
+    onTabItemTap: function (options) {
+        var page = getCurrentPages().pop();
+        var data = {
+            path: page.route,
+            query: page.options,
+            options: options
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_TAB_ITEM_TAP),
+            type: BREADCRUMBTYPES.PAGE_ON_TAB_ITEM_TAP,
+            data: data,
+            level: Severity.Info
+        });
+    }
+};
+var HandleWxConsoleEvents = {
     console: function (data) {
         HandleEvents.handleConsole(data);
+    }
+};
+var HandleNetworkEvents = {
+    handleRequest: function (data) {
+        var result = httpTransform(data);
+        result.url = getCurrentRoute();
+        if (data.status === undefined) {
+            result.message = data.errMsg;
+        }
+        var type = BREADCRUMBTYPES.XHR;
+        breadcrumb.push({
+            type: type,
+            category: breadcrumb.getCategory(type),
+            data: result,
+            level: Severity.Info
+        });
+        if (isHttpFail) {
+            breadcrumb.push({
+                type: type,
+                category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
+                data: result,
+                level: Severity.Error
+            });
+            transportData.send(result);
+        }
     }
 };
 
@@ -1113,10 +1346,16 @@ function triggerHandlers(type, data) {
     });
 }
 
+function isFilterHttpUrl(url) {
+    return options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url);
+}
 function replace(type) {
     switch (type) {
-        case WxEvents.Console:
+        case WxConsoleEvents.Console:
             replaceConsole();
+            break;
+        case EVENTTYPES.XHR:
+            replaceRequest();
             break;
     }
 }
@@ -1128,17 +1367,28 @@ function replaceApp() {
     if (App) {
         var originApp_1 = App;
         App = function (appOptions) {
-            var methods = [WxEvents.OnLaunch, WxEvents.OnShow, WxEvents.OnError, WxEvents.OnUnhandledRejection, WxEvents.OnPageNotFound];
+            var methods = [
+                WxAppEvents.AppOnLaunch,
+                WxAppEvents.AppOnShow,
+                WxAppEvents.AppOnError,
+                WxAppEvents.AppOnUnhandledRejection,
+                WxAppEvents.AppOnPageNotFound,
+                WxAppEvents.AppOnHide
+            ];
             methods.forEach(function (method) {
                 addReplaceHandler({
-                    callback: function (data) { return HandleWxEvents[method](data); },
+                    callback: function (data) { return HandleWxAppEvents[method.replace('AppOn', 'on')](data); },
                     type: method
                 });
-                replaceOld(appOptions, method, function (originMethod) {
-                    return function (args) {
-                        triggerHandlers(method, args);
+                replaceOld(appOptions, method.replace('AppOn', 'on'), function (originMethod) {
+                    return function () {
+                        var args = [];
+                        for (var _i = 0; _i < arguments.length; _i++) {
+                            args[_i] = arguments[_i];
+                        }
+                        triggerHandlers.apply(null, __spreadArrays([method], args));
                         if (originMethod) {
-                            originMethod(args);
+                            originMethod.apply(this, args);
                         }
                     };
                 }, true);
@@ -1146,6 +1396,40 @@ function replaceApp() {
             return originApp_1(appOptions);
         };
     }
+}
+function replacePage() {
+    if (!Page) {
+        return;
+    }
+    var originPage = Page;
+    Page = function (appOptions) {
+        var methods = [
+            WxPageEvents.PageOnShow,
+            WxPageEvents.PageOnHide,
+            WxPageEvents.PageOnShareAppMessage,
+            WxPageEvents.PageOnShareTimeline,
+            WxPageEvents.PageOnTabItemTap
+        ];
+        methods.forEach(function (method) {
+            addReplaceHandler({
+                callback: function (data) { return HandleWxPageEvents[method.replace('PageOn', 'on')](data); },
+                type: method
+            });
+            replaceOld(appOptions, method.replace('PageOn', 'on'), function (originMethod) {
+                return function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i] = arguments[_i];
+                    }
+                    triggerHandlers.apply(null, __spreadArrays([method], args));
+                    if (originMethod) {
+                        originMethod.apply(this, args);
+                    }
+                };
+            }, true);
+        });
+        return originPage(appOptions);
+    };
 }
 function replaceConsole() {
     if (console && variableTypeDetection.isObject(console)) {
@@ -1160,7 +1444,7 @@ function replaceConsole() {
                         args[_i] = arguments[_i];
                     }
                     if (originalConsole) {
-                        triggerHandlers(WxEvents.Console, { args: args, level: level });
+                        triggerHandlers(WxConsoleEvents.Console, { args: args, level: level });
                         originalConsole.apply(console, args);
                     }
                 };
@@ -1168,14 +1452,69 @@ function replaceConsole() {
         });
     }
 }
+function replaceRequest() {
+    var originRequest = wx.request;
+    Object.defineProperty(wx, 'request', {
+        writable: true,
+        enumerable: true,
+        configurable: true,
+        value: function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            var options = args[0];
+            var url = options.url;
+            if ((options.method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) {
+                return originRequest.call(this, options);
+            }
+            var data = {
+                type: HTTPTYPE.XHR,
+                method: options.method,
+                url: url,
+                reqData: options.data,
+                sTime: getTimestamp()
+            };
+            var successHandler = function (res) {
+                var endTime = getTimestamp();
+                data.responseText = typeof res.data === ('string' ) && res.data;
+                data.elapsedTime = endTime - data.sTime;
+                data.status = res.statusCode;
+                data.errMsg = res.errMsg;
+                if (typeof options.success === 'function') {
+                    return options.success(res);
+                }
+                triggerHandlers(EVENTTYPES.XHR, data);
+            };
+            var failHandler = function (err) {
+                var endTime = getTimestamp();
+                data.elapsedTime = endTime - data.sTime;
+                data.errMsg = err.errMsg;
+                triggerHandlers(EVENTTYPES.XHR, data);
+                if (typeof options.fail === 'function') {
+                    return options.fail(err);
+                }
+            };
+            var actOptions = __assign(__assign({}, options), { success: successHandler, fail: failHandler });
+            return originRequest.call(this, actOptions);
+        }
+    });
+}
 
 function setupReplace() {
     replaceApp();
+    replacePage();
     addReplaceHandler({
         callback: function (data) {
-            HandleWxEvents.console(data);
+            HandleNetworkEvents.handleRequest(data);
         },
-        type: WxEvents.Console
+        type: EVENTTYPES.XHR
+    });
+    addReplaceHandler({
+        callback: function (data) {
+            HandleWxConsoleEvents.console(data);
+        },
+        type: WxConsoleEvents.Console
     });
 }
 

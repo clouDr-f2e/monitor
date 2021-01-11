@@ -24,7 +24,7 @@ const common = {
 const prod = {
   input: 'src/wx-mini/index.ts',
   output: {
-    file: '/Users/zhangwenliang/work/projects/weappSdk/utils/index.wx.js',
+    file: 'dist/index.wx.js',
     format: 'cjs',
     name: 'MITO'
     // context: 'window'

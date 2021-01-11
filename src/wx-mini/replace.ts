@@ -54,10 +54,10 @@ export function replaceApp() {
           appOptions,
           method.replace('AppOn', 'on'),
           function (originMethod: (args: any) => void) {
-            return function (args: any): void {
-              triggerHandlers(method, args)
+            return function (...args: any): void {
+              triggerHandlers.apply(null, [method, ...args])
               if (originMethod) {
-                originMethod.apply(this, arguments)
+                originMethod.apply(this, args)
               }
             }
           },
@@ -91,10 +91,10 @@ export function replacePage() {
         appOptions,
         method.replace('PageOn', 'on'),
         function (originMethod: (args: any) => void) {
-          return function (args: any): void {
-            triggerHandlers(method, args)
+          return function (...args: any[]): void {
+            triggerHandlers.apply(null, [method, ...args])
             if (originMethod) {
-              originMethod.apply(this, arguments)
+              originMethod.apply(this, args)
             }
           }
         },
@@ -129,8 +129,8 @@ export function replaceRequest() {
     writable: true,
     enumerable: true,
     configurable: true,
-    value: function () {
-      const options: WechatMiniprogram.RequestOption = arguments[0]
+    value: function (...args: any[]) {
+      const options: WechatMiniprogram.RequestOption = args[0]
       const url = options.url
       if ((options.method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) {
         return originRequest.call(this, options)
