@@ -12,7 +12,7 @@ import { MITOHttp } from '@/types/common'
 const HandleWxAppEvents = {
   // app
   onLaunch(options: WechatMiniprogram.App.LaunchShowOption) {
-    console.log('app onLaunch', options)
+    // console.log('app onLaunch', options)
     const data: WxLifeCycleBreadcrumb = {
       path: options.path,
       query: options.query
@@ -25,7 +25,7 @@ const HandleWxAppEvents = {
     })
   },
   onShow(options: WechatMiniprogram.App.LaunchShowOption) {
-    console.log('app onShow', options)
+    // console.log('app onShow', options)
     const data: WxLifeCycleBreadcrumb = {
       path: options.path,
       query: options.query
@@ -38,7 +38,7 @@ const HandleWxAppEvents = {
     })
   },
   onHide() {
-    console.log('app onHide')
+    // console.log('app onHide')
     breadcrumb.push({
       category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_HIDE),
       type: BREADCRUMBTYPES.APP_ON_HIDE,
@@ -48,7 +48,7 @@ const HandleWxAppEvents = {
   },
   onError(error: string) {
     // 需要用正则转换
-    console.log('onError', error)
+    // console.log('onError', error)
     const data: ReportDataType = {
       stack: [],
       message: '',
@@ -66,7 +66,7 @@ const HandleWxAppEvents = {
     transportData.send(data)
   },
   onUnhandledRejection(ev: WechatMiniprogram.OnUnhandledRejectionCallbackResult) {
-    console.log('onUnhandledRejection', ev)
+    // console.log('onUnhandledRejection', ev)
     let data: ReportDataType = {
       type: ERRORTYPES.PROMISE_ERROR,
       message: unknownToString(ev.reason),
@@ -90,7 +90,7 @@ const HandleWxAppEvents = {
     transportData.send(data)
   },
   onPageNotFound(data: WechatMiniprogram.OnPageNotFoundCallbackResult) {
-    console.log('OnPageNotFoundCallbackResult', data)
+    // console.log('OnPageNotFoundCallbackResult', data)
     breadcrumb.push({
       category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
       type: BREADCRUMBTYPES.ROUTE,
@@ -102,7 +102,7 @@ const HandleWxAppEvents = {
 
 const HandleWxPageEvents = {
   onShow() {
-    console.log('page onShow')
+    // console.log('page onShow')
     const page = getCurrentPages().pop()
     const data: WxLifeCycleBreadcrumb = {
       path: page.route,
@@ -116,7 +116,7 @@ const HandleWxPageEvents = {
     })
   },
   onHide() {
-    console.log('page onHide')
+    // console.log('page onHide')
     const page = getCurrentPages().pop()
     const data: WxLifeCycleBreadcrumb = {
       path: page.route,
@@ -130,7 +130,7 @@ const HandleWxPageEvents = {
     })
   },
   onShareAppMessage(options: WechatMiniprogram.Page.IShareAppMessageOption) {
-    console.log('page onShareAppMessage')
+    // console.log('page onShareAppMessage')
     const page = getCurrentPages().pop()
     const data: WxOnShareAppMessageBreadcrumb = {
       path: page.route,
@@ -145,7 +145,7 @@ const HandleWxPageEvents = {
     })
   },
   onShareTimeline() {
-    console.log('page onShareTimeline')
+    // console.log('page onShareTimeline')
     const page = getCurrentPages().pop()
     const data: WxLifeCycleBreadcrumb = {
       path: page.route,
@@ -159,7 +159,7 @@ const HandleWxPageEvents = {
     })
   },
   onTabItemTap(options: WechatMiniprogram.Page.ITabItemTapOption) {
-    console.log('page onTabItemTap')
+    // console.log('page onTabItemTap')
     const page = getCurrentPages().pop()
     const data: WxOnTabItemTapBreadcrumb = {
       path: page.route,
@@ -182,59 +182,6 @@ const HandleWxConsoleEvents = {
 }
 
 const HandleNetworkEvents = {
-  // // 处理request请求系统和网络层面的错误
-  // requestFail(requestOptions: WechatMiniprogram.RequestOption, error: WechatMiniprogram.GeneralCallbackResult) {
-  //   const type = BREADCRUMBTYPES.MINIPROGRAM_REQUEST
-  //   const data: ReportDataType = {
-  //     type: ERRORTYPES.MINIPROGRAM_REQUEST_ERROR,
-  //     stack: [],
-  //     name: '',
-  //     time: getTimestamp(),
-  //     url: requestOptions.url,
-  //     message: error.errMsg,
-  //     level: Severity.Info
-  //   }
-  //   breadcrumb.push({
-  //     type: BREADCRUMBTYPES.MINIPROGRAM_REQUEST,
-  //     category: breadcrumb.getCategory(type),
-  //     data,
-  //     level: Severity.Info
-  //   })
-  //   transportData.send(data)
-  // },
-  // requestStatusCodeError(requestOptions: WechatMiniprogram.RequestOption, res: WechatMiniprogram.RequestSuccessCallbackResult) {
-  //   // const data: MITOHttp = {
-  //   //   type: HTTPTYPE.XHR,
-  //   //   traceId?: string
-  //   //   method?: string
-  //   //   url?: string
-  //   //   status?: number
-  //   //   reqData?: any
-  //   //   // statusText?: string
-  //   //   sTime?: number
-  //   //   elapsedTime?: number
-  //   //   responseText?: any
-  //   //   time?: number
-  //   //   isSdkUrl?: boolean
-  //   // }
-  //   const type = BREADCRUMBTYPES.MINIPROGRAM_REQUEST
-  //   // const data: ReportDataType = {
-  //   //   type: ERRORTYPES.MINIPROGRAM_REQUEST_ERROR,
-  //   //   stack: [],
-  //   //   name: '',
-  //   //   time: getTimestamp(),
-  //   //   url: requestOptions.url,
-  //   //   message: res.,
-  //   //   level: Severity.Info
-  //   // }
-  //   breadcrumb.push({
-  //     type: BREADCRUMBTYPES.MINIPROGRAM_REQUEST,
-  //     category: breadcrumb.getCategory(type),
-  //     data,
-  //     level: Severity.Info
-  //   })
-  //   transportData.send(data)
-  // },
   handleRequest(data: MITOHttp): void {
     const result = httpTransform(data)
     result.url = getCurrentRoute()

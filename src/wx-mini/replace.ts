@@ -130,7 +130,6 @@ export function replaceRequest() {
     enumerable: true,
     configurable: true,
     value: function () {
-      // console.log('defineProperty')
       const options: WechatMiniprogram.RequestOption = arguments[0]
       const url = options.url
       if ((options.method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) {

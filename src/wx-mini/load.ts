@@ -1,7 +1,7 @@
 import { HandleEvents } from '@/browser/handleEvents'
 import { EVENTTYPES, WxAppEvents, WxConsoleEvents } from '@/common/constant'
 import { HandleWxConsoleEvents, HandleNetworkEvents } from './handleWxEvents'
-import { addReplaceHandler, replaceApp, replacePage, replaceRequest } from './replace'
+import { addReplaceHandler, replaceApp, replacePage } from './replace'
 
 export function setupReplace() {
   replaceApp()
