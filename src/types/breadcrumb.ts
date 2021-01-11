@@ -10,7 +10,7 @@ export interface BreadcrumbPushData {
    */
   type: BREADCRUMBTYPES
   // string for click dom
-  data: ReportDataType | string | Replace.IRouter | Replace.TriggerConsole | WxLifeCycleBreadcrumb | WxOnShareAppMessageBreadcrumb
+  data: ReportDataType | string | Replace.IRouter | Replace.TriggerConsole | WxLifeCycleBreadcrumb | WxOnShareAppMessageBreadcrumb | WxRequestErrorBreadcrumb
   /**
    * 分为user action、debug、http、
    */
@@ -38,4 +38,9 @@ export interface WxOnTabItemTapBreadcrumb {
   path: string
   query: IAnyObject
   options: WechatMiniprogram.Page.ITabItemTapOption
+}
+
+export interface WxRequestErrorBreadcrumb {
+  requestOptions: WechatMiniprogram.RequestOption
+  errMsg: string
 }

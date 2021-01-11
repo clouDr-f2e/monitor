@@ -180,4 +180,27 @@ const HandleWxConsoleEvents = {
   }
 }
 
-export { HandleWxAppEvents, HandleWxPageEvents, HandleWxConsoleEvents }
+const HandleNetworkEvents = {
+  request(requestOptions: WechatMiniprogram.RequestOption, error: WechatMiniprogram.GeneralCallbackResult) {
+    console.log('sdk request err', error)
+    const type = BREADCRUMBTYPES.MINIPROGRAM_REQUEST
+    const data: ReportDataType = {
+      type: ERRORTYPES.MINIPROGRAM_REQUEST_ERROR,
+      stack: [],
+      name: '',
+      time: getTimestamp(),
+      url: requestOptions.url,
+      message: error.errMsg,
+      level: Severity.Info
+    }
+    breadcrumb.push({
+      type: BREADCRUMBTYPES.MINIPROGRAM_REQUEST,
+      category: breadcrumb.getCategory(type),
+      data,
+      level: Severity.Info
+    })
+    transportData.send(data)
+  }
+}
+
+export { HandleWxAppEvents, HandleWxPageEvents, HandleWxConsoleEvents, HandleNetworkEvents }

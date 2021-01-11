@@ -12,7 +12,8 @@ export enum ERRORTYPES {
   VUE_ERROR = 'VUE_ERROR',
   REACT_ERROR = 'REACT_ERROR',
   RESOURCE_ERROR = 'RESOURCE_ERROR',
-  PROMISE_ERROR = 'PROMISE_ERROR'
+  PROMISE_ERROR = 'PROMISE_ERROR',
+  MINIPROGRAM_REQUEST_ERROR = 'MINIPROGRAM_REQUEST_ERROR'
 }
 
 export enum WxAppEvents {
@@ -71,7 +72,10 @@ export enum BREADCRUMBTYPES {
   PAGE_ON_HIDE = 'Page On Hide',
   PAGE_ON_SHARE_APP_MESSAGE = 'Page On Share App Message',
   PAGE_ON_SHARE_TIMELINE = 'Page On Share Timeline',
-  PAGE_ON_TAB_ITEM_TAP = 'Page On Tab Item Tap'
+  PAGE_ON_TAB_ITEM_TAP = 'Page On Tab Item Tap',
+
+  // wx network
+  MINIPROGRAM_REQUEST = 'Miniprogram Request'
 }
 
 /**
@@ -82,7 +86,8 @@ export enum BREADCRUMBCATEGORYS {
   USER = 'user',
   DEBUG = 'debug',
   EXCEPTION = 'exception',
-  LIFECYCLE = 'lifecycle'
+  LIFECYCLE = 'lifecycle',
+  NETWORK = 'network'
 }
 /**
  * 重写的事件类型

@@ -1,7 +1,7 @@
 import { options } from '../core/options'
 import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subscribe'
 import { replaceOld, throttle } from '../utils/helpers'
-import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
+import { HandleWxAppEvents, HandleWxPageEvents, HandleNetworkEvents } from './handleWxEvents'
 import { WxAppEvents, WxPageEvents, WxConsoleEvents, WxEvents } from '../common/constant'
 import { variableTypeDetection } from '@/utils'
 
@@ -115,8 +115,30 @@ function replaceConsole() {
   }
 }
 
-// todo 类比 xhrReplace
-function replaceRequest() {}
+// wx.request
+export function replaceRequest() {
+  const originRequest = wx.request
+  Object.defineProperty(wx, 'request', {
+    writable: true,
+    enumerable: true,
+    configurable: true,
+    value: function () {
+      const options = arguments[0]
+      const failHanlder = function (err) {
+        if (typeof options.fail === 'function') {
+          HandleNetworkEvents.request(options, err)
+          return options.fail(err)
+        }
+      }
+      const actOptions = {
+        ...options,
+        fail: failHanlder
+      }
+      return originRequest.call(this, actOptions)
+    }
+  })
+}
 
 // todo 类比 historyReplace
+// wx.navigateTo等属性是readonly的，无法被修改
 function replaceRoute() {}
