@@ -1,5 +1,5 @@
 import { IAnyObject } from '../types/common'
-import { voidFun, globalVar } from '../common/constant'
+import { voidFun, globalVar, HTTP_CODE } from '../common/constant'
 import { logger } from './logger'
 import { nativeToString, variableTypeDetection } from './is'
 
@@ -165,4 +165,8 @@ export function unknownToString(target: unknown): string {
 
 export function getBigVersion(version: string) {
   return Number(version.split('.')[0])
+}
+
+export function isHttpFail(code: Number) {
+  return code === 0 || code === HTTP_CODE.BAD_REQUEST || code > HTTP_CODE.UNAUTHORIZED
 }

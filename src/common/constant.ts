@@ -12,21 +12,45 @@ export enum ERRORTYPES {
   VUE_ERROR = 'VUE_ERROR',
   REACT_ERROR = 'REACT_ERROR',
   RESOURCE_ERROR = 'RESOURCE_ERROR',
-  PROMISE_ERROR = 'PROMISE_ERROR'
+  PROMISE_ERROR = 'PROMISE_ERROR',
+  MINIPROGRAM_REQUEST_ERROR = 'MINIPROGRAM_REQUEST_ERROR'
 }
 
-export enum WxEvents {
-  OnLaunch = 'onLaunch',
-  OnShow = 'onShow',
-  OnHide = 'onHide',
-  OnError = 'onError',
-  OnPageNotFound = 'onPageNotFound',
-  OnUnhandledRejection = 'onUnhandledRejection',
+export enum WxAppEvents {
+  AppOnLaunch = 'AppOnLaunch',
+  AppOnShow = 'AppOnShow',
+  AppOnHide = 'AppOnHide',
+  AppOnError = 'AppOnError',
+  AppOnPageNotFound = 'AppOnPageNotFound',
+  AppOnUnhandledRejection = 'AppOnUnhandledRejection'
+}
+
+export enum WxPageEvents {
+  PageOnShow = 'PageOnShow',
+  PageOnHide = 'PageOnHide',
+  PageOnShareAppMessage = 'PageOnShareAppMessage',
+  PageOnShareTimeline = 'PageOnShareTimeline',
+  PageOnTabItemTap = 'PageOnTabItemTap'
+}
+
+export enum WxConsoleEvents {
   Console = 'wxConsole'
 }
 
+export enum WxRouteEvents {
+  SwitchTab = 'switchTab',
+  ReLaunch = 'reLaunch',
+  RedirectTo = 'redirectTo',
+  NavigateTo = 'navigateTo',
+  NavigateBack = 'navigateBack'
+}
+
+export type WxEvents = WxAppEvents | WxPageEvents | WxConsoleEvents | WxRouteEvents
+
 export const CompositeEvents = {
-  ...WxEvents,
+  ...WxAppEvents,
+  ...WxPageEvents,
+  ...WxConsoleEvents,
   ...ERRORTYPES
 }
 
@@ -49,8 +73,17 @@ export enum BREADCRUMBTYPES {
 
   CUSTOMER = 'Customer',
   // wx life cycle
-  ON_SHOW = 'On Show',
-  ON_LAUNCH = 'On Launch'
+  APP_ON_SHOW = 'App On Show',
+  APP_ON_LAUNCH = 'App On Launch',
+  APP_ON_HIDE = 'App On Hide',
+  PAGE_ON_SHOW = 'Page On Show',
+  PAGE_ON_HIDE = 'Page On Hide',
+  PAGE_ON_SHARE_APP_MESSAGE = 'Page On Share App Message',
+  PAGE_ON_SHARE_TIMELINE = 'Page On Share Timeline',
+  PAGE_ON_TAB_ITEM_TAP = 'Page On Tab Item Tap',
+
+  // wx network
+  MINIPROGRAM_REQUEST = 'Miniprogram Request'
 }
 
 /**
@@ -61,7 +94,8 @@ export enum BREADCRUMBCATEGORYS {
   USER = 'user',
   DEBUG = 'debug',
   EXCEPTION = 'exception',
-  LIFECYCLE = 'lifecycle'
+  LIFECYCLE = 'lifecycle',
+  NETWORK = 'network'
 }
 /**
  * 重写的事件类型
