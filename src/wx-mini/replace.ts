@@ -4,11 +4,9 @@ import { getTimestamp, replaceOld, throttle } from '../utils/helpers'
 import { HandleWxAppEvents, HandleWxPageEvents, HandleNetworkEvents, HandleWxRouteEvents } from './handleWxEvents'
 import { WxAppEvents, WxPageEvents, WxConsoleEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE } from '../common/constant'
 import { variableTypeDetection } from '@/utils'
-import { HandleEvents } from '@/browser/handleEvents'
 import { MITOHttp } from '@/types/common'
 import { transportData } from '@/core'
 import { EMethods } from '@/types'
-import { getCurrentRoute } from './utils'
 
 function isFilterHttpUrl(url: string) {
   return sdkOptions.filterXhrUrlRegExp && sdkOptions.filterXhrUrlRegExp.test(url)
@@ -20,7 +18,7 @@ function replace(type: WxEvents | EVENTTYPES) {
       replaceConsole()
       break
     case EVENTTYPES.XHR:
-      replaceRequest()
+      replaceNetwork()
       break
     default:
       break
@@ -217,6 +215,100 @@ export function replaceRequest() {
 
       return originRequest.call(this, actOptions)
     }
+  })
+}
+
+// wx network
+export function replaceNetwork() {
+  const hookMethods = ['request', 'downloadFile', 'uploadFile']
+  hookMethods.forEach((hook) => {
+    const originRequest = wx[hook]
+    Object.defineProperty(wx, hook, {
+      writable: true,
+      enumerable: true,
+      configurable: true,
+      value: function (...args: any[]) {
+        const options: WechatMiniprogram.RequestOption | WechatMiniprogram.DownloadFileOption | WechatMiniprogram.UploadFileOption = args[0]
+        let method: string
+        if ((options as WechatMiniprogram.RequestOption).method) {
+          method = (options as WechatMiniprogram.RequestOption).method
+        } else if (hook === 'downloadFile') {
+          method = EMethods.Get
+        } else {
+          method = EMethods.Post
+        }
+        const { url, header } = options
+        if ((method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) {
+          return originRequest.call(this, options)
+        }
+        let reqData
+        if (hook === 'request') {
+          reqData = (options as WechatMiniprogram.RequestOption).data
+        } else if (hook === 'downloadFile') {
+          reqData = {
+            filePath: (options as WechatMiniprogram.DownloadFileOption).filePath
+          }
+        } else {
+          // uploadFile
+          reqData = {
+            filePath: (options as WechatMiniprogram.UploadFileOption).filePath,
+            name: (options as WechatMiniprogram.UploadFileOption).name
+          }
+        }
+        const data: MITOHttp = {
+          type: HTTPTYPE.XHR,
+          method,
+          url,
+          reqData,
+          sTime: getTimestamp()
+        }
+        setTraceId(url, (headerFieldName, traceId) => {
+          data.traceId = traceId
+          header[headerFieldName] = traceId
+        })
+        function setRequestHeader(key: string, value: string) {
+          header[key] = value
+        }
+        sdkOptions.beforeAppAjaxSend && sdkOptions.beforeAppAjaxSend({ method, url }, { setRequestHeader })
+
+        const successHandler:
+          | WechatMiniprogram.RequestSuccessCallback
+          | WechatMiniprogram.DownloadFileSuccessCallback
+          | WechatMiniprogram.UploadFileFailCallback = function (res) {
+          const endTime = getTimestamp()
+          data.responseText = (variableTypeDetection.isString(res.data) || variableTypeDetection.isObject(res.data)) && res.data
+          data.elapsedTime = endTime - data.sTime
+          data.status = res.statusCode
+          data.errMsg = res.errMsg
+
+          triggerHandlers(EVENTTYPES.XHR, data)
+          if (typeof options.success === 'function') {
+            return options.success(res)
+          }
+        }
+        const failHandler:
+          | WechatMiniprogram.RequestFailCallback
+          | WechatMiniprogram.DownloadFileFailCallback
+          | WechatMiniprogram.UploadFileFailCallback = function (err) {
+          // 系统和网络层面的失败
+          const endTime = getTimestamp()
+          data.elapsedTime = endTime - data.sTime
+          data.errMsg = err.errMsg
+
+          triggerHandlers(EVENTTYPES.XHR, data)
+          if (typeof options.fail === 'function') {
+            return options.fail(err)
+          }
+        }
+        const actOptions = {
+          ...options,
+          success: successHandler,
+          fail: failHandler
+        }
+
+        return originRequest.call(this, actOptions)
+      }
+    })
   })
 }
 

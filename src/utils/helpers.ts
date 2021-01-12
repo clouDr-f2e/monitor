@@ -167,7 +167,7 @@ export function getBigVersion(version: string) {
   return Number(version.split('.')[0])
 }
 
-export function isHttpFail(code: Number) {
+export function isHttpFail(code: number) {
   return code === 0 || code === HTTP_CODE.BAD_REQUEST || code > HTTP_CODE.UNAUTHORIZED
 }
 

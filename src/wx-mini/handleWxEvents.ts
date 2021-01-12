@@ -201,7 +201,7 @@ const HandleNetworkEvents = {
       data: result,
       level: Severity.Info
     })
-    if (isHttpFail) {
+    if (isHttpFail(data.status)) {
       breadcrumb.push({
         type,
         category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
