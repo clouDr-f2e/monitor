@@ -59,7 +59,6 @@ export class TransportData {
     }
     this.queue.addFn(requestFun)
   }
-  // 需要抽离函数
   wxPost(data: ReportDataType) {
     const result = this.beforePost(data)
     if (!result) return

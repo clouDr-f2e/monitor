@@ -23,7 +23,6 @@ var ERRORTYPES;
     ERRORTYPES["UNKNOWN"] = "UNKNOWN";
     ERRORTYPES["UNKNOWN_FUNCTION"] = "UNKNOWN_FUNCTION";
     ERRORTYPES["JAVASCRIPT_ERROR"] = "JAVASCRIPT_ERROR";
-    ERRORTYPES["BUSINESS_ERROR"] = "BUSINESS_ERROR";
     ERRORTYPES["LOG_ERROR"] = "LOG_ERROR";
     ERRORTYPES["FETCH_ERROR"] = "HTTP_ERROR";
     ERRORTYPES["VUE_ERROR"] = "VUE_ERROR";
@@ -448,6 +447,9 @@ var Queue = (function () {
             this.micro.then(function () { return _this.flushStack(); });
         }
     };
+    Queue.prototype.clear = function () {
+        this.stack = [];
+    };
     Queue.prototype.getStack = function () {
         return this.stack;
     };
@@ -554,7 +556,6 @@ function createErrorId(data) {
         case ERRORTYPES.REACT_ERROR:
             id = data.type + data.name + data.message + originUrl;
             break;
-        case ERRORTYPES.BUSINESS_ERROR:
         case ERRORTYPES.LOG_ERROR:
             id = data.customTag + data.type + data.name + originUrl;
             break;
@@ -1178,6 +1179,7 @@ var HandleWxAppEvents = {
         });
     },
     onError: function (error) {
+        console.log(extractErrorStack$1(error, Severity.Error));
         var data = {
             stack: [],
             message: '',

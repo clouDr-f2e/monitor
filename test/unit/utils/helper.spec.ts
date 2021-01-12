@@ -1,4 +1,4 @@
-import { globalVar } from '@/common/constant'
+import { ERRORTYPES, globalVar } from '@/common/constant'
 import {
   defaultFunctionName,
   generateUUID,
@@ -7,6 +7,7 @@ import {
   getLocationHref,
   getTimestamp,
   on,
+  parseErrorString,
   replaceOld,
   slientConsoleScope,
   throttle,
@@ -130,5 +131,40 @@ describe('helper.ts', () => {
     expect(getBigVersion('0.6.1')).toBe(0)
     expect(getBigVersion('2.6.1')).toBe(2)
     expect(getBigVersion('3.0.4')).toBe(3)
+  })
+  it('should parseErrorString func work', () => {
+    const wxErrorString = `MiniProgramError
+this.hah is not a function
+TypeError: this.hah is not a function
+    at ge.clickJsBtn (http://127.0.0.1:18351/appservice/pages/sdk/sdk.js:27:10)
+    at http://127.0.0.1:18351/appservice/__dev__/WAService.js:2:3233753
+    at a (http://127.0.0.1:18351/appservice/__dev__/WAService.js:2:3160801)`
+    const { message, name, stacks } = parseErrorString(wxErrorString)
+    expect(message).toBe('this.hah is not a function')
+    expect(name).toBe('TypeError')
+    const expectStack = [
+      {
+        args: [],
+        column: 10,
+        line: 27,
+        func: 'ge.clickJsBtn',
+        url: 'http://127.0.0.1:18351/appservice/pages/sdk/sdk.js'
+      },
+      {
+        args: [],
+        column: 3233753,
+        line: 2,
+        func: ERRORTYPES.UNKNOWN_FUNCTION,
+        url: 'http://127.0.0.1:18351/appservice/__dev__/WAService.js'
+      },
+      {
+        args: [],
+        column: 3160801,
+        line: 2,
+        func: 'a',
+        url: 'http://127.0.0.1:18351/appservice/__dev__/WAService.js'
+      }
+    ]
+    expect(stacks).toEqual(expectStack)
   })
 })
