@@ -170,3 +170,16 @@ export function getBigVersion(version: string) {
 export function isHttpFail(code: Number) {
   return code === 0 || code === HTTP_CODE.BAD_REQUEST || code > HTTP_CODE.UNAUTHORIZED
 }
+
+export function setUrlQuery(url: string, query: object) {
+  const queryArr = []
+  Object.keys(query).forEach((k) => {
+    queryArr.push(`${k}=${query[k]}`)
+  })
+  if (url.indexOf('?') !== -1) {
+    url = `${url}&${queryArr.join('&')}`
+  } else {
+    url = `${url}?${queryArr.join('&')}`
+  }
+  return url
+}

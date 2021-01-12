@@ -3,7 +3,7 @@ import { breadcrumb, httpTransform, transportData } from '../core'
 import { ReportDataType } from '@/types'
 import { WxLifeCycleBreadcrumb, WxOnShareAppMessageBreadcrumb, WxOnTabItemTapBreadcrumb } from '@/types/breadcrumb'
 import { Replace } from '@/types/replace'
-import { getTimestamp, isError, isHttpFail, unknownToString } from '@/utils'
+import { getTimestamp, isError, isHttpFail, setUrlQuery, unknownToString } from '@/utils'
 import { Severity } from '@/utils/Severity'
 import { getCurrentRoute, extractErrorStack } from './utils'
 import { HandleEvents } from '@/browser/handleEvents'
@@ -207,6 +207,54 @@ const HandleNetworkEvents = {
   }
 }
 
-const HandleWxRouteEvents = {}
+const pushWxRouteEventsBreadcrumb = function (data: Replace.IRouter) {
+  breadcrumb.push({
+    type: BREADCRUMBTYPES.ROUTE,
+    category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
+    data,
+    level: Severity.Info
+  })
+}
+
+const HandleWxRouteEvents = {
+  switchTab(options: WechatMiniprogram.SwitchTabOption) {
+    const data = {
+      from: getCurrentRoute(),
+      to: options.url
+    }
+    pushWxRouteEventsBreadcrumb(data)
+  },
+  reLaunch(options: WechatMiniprogram.ReLaunchOption) {
+    const data = {
+      from: getCurrentRoute(),
+      to: options.url
+    }
+    pushWxRouteEventsBreadcrumb(data)
+  },
+  redirectTo(options: WechatMiniprogram.RedirectToOption) {
+    const data = {
+      from: getCurrentRoute(),
+      to: options.url
+    }
+    pushWxRouteEventsBreadcrumb(data)
+  },
+  navigateTo(options: WechatMiniprogram.NavigateToOption) {
+    const data = {
+      from: getCurrentRoute(),
+      to: options.url
+    }
+    pushWxRouteEventsBreadcrumb(data)
+  },
+  navigateBack(options: WechatMiniprogram.NavigateBackOption) {
+    const pages = getCurrentPages()
+    const toPage = pages[pages.length - (options.delta || 1)]
+    const toUrl = setUrlQuery(toPage.route, toPage.options)
+    const data = {
+      from: getCurrentRoute(),
+      to: toUrl
+    }
+    pushWxRouteEventsBreadcrumb(data)
+  }
+}
 
 export { HandleWxAppEvents, HandleWxPageEvents, HandleWxConsoleEvents, HandleNetworkEvents, HandleWxRouteEvents }

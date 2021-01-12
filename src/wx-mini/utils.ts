@@ -1,5 +1,5 @@
 import { ERRORTYPES, HTTP_CODE } from '../common/constant'
-import { getTimestamp } from '../utils/helpers'
+import { getTimestamp, setUrlQuery } from '../utils/helpers'
 import { ReportDataType } from '../types/index'
 import { Severity } from '../utils/Severity'
 /**
@@ -9,7 +9,11 @@ import { Severity } from '../utils/Severity'
  */
 export function getCurrentRoute() {
   const pages = getCurrentPages() // 在App里调用该方法，页面还没有生成，长度为0
-  return pages.length ? getCurrentPages().pop().route : 'App'
+  if (!pages.length) {
+    return 'App'
+  }
+  const currentPage = pages.pop()
+  return setUrlQuery(currentPage.route, currentPage.options)
 }
 
 /**

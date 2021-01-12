@@ -8,6 +8,7 @@ import { HandleEvents } from '@/browser/handleEvents'
 import { MITOHttp } from '@/types/common'
 import { transportData } from '@/core'
 import { EMethods } from '@/types'
+import { getCurrentRoute } from './utils'
 
 const clickThrottle = throttle(triggerHandlers, 600)
 
@@ -186,18 +187,21 @@ export function replaceRoute() {
       callback: (data) => HandleWxRouteEvents[method](data),
       type: method
     })
-    // replaceOld(
-    //   appOptions,
-    //   method.replace('AppOn', 'on'),
-    //   function (originMethod: (args: any) => void) {
-    //     return function (args: any): void {
-    //       triggerHandlers(method, args)
-    //       if (originMethod) {
-    //         originMethod.apply(this, arguments)
-    //       }
-    //     }
-    //   },
-    //   true
-    // )
+    const originMethod = wx[method]
+    Object.defineProperty(wx, method, {
+      writable: true,
+      enumerable: true,
+      configurable: true,
+      value: function () {
+        const options:
+          | WechatMiniprogram.SwitchTabOption
+          | WechatMiniprogram.ReLaunchOption
+          | WechatMiniprogram.RedirectToOption
+          | WechatMiniprogram.NavigateToOption
+          | WechatMiniprogram.NavigateBackOption = arguments[0]
+        triggerHandlers(method, options)
+        return originMethod.apply(this, arguments)
+      }
+    })
   })
 }
