@@ -30,18 +30,38 @@ var ERRORTYPES;
     ERRORTYPES["REACT_ERROR"] = "REACT_ERROR";
     ERRORTYPES["RESOURCE_ERROR"] = "RESOURCE_ERROR";
     ERRORTYPES["PROMISE_ERROR"] = "PROMISE_ERROR";
+    ERRORTYPES["MINIPROGRAM_REQUEST_ERROR"] = "MINIPROGRAM_REQUEST_ERROR";
 })(ERRORTYPES || (ERRORTYPES = {}));
-var WxEvents;
-(function (WxEvents) {
-    WxEvents["OnLaunch"] = "onLaunch";
-    WxEvents["OnShow"] = "onShow";
-    WxEvents["OnHide"] = "onHide";
-    WxEvents["OnError"] = "onError";
-    WxEvents["OnPageNotFound"] = "onPageNotFound";
-    WxEvents["OnUnhandledRejection"] = "onUnhandledRejection";
-    WxEvents["Console"] = "wxConsole";
-})(WxEvents || (WxEvents = {}));
-var CompositeEvents = __assign(__assign({}, WxEvents), ERRORTYPES);
+var WxAppEvents;
+(function (WxAppEvents) {
+    WxAppEvents["AppOnLaunch"] = "AppOnLaunch";
+    WxAppEvents["AppOnShow"] = "AppOnShow";
+    WxAppEvents["AppOnHide"] = "AppOnHide";
+    WxAppEvents["AppOnError"] = "AppOnError";
+    WxAppEvents["AppOnPageNotFound"] = "AppOnPageNotFound";
+    WxAppEvents["AppOnUnhandledRejection"] = "AppOnUnhandledRejection";
+})(WxAppEvents || (WxAppEvents = {}));
+var WxPageEvents;
+(function (WxPageEvents) {
+    WxPageEvents["PageOnShow"] = "PageOnShow";
+    WxPageEvents["PageOnHide"] = "PageOnHide";
+    WxPageEvents["PageOnShareAppMessage"] = "PageOnShareAppMessage";
+    WxPageEvents["PageOnShareTimeline"] = "PageOnShareTimeline";
+    WxPageEvents["PageOnTabItemTap"] = "PageOnTabItemTap";
+})(WxPageEvents || (WxPageEvents = {}));
+var WxConsoleEvents;
+(function (WxConsoleEvents) {
+    WxConsoleEvents["Console"] = "wxConsole";
+})(WxConsoleEvents || (WxConsoleEvents = {}));
+var WxRouteEvents;
+(function (WxRouteEvents) {
+    WxRouteEvents["SwitchTab"] = "switchTab";
+    WxRouteEvents["ReLaunch"] = "reLaunch";
+    WxRouteEvents["RedirectTo"] = "redirectTo";
+    WxRouteEvents["NavigateTo"] = "navigateTo";
+    WxRouteEvents["NavigateBack"] = "navigateBack";
+})(WxRouteEvents || (WxRouteEvents = {}));
+var CompositeEvents = __assign(__assign(__assign(__assign({}, WxAppEvents), WxPageEvents), WxConsoleEvents), ERRORTYPES);
 var BREADCRUMBTYPES;
 (function (BREADCRUMBTYPES) {
     BREADCRUMBTYPES["ROUTE"] = "Route";
@@ -55,8 +75,15 @@ var BREADCRUMBTYPES;
     BREADCRUMBTYPES["RESOURCE"] = "Resource";
     BREADCRUMBTYPES["CODE_ERROR"] = "Code Error";
     BREADCRUMBTYPES["CUSTOMER"] = "Customer";
-    BREADCRUMBTYPES["ON_SHOW"] = "On Show";
-    BREADCRUMBTYPES["ON_LAUNCH"] = "On Launch";
+    BREADCRUMBTYPES["APP_ON_SHOW"] = "App On Show";
+    BREADCRUMBTYPES["APP_ON_LAUNCH"] = "App On Launch";
+    BREADCRUMBTYPES["APP_ON_HIDE"] = "App On Hide";
+    BREADCRUMBTYPES["PAGE_ON_SHOW"] = "Page On Show";
+    BREADCRUMBTYPES["PAGE_ON_HIDE"] = "Page On Hide";
+    BREADCRUMBTYPES["PAGE_ON_SHARE_APP_MESSAGE"] = "Page On Share App Message";
+    BREADCRUMBTYPES["PAGE_ON_SHARE_TIMELINE"] = "Page On Share Timeline";
+    BREADCRUMBTYPES["PAGE_ON_TAB_ITEM_TAP"] = "Page On Tab Item Tap";
+    BREADCRUMBTYPES["MINIPROGRAM_REQUEST"] = "Miniprogram Request";
 })(BREADCRUMBTYPES || (BREADCRUMBTYPES = {}));
 var BREADCRUMBCATEGORYS;
 (function (BREADCRUMBCATEGORYS) {
@@ -65,6 +92,7 @@ var BREADCRUMBCATEGORYS;
     BREADCRUMBCATEGORYS["DEBUG"] = "debug";
     BREADCRUMBCATEGORYS["EXCEPTION"] = "exception";
     BREADCRUMBCATEGORYS["LIFECYCLE"] = "lifecycle";
+    BREADCRUMBCATEGORYS["NETWORK"] = "network";
 })(BREADCRUMBCATEGORYS || (BREADCRUMBCATEGORYS = {}));
 var EVENTTYPES;
 (function (EVENTTYPES) {
@@ -532,9 +560,17 @@ var Breadcrumb = (function () {
             case BREADCRUMBTYPES.CUSTOMER:
             case BREADCRUMBTYPES.CONSOLE:
                 return BREADCRUMBCATEGORYS.DEBUG;
-            case BREADCRUMBTYPES.ON_LAUNCH:
-            case BREADCRUMBTYPES.ON_SHOW:
+            case BREADCRUMBTYPES.APP_ON_LAUNCH:
+            case BREADCRUMBTYPES.APP_ON_SHOW:
+            case BREADCRUMBTYPES.APP_ON_HIDE:
+            case BREADCRUMBTYPES.PAGE_ON_SHOW:
+            case BREADCRUMBTYPES.PAGE_ON_HIDE:
+            case BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE:
+            case BREADCRUMBTYPES.PAGE_ON_SHARE_TIMELINE:
+            case BREADCRUMBTYPES.PAGE_ON_TAB_ITEM_TAP:
                 return BREADCRUMBCATEGORYS.LIFECYCLE;
+            case BREADCRUMBTYPES.MINIPROGRAM_REQUEST:
+                return BREADCRUMBCATEGORYS.NETWORK;
             case BREADCRUMBTYPES.UNHANDLEDREJECTION:
             case BREADCRUMBTYPES.CODE_ERROR:
             case BREADCRUMBTYPES.RESOURCE:

@@ -17,4 +17,5 @@ export declare function slientConsoleScope(callback: Function): void;
 export declare function generateUUID(): string;
 export declare function unknownToString(target: unknown): string;
 export declare function getBigVersion(version: string): number;
+export declare function isHttpFail(code: Number): boolean;
 export {};

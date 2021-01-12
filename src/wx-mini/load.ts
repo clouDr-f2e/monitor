@@ -1,5 +1,4 @@
-import { HandleEvents } from '@/browser/handleEvents'
-import { EVENTTYPES, WxAppEvents, WxConsoleEvents } from '@/common/constant'
+import { EVENTTYPES, WxConsoleEvents } from '@/common/constant'
 import { HandleWxConsoleEvents, HandleNetworkEvents } from './handleWxEvents'
 import { addReplaceHandler, replaceApp, replacePage, replaceRoute } from './replace'
 

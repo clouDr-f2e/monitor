@@ -14,6 +14,7 @@ export interface MITOHttp {
     responseText?: any;
     time?: number;
     isSdkUrl?: boolean;
+    errMsg?: string;
 }
 export interface MITOXMLHttpRequest extends XMLHttpRequest {
     [key: string]: any;

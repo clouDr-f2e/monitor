@@ -1,5 +1,5 @@
-import { IAnyObject } from '../types/common'
-import { voidFun, globalVar, HTTP_CODE } from '../common/constant'
+import { IAnyObject, IntegrationError } from '../types/common'
+import { voidFun, globalVar, HTTP_CODE, ERRORTYPES } from '../common/constant'
 import { logger } from './logger'
 import { nativeToString, variableTypeDetection } from './is'
 
@@ -171,6 +171,11 @@ export function isHttpFail(code: Number) {
   return code === 0 || code === HTTP_CODE.BAD_REQUEST || code > HTTP_CODE.UNAUTHORIZED
 }
 
+/**
+ * 给url添加query
+ * @param url
+ * @param query
+ */
 export function setUrlQuery(url: string, query: object) {
   const queryArr = []
   Object.keys(query).forEach((k) => {
@@ -182,4 +187,46 @@ export function setUrlQuery(url: string, query: object) {
     url = `${url}?${queryArr.join('&')}`
   }
   return url
+}
+/**
+ * 解析字符串错误信息，返回message、name、stacks
+ * @param str error string
+ */
+export function parseErrorString(str: string): IntegrationError {
+  const splitLine: string[] = str.split('\n')
+  if (splitLine.length < 2) return null
+  if (splitLine[0].indexOf('MiniProgramError') !== -1) {
+    splitLine.splice(0, 1)
+  }
+  const message = splitLine.splice(0, 1)[0]
+  const name = splitLine.splice(0, 1)[0].split(':')[0]
+  const stacks = []
+  splitLine.forEach((errorLine: string) => {
+    const regexpGetFun = /at\s+([\S]+)\s+\(/ // 获取 [ 函数名 ]
+    const regexGetFile = /\(([^)]+)\)/ // 获取 [ 有括号的文件 , 没括号的文件 ]
+    const regexGetFileNoParenthese = /\s+at\s+(\S+)/ // 获取 [ 有括号的文件 , 没括号的文件 ]
+
+    const funcExec = regexpGetFun.exec(errorLine)
+    let fileURLExec = regexGetFile.exec(errorLine)
+    if (!fileURLExec) {
+      // 假如为空尝试解析无括号的URL
+      fileURLExec = regexGetFileNoParenthese.exec(errorLine)
+    }
+
+    const funcNameMatch = Array.isArray(funcExec) && funcExec.length > 0 ? funcExec[1].trim() : ''
+    const fileURLMatch = Array.isArray(fileURLExec) && fileURLExec.length > 0 ? fileURLExec[1] : ''
+    const lineInfo = fileURLMatch.split(':')
+    stacks.push({
+      args: [], // 请求参数
+      func: funcNameMatch || ERRORTYPES.UNKNOWN_FUNCTION, // 前端分解后的报错
+      column: Number(lineInfo.pop()), // 前端分解后的列
+      line: Number(lineInfo.pop()), // 前端分解后的行
+      url: lineInfo.join(':') // 前端分解后的URL
+    })
+  })
+  return {
+    message,
+    name,
+    stacks
+  }
 }

@@ -42,7 +42,7 @@ MITO.init({})
 | SDK_VERSION |  String  |                   version in package.json                    | SDK version                              |
 |  SDK_NAME   |  String  |                     name in package.json                     | SDK name                                 |
 |    init     | Function |                     (option:InitOptions)                     | pass options you need to Initialize SDK  |
-|     log     | Function | (Info:string, tag:string, level = Severity.Normal, ex = '', type = ERRORTYPES.BUSINESS_ERROR) |                                          |
+|     log     | Function | (Info:string, tag:string, level = Severity.Normal, ex = '', type = ERRORTYPES.LOG_ERROR) |                                          |
 
 
 

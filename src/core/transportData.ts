@@ -15,7 +15,7 @@ import { AuthInfo, TransportDataType, ReportDataType } from '../types/transportD
  */
 export class TransportData {
   // static img = new Image()
-  private queue: Queue
+  queue: Queue
   private beforeDataReport: unknown = null
   private backTrackerId: InitOptions | unknown = null
   private configReportXhr: unknown = null
@@ -59,7 +59,6 @@ export class TransportData {
     }
     this.queue.addFn(requestFun)
   }
-  // 需要抽离函数
   wxPost(data: ReportDataType) {
     const result = this.beforePost(data)
     if (!result) return

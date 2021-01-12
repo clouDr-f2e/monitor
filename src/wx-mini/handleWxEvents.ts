@@ -3,9 +3,9 @@ import { breadcrumb, httpTransform, transportData } from '../core'
 import { ReportDataType } from '@/types'
 import { WxLifeCycleBreadcrumb, WxOnShareAppMessageBreadcrumb, WxOnTabItemTapBreadcrumb } from '@/types/breadcrumb'
 import { Replace } from '@/types/replace'
-import { getTimestamp, isError, isHttpFail, setUrlQuery, unknownToString } from '@/utils'
+import { extractErrorStack, getTimestamp, isError, isHttpFail, setUrlQuery, parseErrorString, unknownToString } from '@/utils'
 import { Severity } from '@/utils/Severity'
-import { getCurrentRoute, extractErrorStack } from './utils'
+import { getCurrentRoute } from './utils'
 import { HandleEvents } from '@/browser/handleEvents'
 import { MITOHttp } from '@/types/common'
 
@@ -47,12 +47,9 @@ const HandleWxAppEvents = {
     })
   },
   onError(error: string) {
-    // 需要用正则转换
-    // console.log('onError', error)
+    const parsedError = parseErrorString(error)
     const data: ReportDataType = {
-      stack: [],
-      message: '',
-      name: '',
+      ...parsedError,
       time: getTimestamp(),
       level: Severity.Normal,
       url: getCurrentRoute()
@@ -78,7 +75,8 @@ const HandleWxAppEvents = {
     if (isError(ev.reason)) {
       data = {
         ...data,
-        ...extractErrorStack(ev.reason, Severity.Low)
+        ...extractErrorStack(ev.reason, Severity.Low),
+        url: getCurrentRoute()
       }
     }
     breadcrumb.push({

@@ -53,11 +53,7 @@
 
 <img src="https://i.loli.net/2020/08/19/prtQbEcF7yu1MfZ.jpg" width="240px" />
 
-## FAQ
-<details>
- <summary>这个SDK具体是怎么使用的？</summary>
-该SDK是为了抓取前端页面的错误，然后上报到你所配置的接口。至于服务端和错误可视化界面是需要自己实现，适合给有意向自己研发前端监控系统的开发者使用最佳。
-</details>
+
 
 
 

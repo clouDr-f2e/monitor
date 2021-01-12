@@ -18,7 +18,6 @@ export default function createErrorId(data: ReportDataType): number | null {
     case ERRORTYPES.REACT_ERROR:
       id = data.type + data.name + data.message + originUrl
       break
-    case ERRORTYPES.BUSINESS_ERROR:
     case ERRORTYPES.LOG_ERROR:
       id = data.customTag + data.type + data.name + originUrl
       break
