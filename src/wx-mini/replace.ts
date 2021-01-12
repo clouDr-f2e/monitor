@@ -10,8 +10,6 @@ import { transportData } from '@/core'
 import { EMethods } from '@/types'
 import { getCurrentRoute } from './utils'
 
-const clickThrottle = throttle(triggerHandlers, 600)
-
 function isFilterHttpUrl(url: string) {
   return sdkOptions.filterXhrUrlRegExp && sdkOptions.filterXhrUrlRegExp.test(url)
 }
@@ -118,11 +116,20 @@ export function replacePage() {
         pageOptions,
         m,
         function (originMethod: (args: any) => void) {
+          function gestureTrigger(e) {
+            console.log('gesture')
+            e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
+            triggerHandlers(EVENTTYPES.DOM, e)
+          }
+          const throttleTouchMoveTrigger = throttle(gestureTrigger, 2000)
           return function (...args: any): void {
             const e = args[0]
-            if (e && e.type && e.type !== 'touchmove' && e.currentTarget && !e.mitoProcessed) {
-              e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
-              triggerHandlers(EVENTTYPES.DOM, e)
+            if (e && e.type && e.currentTarget && !e.mitoProcessed) {
+              if (e.type === 'touchmove') {
+                throttleTouchMoveTrigger(e)
+              } else {
+                gestureTrigger(e)
+              }
             }
             originMethod.apply(this, args)
           }
