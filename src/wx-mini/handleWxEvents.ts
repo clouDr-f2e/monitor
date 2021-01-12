@@ -170,6 +170,14 @@ const HandleWxPageEvents = {
       data,
       level: Severity.Info
     })
+  },
+  onAction(e) {
+    breadcrumb.push({
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.CLICK),
+      type: e.type,
+      data: e,
+      level: Severity.Info
+    })
   }
 }
 

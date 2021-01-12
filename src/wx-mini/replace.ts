@@ -75,7 +75,7 @@ export function replacePage() {
     return
   }
   const originPage = Page
-  Page = function (appOptions: WechatMiniprogram.Page.ILifetime) {
+  Page = function (pageOptions): WechatMiniprogram.Page.Constructor {
     const methods = [
       WxPageEvents.PageOnShow,
       WxPageEvents.PageOnHide,
@@ -89,7 +89,7 @@ export function replacePage() {
         type: method
       })
       replaceOld(
-        appOptions,
+        pageOptions,
         method.replace('PageOn', 'on'),
         function (originMethod: (args: any) => void) {
           return function (...args: any[]): void {
@@ -102,8 +102,36 @@ export function replacePage() {
         true
       )
     })
-    return originPage(appOptions)
-  } as WechatMiniprogram.Page.Constructor
+    function isNotAction(method) {
+      // 如果是method中处理过的方法，则不是处理用户手势行为的方法
+      return methods.find((m) => m.replace('PageOn', 'on') === method)
+    }
+    addReplaceHandler({
+      callback: (data) => HandleWxPageEvents.onAction(data),
+      type: EVENTTYPES.DOM
+    })
+    Object.keys(pageOptions).forEach((m) => {
+      if ('function' !== typeof pageOptions[m] || isNotAction(m)) {
+        return
+      }
+      replaceOld(
+        pageOptions,
+        m,
+        function (originMethod: (args: any) => void) {
+          return function (...args: any): void {
+            const e = args[0]
+            if (e && e.type && e.type !== 'touchmove' && e.currentTarget && !e.mitoProcessed) {
+              e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
+              triggerHandlers(EVENTTYPES.DOM, e)
+            }
+            originMethod.apply(this, args)
+          }
+        },
+        true
+      )
+    })
+    return originPage.call(this, pageOptions)
+  }
 }
 
 function replaceConsole() {
