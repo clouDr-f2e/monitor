@@ -1,4 +1,4 @@
-import { setUrlQuery } from '@/utils'
+import { setUrlQuery, variableTypeDetection } from '@/utils'
 
 /**
  * 获取wx当前route的方法
@@ -6,6 +6,9 @@ import { setUrlQuery } from '@/utils'
  * 否则都是在注册Page和Component时执行的代码，此时url默认返回'App'
  */
 export function getCurrentRoute() {
+  if (!variableTypeDetection.isFunction(getCurrentPages)) {
+    return ''
+  }
   const pages = getCurrentPages() // 在App里调用该方法，页面还没有生成，长度为0
   if (!pages.length) {
     return 'App'

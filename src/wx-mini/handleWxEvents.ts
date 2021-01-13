@@ -52,7 +52,8 @@ const HandleWxAppEvents = {
       ...parsedError,
       time: getTimestamp(),
       level: Severity.Normal,
-      url: getCurrentRoute()
+      url: getCurrentRoute(),
+      type: ERRORTYPES.JAVASCRIPT_ERROR
     }
     breadcrumb.push({
       category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
