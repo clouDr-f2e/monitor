@@ -167,10 +167,27 @@ export function getBigVersion(version: string) {
   return Number(version.split('.')[0])
 }
 
-export function isHttpFail(code: Number) {
+export function isHttpFail(code: number) {
   return code === 0 || code === HTTP_CODE.BAD_REQUEST || code > HTTP_CODE.UNAUTHORIZED
 }
 
+/**
+ * 给url添加query
+ * @param url
+ * @param query
+ */
+export function setUrlQuery(url: string, query: object) {
+  const queryArr = []
+  Object.keys(query).forEach((k) => {
+    queryArr.push(`${k}=${query[k]}`)
+  })
+  if (url.indexOf('?') !== -1) {
+    url = `${url}&${queryArr.join('&')}`
+  } else {
+    url = `${url}?${queryArr.join('&')}`
+  }
+  return url
+}
 /**
  * 解析字符串错误信息，返回message、name、stacks
  * @param str error string
