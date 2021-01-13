@@ -2,12 +2,13 @@ import { options as sdkOptions, setTraceId } from '../core/options'
 import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subscribe'
 import { getTimestamp, replaceOld, throttle } from '../utils/helpers'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
-import { WxAppEvents, WxPageEvents, WxConsoleEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE } from '../common/constant'
+import { WxAppEvents, WxPageEvents, WxConsoleEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE, BREADCRUMBTYPES } from '../common/constant'
 import { variableTypeDetection } from '@/utils'
 import { MITOHttp } from '@/types/common'
 import { transportData } from '@/core'
 import { EMethods } from '@/types'
 import { getCurrentRoute, getNavigateBackTargetUrl } from './utils'
+import { ELinstenerTypes } from './constant'
 
 function isFilterHttpUrl(url: string) {
   return sdkOptions.filterXhrUrlRegExp && sdkOptions.filterXhrUrlRegExp.test(url)
@@ -109,6 +110,12 @@ export function replacePage() {
       callback: (data) => HandleWxPageEvents.onAction(data),
       type: EVENTTYPES.DOM
     })
+    function gestureTrigger(e) {
+      e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
+      triggerHandlers(EVENTTYPES.DOM, e)
+    }
+    const throttleGesturetrigger = throttle(gestureTrigger, 500)
+    const linstenerTypes = [ELinstenerTypes.Touchmove, ELinstenerTypes.Tap]
     Object.keys(pageOptions).forEach((m) => {
       if ('function' !== typeof pageOptions[m] || isNotAction(m)) {
         return
@@ -117,19 +124,11 @@ export function replacePage() {
         pageOptions,
         m,
         function (originMethod: (args: any) => void) {
-          function gestureTrigger(e) {
-            console.log('gesture')
-            e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
-            triggerHandlers(EVENTTYPES.DOM, e)
-          }
-          const throttleTouchMoveTrigger = throttle(gestureTrigger, 2000)
           return function (...args: any): void {
             const e = args[0]
             if (e && e.type && e.currentTarget && !e.mitoProcessed) {
-              if (e.type === 'touchmove') {
-                throttleTouchMoveTrigger(e)
-              } else {
-                gestureTrigger(e)
+              if (linstenerTypes.indexOf(e.type)) {
+                throttleGesturetrigger(e)
               }
             }
             originMethod.apply(this, args)
@@ -319,7 +318,7 @@ export function replaceNetwork() {
 export function replaceRoute() {
   const methods = [WxRouteEvents.SwitchTab, WxRouteEvents.ReLaunch, WxRouteEvents.RedirectTo, WxRouteEvents.NavigateTo, WxRouteEvents.NavigateBack]
   methods.forEach((method) => {
-    const originMethod = wx[method]
+    const originMethod = wx[method] as Function
     Object.defineProperty(wx, method, {
       writable: true,
       enumerable: true,
@@ -369,7 +368,7 @@ export function replaceRoute() {
           }
           options.fail = failHandler
         }
-        return originMethod.apply(this, arguments)
+        return originMethod.call(this, options)
       }
     })
   })

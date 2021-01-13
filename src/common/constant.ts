@@ -83,6 +83,10 @@ export enum BREADCRUMBTYPES {
   PAGE_ON_SHARE_TIMELINE = 'Page On Share Timeline',
   PAGE_ON_TAB_ITEM_TAP = 'Page On Tab Item Tap',
 
+  // wx BaseEvent
+  TAP = 'UI.Tap',
+  TOUCHMOVE = 'UI.Touchmove',
+
   // wx network
   MINIPROGRAM_REQUEST = 'Miniprogram Request'
 }

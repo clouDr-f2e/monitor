@@ -5,10 +5,11 @@ import { WxLifeCycleBreadcrumb, WxOnShareAppMessageBreadcrumb, WxOnTabItemTapBre
 import { Replace } from '@/types/replace'
 import { extractErrorStack, getTimestamp, isError, isHttpFail, setUrlQuery, parseErrorString, unknownToString } from '@/utils'
 import { Severity } from '@/utils/Severity'
-import { getCurrentRoute } from './utils'
+import { getCurrentRoute, targetAsString } from './utils'
 import { HandleEvents } from '@/browser/handleEvents'
 import { MITOHttp } from '@/types/common'
 import { MiniRoute } from './types'
+import { ELinstenerTypes } from './constant'
 
 const HandleWxAppEvents = {
   // app
@@ -173,11 +174,15 @@ const HandleWxPageEvents = {
       level: Severity.Info
     })
   },
-  onAction(e) {
+  onAction(e: WechatMiniprogram.BaseEvent) {
+    let type = BREADCRUMBTYPES.TOUCHMOVE
+    if (e.type === ELinstenerTypes.Tap) {
+      type = BREADCRUMBTYPES.TAP
+    }
     breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.CLICK),
-      type: e.type,
-      data: e,
+      category: breadcrumb.getCategory(type),
+      type,
+      data: targetAsString(e),
       level: Severity.Info
     })
   }

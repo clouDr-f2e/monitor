@@ -15,10 +15,10 @@ export function setupReplace() {
     },
     type: EVENTTYPES.XHR
   })
-  addReplaceHandler({
-    callback: (data) => {
-      HandleWxConsoleEvents.console(data)
-    },
-    type: WxConsoleEvents.Console
-  })
+  // addReplaceHandler({
+  //   callback: (data) => {
+  //     HandleWxConsoleEvents.console(data)
+  //   },
+  //   type: WxConsoleEvents.Console
+  // })
 }
