@@ -16,3 +16,16 @@ export function getCurrentRoute() {
   const currentPage = pages.pop()
   return setUrlQuery(currentPage.route, currentPage.options)
 }
+
+export function getNavigateBackTargetUrl(delta: number | undefined) {
+  if (!variableTypeDetection.isFunction(getCurrentPages)) {
+    return ''
+  }
+  const pages = getCurrentPages() // 在App里调用该方法，页面还没有生成，长度为0
+  if (!pages.length) {
+    return 'App'
+  }
+  delta = delta || 1
+  const toPage = pages[pages.length - delta]
+  return setUrlQuery(toPage.route, toPage.options)
+}
