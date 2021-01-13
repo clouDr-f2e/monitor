@@ -1,12 +1,13 @@
 import { options as sdkOptions, setTraceId } from '../core/options'
 import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subscribe'
 import { getTimestamp, replaceOld, throttle } from '../utils/helpers'
-import { HandleWxAppEvents, HandleWxPageEvents, HandleNetworkEvents, HandleWxRouteEvents } from './handleWxEvents'
+import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
 import { WxAppEvents, WxPageEvents, WxConsoleEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE } from '../common/constant'
 import { variableTypeDetection } from '@/utils'
 import { MITOHttp } from '@/types/common'
 import { transportData } from '@/core'
 import { EMethods } from '@/types'
+import { getCurrentRoute, getNavigateBackTargetUrl } from './utils'
 
 function isFilterHttpUrl(url: string) {
   return sdkOptions.filterXhrUrlRegExp && sdkOptions.filterXhrUrlRegExp.test(url)
@@ -20,6 +21,8 @@ function replace(type: WxEvents | EVENTTYPES) {
     case EVENTTYPES.XHR:
       replaceNetwork()
       break
+    case EVENTTYPES.MINI_ROUTE:
+      replaceRoute()
     default:
       break
   }
@@ -316,23 +319,56 @@ export function replaceNetwork() {
 export function replaceRoute() {
   const methods = [WxRouteEvents.SwitchTab, WxRouteEvents.ReLaunch, WxRouteEvents.RedirectTo, WxRouteEvents.NavigateTo, WxRouteEvents.NavigateBack]
   methods.forEach((method) => {
-    addReplaceHandler({
-      callback: (data) => HandleWxRouteEvents[method](data),
-      type: method
-    })
     const originMethod = wx[method]
     Object.defineProperty(wx, method, {
       writable: true,
       enumerable: true,
       configurable: true,
-      value: function () {
-        const options:
+      value: function (
+        options:
           | WechatMiniprogram.SwitchTabOption
           | WechatMiniprogram.ReLaunchOption
           | WechatMiniprogram.RedirectToOption
           | WechatMiniprogram.NavigateToOption
-          | WechatMiniprogram.NavigateBackOption = arguments[0]
-        triggerHandlers(method, options)
+          | WechatMiniprogram.NavigateBackOption
+      ) {
+        const pages = getCurrentPages()
+        let toUrl
+        if (method === WxRouteEvents.NavigateBack) {
+          toUrl = getNavigateBackTargetUrl((options as WechatMiniprogram.NavigateBackOption).delta)
+        } else {
+          toUrl = (options as WechatMiniprogram.SwitchTabOption).url
+        }
+        const data = {
+          from: getCurrentRoute(),
+          to: toUrl
+        }
+        // debugger
+        triggerHandlers(EVENTTYPES.MINI_ROUTE, data)
+        // 如果complete||success||fail一个都没有，则原方法返回promise，此时sdk也不需要处理
+        if (
+          variableTypeDetection.isFunction(options.complete) ||
+          variableTypeDetection.isFunction(options.success) ||
+          variableTypeDetection.isFunction(options.fail)
+        ) {
+          const failHandler:
+            | WechatMiniprogram.SwitchTabFailCallback
+            | WechatMiniprogram.ReLaunchFailCallback
+            | WechatMiniprogram.RedirectToFailCallback
+            | WechatMiniprogram.NavigateToFailCallback
+            | WechatMiniprogram.NavigateBackFailCallback = function (res) {
+            const failData = {
+              ...data,
+              isFail: true,
+              message: res.errMsg
+            }
+            triggerHandlers(EVENTTYPES.MINI_ROUTE, failData)
+            if (variableTypeDetection.isFunction(options.fail)) {
+              return options.fail(res)
+            }
+          }
+          options.fail = failHandler
+        }
         return originMethod.apply(this, arguments)
       }
     })

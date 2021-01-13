@@ -8,6 +8,7 @@ import { Severity } from '@/utils/Severity'
 import { getCurrentRoute } from './utils'
 import { HandleEvents } from '@/browser/handleEvents'
 import { MITOHttp } from '@/types/common'
+import { MiniRoute } from './types'
 
 const HandleWxAppEvents = {
   // app
@@ -214,16 +215,45 @@ const HandleNetworkEvents = {
   }
 }
 
-const pushWxRouteEventsBreadcrumb = function (data: Replace.IRouter) {
-  breadcrumb.push({
-    type: BREADCRUMBTYPES.ROUTE,
-    category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
-    data,
-    level: Severity.Info
-  })
+// const pushWxRouteEventsBreadcrumb = function (data: Replace.IRouter) {
+//   breadcrumb.push({
+//     type: BREADCRUMBTYPES.ROUTE,
+//     category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
+//     data,
+//     level: Severity.Info
+//   })
+// }
+
+const HandleWxEvents = {
+  handleRoute(data: MiniRoute) {
+    if (data.isFail) {
+      breadcrumb.push({
+        type: BREADCRUMBTYPES.ROUTE,
+        category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
+        data,
+        level: Severity.Error
+      })
+
+      const reportData = {
+        type: ERRORTYPES.ROUTE_ERROR,
+        message: data.errMsg,
+        url: data.to,
+        name: 'MINI_' + ERRORTYPES.ROUTE_ERROR,
+        level: Severity.Error
+      }
+
+      return transportData.send(reportData)
+    }
+    breadcrumb.push({
+      type: BREADCRUMBTYPES.ROUTE,
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
+      data,
+      level: Severity.Info
+    })
+  }
 }
 
-const HandleWxRouteEvents = {
+/* const HandleWxRouteEvents = {
   switchTab(options: WechatMiniprogram.SwitchTabOption) {
     const data = {
       from: getCurrentRoute(),
@@ -262,6 +292,6 @@ const HandleWxRouteEvents = {
     }
     pushWxRouteEventsBreadcrumb(data)
   }
-}
+} */
 
-export { HandleWxAppEvents, HandleWxPageEvents, HandleWxConsoleEvents, HandleNetworkEvents, HandleWxRouteEvents }
+export { HandleWxAppEvents, HandleWxPageEvents, HandleWxConsoleEvents, HandleNetworkEvents, HandleWxEvents }

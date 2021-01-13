@@ -1,11 +1,14 @@
 import { EVENTTYPES, WxConsoleEvents } from '@/common/constant'
-import { HandleWxConsoleEvents, HandleNetworkEvents } from './handleWxEvents'
+import { HandleWxConsoleEvents, HandleNetworkEvents, HandleWxEvents } from './handleWxEvents'
 import { addReplaceHandler, replaceApp, replacePage, replaceRoute } from './replace'
 
 export function setupReplace() {
   replaceApp()
   replacePage()
-  replaceRoute()
+  addReplaceHandler({
+    callback: (data) => HandleWxEvents.handleRoute(data),
+    type: EVENTTYPES.MINI_ROUTE
+  })
   addReplaceHandler({
     callback: (data) => {
       HandleNetworkEvents.handleRequest(data)

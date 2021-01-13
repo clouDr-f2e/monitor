@@ -12,7 +12,8 @@ export enum ERRORTYPES {
   REACT_ERROR = 'REACT_ERROR',
   RESOURCE_ERROR = 'RESOURCE_ERROR',
   PROMISE_ERROR = 'PROMISE_ERROR',
-  MINIPROGRAM_REQUEST_ERROR = 'MINIPROGRAM_REQUEST_ERROR'
+  MINIPROGRAM_REQUEST_ERROR = 'MINIPROGRAM_REQUEST_ERROR',
+  ROUTE_ERROR = 'ROUTE_ERROR'
 }
 
 export enum WxAppEvents {
@@ -41,7 +42,8 @@ export enum WxRouteEvents {
   ReLaunch = 'reLaunch',
   RedirectTo = 'redirectTo',
   NavigateTo = 'navigateTo',
-  NavigateBack = 'navigateBack'
+  NavigateBack = 'navigateBack',
+  RouteFail = 'routeFail'
 }
 
 export type WxEvents = WxAppEvents | WxPageEvents | WxConsoleEvents | WxRouteEvents
@@ -109,7 +111,9 @@ export enum EVENTTYPES {
   HASHCHANGE = 'hashchange',
   UNHANDLEDREJECTION = 'unhandledrejection',
   MITO = 'mito',
-  VUE = 'Vue'
+  VUE = 'Vue',
+  // for miniprogram
+  MINI_ROUTE = 'miniRoute'
 }
 
 export enum HTTPTYPE {
