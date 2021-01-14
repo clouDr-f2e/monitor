@@ -21,7 +21,6 @@ var ERRORTYPES;
     ERRORTYPES["UNKNOWN"] = "UNKNOWN";
     ERRORTYPES["UNKNOWN_FUNCTION"] = "UNKNOWN_FUNCTION";
     ERRORTYPES["JAVASCRIPT_ERROR"] = "JAVASCRIPT_ERROR";
-    ERRORTYPES["BUSINESS_ERROR"] = "BUSINESS_ERROR";
     ERRORTYPES["LOG_ERROR"] = "LOG_ERROR";
     ERRORTYPES["FETCH_ERROR"] = "HTTP_ERROR";
     ERRORTYPES["VUE_ERROR"] = "VUE_ERROR";
@@ -29,6 +28,7 @@ var ERRORTYPES;
     ERRORTYPES["RESOURCE_ERROR"] = "RESOURCE_ERROR";
     ERRORTYPES["PROMISE_ERROR"] = "PROMISE_ERROR";
     ERRORTYPES["MINIPROGRAM_REQUEST_ERROR"] = "MINIPROGRAM_REQUEST_ERROR";
+    ERRORTYPES["ROUTE_ERROR"] = "ROUTE_ERROR";
 })(ERRORTYPES || (ERRORTYPES = {}));
 var WxAppEvents;
 (function (WxAppEvents) {
@@ -47,10 +47,6 @@ var WxPageEvents;
     WxPageEvents["PageOnShareTimeline"] = "PageOnShareTimeline";
     WxPageEvents["PageOnTabItemTap"] = "PageOnTabItemTap";
 })(WxPageEvents || (WxPageEvents = {}));
-var WxConsoleEvents;
-(function (WxConsoleEvents) {
-    WxConsoleEvents["Console"] = "wxConsole";
-})(WxConsoleEvents || (WxConsoleEvents = {}));
 var WxRouteEvents;
 (function (WxRouteEvents) {
     WxRouteEvents["SwitchTab"] = "switchTab";
@@ -58,8 +54,9 @@ var WxRouteEvents;
     WxRouteEvents["RedirectTo"] = "redirectTo";
     WxRouteEvents["NavigateTo"] = "navigateTo";
     WxRouteEvents["NavigateBack"] = "navigateBack";
+    WxRouteEvents["RouteFail"] = "routeFail";
 })(WxRouteEvents || (WxRouteEvents = {}));
-var CompositeEvents = __assign(__assign(__assign(__assign({}, WxAppEvents), WxPageEvents), WxConsoleEvents), ERRORTYPES);
+var CompositeEvents = __assign(__assign(__assign({}, WxAppEvents), WxPageEvents), ERRORTYPES);
 var BREADCRUMBTYPES;
 (function (BREADCRUMBTYPES) {
     BREADCRUMBTYPES["ROUTE"] = "Route";
@@ -81,6 +78,8 @@ var BREADCRUMBTYPES;
     BREADCRUMBTYPES["PAGE_ON_SHARE_APP_MESSAGE"] = "Page On Share App Message";
     BREADCRUMBTYPES["PAGE_ON_SHARE_TIMELINE"] = "Page On Share Timeline";
     BREADCRUMBTYPES["PAGE_ON_TAB_ITEM_TAP"] = "Page On Tab Item Tap";
+    BREADCRUMBTYPES["TAP"] = "UI.Tap";
+    BREADCRUMBTYPES["TOUCHMOVE"] = "UI.Touchmove";
     BREADCRUMBTYPES["MINIPROGRAM_REQUEST"] = "Miniprogram Request";
 })(BREADCRUMBTYPES || (BREADCRUMBTYPES = {}));
 var BREADCRUMBCATEGORYS;
@@ -104,6 +103,7 @@ var EVENTTYPES;
     EVENTTYPES["UNHANDLEDREJECTION"] = "unhandledrejection";
     EVENTTYPES["MITO"] = "mito";
     EVENTTYPES["VUE"] = "Vue";
+    EVENTTYPES["MINI_ROUTE"] = "miniRoute";
 })(EVENTTYPES || (EVENTTYPES = {}));
 var HTTPTYPE;
 (function (HTTPTYPE) {
@@ -495,6 +495,9 @@ var Queue = (function () {
             this.micro.then(function () { return _this.flushStack(); });
         }
     };
+    Queue.prototype.clear = function () {
+        this.stack = [];
+    };
     Queue.prototype.getStack = function () {
         return this.stack;
     };
@@ -554,6 +557,8 @@ var Breadcrumb = (function () {
                 return BREADCRUMBCATEGORYS.HTTP;
             case BREADCRUMBTYPES.CLICK:
             case BREADCRUMBTYPES.ROUTE:
+            case BREADCRUMBTYPES.TAP:
+            case BREADCRUMBTYPES.TOUCHMOVE:
                 return BREADCRUMBCATEGORYS.USER;
             case BREADCRUMBTYPES.CUSTOMER:
             case BREADCRUMBTYPES.CONSOLE:
@@ -601,7 +606,6 @@ function createErrorId(data) {
         case ERRORTYPES.REACT_ERROR:
             id = data.type + data.name + data.message + originUrl;
             break;
-        case ERRORTYPES.BUSINESS_ERROR:
         case ERRORTYPES.LOG_ERROR:
             id = data.customTag + data.type + data.name + originUrl;
             break;

@@ -1,6 +1,7 @@
 /// <reference types="wechat-miniprogram" />
 import { Replace } from '@/types/replace';
 import { MITOHttp } from '@/types/common';
+import { MiniRoute } from './types';
 declare const HandleWxAppEvents: {
     onLaunch(options: WechatMiniprogram.App.LaunchShowOption): void;
     onShow(options: WechatMiniprogram.App.LaunchShowOption): void;
@@ -15,6 +16,7 @@ declare const HandleWxPageEvents: {
     onShareAppMessage(options: WechatMiniprogram.Page.IShareAppMessageOption): void;
     onShareTimeline(): void;
     onTabItemTap(options: WechatMiniprogram.Page.ITabItemTapOption): void;
+    onAction(e: WechatMiniprogram.BaseEvent): void;
 };
 declare const HandleWxConsoleEvents: {
     console(data: Replace.TriggerConsole): void;
@@ -22,5 +24,7 @@ declare const HandleWxConsoleEvents: {
 declare const HandleNetworkEvents: {
     handleRequest(data: MITOHttp): void;
 };
-declare const HandleWxRouteEvents: {};
-export { HandleWxAppEvents, HandleWxPageEvents, HandleWxConsoleEvents, HandleNetworkEvents, HandleWxRouteEvents };
+declare const HandleWxEvents: {
+    handleRoute(data: MiniRoute): void;
+};
+export { HandleWxAppEvents, HandleWxPageEvents, HandleWxConsoleEvents, HandleNetworkEvents, HandleWxEvents };

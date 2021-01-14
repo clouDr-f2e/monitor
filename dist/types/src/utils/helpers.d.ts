@@ -1,4 +1,4 @@
-import { IAnyObject } from '../types/common';
+import { IAnyObject, IntegrationError } from '../types/common';
 export declare function getLocationHref(): string;
 declare type TotalEventName = keyof GlobalEventHandlersEventMap | keyof XMLHttpRequestEventTargetEventMap | keyof WindowEventMap;
 export declare function on(target: {
@@ -17,5 +17,7 @@ export declare function slientConsoleScope(callback: Function): void;
 export declare function generateUUID(): string;
 export declare function unknownToString(target: unknown): string;
 export declare function getBigVersion(version: string): number;
-export declare function isHttpFail(code: Number): boolean;
+export declare function isHttpFail(code: number): boolean;
+export declare function setUrlQuery(url: string, query: object): string;
+export declare function parseErrorString(str: string): IntegrationError;
 export {};

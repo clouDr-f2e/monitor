@@ -3,14 +3,14 @@ export declare enum ERRORTYPES {
     UNKNOWN = "UNKNOWN",
     UNKNOWN_FUNCTION = "UNKNOWN_FUNCTION",
     JAVASCRIPT_ERROR = "JAVASCRIPT_ERROR",
-    BUSINESS_ERROR = "BUSINESS_ERROR",
     LOG_ERROR = "LOG_ERROR",
     FETCH_ERROR = "HTTP_ERROR",
     VUE_ERROR = "VUE_ERROR",
     REACT_ERROR = "REACT_ERROR",
     RESOURCE_ERROR = "RESOURCE_ERROR",
     PROMISE_ERROR = "PROMISE_ERROR",
-    MINIPROGRAM_REQUEST_ERROR = "MINIPROGRAM_REQUEST_ERROR"
+    MINIPROGRAM_REQUEST_ERROR = "MINIPROGRAM_REQUEST_ERROR",
+    ROUTE_ERROR = "ROUTE_ERROR"
 }
 export declare enum WxAppEvents {
     AppOnLaunch = "AppOnLaunch",
@@ -27,22 +27,19 @@ export declare enum WxPageEvents {
     PageOnShareTimeline = "PageOnShareTimeline",
     PageOnTabItemTap = "PageOnTabItemTap"
 }
-export declare enum WxConsoleEvents {
-    Console = "wxConsole"
-}
 export declare enum WxRouteEvents {
     SwitchTab = "switchTab",
     ReLaunch = "reLaunch",
     RedirectTo = "redirectTo",
     NavigateTo = "navigateTo",
-    NavigateBack = "navigateBack"
+    NavigateBack = "navigateBack",
+    RouteFail = "routeFail"
 }
-export declare type WxEvents = WxAppEvents | WxPageEvents | WxConsoleEvents | WxRouteEvents;
+export declare type WxEvents = WxAppEvents | WxPageEvents | WxRouteEvents;
 export declare const CompositeEvents: {
     UNKNOWN: ERRORTYPES.UNKNOWN;
     UNKNOWN_FUNCTION: ERRORTYPES.UNKNOWN_FUNCTION;
     JAVASCRIPT_ERROR: ERRORTYPES.JAVASCRIPT_ERROR;
-    BUSINESS_ERROR: ERRORTYPES.BUSINESS_ERROR;
     LOG_ERROR: ERRORTYPES.LOG_ERROR;
     FETCH_ERROR: ERRORTYPES.FETCH_ERROR;
     VUE_ERROR: ERRORTYPES.VUE_ERROR;
@@ -50,7 +47,7 @@ export declare const CompositeEvents: {
     RESOURCE_ERROR: ERRORTYPES.RESOURCE_ERROR;
     PROMISE_ERROR: ERRORTYPES.PROMISE_ERROR;
     MINIPROGRAM_REQUEST_ERROR: ERRORTYPES.MINIPROGRAM_REQUEST_ERROR;
-    Console: WxConsoleEvents.Console;
+    ROUTE_ERROR: ERRORTYPES.ROUTE_ERROR;
     PageOnShow: WxPageEvents.PageOnShow;
     PageOnHide: WxPageEvents.PageOnHide;
     PageOnShareAppMessage: WxPageEvents.PageOnShareAppMessage;
@@ -84,6 +81,8 @@ export declare enum BREADCRUMBTYPES {
     PAGE_ON_SHARE_APP_MESSAGE = "Page On Share App Message",
     PAGE_ON_SHARE_TIMELINE = "Page On Share Timeline",
     PAGE_ON_TAB_ITEM_TAP = "Page On Tab Item Tap",
+    TAP = "UI.Tap",
+    TOUCHMOVE = "UI.Touchmove",
     MINIPROGRAM_REQUEST = "Miniprogram Request"
 }
 export declare enum BREADCRUMBCATEGORYS {
@@ -104,7 +103,8 @@ export declare enum EVENTTYPES {
     HASHCHANGE = "hashchange",
     UNHANDLEDREJECTION = "unhandledrejection",
     MITO = "mito",
-    VUE = "Vue"
+    VUE = "Vue",
+    MINI_ROUTE = "miniRoute"
 }
 export declare enum HTTPTYPE {
     XHR = "xhr",

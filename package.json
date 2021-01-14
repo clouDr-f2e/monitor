@@ -6,7 +6,7 @@
   "module": "dist/index.esm.js",
   "types": "dist/types/src/index.d.ts",
   "scripts": {
-    "build": "cross-env IGNORE=localDebug rollup --config",
+    "build": "cross-env IGNORE=localDebug rollup --config && npm run build:wx",
     "watch:groot": "cross-env INCLUDE=localDebug rollup  --config --watch",
     "watch": "rollup --config --watch",
     "watch:wx": "rollup --config wx.rollup.config.js --watch",

@@ -1,8 +1,9 @@
+import { Queue } from '../utils/index';
 import { InitOptions } from '../types/options';
 import { AuthInfo, TransportDataType, ReportDataType } from '../types/transportData';
 export declare class TransportData {
     url: string;
-    private queue;
+    queue: Queue;
     private beforeDataReport;
     private backTrackerId;
     private configReportXhr;
