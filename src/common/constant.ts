@@ -33,10 +33,6 @@ export enum WxPageEvents {
   PageOnTabItemTap = 'PageOnTabItemTap'
 }
 
-export enum WxConsoleEvents {
-  Console = 'wxConsole'
-}
-
 export enum WxRouteEvents {
   SwitchTab = 'switchTab',
   ReLaunch = 'reLaunch',
@@ -46,12 +42,11 @@ export enum WxRouteEvents {
   RouteFail = 'routeFail'
 }
 
-export type WxEvents = WxAppEvents | WxPageEvents | WxConsoleEvents | WxRouteEvents
+export type WxEvents = WxAppEvents | WxPageEvents | WxRouteEvents
 
 export const CompositeEvents = {
   ...WxAppEvents,
   ...WxPageEvents,
-  ...WxConsoleEvents,
   ...ERRORTYPES
 }
 

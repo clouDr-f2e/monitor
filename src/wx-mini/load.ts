@@ -1,4 +1,4 @@
-import { EVENTTYPES, WxConsoleEvents } from '@/common/constant'
+import { EVENTTYPES } from '@/common/constant'
 import { HandleWxConsoleEvents, HandleNetworkEvents, HandleWxEvents } from './handleWxEvents'
 import { addReplaceHandler, replaceApp, replacePage, replaceRoute } from './replace'
 
@@ -15,10 +15,10 @@ export function setupReplace() {
     },
     type: EVENTTYPES.XHR
   })
-  // addReplaceHandler({
-  //   callback: (data) => {
-  //     HandleWxConsoleEvents.console(data)
-  //   },
-  //   type: WxConsoleEvents.Console
-  // })
+  addReplaceHandler({
+    callback: (data) => {
+      HandleWxConsoleEvents.console(data)
+    },
+    type: EVENTTYPES.CONSOLE
+  })
 }

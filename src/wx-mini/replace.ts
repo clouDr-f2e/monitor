@@ -2,7 +2,7 @@ import { options as sdkOptions, setTraceId } from '../core/options'
 import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subscribe'
 import { getTimestamp, replaceOld, throttle } from '../utils/helpers'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
-import { WxAppEvents, WxPageEvents, WxConsoleEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE, BREADCRUMBTYPES } from '../common/constant'
+import { WxAppEvents, WxPageEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE, BREADCRUMBTYPES } from '../common/constant'
 import { variableTypeDetection } from '@/utils'
 import { MITOHttp } from '@/types/common'
 import { transportData } from '@/core'
@@ -16,7 +16,7 @@ function isFilterHttpUrl(url: string) {
 
 function replace(type: WxEvents | EVENTTYPES) {
   switch (type) {
-    case WxConsoleEvents.Console:
+    case EVENTTYPES.CONSOLE:
       replaceConsole()
       break
     case EVENTTYPES.XHR:
@@ -149,7 +149,7 @@ function replaceConsole() {
       replaceOld(console, level, function (originalConsole): Function {
         return function (...args: any[]): void {
           if (originalConsole) {
-            triggerHandlers(WxConsoleEvents.Console, { args, level })
+            triggerHandlers(EVENTTYPES.CONSOLE, { args, level })
             originalConsole.apply(console, args)
           }
         }
