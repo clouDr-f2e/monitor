@@ -1,21 +1,21 @@
 ## 目录
- * [安装](#\xE5\xAE\x89\xE8\xA3\x85)
-         * [使用npm](#\xE4\xBD\xBF\xE7\x94\xA8npm)
-         * [使用CDN](#\xE4\xBD\xBF\xE7\x94\xA8cdn)
-      * [使用环境](#\xE4\xBD\xBF\xE7\x94\xA8\xE7\x8E\xAF\xE5\xA2\x83)
-         * [Vue2.6 NPM包形式](#vue26-npm\xE5\x8C\x85\xE5\xBD\xA2\xE5\xBC\x8F)
-         * [Vue2.6引入CDN](#vue26\xE5\xBC\x95\xE5\x85\xA5cdn)
-         * [Vue3 NPM包形式](#vue3-npm\xE5\x8C\x85\xE5\xBD\xA2\xE5\xBC\x8F)
-         * [Vue3引入CDN](#vue3\xE5\xBC\x95\xE5\x85\xA5cdn)
-      * [React](#react)
-         * [CDN形式](#cdn\xE5\xBD\xA2\xE5\xBC\x8F)
-         * [NPM包形式](#npm\xE5\x8C\x85\xE5\xBD\xA2\xE5\xBC\x8F)
-      * [JS项目](#js\xE9\xA1\xB9\xE7\x9B\xAE)
-      * [微信小程序](#\xE5\xBE\xAE\xE4\xBF\xA1\xE5\xB0\x8F\xE7\xA8\x8B\xE5\xBA\x8F)
-         * [NPM包形式](#npm\xE5\x8C\x85\xE5\xBD\xA2\xE5\xBC\x8F-1)
-         * [本地文件形式](#\xE6\x9C\xAC\xE5\x9C\xB0\xE6\x96\x87\xE4\xBB\xB6\xE5\xBD\xA2\xE5\xBC\x8F)
-         * [options配置](#options\xE9\x85\x8D\xE7\xBD\xAE)
-      * [FAQ](#faq)
+  * [安装](#安装)
+      * [使用npm](#使用npm)
+      * [使用CDN](#使用CDN)
+  * [Vue](#Vue)
+      * [Vue2.6NPM包形式](#Vue2.6NPM包形式)
+      * [Vue2.6引入CDN](#Vue2.6引入CDN)
+      * [Vue3NPM包形式](#Vue3NPM包形式)
+      * [Vue3引入CDN](#Vue3引入CDN)
+  * [React](#react)
+      * [CDN形式](#CDN形式)
+      * [NPM包形式](#NPM包形式)
+  * [JS项目](#JS项目)
+  * [微信小程序](#微信小程序)
+      * [NPM包形式](#NPM包形式)
+      * [本地文件形式](#本地文件形式)
+      * [options配置](#options配置)
+  * [FAQ](#faq)
 
 ## 安装
 
@@ -27,9 +27,9 @@
 
 `<script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.min.js"></script>`
 
-## 使用环境
+## Vue
 
-### Vue2.6 NPM包形式
+### Vue2.6NPM包形式
 
 **main.js**
 
@@ -70,7 +70,7 @@ window.Vue = Vue
       </script>
     </header>
 ```
-### Vue3 NPM包形式
+### Vue3NPM包形式
 
 **main.ts**
 
@@ -230,7 +230,7 @@ MITO.init({
 
 ### 本地文件形式
 
-如果你是开发原生微信小程序的话，推荐将[https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.js](https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.js?_blank)`下载成一个JS文件，然后在`app.js`中引入
+如果你是开发原生微信小程序的话，推荐将[https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.js](https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.js)`下载成一个JS文件，然后在`app.js`中引入
 
 ![wx-mitojs](https://tva1.sinaimg.cn/large/008eGmZEly1gmtcvfkovkj31du0iqjs6.jpg)
 
@@ -238,7 +238,7 @@ MITO.init({
 
 ### options配置
 
-[详细配置](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md?_blank)
+[详细配置](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md)
 
 
 
