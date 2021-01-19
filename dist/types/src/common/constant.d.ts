@@ -9,7 +9,6 @@ export declare enum ERRORTYPES {
     REACT_ERROR = "REACT_ERROR",
     RESOURCE_ERROR = "RESOURCE_ERROR",
     PROMISE_ERROR = "PROMISE_ERROR",
-    MINIPROGRAM_REQUEST_ERROR = "MINIPROGRAM_REQUEST_ERROR",
     ROUTE_ERROR = "ROUTE_ERROR"
 }
 export declare enum WxAppEvents {
@@ -46,7 +45,6 @@ export declare const CompositeEvents: {
     REACT_ERROR: ERRORTYPES.REACT_ERROR;
     RESOURCE_ERROR: ERRORTYPES.RESOURCE_ERROR;
     PROMISE_ERROR: ERRORTYPES.PROMISE_ERROR;
-    MINIPROGRAM_REQUEST_ERROR: ERRORTYPES.MINIPROGRAM_REQUEST_ERROR;
     ROUTE_ERROR: ERRORTYPES.ROUTE_ERROR;
     PageOnShow: WxPageEvents.PageOnShow;
     PageOnHide: WxPageEvents.PageOnHide;
@@ -82,16 +80,14 @@ export declare enum BREADCRUMBTYPES {
     PAGE_ON_SHARE_TIMELINE = "Page On Share Timeline",
     PAGE_ON_TAB_ITEM_TAP = "Page On Tab Item Tap",
     TAP = "UI.Tap",
-    TOUCHMOVE = "UI.Touchmove",
-    MINIPROGRAM_REQUEST = "Miniprogram Request"
+    TOUCHMOVE = "UI.Touchmove"
 }
 export declare enum BREADCRUMBCATEGORYS {
     HTTP = "http",
     USER = "user",
     DEBUG = "debug",
     EXCEPTION = "exception",
-    LIFECYCLE = "lifecycle",
-    NETWORK = "network"
+    LIFECYCLE = "lifecycle"
 }
 export declare enum EVENTTYPES {
     XHR = "xhr",

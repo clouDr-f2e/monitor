@@ -21,7 +21,7 @@ type TSetRequestHeader = (key: string, value: string) => {}
 export interface IBeforeAppAjaxSendConfig {
   setRequestHeader: TSetRequestHeader
 }
-export interface InitOptions extends SilentEventTypes, HooksTypes {
+export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEventTypes {
   /**
    * dsn服务器地址
    */
@@ -150,4 +150,27 @@ export interface SilentEventTypes {
    * 静默监控Vue.warn函数
    */
   silentVue?: boolean
+}
+
+export interface WxSilentEventTypes {
+  /**
+   * 静默监控AppOnError
+   */
+  silentWxOnError?: boolean
+  /**
+   * 静默监控AppOnUnhandledRejection
+   */
+  silentWxOnUnhandledRejection?: boolean
+  /**
+   * 静默监控AppOnPageNotFound
+   */
+  silentWxOnPageNotFound?: boolean
+  /**
+   * 静默监控PageOnShareAppMessage
+   */
+  silentWxOnShareAppMessage?: boolean
+  /**
+   * 静默监控小程序路由
+   */
+  silentMiniRoute?: boolean
 }

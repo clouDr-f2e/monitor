@@ -29,7 +29,6 @@ var ERRORTYPES;
     ERRORTYPES["REACT_ERROR"] = "REACT_ERROR";
     ERRORTYPES["RESOURCE_ERROR"] = "RESOURCE_ERROR";
     ERRORTYPES["PROMISE_ERROR"] = "PROMISE_ERROR";
-    ERRORTYPES["MINIPROGRAM_REQUEST_ERROR"] = "MINIPROGRAM_REQUEST_ERROR";
     ERRORTYPES["ROUTE_ERROR"] = "ROUTE_ERROR";
 })(ERRORTYPES || (ERRORTYPES = {}));
 var WxAppEvents;
@@ -82,7 +81,6 @@ var BREADCRUMBTYPES;
     BREADCRUMBTYPES["PAGE_ON_TAB_ITEM_TAP"] = "Page On Tab Item Tap";
     BREADCRUMBTYPES["TAP"] = "UI.Tap";
     BREADCRUMBTYPES["TOUCHMOVE"] = "UI.Touchmove";
-    BREADCRUMBTYPES["MINIPROGRAM_REQUEST"] = "Miniprogram Request";
 })(BREADCRUMBTYPES || (BREADCRUMBTYPES = {}));
 var BREADCRUMBCATEGORYS;
 (function (BREADCRUMBCATEGORYS) {
@@ -91,7 +89,6 @@ var BREADCRUMBCATEGORYS;
     BREADCRUMBCATEGORYS["DEBUG"] = "debug";
     BREADCRUMBCATEGORYS["EXCEPTION"] = "exception";
     BREADCRUMBCATEGORYS["LIFECYCLE"] = "lifecycle";
-    BREADCRUMBCATEGORYS["NETWORK"] = "network";
 })(BREADCRUMBCATEGORYS || (BREADCRUMBCATEGORYS = {}));
 var EVENTTYPES;
 (function (EVENTTYPES) {
@@ -351,6 +348,58 @@ function unknownToString(target) {
 function getBigVersion(version) {
     return Number(version.split('.')[0]);
 }
+function isHttpFail(code) {
+    return code === 0 || code === HTTP_CODE.BAD_REQUEST || code > HTTP_CODE.UNAUTHORIZED;
+}
+function setUrlQuery(url, query) {
+    var queryArr = [];
+    Object.keys(query).forEach(function (k) {
+        queryArr.push(k + "=" + query[k]);
+    });
+    if (url.indexOf('?') !== -1) {
+        url = url + "&" + queryArr.join('&');
+    }
+    else {
+        url = url + "?" + queryArr.join('&');
+    }
+    return url;
+}
+function parseErrorString(str) {
+    var splitLine = str.split('\n');
+    if (splitLine.length < 2)
+        return null;
+    if (splitLine[0].indexOf('MiniProgramError') !== -1) {
+        splitLine.splice(0, 1);
+    }
+    var message = splitLine.splice(0, 1)[0];
+    var name = splitLine.splice(0, 1)[0].split(':')[0];
+    var stacks = [];
+    splitLine.forEach(function (errorLine) {
+        var regexpGetFun = /at\s+([\S]+)\s+\(/;
+        var regexGetFile = /\(([^)]+)\)/;
+        var regexGetFileNoParenthese = /\s+at\s+(\S+)/;
+        var funcExec = regexpGetFun.exec(errorLine);
+        var fileURLExec = regexGetFile.exec(errorLine);
+        if (!fileURLExec) {
+            fileURLExec = regexGetFileNoParenthese.exec(errorLine);
+        }
+        var funcNameMatch = Array.isArray(funcExec) && funcExec.length > 0 ? funcExec[1].trim() : '';
+        var fileURLMatch = Array.isArray(fileURLExec) && fileURLExec.length > 0 ? fileURLExec[1] : '';
+        var lineInfo = fileURLMatch.split(':');
+        stacks.push({
+            args: [],
+            func: funcNameMatch || ERRORTYPES.UNKNOWN_FUNCTION,
+            column: Number(lineInfo.pop()),
+            line: Number(lineInfo.pop()),
+            url: lineInfo.join(':')
+        });
+    });
+    return {
+        message: message,
+        name: name,
+        stacks: stacks
+    };
+}
 
 function htmlElementAsString(target) {
     var tagName = target.tagName.toLowerCase();
@@ -391,6 +440,11 @@ function setSilentFlag(opitons) {
     setFlag(EVENTTYPES.HASHCHANGE, !!opitons.silentHashchange);
     setFlag(EVENTTYPES.UNHANDLEDREJECTION, !!opitons.silentUnhandledrejection);
     setFlag(EVENTTYPES.VUE, !!opitons.silentVue);
+    setFlag(WxAppEvents.AppOnError, !!opitons.silentWxOnError);
+    setFlag(WxAppEvents.AppOnUnhandledRejection, !!opitons.silentUnhandledrejection);
+    setFlag(WxAppEvents.AppOnPageNotFound, !!opitons.silentWxOnPageNotFound);
+    setFlag(WxPageEvents.PageOnShareAppMessage, !!opitons.silentWxOnShareAppMessage);
+    setFlag(EVENTTYPES.MINI_ROUTE, !!opitons.silentMiniRoute);
 }
 function extractErrorStack(ex, level) {
     var normal = {
@@ -574,8 +628,6 @@ var Breadcrumb = (function () {
             case BREADCRUMBTYPES.PAGE_ON_SHARE_TIMELINE:
             case BREADCRUMBTYPES.PAGE_ON_TAB_ITEM_TAP:
                 return BREADCRUMBCATEGORYS.LIFECYCLE;
-            case BREADCRUMBTYPES.MINIPROGRAM_REQUEST:
-                return BREADCRUMBCATEGORYS.NETWORK;
             case BREADCRUMBTYPES.UNHANDLEDREJECTION:
             case BREADCRUMBTYPES.CODE_ERROR:
             case BREADCRUMBTYPES.RESOURCE:
@@ -594,6 +646,15 @@ var Breadcrumb = (function () {
     return Breadcrumb;
 }());
 var breadcrumb = _support.breadcrumb || (_support.breadcrumb = new Breadcrumb());
+
+var ELinstenerTypes;
+(function (ELinstenerTypes) {
+    ELinstenerTypes["Touchmove"] = "touchmove";
+    ELinstenerTypes["Tap"] = "tap";
+})(ELinstenerTypes || (ELinstenerTypes = {}));
+function getAppId() {
+    return wx.getAccountInfoSync().miniProgram.appId;
+}
 
 var allErrorNumber = {};
 function createErrorId(data) {
@@ -676,6 +737,9 @@ function getRealPageOrigin(url) {
     if (fileStartReg.test(url)) {
         return getFlutterRealOrigin(url);
     }
+    if (isWxMiniEnv) {
+        return getAppId();
+    }
     return getRealPath(removeHashPath(url).replace(/(\S*)(\/\/)(\S+)/, '$3'));
 }
 function removeHashPath(url) {
@@ -694,7 +758,7 @@ function hashCode(str) {
 }
 
 var name = "@zyf2e/mitojs";
-var version = "1.2.3";
+var version = "1.2.4";
 
 var SDK_NAME = name;
 var SDK_VERSION = version;
@@ -860,13 +924,45 @@ var Severity;
     Severity.fromString = fromString;
 })(Severity || (Severity = {}));
 
+function getCurrentRoute() {
+    if (!variableTypeDetection.isFunction(getCurrentPages)) {
+        return '';
+    }
+    var pages = getCurrentPages();
+    if (!pages.length) {
+        return 'App';
+    }
+    var currentPage = pages.pop();
+    return setUrlQuery(currentPage.route, currentPage.options);
+}
+function getNavigateBackTargetUrl(delta) {
+    if (!variableTypeDetection.isFunction(getCurrentPages)) {
+        return '';
+    }
+    var pages = getCurrentPages();
+    if (!pages.length) {
+        return 'App';
+    }
+    delta = delta || 1;
+    var toPage = pages[pages.length - delta];
+    return setUrlQuery(toPage.route, toPage.options);
+}
+function targetAsString(e) {
+    var _a, _b;
+    var id = ((_a = e.currentTarget) === null || _a === void 0 ? void 0 : _a.id) ? " id=\"" + ((_b = e.currentTarget) === null || _b === void 0 ? void 0 : _b.id) + "\"" : '';
+    var dataSets = Object.keys(e.currentTarget.dataset).map(function (key) {
+        return "data-" + key + "=" + e.currentTarget.dataset[key];
+    });
+    return "<element " + id + " " + dataSets.join(' ') + "/>";
+}
+
 function log(_a) {
     var _b = _a.message, message = _b === void 0 ? 'emptyMsg' : _b, _c = _a.tag, tag = _c === void 0 ? '' : _c, _d = _a.level, level = _d === void 0 ? Severity.Critical : _d, _e = _a.ex, ex = _e === void 0 ? '' : _e;
     var errorInfo = {};
     if (isError(ex)) {
         errorInfo = extractErrorStack(ex, level);
     }
-    var error = __assign({ type: ERRORTYPES.LOG_ERROR, level: level, message: unknownToString(message), name: 'MITO.log', customTag: unknownToString(tag), time: getTimestamp(), url: getLocationHref() }, errorInfo);
+    var error = __assign({ type: ERRORTYPES.LOG_ERROR, level: level, message: unknownToString(message), name: 'MITO.log', customTag: unknownToString(tag), time: getTimestamp(), url: isWxMiniEnv ? getCurrentRoute() : getLocationHref() }, errorInfo);
     breadcrumb.push({
         type: BREADCRUMBTYPES.CUSTOMER,
         category: breadcrumb.getCategory(BREADCRUMBTYPES.CUSTOMER),
@@ -1554,14 +1650,532 @@ function initOptions(options$1) {
     options.bindOptions(options$1);
 }
 
+var HandleWxAppEvents = {
+    onLaunch: function (options) {
+        var data = {
+            path: options.path,
+            query: options.query
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_LAUNCH),
+            type: BREADCRUMBTYPES.APP_ON_LAUNCH,
+            data: data,
+            level: Severity.Info
+        });
+    },
+    onShow: function (options) {
+        var data = {
+            path: options.path,
+            query: options.query
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_SHOW),
+            type: BREADCRUMBTYPES.APP_ON_SHOW,
+            data: data,
+            level: Severity.Info
+        });
+    },
+    onHide: function () {
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_HIDE),
+            type: BREADCRUMBTYPES.APP_ON_HIDE,
+            data: null,
+            level: Severity.Info
+        });
+    },
+    onError: function (error) {
+        var parsedError = parseErrorString(error);
+        var data = __assign(__assign({}, parsedError), { time: getTimestamp(), level: Severity.Normal, url: getCurrentRoute(), type: ERRORTYPES.JAVASCRIPT_ERROR });
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
+            type: BREADCRUMBTYPES.CODE_ERROR,
+            level: Severity.Error,
+            data: data
+        });
+        transportData.send(data);
+    },
+    onUnhandledRejection: function (ev) {
+        var data = {
+            type: ERRORTYPES.PROMISE_ERROR,
+            message: unknownToString(ev.reason),
+            url: getCurrentRoute(),
+            name: 'unhandledrejection',
+            time: getTimestamp(),
+            level: Severity.Low
+        };
+        if (isError(ev.reason)) {
+            data = __assign(__assign(__assign({}, data), extractErrorStack(ev.reason, Severity.Low)), { url: getCurrentRoute() });
+        }
+        breadcrumb.push({
+            type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
+            data: data,
+            level: Severity.Error
+        });
+        transportData.send(data);
+    },
+    onPageNotFound: function (data) {
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
+            type: BREADCRUMBTYPES.ROUTE,
+            data: data,
+            level: Severity.Error
+        });
+    }
+};
+var HandleWxPageEvents = {
+    onShow: function () {
+        var page = getCurrentPages().pop();
+        var data = {
+            path: page.route,
+            query: page.options
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHOW),
+            type: BREADCRUMBTYPES.PAGE_ON_SHOW,
+            data: data,
+            level: Severity.Info
+        });
+    },
+    onHide: function () {
+        var page = getCurrentPages().pop();
+        var data = {
+            path: page.route,
+            query: page.options
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_HIDE),
+            type: BREADCRUMBTYPES.PAGE_ON_HIDE,
+            data: data,
+            level: Severity.Info
+        });
+    },
+    onShareAppMessage: function (options) {
+        var page = getCurrentPages().pop();
+        var data = {
+            path: page.route,
+            query: page.options,
+            options: options
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE),
+            type: BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE,
+            data: data,
+            level: Severity.Info
+        });
+    },
+    onShareTimeline: function () {
+        var page = getCurrentPages().pop();
+        var data = {
+            path: page.route,
+            query: page.options
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHARE_TIMELINE),
+            type: BREADCRUMBTYPES.PAGE_ON_SHARE_TIMELINE,
+            data: data,
+            level: Severity.Info
+        });
+    },
+    onTabItemTap: function (options) {
+        var page = getCurrentPages().pop();
+        var data = {
+            path: page.route,
+            query: page.options,
+            options: options
+        };
+        breadcrumb.push({
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_TAB_ITEM_TAP),
+            type: BREADCRUMBTYPES.PAGE_ON_TAB_ITEM_TAP,
+            data: data,
+            level: Severity.Info
+        });
+    },
+    onAction: function (e) {
+        var type = BREADCRUMBTYPES.TOUCHMOVE;
+        if (e.type === ELinstenerTypes.Tap) {
+            type = BREADCRUMBTYPES.TAP;
+        }
+        breadcrumb.push({
+            category: breadcrumb.getCategory(type),
+            type: type,
+            data: targetAsString(e),
+            level: Severity.Info
+        });
+    }
+};
+var HandleWxConsoleEvents = {
+    console: function (data) {
+        HandleEvents.handleConsole(data);
+    }
+};
+var HandleNetworkEvents = {
+    handleRequest: function (data) {
+        var result = httpTransform(data);
+        result.url = getCurrentRoute();
+        if (data.status === undefined) {
+            result.message = data.errMsg;
+        }
+        var type = BREADCRUMBTYPES.XHR;
+        breadcrumb.push({
+            type: type,
+            category: breadcrumb.getCategory(type),
+            data: result,
+            level: Severity.Info
+        });
+        if (isHttpFail(data.status)) {
+            breadcrumb.push({
+                type: type,
+                category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
+                data: result,
+                level: Severity.Error
+            });
+            transportData.send(result);
+        }
+    }
+};
+var HandleWxEvents = {
+    handleRoute: function (data) {
+        if (data.isFail) {
+            breadcrumb.push({
+                type: BREADCRUMBTYPES.ROUTE,
+                category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
+                data: data,
+                level: Severity.Error
+            });
+            var reportData = {
+                type: ERRORTYPES.ROUTE_ERROR,
+                message: data.message,
+                url: data.to,
+                name: 'MINI_' + ERRORTYPES.ROUTE_ERROR,
+                level: Severity.Error
+            };
+            return transportData.send(reportData);
+        }
+        breadcrumb.push({
+            type: BREADCRUMBTYPES.ROUTE,
+            category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
+            data: data,
+            level: Severity.Info
+        });
+    }
+};
+
+function isFilterHttpUrl$1(url) {
+    return options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url);
+}
+function replace$1(type) {
+    switch (type) {
+        case EVENTTYPES.CONSOLE:
+            replaceConsole();
+            break;
+        case EVENTTYPES.XHR:
+            replaceNetwork();
+            break;
+        case EVENTTYPES.MINI_ROUTE:
+            replaceRoute();
+    }
+}
+function addReplaceHandler$1(handler) {
+    subscribeEvent(handler);
+    replace$1(handler.type);
+}
+function replaceApp() {
+    if (App) {
+        var originApp_1 = App;
+        App = function (appOptions) {
+            var methods = [
+                WxAppEvents.AppOnLaunch,
+                WxAppEvents.AppOnShow,
+                WxAppEvents.AppOnError,
+                WxAppEvents.AppOnUnhandledRejection,
+                WxAppEvents.AppOnPageNotFound,
+                WxAppEvents.AppOnHide
+            ];
+            methods.forEach(function (method) {
+                if (getFlag(method))
+                    return;
+                addReplaceHandler$1({
+                    callback: function (data) { return HandleWxAppEvents[method.replace('AppOn', 'on')](data); },
+                    type: method
+                });
+                replaceOld(appOptions, method.replace('AppOn', 'on'), function (originMethod) {
+                    return function () {
+                        var args = [];
+                        for (var _i = 0; _i < arguments.length; _i++) {
+                            args[_i] = arguments[_i];
+                        }
+                        triggerHandlers.apply(null, __spreadArrays([method], args));
+                        if (originMethod) {
+                            originMethod.apply(this, args);
+                        }
+                    };
+                }, true);
+            });
+            return originApp_1(appOptions);
+        };
+    }
+}
+function replacePage() {
+    if (!Page) {
+        return;
+    }
+    var originPage = Page;
+    Page = function (pageOptions) {
+        var methods = [
+            WxPageEvents.PageOnShow,
+            WxPageEvents.PageOnHide,
+            WxPageEvents.PageOnShareAppMessage,
+            WxPageEvents.PageOnShareTimeline,
+            WxPageEvents.PageOnTabItemTap
+        ];
+        methods.forEach(function (method) {
+            if (getFlag(method))
+                return;
+            addReplaceHandler$1({
+                callback: function (data) { return HandleWxPageEvents[method.replace('PageOn', 'on')](data); },
+                type: method
+            });
+            replaceOld(pageOptions, method.replace('PageOn', 'on'), function (originMethod) {
+                return function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i] = arguments[_i];
+                    }
+                    triggerHandlers.apply(null, __spreadArrays([method], args));
+                    if (originMethod) {
+                        originMethod.apply(this, args);
+                    }
+                };
+            }, true);
+        });
+        function isNotAction(method) {
+            return methods.find(function (m) { return m.replace('PageOn', 'on') === method; });
+        }
+        addReplaceHandler$1({
+            callback: function (data) { return HandleWxPageEvents.onAction(data); },
+            type: EVENTTYPES.DOM
+        });
+        function gestureTrigger(e) {
+            e.mitoProcessed = true;
+            triggerHandlers(EVENTTYPES.DOM, e);
+        }
+        var throttleGesturetrigger = throttle(gestureTrigger, 500);
+        var linstenerTypes = [ELinstenerTypes.Touchmove, ELinstenerTypes.Tap];
+        Object.keys(pageOptions).forEach(function (m) {
+            if ('function' !== typeof pageOptions[m] || isNotAction(m)) {
+                return;
+            }
+            replaceOld(pageOptions, m, function (originMethod) {
+                return function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i] = arguments[_i];
+                    }
+                    var e = args[0];
+                    if (e && e.type && e.currentTarget && !e.mitoProcessed) {
+                        if (linstenerTypes.indexOf(e.type)) {
+                            throttleGesturetrigger(e);
+                        }
+                    }
+                    originMethod.apply(this, args);
+                };
+            }, true);
+        });
+        return originPage.call(this, pageOptions);
+    };
+}
+function replaceConsole() {
+    if (console && variableTypeDetection.isObject(console)) {
+        var logType = ['log', 'debug', 'info', 'warn', 'error', 'assert'];
+        logType.forEach(function (level) {
+            if (!(level in console))
+                return;
+            replaceOld(console, level, function (originalConsole) {
+                return function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i] = arguments[_i];
+                    }
+                    if (originalConsole) {
+                        triggerHandlers(EVENTTYPES.CONSOLE, { args: args, level: level });
+                        originalConsole.apply(console, args);
+                    }
+                };
+            });
+        });
+    }
+}
+function replaceNetwork() {
+    var hookMethods = ['request', 'downloadFile', 'uploadFile'];
+    hookMethods.forEach(function (hook) {
+        var originRequest = wx[hook];
+        Object.defineProperty(wx, hook, {
+            writable: true,
+            enumerable: true,
+            configurable: true,
+            value: function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i] = arguments[_i];
+                }
+                var options$1 = args[0];
+                var method;
+                if (options$1.method) {
+                    method = options$1.method;
+                }
+                else if (hook === 'downloadFile') {
+                    method = EMethods.Get;
+                }
+                else {
+                    method = EMethods.Post;
+                }
+                var url = options$1.url, header = options$1.header;
+                if ((method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl$1(url)) {
+                    return originRequest.call(this, options$1);
+                }
+                var reqData;
+                if (hook === 'request') {
+                    reqData = options$1.data;
+                }
+                else if (hook === 'downloadFile') {
+                    reqData = {
+                        filePath: options$1.filePath
+                    };
+                }
+                else {
+                    reqData = {
+                        filePath: options$1.filePath,
+                        name: options$1.name
+                    };
+                }
+                var data = {
+                    type: HTTPTYPE.XHR,
+                    method: method,
+                    url: url,
+                    reqData: reqData,
+                    sTime: getTimestamp()
+                };
+                setTraceId(url, function (headerFieldName, traceId) {
+                    data.traceId = traceId;
+                    header[headerFieldName] = traceId;
+                });
+                function setRequestHeader(key, value) {
+                    header[key] = value;
+                }
+                options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method: method, url: url }, { setRequestHeader: setRequestHeader });
+                var successHandler = function (res) {
+                    var endTime = getTimestamp();
+                    data.responseText = (variableTypeDetection.isString(res.data) || variableTypeDetection.isObject(res.data)) && res.data;
+                    data.elapsedTime = endTime - data.sTime;
+                    data.status = res.statusCode;
+                    data.errMsg = res.errMsg;
+                    triggerHandlers(EVENTTYPES.XHR, data);
+                    if (typeof options$1.success === 'function') {
+                        return options$1.success(res);
+                    }
+                };
+                var failHandler = function (err) {
+                    var endTime = getTimestamp();
+                    data.elapsedTime = endTime - data.sTime;
+                    data.errMsg = err.errMsg;
+                    triggerHandlers(EVENTTYPES.XHR, data);
+                    if (typeof options$1.fail === 'function') {
+                        return options$1.fail(err);
+                    }
+                };
+                var actOptions = __assign(__assign({}, options$1), { success: successHandler, fail: failHandler });
+                return originRequest.call(this, actOptions);
+            }
+        });
+    });
+}
+function replaceRoute() {
+    var methods = [WxRouteEvents.SwitchTab, WxRouteEvents.ReLaunch, WxRouteEvents.RedirectTo, WxRouteEvents.NavigateTo, WxRouteEvents.NavigateBack];
+    methods.forEach(function (method) {
+        var originMethod = wx[method];
+        Object.defineProperty(wx, method, {
+            writable: true,
+            enumerable: true,
+            configurable: true,
+            value: function (options) {
+                var toUrl;
+                if (method === WxRouteEvents.NavigateBack) {
+                    toUrl = getNavigateBackTargetUrl(options.delta);
+                }
+                else {
+                    toUrl = options.url;
+                }
+                var data = {
+                    from: getCurrentRoute(),
+                    to: toUrl
+                };
+                triggerHandlers(EVENTTYPES.MINI_ROUTE, data);
+                if (variableTypeDetection.isFunction(options.complete) ||
+                    variableTypeDetection.isFunction(options.success) ||
+                    variableTypeDetection.isFunction(options.fail)) {
+                    var failHandler = function (res) {
+                        var failData = __assign(__assign({}, data), { isFail: true, message: res.errMsg });
+                        triggerHandlers(EVENTTYPES.MINI_ROUTE, failData);
+                        if (variableTypeDetection.isFunction(options.fail)) {
+                            return options.fail(res);
+                        }
+                    };
+                    options.fail = failHandler;
+                }
+                return originMethod.call(this, options);
+            }
+        });
+    });
+}
+
+function setupReplace$1() {
+    replaceApp();
+    replacePage();
+    addReplaceHandler$1({
+        callback: function (data) { return HandleWxEvents.handleRoute(data); },
+        type: EVENTTYPES.MINI_ROUTE
+    });
+    addReplaceHandler$1({
+        callback: function (data) {
+            HandleNetworkEvents.handleRequest(data);
+        },
+        type: EVENTTYPES.XHR
+    });
+    addReplaceHandler$1({
+        callback: function (data) {
+            HandleWxConsoleEvents.console(data);
+        },
+        type: EVENTTYPES.CONSOLE
+    });
+}
+
 function init(options) {
+    if (options === void 0) { options = {}; }
+    if (!isWxMiniEnv)
+        return;
+    initOptions(options);
+    setupReplace$1();
+    Object.assign(wx, { mitoLog: log });
+}
+
+function webInit(options) {
     if (options === void 0) { options = {}; }
     if (!('XMLHttpRequest' in _global) || options.disabled)
         return;
     initOptions(options);
     setupReplace();
 }
-var index = { MitoVue: MitoVue, SDK_VERSION: SDK_VERSION, SDK_NAME: SDK_NAME, init: init, log: log, errorBoundaryReport: errorBoundaryReport };
+function init$1(options) {
+    if (options === void 0) { options = {}; }
+    if (isBrowserEnv) {
+        webInit(options);
+    }
+    else if (isWxMiniEnv) {
+        init(options);
+    }
+}
+var index = { MitoVue: MitoVue, SDK_VERSION: SDK_VERSION, SDK_NAME: SDK_NAME, init: init$1, log: log, errorBoundaryReport: errorBoundaryReport };
 
 module.exports = index;
 //# sourceMappingURL=index.js.map

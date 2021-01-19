@@ -1,4 +1,4 @@
-import { EVENTTYPES, ERRORTYPES } from '../common/constant'
+import { EVENTTYPES, ERRORTYPES, WxAppEvents, WxPageEvents } from '../common/constant'
 import { getLocationHref, getTimestamp } from './helpers'
 import { setFlag } from './global'
 import { ReportDataType, InitOptions } from '../types/index'
@@ -62,6 +62,14 @@ export function setSilentFlag(opitons: InitOptions = {}): void {
   setFlag(EVENTTYPES.HASHCHANGE, !!opitons.silentHashchange)
   setFlag(EVENTTYPES.UNHANDLEDREJECTION, !!opitons.silentUnhandledrejection)
   setFlag(EVENTTYPES.VUE, !!opitons.silentVue)
+  // wx App
+  setFlag(WxAppEvents.AppOnError, !!opitons.silentWxOnError)
+  setFlag(WxAppEvents.AppOnUnhandledRejection, !!opitons.silentUnhandledrejection)
+  setFlag(WxAppEvents.AppOnPageNotFound, !!opitons.silentWxOnPageNotFound)
+  // wx Page
+  setFlag(WxPageEvents.PageOnShareAppMessage, !!opitons.silentWxOnShareAppMessage)
+  // mini Route
+  setFlag(EVENTTYPES.MINI_ROUTE, !!opitons.silentMiniRoute)
 }
 
 /**

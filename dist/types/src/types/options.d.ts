@@ -17,7 +17,7 @@ declare type TSetRequestHeader = (key: string, value: string) => {};
 export interface IBeforeAppAjaxSendConfig {
     setRequestHeader: TSetRequestHeader;
 }
-export interface InitOptions extends SilentEventTypes, HooksTypes {
+export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEventTypes {
     dsn?: string;
     disabled?: boolean;
     apikey?: string;
@@ -45,5 +45,12 @@ export interface SilentEventTypes {
     silentUnhandledrejection?: boolean;
     silentHashchange?: boolean;
     silentVue?: boolean;
+}
+export interface WxSilentEventTypes {
+    silentWxOnError?: boolean;
+    silentWxOnUnhandledRejection?: boolean;
+    silentWxOnPageNotFound?: boolean;
+    silentWxOnShareAppMessage?: boolean;
+    silentMiniRoute?: boolean;
 }
 export {};
