@@ -37,13 +37,13 @@
 
 
 ### 在线运行例子
-[vue-mito-demo](https://static.91jkys.com/web/mito-vue-demo/#/demo/one)
+[vue-mito-demo](https://static.91jkys.com/web/mito-vue-demo/#/demo/one?_blank)
 
 
 
 ## 使用指南
 
-[使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md)
+[使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md?_blank)
 
 
 

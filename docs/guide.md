@@ -1,3 +1,4 @@
+[toc]
 ## 安装
 
 ### 使用npm
@@ -197,7 +198,7 @@ class ErrorBoundary extends React.Component {
 
 `npm i @zyf2e/mitojs`
 
-#### main.js
+**main.js**
 
 ```
 import MITO from '@zyf2e/mitojs';
@@ -211,7 +212,7 @@ MITO.init({
 
 ### 本地文件形式
 
-如果你是开发原生微信小程序的话，推荐将`CDNJS：https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.js`下载成一个JS文件，然后在`app.js`中引入
+如果你是开发原生微信小程序的话，推荐将[https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.js](https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.js?_blank)`下载成一个JS文件，然后在`app.js`中引入
 
 ![wx-mitojs](https://tva1.sinaimg.cn/large/008eGmZEly1gmtcvfkovkj31du0iqjs6.jpg)
 
@@ -219,7 +220,7 @@ MITO.init({
 
 ### options配置
 
-[详细配置](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md)
+[详细配置](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md?_blank)
 
 
 
@@ -228,22 +229,33 @@ MITO.init({
 <details>
  <summary>这个SDK具体是怎么使用的？</summary>
 
-该SDK是为了抓取前端页面的错误，然后上报到你所配置的接口。至于服务端和错误可视化界面是需要自己实现，适合给有意向自己研发前端监控系统的开发者使用最佳。
+  
+
+该SDK是为了抓取前端页面的错误，然后上报到你所配置的接口。至于服务端和错误可视化界面是需要自己实现，适合给有意向自己研发前端监控系统的开发者使用最佳
+
+
 
 </details>
 
 <details>
  <summary>这个SDK的稳定如何？能不能用到正式环境？</summary>
 
-目前本人所在的公司的监控系统也在使用当前SDK，所以也在迭代中，到目前而言稳定性还是OK的，而且已经码完e2e，单测也coding中。
+  
+
+目前本人所在的公司的监控系统也在使用当前SDK，也在迭代中，到目前而言稳定性还是OK的，而且已经有完善的e2e，单测也coding中，感兴趣的可以`Fork`下来，自己定制
+
+
 
 </details>
 
-
 <details>
- <summary>后续后端会不会开源出来？有没有免费的saas服务可以直接使用？</summary>
+ <summary>前端平台后端会不会开源出来？有没有免费的saas服务可以直接使用？</summary>
 
-目前后端也在持续迭代中，等迭代稳定后会考虑将`saas`务开放出来
+  
+
+目前后端也在持续迭代中，等迭代稳定后会考虑将`saas`服务开放出来
+
+
 
 </details>
 
