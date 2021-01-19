@@ -1,4 +1,22 @@
-[toc]
+## 目录
+ * [安装](#\xE5\xAE\x89\xE8\xA3\x85)
+         * [使用npm](#\xE4\xBD\xBF\xE7\x94\xA8npm)
+         * [使用CDN](#\xE4\xBD\xBF\xE7\x94\xA8cdn)
+      * [使用环境](#\xE4\xBD\xBF\xE7\x94\xA8\xE7\x8E\xAF\xE5\xA2\x83)
+         * [Vue2.6 NPM包形式](#vue26-npm\xE5\x8C\x85\xE5\xBD\xA2\xE5\xBC\x8F)
+         * [Vue2.6引入CDN](#vue26\xE5\xBC\x95\xE5\x85\xA5cdn)
+         * [Vue3 NPM包形式](#vue3-npm\xE5\x8C\x85\xE5\xBD\xA2\xE5\xBC\x8F)
+         * [Vue3引入CDN](#vue3\xE5\xBC\x95\xE5\x85\xA5cdn)
+      * [React](#react)
+         * [CDN形式](#cdn\xE5\xBD\xA2\xE5\xBC\x8F)
+         * [NPM包形式](#npm\xE5\x8C\x85\xE5\xBD\xA2\xE5\xBC\x8F)
+      * [JS项目](#js\xE9\xA1\xB9\xE7\x9B\xAE)
+      * [微信小程序](#\xE5\xBE\xAE\xE4\xBF\xA1\xE5\xB0\x8F\xE7\xA8\x8B\xE5\xBA\x8F)
+         * [NPM包形式](#npm\xE5\x8C\x85\xE5\xBD\xA2\xE5\xBC\x8F-1)
+         * [本地文件形式](#\xE6\x9C\xAC\xE5\x9C\xB0\xE6\x96\x87\xE4\xBB\xB6\xE5\xBD\xA2\xE5\xBC\x8F)
+         * [options配置](#options\xE9\x85\x8D\xE7\xBD\xAE)
+      * [FAQ](#faq)
+
 ## 安装
 
 ### 使用npm
@@ -229,7 +247,7 @@ MITO.init({
 <details>
  <summary>这个SDK具体是怎么使用的？</summary>
 
-  
+
 
 该SDK是为了抓取前端页面的错误，然后上报到你所配置的接口。至于服务端和错误可视化界面是需要自己实现，适合给有意向自己研发前端监控系统的开发者使用最佳
 
@@ -240,7 +258,7 @@ MITO.init({
 <details>
  <summary>这个SDK的稳定如何？能不能用到正式环境？</summary>
 
-  
+
 
 目前本人所在的公司的监控系统也在使用当前SDK，也在迭代中，到目前而言稳定性还是OK的，而且已经有完善的e2e，单测也coding中，感兴趣的可以`Fork`下来，自己定制
 
@@ -251,7 +269,7 @@ MITO.init({
 <details>
  <summary>前端平台后端会不会开源出来？有没有免费的saas服务可以直接使用？</summary>
 
-  
+
 
 目前后端也在持续迭代中，等迭代稳定后会考虑将`saas`服务开放出来
 

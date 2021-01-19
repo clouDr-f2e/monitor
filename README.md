@@ -20,11 +20,11 @@
 - [x] 🔨console
 - [x] 🔨路由跳转
 - [x] 🔨代码报错
-- [x] 🔨click
+- [x] 🔨click、wx:tab、touchmove
 - [x] 🔨资源加载错误
 - [x] 🏅自定义上报错误
-- [x] 🚀丰富的hooks和配置项
-- [x] 🌝支持IE8以上
+- [x] 🚀丰富的hooks与配置项支持可高定制化
+- [x] 🌝支持IE8和安卓5以上
 - [x] 👌持续迭代与更新
 - [x] 支持react@next
 - [x] 支持Vue2.6
@@ -44,6 +44,9 @@
 ## 使用指南
 
 [使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md?_blank)
+
+## hooks和配置项
+[使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md?_blank)
 
 
 
