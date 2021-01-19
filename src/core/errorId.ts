@@ -1,9 +1,10 @@
-import { variableTypeDetection } from '@/utils'
+import { isWxMiniEnv, variableTypeDetection } from '@/utils'
+import { appId } from '@/wx-mini/constant'
 import { ERRORTYPES, EVENTTYPES } from '../common/constant'
 import { ReportDataType } from '../types/transportData'
 const allErrorNumber: unknown = {}
 /**
- * error合并规则
+ * generate error unique Id
  * @param data
  */
 export default function createErrorId(data: ReportDataType): number | null {
@@ -55,7 +56,7 @@ function generatePromiseErrorId(data: ReportDataType, originUrl: string) {
 }
 
 /**
- * 排序对象键值对
+ * sort object keys
  * ../param reason promise.reject
  */
 function objectOrder(reason: any) {
@@ -111,12 +112,16 @@ export function getFlutterRealPath(url: string): string {
 }
 /**
  * http://a.b.com/#/project?id=1 => a.b.com
+ * wx => appId
  * @param url
  */
 export function getRealPageOrigin(url: string): string {
   const fileStartReg = /^file:\/\//
   if (fileStartReg.test(url)) {
     return getFlutterRealOrigin(url)
+  }
+  if (isWxMiniEnv) {
+    return appId
   }
   return getRealPath(removeHashPath(url).replace(/(\S*)(\/\/)(\S+)/, '$3'))
 }

@@ -1,6 +1,6 @@
 import { EVENTTYPES } from '@/common/constant'
 import { HandleWxConsoleEvents, HandleNetworkEvents, HandleWxEvents } from './handleWxEvents'
-import { addReplaceHandler, replaceApp, replacePage, replaceRoute } from './replace'
+import { addReplaceHandler, replaceApp, replacePage } from './replace'
 
 export function setupReplace() {
   replaceApp()

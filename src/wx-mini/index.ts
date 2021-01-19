@@ -8,6 +8,7 @@ function init(options: InitOptions = {}) {
   if (!isWxMiniEnv) return
   initOptions(options)
   setupReplace()
+  Object.assign(wx, { mitoLog: log })
 }
 
 export default { init, log, SDK_VERSION, SDK_NAME }

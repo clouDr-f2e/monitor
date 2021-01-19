@@ -3,7 +3,7 @@ import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subsc
 import { getTimestamp, replaceOld, throttle } from '../utils/helpers'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
 import { WxAppEvents, WxPageEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE, BREADCRUMBTYPES } from '../common/constant'
-import { variableTypeDetection } from '@/utils'
+import { getFlag, setFlag, variableTypeDetection } from '@/utils'
 import { MITOHttp } from '@/types/common'
 import { transportData } from '@/core'
 import { EMethods } from '@/types'
@@ -47,6 +47,7 @@ export function replaceApp() {
         WxAppEvents.AppOnHide
       ]
       methods.forEach((method) => {
+        if (getFlag(method)) return
         addReplaceHandler({
           callback: (data) => HandleWxAppEvents[method.replace('AppOn', 'on')](data),
           type: method
@@ -84,6 +85,7 @@ export function replacePage() {
       WxPageEvents.PageOnTabItemTap
     ]
     methods.forEach((method) => {
+      if (getFlag(method)) return
       addReplaceHandler({
         callback: (data) => HandleWxPageEvents[method.replace('PageOn', 'on')](data),
         type: method
@@ -331,7 +333,6 @@ export function replaceRoute() {
           | WechatMiniprogram.NavigateToOption
           | WechatMiniprogram.NavigateBackOption
       ) {
-        const pages = getCurrentPages()
         let toUrl
         if (method === WxRouteEvents.NavigateBack) {
           toUrl = getNavigateBackTargetUrl((options as WechatMiniprogram.NavigateBackOption).delta)

@@ -12,7 +12,6 @@ export enum ERRORTYPES {
   REACT_ERROR = 'REACT_ERROR',
   RESOURCE_ERROR = 'RESOURCE_ERROR',
   PROMISE_ERROR = 'PROMISE_ERROR',
-  MINIPROGRAM_REQUEST_ERROR = 'MINIPROGRAM_REQUEST_ERROR',
   ROUTE_ERROR = 'ROUTE_ERROR'
 }
 
@@ -80,10 +79,7 @@ export enum BREADCRUMBTYPES {
 
   // wx BaseEvent
   TAP = 'UI.Tap',
-  TOUCHMOVE = 'UI.Touchmove',
-
-  // wx network
-  MINIPROGRAM_REQUEST = 'Miniprogram Request'
+  TOUCHMOVE = 'UI.Touchmove'
 }
 
 /**
@@ -94,8 +90,7 @@ export enum BREADCRUMBCATEGORYS {
   USER = 'user',
   DEBUG = 'debug',
   EXCEPTION = 'exception',
-  LIFECYCLE = 'lifecycle',
-  NETWORK = 'network'
+  LIFECYCLE = 'lifecycle'
 }
 /**
  * 重写的事件类型

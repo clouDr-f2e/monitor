@@ -12,9 +12,7 @@ import { MiniRoute } from './types'
 import { ELinstenerTypes } from './constant'
 
 const HandleWxAppEvents = {
-  // app
   onLaunch(options: WechatMiniprogram.App.LaunchShowOption) {
-    // console.log('app onLaunch', options)
     const data: WxLifeCycleBreadcrumb = {
       path: options.path,
       query: options.query
@@ -27,7 +25,6 @@ const HandleWxAppEvents = {
     })
   },
   onShow(options: WechatMiniprogram.App.LaunchShowOption) {
-    // console.log('app onShow', options)
     const data: WxLifeCycleBreadcrumb = {
       path: options.path,
       query: options.query
@@ -40,7 +37,6 @@ const HandleWxAppEvents = {
     })
   },
   onHide() {
-    // console.log('app onHide')
     breadcrumb.push({
       category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_HIDE),
       type: BREADCRUMBTYPES.APP_ON_HIDE,
@@ -66,7 +62,6 @@ const HandleWxAppEvents = {
     transportData.send(data)
   },
   onUnhandledRejection(ev: WechatMiniprogram.OnUnhandledRejectionCallbackResult) {
-    // console.log('onUnhandledRejection', ev)
     let data: ReportDataType = {
       type: ERRORTYPES.PROMISE_ERROR,
       message: unknownToString(ev.reason),
@@ -91,7 +86,6 @@ const HandleWxAppEvents = {
     transportData.send(data)
   },
   onPageNotFound(data: WechatMiniprogram.OnPageNotFoundCallbackResult) {
-    // console.log('OnPageNotFoundCallbackResult', data)
     breadcrumb.push({
       category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
       type: BREADCRUMBTYPES.ROUTE,
@@ -103,7 +97,6 @@ const HandleWxAppEvents = {
 
 const HandleWxPageEvents = {
   onShow() {
-    // console.log('page onShow')
     const page = getCurrentPages().pop()
     const data: WxLifeCycleBreadcrumb = {
       path: page.route,
@@ -220,15 +213,6 @@ const HandleNetworkEvents = {
   }
 }
 
-// const pushWxRouteEventsBreadcrumb = function (data: Replace.IRouter) {
-//   breadcrumb.push({
-//     type: BREADCRUMBTYPES.ROUTE,
-//     category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
-//     data,
-//     level: Severity.Info
-//   })
-// }
-
 const HandleWxEvents = {
   handleRoute(data: MiniRoute) {
     if (data.isFail) {
@@ -257,46 +241,5 @@ const HandleWxEvents = {
     })
   }
 }
-
-/* const HandleWxRouteEvents = {
-  switchTab(options: WechatMiniprogram.SwitchTabOption) {
-    const data = {
-      from: getCurrentRoute(),
-      to: options.url
-    }
-    pushWxRouteEventsBreadcrumb(data)
-  },
-  reLaunch(options: WechatMiniprogram.ReLaunchOption) {
-    const data = {
-      from: getCurrentRoute(),
-      to: options.url
-    }
-    pushWxRouteEventsBreadcrumb(data)
-  },
-  redirectTo(options: WechatMiniprogram.RedirectToOption) {
-    const data = {
-      from: getCurrentRoute(),
-      to: options.url
-    }
-    pushWxRouteEventsBreadcrumb(data)
-  },
-  navigateTo(options: WechatMiniprogram.NavigateToOption) {
-    const data = {
-      from: getCurrentRoute(),
-      to: options.url
-    }
-    pushWxRouteEventsBreadcrumb(data)
-  },
-  navigateBack(options: WechatMiniprogram.NavigateBackOption) {
-    const pages = getCurrentPages()
-    const toPage = pages[pages.length - (options.delta || 1)]
-    const toUrl = setUrlQuery(toPage.route, toPage.options)
-    const data = {
-      from: getCurrentRoute(),
-      to: toUrl
-    }
-    pushWxRouteEventsBreadcrumb(data)
-  }
-} */
 
 export { HandleWxAppEvents, HandleWxPageEvents, HandleWxConsoleEvents, HandleNetworkEvents, HandleWxEvents }
