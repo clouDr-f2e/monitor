@@ -1,5 +1,5 @@
 import { isWxMiniEnv, variableTypeDetection } from '@/utils'
-import { appId } from '@/wx-mini/constant'
+import { getAppId } from '@/wx-mini/constant'
 import { ERRORTYPES, EVENTTYPES } from '../common/constant'
 import { ReportDataType } from '../types/transportData'
 const allErrorNumber: unknown = {}
@@ -121,7 +121,7 @@ export function getRealPageOrigin(url: string): string {
     return getFlutterRealOrigin(url)
   }
   if (isWxMiniEnv) {
-    return appId
+    return getAppId()
   }
   return getRealPath(removeHashPath(url).replace(/(\S*)(\/\/)(\S+)/, '$3'))
 }

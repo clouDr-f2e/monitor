@@ -1,11 +1,13 @@
-import { ERRORTYPES, EVENTTYPES } from '@/common/constant'
+import { ERRORTYPES } from '@/common/constant'
 import createErrorId, { getFlutterRealOrigin, getFlutterRealPath, getRealPageOrigin, getRealPath } from '@/core/errorId'
 import { ReportDataType } from '@/types'
+import { isWxMiniEnv } from '@/utils'
 import { Severity } from '@/utils/Severity'
 
 describe('errorId.ts', () => {
   describe('createErrorId func', () => {
     it('两个http Error应该生成不同的errorId', () => {
+      console.log('isWxMiniEnv', isWxMiniEnv)
       const httpError_1: ReportDataType = {
         type: ERRORTYPES.FETCH_ERROR,
         url: 'http://localhost:2021/JS/index.html',
@@ -70,6 +72,7 @@ describe('errorId.ts', () => {
         type: ERRORTYPES.LOG_ERROR,
         url: 'http://localhost:2021/JS/index.html'
       }
+
       const errorId_1 = createErrorId(logError_1)
       const errorId_2 = createErrorId(logError_2)
       expect(errorId_1).toBe(errorId_2)

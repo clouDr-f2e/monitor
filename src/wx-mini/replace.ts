@@ -9,6 +9,7 @@ import { transportData } from '@/core'
 import { EMethods } from '@/types'
 import { getCurrentRoute, getNavigateBackTargetUrl } from './utils'
 import { ELinstenerTypes } from './constant'
+import { MiniRoute } from './types'
 
 function isFilterHttpUrl(url: string) {
   return sdkOptions.filterXhrUrlRegExp && sdkOptions.filterXhrUrlRegExp.test(url)
@@ -357,7 +358,7 @@ export function replaceRoute() {
             | WechatMiniprogram.RedirectToFailCallback
             | WechatMiniprogram.NavigateToFailCallback
             | WechatMiniprogram.NavigateBackFailCallback = function (res) {
-            const failData = {
+            const failData: MiniRoute = {
               ...data,
               isFail: true,
               message: res.errMsg

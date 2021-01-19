@@ -225,7 +225,7 @@ const HandleWxEvents = {
 
       const reportData = {
         type: ERRORTYPES.ROUTE_ERROR,
-        message: data.errMsg,
+        message: data.message,
         url: data.to,
         name: 'MINI_' + ERRORTYPES.ROUTE_ERROR,
         level: Severity.Error
