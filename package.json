@@ -6,19 +6,17 @@
   "module": "dist/index.esm.js",
   "types": "dist/types/src/index.d.ts",
   "scripts": {
-    "build": "cross-env IGNORE=localDebug rollup --config && npm run build:wx",
+    "build": "cross-env IGNORE=localDebug rollup --config",
     "watch:groot": "cross-env INCLUDE=localDebug rollup  --config --watch",
     "watch": "rollup --config --watch",
     "watch:wx": "rollup --config wx.rollup.config.js --watch",
-    "build:wx": "rollup --config wx.rollup.config.js",
     "company": "rollup  --config src/company/browser/rollup.company.js",
     "company:wx": "rollup  --config src/company/wx-mini/rollup.wx.company.js",
     "examples": "cross-env NODE_ENV=demo ts-node ./examples/server/index.ts",
     "e2e": "`nohup ts-node ./examples/server/index.ts >/dev/null 2>&1 &` && jest --config jest.config.ts",
     "unit": "jest --config jsdom.jest.config.ts",
     "test": " npm run unit && npm run e2e",
-    "test:watch": "jest --watch",
-    "test-ts": "cross-env NODE_ENV=demo  ts-node ./examples/server/index.ts"
+    "test:watch": "jest --watch"
   },
   "author": "cjinhuo",
   "repository": {

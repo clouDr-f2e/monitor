@@ -220,6 +220,9 @@ class ErrorBoundary extends React.Component {
 
 ```
 import MITO from '@zyf2e/mitojs';
+import Vue from 'vue';
+// 捕捉Vue框架抛出的错误
+Vue.use(MITO.MitoVue);
 MITO.init({
   // 服务器接口地址
   dsn: 'http://test.com/error',

@@ -55,7 +55,7 @@
 
 欢迎所有人提`issue`，如果有什么好的建议和问题可以直接联系本人微信（备注mitojs）：
 
-<img src="https://i.loli.net/2020/08/19/prtQbEcF7yu1MfZ.jpg" width="240px" />
+<img src="https://tva1.sinaimg.cn/large/008eGmZEly1gmtfid3hrfj30kw0r2wfk.jpg" width="240px" />
 
 
 
