@@ -186,11 +186,11 @@
   <span style="color: #2db7f5; border-bottom: 2px solid #2db7f5;" class="content">开源</span>
 </h1>
 
-无论上述你是否理解，现有开源[mitojs](https://github.com/clouDr-f2e/mitojs)监控SDK你值得拥有，有丰富的hooks与配置项支持可高定制化公司业务，喜欢的小伙伴记得star😘
+无论上述你是否了解，现有开源[mitojs](https://github.com/clouDr-f2e/mitojs)监控SDK你都值得拥有，有丰富的hooks与配置项支持可高定制化公司业务，喜欢的小伙伴记得star😘
 
 
 
-[mitojs](https://github.com/clouDr-f2e/mitojs)：一款轻量级的收集页面的用户点击行为、路由跳转、接口报错、代码报错、并上报服务端的SDK
+[mitojs](https://github.com/clouDr-f2e/mitojs)：一款轻量级的收集页面的用户点击行为、路由跳转、接口报错、代码报错、并上报服务端的SDK！！！
 
 <h2 style="margin-top: 25px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span style="display: none;" class="prefix"></span><span style="color: #2db7f5; display: inline-block;" class="content">已实现功能点：</span><span style="display: none;" class="suffix"></span></h2>
 
@@ -243,11 +243,3 @@
 [js-示例](*https://static.91jkys.com/f2e/mito-error-example/#/errors/3/info*)
 
 [wx-mini-示例](*https://static.91jkys.com/f2e/mito-error-example/#/errors/4/info*)
-
-
-
-
-
-
-
-**感兴趣的小伙伴可以点个关注，后续好文不断！！！**
