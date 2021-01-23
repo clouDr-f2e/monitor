@@ -5,6 +5,7 @@ import { isWxMiniEnv } from '@/utils'
 import { Severity } from '@/utils/Severity'
 
 describe('errorId.ts', () => {
+  const apikey = '13213-1231-1231'
   describe('createErrorId func', () => {
     it('两个http Error应该生成不同的errorId', () => {
       console.log('isWxMiniEnv', isWxMiniEnv)
@@ -31,8 +32,8 @@ describe('errorId.ts', () => {
         request: { httpType: 'xhr', method: 'POST', url: 'http://aaaa.aaa/info2', data: '' },
         response: { status: 0, data: '' }
       }
-      const errorId_1 = createErrorId(httpError_1)
-      const errorId_2 = createErrorId(httpError_2)
+      const errorId_1 = createErrorId(httpError_1, apikey)
+      const errorId_2 = createErrorId(httpError_2, apikey)
       expect(errorId_1).not.toBe(errorId_2)
     })
 
@@ -48,8 +49,8 @@ describe('errorId.ts', () => {
         request: { httpType: 'xhr', method: 'GET', url: 'http://aaaa', data: '' },
         response: { status: 0, data: '' }
       }
-      const errorId_1 = createErrorId(httpError_3)
-      const errorId_2 = createErrorId(httpError_3)
+      const errorId_1 = createErrorId(httpError_3, apikey)
+      const errorId_2 = createErrorId(httpError_3, apikey)
       expect(errorId_1).toBe(errorId_2)
     })
 
@@ -73,8 +74,8 @@ describe('errorId.ts', () => {
         url: 'http://localhost:2021/JS/index.html'
       }
 
-      const errorId_1 = createErrorId(logError_1)
-      const errorId_2 = createErrorId(logError_2)
+      const errorId_1 = createErrorId(logError_1, apikey)
+      const errorId_2 = createErrorId(logError_2, apikey)
       expect(errorId_1).toBe(errorId_2)
     })
 
@@ -88,9 +89,9 @@ describe('errorId.ts', () => {
         time: 1609211248523,
         url: 'http://localhost:2021/JS/index.html'
       }
-      const errorId_1 = createErrorId(logError_1)
-      const errorId_2 = createErrorId(logError_1)
-      const errorId_3 = createErrorId(logError_1)
+      const errorId_1 = createErrorId(logError_1, apikey)
+      const errorId_2 = createErrorId(logError_1, apikey)
+      const errorId_3 = createErrorId(logError_1, apikey)
       expect(errorId_1).toBe(errorId_2)
       expect(errorId_3).toBeNull()
     })
@@ -111,8 +112,8 @@ describe('errorId.ts', () => {
         time: 1609211248523,
         url: 'http://localhost:2021/JS/index.html'
       }
-      const errorId_1 = createErrorId(error_1)
-      const errorId_2 = createErrorId(error_2)
+      const errorId_1 = createErrorId(error_1, apikey)
+      const errorId_2 = createErrorId(error_2, apikey)
       expect(errorId_1).not.toBe(errorId_2)
     })
   })

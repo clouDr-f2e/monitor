@@ -2,7 +2,7 @@ import { options as sdkOptions, setTraceId } from '../core/options'
 import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subscribe'
 import { getTimestamp, replaceOld, throttle } from '../utils/helpers'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
-import { WxAppEvents, WxPageEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE, BREADCRUMBTYPES } from '../common/constant'
+import { WxAppEvents, WxPageEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE, BREADCRUMBTYPES, voidFun } from '../common/constant'
 import { getFlag, setFlag, variableTypeDetection } from '@/utils'
 import { MITOHttp } from '@/types/common'
 import { transportData } from '@/core'
@@ -56,7 +56,7 @@ export function replaceApp() {
         replaceOld(
           appOptions,
           method.replace('AppOn', 'on'),
-          function (originMethod: (args: any) => void) {
+          function (originMethod: voidFun) {
             return function (...args: any): void {
               triggerHandlers.apply(null, [method, ...args])
               if (originMethod) {
@@ -159,68 +159,6 @@ function replaceConsole() {
       })
     })
   }
-}
-
-// wx.request
-export function replaceRequest() {
-  const originRequest = wx.request
-  Object.defineProperty(wx, 'request', {
-    writable: true,
-    enumerable: true,
-    configurable: true,
-    value: function (...args: any[]) {
-      const options: WechatMiniprogram.RequestOption = args[0]
-      const { url, method, header } = options
-      if ((options.method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) {
-        return originRequest.call(this, options)
-      }
-      const data: MITOHttp = {
-        type: HTTPTYPE.XHR,
-        method: options.method,
-        url,
-        reqData: options.data,
-        sTime: getTimestamp()
-      }
-      setTraceId(url, (headerFieldName, traceId) => {
-        data.traceId = traceId
-        header[headerFieldName] = traceId
-      })
-      function setRequestHeader(key: string, value: string) {
-        header[key] = value
-      }
-      sdkOptions.beforeAppAjaxSend && sdkOptions.beforeAppAjaxSend({ method, url }, { setRequestHeader })
-
-      const successHandler: WechatMiniprogram.RequestSuccessCallback = function (res) {
-        const endTime = getTimestamp()
-        data.responseText = (variableTypeDetection.isString(res.data) || variableTypeDetection.isObject(res.data)) && res.data
-        data.elapsedTime = endTime - data.sTime
-        data.status = res.statusCode
-        data.errMsg = res.errMsg
-        if (typeof options.success === 'function') {
-          return options.success(res)
-        }
-        triggerHandlers(EVENTTYPES.XHR, data)
-      }
-      const failHandler: WechatMiniprogram.RequestFailCallback = function (err) {
-        // 系统和网络层面的失败
-        const endTime = getTimestamp()
-        data.elapsedTime = endTime - data.sTime
-        data.errMsg = err.errMsg
-
-        triggerHandlers(EVENTTYPES.XHR, data)
-        if (typeof options.fail === 'function') {
-          return options.fail(err)
-        }
-      }
-      const actOptions = {
-        ...options,
-        success: successHandler,
-        fail: failHandler
-      }
-
-      return originRequest.call(this, actOptions)
-    }
-  })
 }
 
 // wx network
@@ -344,7 +282,6 @@ export function replaceRoute() {
           from: getCurrentRoute(),
           to: toUrl
         }
-        // debugger
         triggerHandlers(EVENTTYPES.MINI_ROUTE, data)
         // 如果complete||success||fail一个都没有，则原方法返回promise，此时sdk也不需要处理
         if (

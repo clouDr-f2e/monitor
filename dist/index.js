@@ -652,31 +652,27 @@ var ELinstenerTypes;
     ELinstenerTypes["Touchmove"] = "touchmove";
     ELinstenerTypes["Tap"] = "tap";
 })(ELinstenerTypes || (ELinstenerTypes = {}));
-function getAppId() {
-    return wx.getAccountInfoSync().miniProgram.appId;
-}
 
 var allErrorNumber = {};
-function createErrorId(data) {
+function createErrorId(data, apikey) {
     var id;
-    var originUrl = getRealPageOrigin(data.url);
     switch (data.type) {
         case ERRORTYPES.FETCH_ERROR:
-            id = data.type + data.request.method + data.response.status + getRealPath(data.request.url) + originUrl;
+            id = data.type + data.request.method + data.response.status + getRealPath(data.request.url) + apikey;
             break;
         case ERRORTYPES.JAVASCRIPT_ERROR:
         case ERRORTYPES.VUE_ERROR:
         case ERRORTYPES.REACT_ERROR:
-            id = data.type + data.name + data.message + originUrl;
+            id = data.type + data.name + data.message + apikey;
             break;
         case ERRORTYPES.LOG_ERROR:
-            id = data.customTag + data.type + data.name + originUrl;
+            id = data.customTag + data.type + data.name + apikey;
             break;
         case ERRORTYPES.PROMISE_ERROR:
-            id = generatePromiseErrorId(data, originUrl);
+            id = generatePromiseErrorId(data, apikey);
             break;
         default:
-            id = data.type + data.message + originUrl;
+            id = data.type + data.message + apikey;
             break;
     }
     id = hashCode(id);
@@ -691,10 +687,10 @@ function createErrorId(data) {
     }
     return id;
 }
-function generatePromiseErrorId(data, originUrl) {
+function generatePromiseErrorId(data, apikey) {
     var locationUrl = getRealPath(data.url);
     if (data.name === EVENTTYPES.UNHANDLEDREJECTION) {
-        return data.type + objectOrder(data.message) + originUrl;
+        return data.type + objectOrder(data.message) + apikey;
     }
     return data.type + data.name + objectOrder(data.message) + locationUrl;
 }
@@ -726,25 +722,6 @@ function objectOrder(reason) {
 function getRealPath(url) {
     return url.replace(/[\?#].*$/, '').replace(/\/\d+([\/]*$)/, '{param}$1');
 }
-function getFlutterRealOrigin(url) {
-    return removeHashPath(getFlutterRealPath(url));
-}
-function getFlutterRealPath(url) {
-    return url.replace(/(\S+)(\/Documents\/)(\S*)/, "$3");
-}
-function getRealPageOrigin(url) {
-    var fileStartReg = /^file:\/\//;
-    if (fileStartReg.test(url)) {
-        return getFlutterRealOrigin(url);
-    }
-    if (isWxMiniEnv) {
-        return getAppId();
-    }
-    return getRealPath(removeHashPath(url).replace(/(\S*)(\/\/)(\S+)/, '$3'));
-}
-function removeHashPath(url) {
-    return url.replace(/(\S+)(\/#\/)(\S*)/, "$1");
-}
 function hashCode(str) {
     var hash = 0;
     if (str.length == 0)
@@ -758,7 +735,7 @@ function hashCode(str) {
 }
 
 var name = "@zyf2e/mitojs";
-var version = "1.2.4";
+var version = "1.2.5";
 
 var SDK_NAME = name;
 var SDK_VERSION = version;
@@ -794,7 +771,7 @@ var TransportData = (function () {
             if (!data)
                 return false;
         }
-        var errorId = createErrorId(data);
+        var errorId = createErrorId(data, this.apikey);
         if (!errorId)
             return false;
         data.errorId = errorId;
@@ -842,6 +819,9 @@ var TransportData = (function () {
             sdkName: SDK_NAME,
             apikey: this.apikey
         };
+    };
+    TransportData.prototype.getApikey = function () {
+        return this.apikey;
     };
     TransportData.prototype.getTrackerId = function () {
         if (typeof this.backTrackerId === 'function') {

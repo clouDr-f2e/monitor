@@ -14,6 +14,7 @@ export declare class TransportData {
     xhrPost(data: ReportDataType): void;
     wxPost(data: ReportDataType): void;
     getAuthInfo(): AuthInfo;
+    getApikey(): string;
     getTrackerId(): string | number;
     getTransportData(data: ReportDataType): TransportDataType;
     isSdkTransportUrl(targetUrl: string): boolean;

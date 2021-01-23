@@ -37,7 +37,24 @@
 
 
 ### 在线运行例子
-[vue-mito-demo](https://static.91jkys.com/web/mito-vue-demo/#/demo/one)
+[mito-在线demo](https://static.91jkys.com/web/mito-vue-demo/#/demo/one)
+
+![mito-在线demo](https://tva1.sinaimg.cn/large/008eGmZEly1gmxgn4y1sag315g0m2hdt.gif)
+
+
+## 收集信息平台展示
+
+**该SDK能收集哪些信息：下面这些例子给你一一展示：**
+
+![react-example](https://tva1.sinaimg.cn/large/008eGmZEly1gmxggqptzwg30u00hoe84.gif)
+
+[vue-在线示例](https://static.91jkys.com/f2e/mito-error-example/#/errors/1/info)
+
+[react-在线示例](https://static.91jkys.com/f2e/mito-error-example/#/errors/2/info)
+
+[js-在线示例](https://static.91jkys.com/f2e/mito-error-example/#/errors/3/info)
+
+[wx-mini-在线示例](https://static.91jkys.com/f2e/mito-error-example/#/errors/4/info)
 
 
 
@@ -47,7 +64,6 @@
 
 ## hooks和配置项
 [使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md)
-
 
 
 

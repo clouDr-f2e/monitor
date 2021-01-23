@@ -17,6 +17,10 @@ export function getCurrentRoute() {
   return setUrlQuery(currentPage.route, currentPage.options)
 }
 
+/**
+ * 后退时需要计算当前页面地址
+ * @param delta 返回的页面数，如果 delta 大于现有页面数，则返回到首页
+ */
 export function getNavigateBackTargetUrl(delta: number | undefined) {
   if (!variableTypeDetection.isFunction(getCurrentPages)) {
     return ''

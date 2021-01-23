@@ -36,10 +36,9 @@ export class TransportData {
   beforePost(data: ReportDataType) {
     if (typeof this.beforeDataReport === 'function') {
       data = this.beforeDataReport(data)
-      // todo  ? 是否需要加个判断 如果格式符合标准就不上传
       if (!data) return false
     }
-    const errorId = createErrorId(data)
+    const errorId = createErrorId(data, this.apikey)
     if (!errorId) return false
     data.errorId = errorId
     return JSON.stringify(this.getTransportData(data))
@@ -82,6 +81,9 @@ export class TransportData {
       sdkName: SDK_NAME,
       apikey: this.apikey
     }
+  }
+  getApikey() {
+    return this.apikey
   }
   getTrackerId(): string | number {
     if (typeof this.backTrackerId === 'function') {

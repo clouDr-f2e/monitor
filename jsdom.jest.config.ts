@@ -9,6 +9,7 @@ export default {
     '^.+\\.ts$': 'ts-jest'
   },
   moduleFileExtensions: ['js', 'ts'],
+  coveragePathIgnorePatterns: ['/src/wx-mini', '/src/React', '/src/Vue'],
   testMatch: ['**/*.spec.ts'],
   moduleNameMapper: {
     // alias src/(.*) not work
