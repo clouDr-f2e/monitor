@@ -15,6 +15,8 @@
       * [NPM包形式](#NPM包形式)
       * [本地文件形式](#本地文件形式)
       * [options配置](#options配置)
+  * [手动上报](#手动上报)
+      * [MITO.log](#MITO.log)
   * [FAQ](#faq)
 
 ## 安装
@@ -218,7 +220,7 @@ class ErrorBoundary extends React.Component {
 
 **main.js**
 
-```
+```js
 import MITO from '@zyf2e/mitojs';
 import Vue from 'vue';
 // 捕捉Vue框架抛出的错误
@@ -243,6 +245,51 @@ MITO.init({
 
 [详细配置](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md)
 
+
+
+## 手动上报
+### MITO.log
+有时我们需要在某个业务代码中上报业务信息或者是埋点信息，这时可以用到`MITO.log`手动上报，下面这个例子就是在获取支付状态的接口是否异常，如果异常就上报异常信息。
+```js
+import MITO from '@zyf2e/mitojs'
+
+$api.getPayStatus().then(res => {
+  if (res.success) {
+    // 支付正常
+  } else {
+    // 支付异常 上报异常信息
+    MITO.log({
+      // 错误信息
+      message: res.errMsg,
+      // 标签 可以理解为种类
+      tag: '支付页面'
+      // 错误等级：可选，默认最高等级
+      // level: '',
+      // 错误信息 Error对象
+      // ex: ''
+    })
+  }
+})
+```
+还可以统计每个功能的浏览次数（PV）、用户量（UV），比如下面代码中在活动页埋点，UV的统计需要依赖`trackerId`，[trackerId详细配置](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md#backtrackerid)
+```js
+import MITO from '@zyf2e/mitojs'
+
+/**
+ * react hook 活动页
+ */
+function ActivePage() {
+  useEffect(() => {
+    //可统计PV、UV
+    MITO.log({
+      message: '活动页',
+      // 标签：可选
+      // tag: ''
+    })
+  }, [])
+  return <div>这是活动页</div>
+}
+```
 
 
 
