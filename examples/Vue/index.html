@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>vue2.6-demo</title>
   </head>
 
@@ -13,6 +12,7 @@
       <button id="vueCodeError" @click="onClickCodeError">Vue代码错误</button>
       <button @click="onClickFetchNormal">正常请求</button>
       <button @click="onClickFetchError">异常请求</button>
+      <div>{{test}}</div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="../../dist/index.min.js"></script>
@@ -20,7 +20,29 @@
     <script>
       new Vue({
         el: '#app',
-        data: {},
+        data: {
+          test: 0
+        },
+        mounted() {
+          const mockPerformance = (base) => {
+            const start = new Date().getTime()
+            let i = 0
+            let j = 0
+            let p = 0
+            let b = false
+            while (new Date().getTime() - start < 1e3) {
+              for (let k = 0; k < 1e7; k++) {
+                p += ((b = !b) ? 1 : -1) / (2 * j++ + 1)
+              }
+              i++
+            }
+            console.log(p)
+            return base < i
+          }
+          setTimeout(() => {
+            this.test = mockPerformance(22)
+          }, 1000)
+        },
         methods: {
           onClickCodeError() {
             this.a.a = 1
