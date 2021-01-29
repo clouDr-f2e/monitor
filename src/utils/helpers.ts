@@ -160,6 +160,9 @@ export function unknownToString(target: unknown): string {
   if (variableTypeDetection.isString(target)) {
     return target as string
   }
+  if (variableTypeDetection.isUndefined(target)) {
+    return 'undefined'
+  }
   return JSON.stringify(target)
 }
 
