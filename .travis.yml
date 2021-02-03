@@ -9,5 +9,5 @@ install:
   - npm i
 scripts:
   - npm install codecov -g
-  - npm test
   - npm run build
+  - npm test
