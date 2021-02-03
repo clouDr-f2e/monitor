@@ -125,8 +125,8 @@ describe('helper.ts', () => {
     expect(unknownToString(test1)).toBe(test1)
     expect(unknownToString(test2)).toBe(JSON.stringify(test2))
     expect(unknownToString(test3)).toBe(JSON.stringify(test3))
-    expect(unknownToString(undefined)).toBe(JSON.stringify('undefined'))
-    expect(unknownToString(null)).toBe(JSON.stringify('null'))
+    expect(unknownToString(undefined)).toBe('undefined')
+    expect(unknownToString(null)).toBe('null')
   })
 
   it('should getBigVersion func work', () => {
