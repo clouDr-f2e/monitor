@@ -49,7 +49,6 @@ describe('handleEvents.ts', () => {
     expect(stack[0].type).toBe(BREADCRUMBTYPES.FETCH)
     expect(stack[0].category).toBe(BREADCRUMBCATEGORYS.HTTP)
     expect(stack[0].level).toBe(Severity.Info)
-    expect(result['errorId']).toBeDefined()
     expect(result).toMatchObject(httpTransform(mockData))
     expect(stack[1].type).toBe(BREADCRUMBTYPES.FETCH)
     expect(stack[1].category).toBe(BREADCRUMBCATEGORYS.EXCEPTION)

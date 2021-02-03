@@ -57,7 +57,7 @@ const HandleWxAppEvents = {
       category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
       type: BREADCRUMBTYPES.CODE_ERROR,
       level: Severity.Error,
-      data
+      data: { ...data }
     })
     transportData.send(data)
   },
@@ -80,7 +80,7 @@ const HandleWxAppEvents = {
     breadcrumb.push({
       type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
       category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
-      data: data,
+      data: { ...data },
       level: Severity.Error
     })
     transportData.send(data)
@@ -205,7 +205,7 @@ const HandleNetworkEvents = {
       breadcrumb.push({
         type,
         category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
-        data: result,
+        data: { ...result },
         level: Severity.Error
       })
       transportData.send(result)

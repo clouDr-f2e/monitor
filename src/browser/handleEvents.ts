@@ -24,14 +24,14 @@ const HandleEvents = {
     breadcrumb.push({
       type,
       category: breadcrumb.getCategory(type),
-      data: result,
+      data: { ...result },
       level: Severity.Info
     })
     if (isError) {
       breadcrumb.push({
         type,
         category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
-        data: result,
+        data: { ...result },
         level: Severity.Error
       })
       transportData.send(result)
@@ -66,7 +66,7 @@ const HandleEvents = {
     breadcrumb.push({
       type: BREADCRUMBTYPES.CODE_ERROR,
       category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
-      data: result,
+      data: { ...result },
       level: Severity.Error
     })
     transportData.send(result)
@@ -142,7 +142,7 @@ const HandleEvents = {
     breadcrumb.push({
       type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
       category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
-      data: data,
+      data: { ...data },
       level: Severity.Error
     })
     transportData.send(data)

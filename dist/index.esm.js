@@ -341,6 +341,9 @@ function unknownToString(target) {
     if (variableTypeDetection.isString(target)) {
         return target;
     }
+    if (variableTypeDetection.isUndefined(target)) {
+        return 'undefined';
+    }
     return JSON.stringify(target);
 }
 function getBigVersion(version) {
@@ -1167,14 +1170,14 @@ var HandleEvents = {
         breadcrumb.push({
             type: type,
             category: breadcrumb.getCategory(type),
-            data: result,
+            data: __assign({}, result),
             level: Severity.Info
         });
         if (isError) {
             breadcrumb.push({
                 type: type,
                 category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
-                data: result,
+                data: __assign({}, result),
                 level: Severity.Error
             });
             transportData.send(result);
@@ -1202,7 +1205,7 @@ var HandleEvents = {
         breadcrumb.push({
             type: BREADCRUMBTYPES.CODE_ERROR,
             category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
-            data: result,
+            data: __assign({}, result),
             level: Severity.Error
         });
         transportData.send(result);
@@ -1275,7 +1278,7 @@ var HandleEvents = {
         breadcrumb.push({
             type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
             category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
-            data: data,
+            data: __assign({}, data),
             level: Severity.Error
         });
         transportData.send(data);
@@ -1668,7 +1671,7 @@ var HandleWxAppEvents = {
             category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
             type: BREADCRUMBTYPES.CODE_ERROR,
             level: Severity.Error,
-            data: data
+            data: __assign({}, data)
         });
         transportData.send(data);
     },
@@ -1687,7 +1690,7 @@ var HandleWxAppEvents = {
         breadcrumb.push({
             type: BREADCRUMBTYPES.UNHANDLEDREJECTION,
             category: breadcrumb.getCategory(BREADCRUMBTYPES.UNHANDLEDREJECTION),
-            data: data,
+            data: __assign({}, data),
             level: Severity.Error
         });
         transportData.send(data);
@@ -1805,7 +1808,7 @@ var HandleNetworkEvents = {
             breadcrumb.push({
                 type: type,
                 category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
-                data: result,
+                data: __assign({}, result),
                 level: Severity.Error
             });
             transportData.send(result);
