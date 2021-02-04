@@ -61,7 +61,7 @@ const cjsPackage = {
 const localDebug = {
   input: common.input,
   output: {
-    file: '/Users/ks/Desktop/tryCatch/github/mito-vue-demo/src/bundle.js',
+    file: '/Users/zhangwenliang/work/projects/weappSdk/utils/index.wx.js',
     format: 'esm',
     name: 'MITO'
   },

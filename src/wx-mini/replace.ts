@@ -5,7 +5,7 @@ import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
 import { WxAppEvents, WxPageEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE, BREADCRUMBTYPES, voidFun } from '../common/constant'
 import { getFlag, setFlag, variableTypeDetection } from '@/utils'
 import { MITOHttp } from '@/types/common'
-import { transportData } from '@/core'
+import { TransportData, transportData } from '@/core'
 import { EMethods } from '@/types'
 import { getCurrentRoute, getNavigateBackTargetUrl } from './utils'
 import { ELinstenerTypes } from './constant'
@@ -77,20 +77,22 @@ export function replacePage() {
     return
   }
   const originPage = Page
+  const methods = [
+    WxPageEvents.PageOnShow,
+    WxPageEvents.PageOnHide,
+    WxPageEvents.PageOnShareAppMessage,
+    WxPageEvents.PageOnShareTimeline,
+    WxPageEvents.PageOnTabItemTap
+  ]
+  methods.forEach((method) => {
+    if (getFlag(method)) return
+    addReplaceHandler({
+      callback: (data) => HandleWxPageEvents[method.replace('PageOn', 'on')](data),
+      type: method
+    })
+  })
   Page = function (pageOptions): WechatMiniprogram.Page.Constructor {
-    const methods = [
-      WxPageEvents.PageOnShow,
-      WxPageEvents.PageOnHide,
-      WxPageEvents.PageOnShareAppMessage,
-      WxPageEvents.PageOnShareTimeline,
-      WxPageEvents.PageOnTabItemTap
-    ]
     methods.forEach((method) => {
-      if (getFlag(method)) return
-      addReplaceHandler({
-        callback: (data) => HandleWxPageEvents[method.replace('PageOn', 'on')](data),
-        type: method
-      })
       replaceOld(
         pageOptions,
         method.replace('PageOn', 'on'),
@@ -105,43 +107,78 @@ export function replacePage() {
         true
       )
     })
-    function isNotAction(method) {
-      // 如果是method中处理过的方法，则不是处理用户手势行为的方法
-      return methods.find((m) => m.replace('PageOn', 'on') === method)
-    }
-    addReplaceHandler({
-      callback: (data) => HandleWxPageEvents.onAction(data),
-      type: EVENTTYPES.DOM
-    })
-    function gestureTrigger(e) {
-      e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
-      triggerHandlers(EVENTTYPES.DOM, e)
-    }
-    const throttleGesturetrigger = throttle(gestureTrigger, 500)
-    const linstenerTypes = [ELinstenerTypes.Touchmove, ELinstenerTypes.Tap]
-    Object.keys(pageOptions).forEach((m) => {
-      if ('function' !== typeof pageOptions[m] || isNotAction(m)) {
-        return
-      }
-      replaceOld(
-        pageOptions,
-        m,
-        function (originMethod: (args: any) => void) {
-          return function (...args: any): void {
-            const e = args[0]
-            if (e && e.type && e.currentTarget && !e.mitoProcessed) {
-              if (linstenerTypes.indexOf(e.type)) {
-                throttleGesturetrigger(e)
-              }
-            }
-            originMethod.apply(this, args)
-          }
-        },
-        true
-      )
-    })
+    replaceAction(pageOptions)
+    // function isNotAction(method) {
+    //   // 如果是method中处理过的方法，则不是处理用户手势行为的方法
+    //   return methods.find((m) => m.replace('PageOn', 'on') === method)
+    // }
+    // addReplaceHandler({
+    //   callback: (data) => HandleWxPageEvents.onAction(data),
+    //   type: EVENTTYPES.DOM
+    // })
+    // function gestureTrigger(e) {
+    //   e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
+    //   triggerHandlers(EVENTTYPES.DOM, e)
+    // }
+    // const throttleGesturetrigger = throttle(gestureTrigger, 500)
+    // const linstenerTypes = [ELinstenerTypes.Touchmove, ELinstenerTypes.Tap]
+    // Object.keys(pageOptions).forEach((m) => {
+    //   if ('function' !== typeof pageOptions[m] || isNotAction(m)) {
+    //     return
+    //   }
+    //   replaceOld(
+    //     pageOptions,
+    //     m,
+    //     function (originMethod: (args: any) => void) {
+    //       return function (...args: any): void {
+    //         const e = args[0]
+    //         if (e && e.type && e.currentTarget && !e.mitoProcessed) {
+    //           if (linstenerTypes.indexOf(e.type)) {
+    //             throttleGesturetrigger(e)
+    //           }
+    //         }
+    //         originMethod.apply(this, args)
+    //       }
+    //     },
+    //     true
+    //   )
+    // })
     return originPage.call(this, pageOptions)
   }
+}
+
+function replaceAction(options: WechatMiniprogram.Page.Options<any, any>) {
+  addReplaceHandler({
+    callback: (data) => HandleWxPageEvents.onAction(data),
+    type: EVENTTYPES.DOM
+  })
+  function gestureTrigger(e) {
+    e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
+    triggerHandlers(EVENTTYPES.DOM, e)
+  }
+  const throttleGesturetrigger = throttle(gestureTrigger, 500)
+  const linstenerTypes = [ELinstenerTypes.Touchmove, ELinstenerTypes.Tap]
+  Object.keys(options).forEach((m) => {
+    if ('function' !== typeof options[m]) {
+      return
+    }
+    replaceOld(
+      options,
+      m,
+      function (originMethod: (args: any) => void) {
+        return function (...args: any): void {
+          const e = args[0]
+          if (e && e.type && e.currentTarget && !e.mitoProcessed) {
+            if (linstenerTypes.indexOf(e.type)) {
+              throttleGesturetrigger(e)
+            }
+          }
+          originMethod.apply(this, args)
+        }
+      },
+      true
+    )
+  })
 }
 
 function replaceConsole() {
