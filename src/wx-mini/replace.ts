@@ -72,19 +72,44 @@ export function replaceApp() {
   }
 }
 
+const pageLifeMethods = [
+  WxPageEvents.PageOnShow,
+  WxPageEvents.PageOnHide,
+  WxPageEvents.PageOnShareAppMessage,
+  WxPageEvents.PageOnShareTimeline,
+  WxPageEvents.PageOnTabItemTap
+]
+
+/**
+ * 重写配置项下的页面生命周期函数
+ */
+function replacePageLifeMethods(
+  options: WechatMiniprogram.Page.Options<WechatMiniprogram.Page.DataOption, WechatMiniprogram.Page.CustomOption> | WechatMiniprogram.Component.MethodOption
+) {
+  pageLifeMethods.forEach((method) => {
+    replaceOld(
+      options,
+      method.replace('PageOn', 'on'),
+      function (originMethod: (args: any) => void) {
+        return function (...args: any[]): void {
+          triggerHandlers.apply(null, [method, ...args])
+          if (originMethod) {
+            originMethod.apply(this, args)
+          }
+        }
+      },
+      true
+    )
+  })
+}
+
 export function replacePage() {
   if (!Page) {
     return
   }
   const originPage = Page
-  const methods = [
-    WxPageEvents.PageOnShow,
-    WxPageEvents.PageOnHide,
-    WxPageEvents.PageOnShareAppMessage,
-    WxPageEvents.PageOnShareTimeline,
-    WxPageEvents.PageOnTabItemTap
-  ]
-  methods.forEach((method) => {
+
+  pageLifeMethods.forEach((method) => {
     if (getFlag(method)) return
     addReplaceHandler({
       callback: (data) => HandleWxPageEvents[method.replace('PageOn', 'on')](data),
@@ -92,21 +117,7 @@ export function replacePage() {
     })
   })
   Page = function (pageOptions): WechatMiniprogram.Page.Constructor {
-    methods.forEach((method) => {
-      replaceOld(
-        pageOptions,
-        method.replace('PageOn', 'on'),
-        function (originMethod: (args: any) => void) {
-          return function (...args: any[]): void {
-            triggerHandlers.apply(null, [method, ...args])
-            if (originMethod) {
-              originMethod.apply(this, args)
-            }
-          }
-        },
-        true
-      )
-    })
+    replacePageLifeMethods(pageOptions)
     replaceAction(pageOptions)
     return originPage.call(this, pageOptions)
   }
@@ -117,21 +128,20 @@ export function replaceComponent() {
     return
   }
   const originComponent = Component
-  //TODO: components全局类型定义没有识别出来
+  // TODO: components全局类型定义没有识别出来
   // @ts-ignore
   Component = function (componentOptions): WechatMiniprogram.Component.Constructor {
     if (typeof componentOptions.methods === 'object') {
+      replacePageLifeMethods(componentOptions.methods) // 兼容用Component构造页面的上报
       replaceAction(componentOptions.methods)
     }
     return originComponent.call(this, componentOptions)
   }
 }
 
-function replaceAction(options: WechatMiniprogram.Page.Options<any, any>) {
-  addReplaceHandler({
-    callback: (data) => HandleWxPageEvents.onAction(data),
-    type: EVENTTYPES.DOM
-  })
+function replaceAction(
+  options: WechatMiniprogram.Page.Options<WechatMiniprogram.Page.DataOption, WechatMiniprogram.Page.CustomOption> | WechatMiniprogram.Component.MethodOption
+) {
   function gestureTrigger(e) {
     e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
     triggerHandlers(EVENTTYPES.DOM, e)

@@ -1,5 +1,5 @@
 import { EVENTTYPES } from '@/common/constant'
-import { HandleWxConsoleEvents, HandleNetworkEvents, HandleWxEvents } from './handleWxEvents'
+import { HandleWxConsoleEvents, HandleNetworkEvents, HandleWxEvents, HandleWxPageEvents } from './handleWxEvents'
 import { addReplaceHandler, replaceApp, replacePage, replaceComponent } from './replace'
 
 export function setupReplace() {
@@ -21,5 +21,9 @@ export function setupReplace() {
       HandleWxConsoleEvents.console(data)
     },
     type: EVENTTYPES.CONSOLE
+  })
+  addReplaceHandler({
+    callback: (data) => HandleWxPageEvents.onAction(data),
+    type: EVENTTYPES.DOM
   })
 }
