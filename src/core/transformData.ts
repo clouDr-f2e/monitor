@@ -6,10 +6,12 @@ import { globalVar } from '../common/constant'
 import { Severity } from '../utils/Severity'
 import { fromHttpStatus } from '../utils/httpStatus'
 import { MITOHttp } from '../types/common'
+import { getRealPath } from './errorId'
 
 export function httpTransform(data: MITOHttp): ReportDataType {
   let message = ''
   const { elapsedTime, time, method, traceId, type, status } = data
+  const name = `${type}--${method}`
   if (status === 0) {
     message = elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制或域名不存在' : 'http请求失败，失败原因：超时'
   } else {
@@ -21,8 +23,8 @@ export function httpTransform(data: MITOHttp): ReportDataType {
     time,
     elapsedTime,
     level: Severity.Low,
-    message,
-    name: `${type}--${method}`,
+    message: `${message} ${getRealPath(data.url)}`,
+    name,
     request: {
       httpType: type,
       traceId,

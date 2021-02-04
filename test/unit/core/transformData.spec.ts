@@ -1,9 +1,10 @@
 import { ResourceErrorTarget } from '@/browser/handleEvents'
 import { ERRORTYPES, HTTPTYPE } from '@/common/constant'
 import { httpTransform, resourceTransform } from '@/core'
+import { getRealPath } from '@/core/errorId'
 import { EMethods } from '@/types'
 import { MITOHttp } from '@/types/common'
-import { getLocationHref, getTimestamp } from '@/utils'
+import { getLocationHref } from '@/utils'
 import { fromHttpStatus } from '@/utils/httpStatus'
 import { Severity } from '@/utils/Severity'
 
@@ -30,7 +31,7 @@ describe('transformData.ts', () => {
       time: 10000,
       method: EMethods.Get,
       traceId,
-      url: 'https://test.com/a',
+      url: 'https://test.com/a?test=1',
       reqData: {
         testData: 1
       },
@@ -47,7 +48,7 @@ describe('transformData.ts', () => {
       time: common.time,
       elapsedTime: mockData1.elapsedTime,
       level: Severity.Low,
-      message: 'http请求失败，失败原因：跨域限制或域名不存在',
+      message: `http请求失败，失败原因：跨域限制或域名不存在 ${getRealPath(common.url)}`,
       name: `${common.type}--${common.method}`,
       request: {
         httpType: common.type,
@@ -72,7 +73,7 @@ describe('transformData.ts', () => {
       time: common.time,
       elapsedTime: mockData2.elapsedTime,
       level: Severity.Low,
-      message: 'http请求失败，失败原因：超时',
+      message: `http请求失败，失败原因：超时 ${getRealPath(common.url)}`,
       name: `${common.type}--${common.method}`,
       request: {
         httpType: common.type,
@@ -98,7 +99,7 @@ describe('transformData.ts', () => {
       time: common.time,
       elapsedTime: mockData3.elapsedTime,
       level: Severity.Low,
-      message: fromHttpStatus(mockData3.status),
+      message: `${fromHttpStatus(mockData3.status)} ${getRealPath(common.url)}`,
       name: `${common.type}--${common.method}`,
       request: {
         httpType: common.type,

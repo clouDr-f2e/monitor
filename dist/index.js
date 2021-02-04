@@ -1015,6 +1015,7 @@ function fromHttpStatus(httpStatus) {
 function httpTransform(data) {
     var message = '';
     var elapsedTime = data.elapsedTime, time = data.time, method = data.method, traceId = data.traceId, type = data.type, status = data.status;
+    var name = type + "--" + method;
     if (status === 0) {
         message = elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制或域名不存在' : 'http请求失败，失败原因：超时';
     }
@@ -1027,8 +1028,8 @@ function httpTransform(data) {
         time: time,
         elapsedTime: elapsedTime,
         level: Severity.Low,
-        message: message,
-        name: type + "--" + method,
+        message: message + " " + getRealPath(data.url),
+        name: name,
         request: {
             httpType: type,
             traceId: traceId,
