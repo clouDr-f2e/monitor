@@ -108,42 +108,22 @@ export function replacePage() {
       )
     })
     replaceAction(pageOptions)
-    // function isNotAction(method) {
-    //   // 如果是method中处理过的方法，则不是处理用户手势行为的方法
-    //   return methods.find((m) => m.replace('PageOn', 'on') === method)
-    // }
-    // addReplaceHandler({
-    //   callback: (data) => HandleWxPageEvents.onAction(data),
-    //   type: EVENTTYPES.DOM
-    // })
-    // function gestureTrigger(e) {
-    //   e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
-    //   triggerHandlers(EVENTTYPES.DOM, e)
-    // }
-    // const throttleGesturetrigger = throttle(gestureTrigger, 500)
-    // const linstenerTypes = [ELinstenerTypes.Touchmove, ELinstenerTypes.Tap]
-    // Object.keys(pageOptions).forEach((m) => {
-    //   if ('function' !== typeof pageOptions[m] || isNotAction(m)) {
-    //     return
-    //   }
-    //   replaceOld(
-    //     pageOptions,
-    //     m,
-    //     function (originMethod: (args: any) => void) {
-    //       return function (...args: any): void {
-    //         const e = args[0]
-    //         if (e && e.type && e.currentTarget && !e.mitoProcessed) {
-    //           if (linstenerTypes.indexOf(e.type)) {
-    //             throttleGesturetrigger(e)
-    //           }
-    //         }
-    //         originMethod.apply(this, args)
-    //       }
-    //     },
-    //     true
-    //   )
-    // })
     return originPage.call(this, pageOptions)
+  }
+}
+
+export function replaceComponent() {
+  if (!Component) {
+    return
+  }
+  const originComponent = Component
+  //TODO: components全局类型定义没有识别出来
+  // @ts-ignore
+  Component = function (componentOptions): WechatMiniprogram.Component.Constructor {
+    if (typeof componentOptions.methods === 'object') {
+      replaceAction(componentOptions.methods)
+    }
+    return originComponent.call(this, componentOptions)
   }
 }
 
