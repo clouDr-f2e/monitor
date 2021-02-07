@@ -3,7 +3,7 @@ import { ReplaceHandler, subscribeEvent, triggerHandlers } from '../common/subsc
 import { getTimestamp, replaceOld, throttle } from '../utils/helpers'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
 import { WxAppEvents, WxPageEvents, WxRouteEvents, WxEvents, HTTP_CODE, EVENTTYPES, HTTPTYPE, BREADCRUMBTYPES, voidFun } from '../common/constant'
-import { getFlag, setFlag, variableTypeDetection } from '@/utils'
+import { getFlag, isEmptyObject, setFlag, variableTypeDetection } from '@/utils'
 import { MITOHttp } from '@/types/common'
 import { TransportData, transportData } from '@/core'
 import { EMethods } from '@/types'
@@ -81,7 +81,7 @@ const pageLifeMethods = [
 ]
 
 /**
- * 重写配置项下的页面生命周期函数
+ * 监听配置项下的页面生命周期函数
  */
 function replacePageLifeMethods(
   options: WechatMiniprogram.Page.Options<WechatMiniprogram.Page.DataOption, WechatMiniprogram.Page.CustomOption> | WechatMiniprogram.Component.MethodOption
@@ -103,6 +103,7 @@ function replacePageLifeMethods(
   })
 }
 
+// 重写Page
 export function replacePage() {
   if (!Page) {
     return
@@ -123,6 +124,7 @@ export function replacePage() {
   }
 }
 
+// 重写Component
 export function replaceComponent() {
   if (!Component) {
     return
@@ -131,19 +133,45 @@ export function replaceComponent() {
   // TODO: components全局类型定义没有识别出来
   // @ts-ignore
   Component = function (componentOptions): WechatMiniprogram.Component.Constructor {
-    if (typeof componentOptions.methods === 'object') {
-      replacePageLifeMethods(componentOptions.methods) // 兼容用Component构造页面的上报
+    if (!isEmptyObject(componentOptions.methods)) {
+      /*
+       * 兼容用Component构造页面的上报
+       * 当用Component构造页面时，页面的生命周期函数应写在methods定义段中，所以重写componentOptions.methods中的对应周期函数
+       */
+      replacePageLifeMethods(componentOptions.methods)
       replaceAction(componentOptions.methods)
     }
     return originComponent.call(this, componentOptions)
   }
 }
 
+// 重写Behavior
+export function replaceBehavior() {
+  if (!Behavior) {
+    return
+  }
+  const originBehavior = Behavior
+  // TODO: Behaviors全局类型定义没有识别出来
+  // @ts-ignore
+  Behavior = function (behaviorOptions): WechatMiniprogram.Behavior.Constructor {
+    if (!isEmptyObject(behaviorOptions.methods)) {
+      /*
+       * 当使用Compnent直接构造页面时，用到的behavior中如果有onShow等页面生命周期函数是不会被触发的，所以只用监听手势行为
+       */
+      replaceAction(behaviorOptions.methods)
+    }
+    return originBehavior.call(this, behaviorOptions)
+  }
+}
+
+/**
+ * 监听配置项下的手势处理方法
+ */
 function replaceAction(
   options: WechatMiniprogram.Page.Options<WechatMiniprogram.Page.DataOption, WechatMiniprogram.Page.CustomOption> | WechatMiniprogram.Component.MethodOption
 ) {
   function gestureTrigger(e) {
-    e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
+    e.mitoWorked = true // 给事件对象增加特殊的标记，避免被无限透传
     triggerHandlers(EVENTTYPES.DOM, e)
   }
   const throttleGesturetrigger = throttle(gestureTrigger, 500)
@@ -158,8 +186,8 @@ function replaceAction(
       function (originMethod: (args: any) => void) {
         return function (...args: any): void {
           const e = args[0]
-          if (e && e.type && e.currentTarget && !e.mitoProcessed) {
-            if (linstenerTypes.indexOf(e.type)) {
+          if (e && e.type && e.currentTarget && !e.mitoWorked) {
+            if (linstenerTypes.indexOf(e.type) > -1) {
               throttleGesturetrigger(e)
             }
           }
