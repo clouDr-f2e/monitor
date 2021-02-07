@@ -5,6 +5,7 @@ import { BreadcrumbPushData, EMethods, ReportDataType, TransportDataType } from 
 import { Severity } from '@/utils/Severity'
 import { jsUrl } from '@/test/config'
 import { SpanStatus } from '@/utils/httpStatus'
+import { ServerUrls } from '../../../examples/server/config'
 
 describe('Native JS e2e:', () => {
   const timeout = 3000
@@ -25,7 +26,7 @@ describe('Native JS e2e:', () => {
     // })
     await page.goto(jsUrl)
     page.on('request', (request) => {
-      if (request.url().includes('/errors/upload') && uploadRequestHandles.length > 0) {
+      if (request.url().includes(ServerUrls.errorsUpload) && uploadRequestHandles.length > 0) {
         uploadRequestHandles.shift()(request)
       }
     })
@@ -74,7 +75,7 @@ describe('Native JS e2e:', () => {
     'a normal get XHR request，breadcrumb stack should add one',
     (done) => {
       async function requestfinishedHandle(request: puppeteer.Request) {
-        if (request.method() === EMethods.Get && request.url().includes('/normal')) {
+        if (request.method() === EMethods.Get && request.url().includes(ServerUrls.normalGet)) {
           const stack = await getStack()
           expect(stack[1].category).toBe(BREADCRUMBCATEGORYS.HTTP)
           expect(stack[1].type).toBe(BREADCRUMBTYPES.XHR)
@@ -82,7 +83,7 @@ describe('Native JS e2e:', () => {
           expect((stack[1].data as ReportDataType).message).toBe(SpanStatus.Ok)
           expect((stack[1].data as ReportDataType).request.httpType).toBe(HTTPTYPE.XHR)
           expect((stack[1].data as ReportDataType).request.method).toBe(EMethods.Get)
-          expect((stack[1].data as ReportDataType).request.url).toBe('/normal')
+          expect((stack[1].data as ReportDataType).request.url).toBe(ServerUrls.normalGet)
         }
         done()
       }
@@ -101,18 +102,18 @@ describe('Native JS e2e:', () => {
         expect(stack[1].category).toBe(BREADCRUMBCATEGORYS.HTTP)
         expect(stack[1].type).toBe(BREADCRUMBTYPES.XHR)
         expect(stack[1].level).toBe(Severity.Info)
-        expect((stack[1].data as ReportDataType).message).toBe(SpanStatus.InternalError)
+        expect((stack[1].data as ReportDataType).message).toBe(`${SpanStatus.InternalError} ${ServerUrls.exceptionGet}`)
         expect((stack[1].data as ReportDataType).request.httpType).toBe(HTTPTYPE.XHR)
         expect((stack[1].data as ReportDataType).request.method).toBe(EMethods.Get)
-        expect((stack[1].data as ReportDataType).request.url).toBe('/exception')
+        expect((stack[1].data as ReportDataType).request.url).toBe(ServerUrls.exceptionGet)
 
         expect(stack[2].category).toBe(BREADCRUMBCATEGORYS.EXCEPTION)
         expect(stack[2].type).toBe(BREADCRUMBTYPES.XHR)
         expect(stack[2].level).toBe(Severity.Error)
         expect((stack[2].data as ReportDataType).request.httpType).toBe(HTTPTYPE.XHR)
-        expect((stack[2].data as ReportDataType).message).toBe(SpanStatus.InternalError)
+        expect((stack[2].data as ReportDataType).message).toBe(`${SpanStatus.InternalError} ${ServerUrls.exceptionGet}`)
         expect((stack[2].data as ReportDataType).request.method).toBe(EMethods.Get)
-        expect((stack[2].data as ReportDataType).request.url).toBe('/exception')
+        expect((stack[2].data as ReportDataType).request.url).toBe(ServerUrls.exceptionGet)
         done()
         // }
       }
@@ -138,10 +139,10 @@ describe('Native JS e2e:', () => {
         expect(stack[1].category).toBe(BREADCRUMBCATEGORYS.HTTP)
         expect(stack[1].type).toBe(BREADCRUMBTYPES.FETCH)
         expect(stack[1].level).toBe(Severity.Info)
-        expect((stack[1].data as ReportDataType).message).toBe(SpanStatus.Ok)
+        expect((stack[1].data as ReportDataType).message).toBe(`${SpanStatus.Ok}`)
         expect((stack[1].data as ReportDataType).request.httpType).toBe(HTTPTYPE.FETCH)
         expect((stack[1].data as ReportDataType).request.method).toBe(EMethods.Post)
-        expect((stack[1].data as ReportDataType).request.url).toBe('/normal/post')
+        expect((stack[1].data as ReportDataType).request.url).toBe(ServerUrls.normalPost)
         done()
       }
       finishedRequestHandles.push(requestfinishedHandle)
@@ -158,19 +159,19 @@ describe('Native JS e2e:', () => {
         expect(stack[1].category).toBe(BREADCRUMBCATEGORYS.HTTP)
         expect(stack[1].type).toBe(BREADCRUMBTYPES.FETCH)
         expect(stack[1].level).toBe(Severity.Info)
-        expect((stack[1].data as ReportDataType).message).toBe(SpanStatus.InternalError)
+        expect((stack[1].data as ReportDataType).message).toBe(`${SpanStatus.InternalError} ${ServerUrls.exceptionPost}`)
         expect((stack[1].data as ReportDataType).request.httpType).toBe(HTTPTYPE.FETCH)
         expect((stack[1].data as ReportDataType).request.method).toBe(EMethods.Post)
-        expect((stack[1].data as ReportDataType).request.url).toBe('/exception/post')
+        expect((stack[1].data as ReportDataType).request.url).toBe(ServerUrls.exceptionPost)
 
         expect(stack[2].category).toBe(BREADCRUMBCATEGORYS.EXCEPTION)
         expect(stack[2].type).toBe(BREADCRUMBTYPES.FETCH)
         expect(stack[2].level).toBe(Severity.Error)
         expect((stack[2].data as ReportDataType).request.httpType).toBe(HTTPTYPE.FETCH)
-        expect((stack[2].data as ReportDataType).message).toBe(SpanStatus.InternalError)
+        expect((stack[2].data as ReportDataType).message).toBe(`${SpanStatus.InternalError} ${ServerUrls.exceptionPost}`)
         expect((stack[2].data as ReportDataType).request.method).toBe(EMethods.Post)
         expect((stack[2].data as ReportDataType).request.data).toBe(JSON.stringify({ test: '测试请求体' }))
-        expect((stack[2].data as ReportDataType).request.url).toBe('/exception/post')
+        expect((stack[2].data as ReportDataType).request.url).toBe(ServerUrls.exceptionPost)
         done()
       }
       finishedRequestHandles.push(requestfinishedHandle)

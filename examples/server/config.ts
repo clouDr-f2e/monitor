@@ -15,3 +15,11 @@ export const FilePaths = {
   '/Vue3': Vue3FilePath,
   '/dist': distFilePath
 }
+
+export const ServerUrls = {
+  normalGet: '/normal',
+  exceptionGet: '/exception',
+  normalPost: '/normal/post',
+  exceptionPost: '/exception/post',
+  errorsUpload: '/errors/upload'
+}

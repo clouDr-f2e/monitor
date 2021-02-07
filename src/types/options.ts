@@ -1,6 +1,6 @@
 import { Breadcrumb } from '../core/breadcrumb'
 import { BreadcrumbPushData } from './breadcrumb'
-import { ReportDataType } from './transportData'
+import { ReportDataType, TransportDataType } from './transportData'
 type CANCEL = null | undefined | boolean
 
 export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS'
@@ -80,7 +80,7 @@ export interface HooksTypes {
    * ../param event 有SDK生成的错误事件
    * ../returns 如果返回 null | undefined | boolean 时，将忽略本次上传
    */
-  beforeDataReport?(event: ReportDataType): PromiseLike<ReportDataType | null> | ReportDataType | CANCEL
+  beforeDataReport?(event: TransportDataType): Promise<TransportDataType | null | CANCEL> | TransportDataType | CANCEL | null
   /**
    * 钩子函数，在每次添加用户行为事件前都会调用
    *

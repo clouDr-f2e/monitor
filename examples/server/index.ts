@@ -1,6 +1,6 @@
 import express from 'express'
 import http from 'http'
-import { port, FilePaths } from './config'
+import { port, FilePaths, ServerUrls } from './config'
 import opn from 'open'
 // import { mswServer } from './mocks/node'
 //   mswServer.listen()
@@ -13,23 +13,23 @@ Object.entries(FilePaths).forEach(([path, resolvePath]) => {
 })
 
 // mock
-app.get('/normal', (req, res) => {
+app.get(ServerUrls.normalGet, (req, res) => {
   res.send('get 正常请求响应体')
 })
 
-app.get('/exception', (req, res) => {
+app.get(ServerUrls.normalPost, (req, res) => {
   res.status(500).send('get 异常响应体!!!')
 })
 
-app.post('/normal/post', (req, res) => {
+app.post(ServerUrls.normalPost, (req, res) => {
   res.send('post 正常请求响应体')
 })
 
-app.post('/exception/post', (req, res) => {
+app.post(ServerUrls.exceptionPost, (req, res) => {
   res.status(500).send('post 异常响应体!!!')
 })
 
-app.post('/errors/upload', (req, res) => {
+app.post(ServerUrls.errorsUpload, (req, res) => {
   res.send('错误上报成功')
 })
 

@@ -4,7 +4,7 @@ import { ResourceErrorTarget } from '../browser/handleEvents'
 import { ReportDataType } from '../types/transportData'
 import { globalVar } from '../common/constant'
 import { Severity } from '../utils/Severity'
-import { fromHttpStatus } from '../utils/httpStatus'
+import { fromHttpStatus, SpanStatus } from '../utils/httpStatus'
 import { MITOHttp } from '../types/common'
 import { getRealPath } from './errorId'
 
@@ -17,13 +17,14 @@ export function httpTransform(data: MITOHttp): ReportDataType {
   } else {
     message = fromHttpStatus(status)
   }
+  message = message === SpanStatus.Ok ? message : `${message} ${getRealPath(data.url)}`
   return {
     type: ERRORTYPES.FETCH_ERROR,
     url: getLocationHref(),
     time,
     elapsedTime,
     level: Severity.Low,
-    message: `${message} ${getRealPath(data.url)}`,
+    message,
     name,
     request: {
       httpType: type,

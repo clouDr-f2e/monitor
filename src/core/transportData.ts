@@ -33,18 +33,19 @@ export class TransportData {
     }
     return []
   }
-  beforePost(data: ReportDataType) {
-    if (typeof this.beforeDataReport === 'function') {
-      data = this.beforeDataReport(data)
-      if (!data) return false
-    }
+  async beforePost(data: ReportDataType) {
     const errorId = createErrorId(data, this.apikey)
     if (!errorId) return false
     data.errorId = errorId
-    return JSON.stringify(this.getTransportData(data))
+    let transportData = this.getTransportData(data)
+    if (typeof this.beforeDataReport === 'function') {
+      transportData = await this.beforeDataReport(transportData)
+      if (!transportData) return false
+    }
+    return JSON.stringify(transportData)
   }
-  xhrPost(data: ReportDataType): void {
-    const result = this.beforePost(data)
+  async xhrPost(data: ReportDataType) {
+    const result = await this.beforePost(data)
     if (!result) return
     const requestFun = (): void => {
       const xhr = new XMLHttpRequest()
@@ -58,8 +59,8 @@ export class TransportData {
     }
     this.queue.addFn(requestFun)
   }
-  wxPost(data: ReportDataType) {
-    const result = this.beforePost(data)
+  async wxPost(data: ReportDataType) {
+    const result = await this.beforePost(data)
     if (!result) return
     const requestFun = (): void => {
       wx.request({
@@ -115,7 +116,7 @@ export class TransportData {
     validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr)
     validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId)
   }
-  send(data: ReportDataType): void {
+  send(data: ReportDataType) {
     if (isBrowserEnv) {
       return this.xhrPost(data)
     }
