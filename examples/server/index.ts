@@ -17,7 +17,7 @@ app.get(ServerUrls.normalGet, (req, res) => {
   res.send('get 正常请求响应体')
 })
 
-app.get(ServerUrls.normalPost, (req, res) => {
+app.get(ServerUrls.exceptionGet, (req, res) => {
   res.status(500).send('get 异常响应体!!!')
 })
 
