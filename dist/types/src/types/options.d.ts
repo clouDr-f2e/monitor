@@ -30,7 +30,7 @@ export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEvent
 }
 export interface HooksTypes {
     configReportXhr?(xhr: XMLHttpRequest): void;
-    beforeDataReport?(event: TransportDataType): PromiseLike<TransportDataType | null> | TransportDataType | CANCEL;
+    beforeDataReport?(event: TransportDataType): Promise<TransportDataType | null | CANCEL> | TransportDataType | CANCEL | null;
     beforePushBreadcrumb?(breadcrumb: Breadcrumb, hint: BreadcrumbPushData): BreadcrumbPushData | CANCEL;
     beforeAppAjaxSend?(config: IRequestHeaderConfig, setRequestHeader: IBeforeAppAjaxSendConfig): void;
     backTrackerId?(): string | number;

@@ -186,6 +186,9 @@ function isError(wat) {
             return isInstanceOf(wat, Error);
     }
 }
+function isEmptyObject(obj) {
+    return variableTypeDetection.isObject(obj) && Object.keys(obj).length === 0;
+}
 function isInstanceOf(wat, base) {
     try {
         return wat instanceof base;
@@ -2014,16 +2017,28 @@ function replaceComponent() {
     }
     var originComponent = Component;
     Component = function (componentOptions) {
-        if (typeof componentOptions.methods === 'object') {
+        if (!isEmptyObject(componentOptions.methods)) {
             replacePageLifeMethods(componentOptions.methods);
             replaceAction(componentOptions.methods);
         }
         return originComponent.call(this, componentOptions);
     };
 }
+function replaceBehavior() {
+    if (!Behavior) {
+        return;
+    }
+    var originBehavior = Behavior;
+    Behavior = function (behaviorOptions) {
+        if (!isEmptyObject(behaviorOptions.methods)) {
+            replaceAction(behaviorOptions.methods);
+        }
+        return originBehavior.call(this, behaviorOptions);
+    };
+}
 function replaceAction(options) {
     function gestureTrigger(e) {
-        e.mitoProcessed = true;
+        e.mitoWorked = true;
         triggerHandlers(EVENTTYPES.DOM, e);
     }
     var throttleGesturetrigger = throttle(gestureTrigger, 500);
@@ -2039,8 +2054,8 @@ function replaceAction(options) {
                     args[_i] = arguments[_i];
                 }
                 var e = args[0];
-                if (e && e.type && e.currentTarget && !e.mitoProcessed) {
-                    if (linstenerTypes.indexOf(e.type)) {
+                if (e && e.type && e.currentTarget && !e.mitoWorked) {
+                    if (linstenerTypes.indexOf(e.type) > -1) {
                         throttleGesturetrigger(e);
                     }
                 }
@@ -2197,6 +2212,7 @@ function setupReplace$1() {
     replaceApp();
     replacePage();
     replaceComponent();
+    replaceBehavior();
     addReplaceHandler$1({
         callback: function (data) { return HandleWxEvents.handleRoute(data); },
         type: EVENTTYPES.MINI_ROUTE
