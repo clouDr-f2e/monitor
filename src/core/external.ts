@@ -6,7 +6,7 @@ import { Severity } from '../utils/Severity'
 import { getCurrentRoute } from '@/wx-mini/utils'
 
 interface LogTypes {
-  message: string
+  message: string | number | Object
   tag?: string
   level?: Severity
   ex?: any

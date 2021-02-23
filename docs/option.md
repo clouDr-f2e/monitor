@@ -2,7 +2,7 @@
 ### log
 ```js
 interface LogTypes {
-  message: string;
+  message: string | number | Object
   tag?: string;
   level?: Severity;
   ex?: any;
