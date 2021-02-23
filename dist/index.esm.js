@@ -241,7 +241,8 @@ var Logger = (function () {
         var _this = this;
         this.enabled = false;
         this._console = {};
-        if (_global.console) {
+        _global.console = console || _global.console;
+        if (console || _global.console) {
             var logType = ['log', 'debug', 'info', 'warn', 'error', 'assert'];
             logType.forEach(function (level) {
                 if (!(level in _global.console))
@@ -1369,14 +1370,12 @@ var HandleEvents = {
 
 var handlers = {};
 function subscribeEvent(handler) {
-    if (!handler) {
-        return;
-    }
-    if (getFlag(handler.type))
-        return;
+    if (!handler || getFlag(handler.type))
+        return false;
     setFlag(handler.type, true);
     handlers[handler.type] = handlers[handler.type] || [];
     handlers[handler.type].push(handler.callback);
+    return true;
 }
 function triggerHandlers(type, data) {
     if (!type || !handlers[type])
@@ -1423,7 +1422,8 @@ function replace(type) {
     }
 }
 function addReplaceHandler(handler) {
-    subscribeEvent(handler);
+    if (!subscribeEvent(handler))
+        return;
     replace(handler.type);
 }
 function xhrReplace() {
@@ -1930,7 +1930,8 @@ function replace$1(type) {
     }
 }
 function addReplaceHandler$1(handler) {
-    subscribeEvent(handler);
+    if (!subscribeEvent(handler))
+        return;
     replace$1(handler.type);
 }
 function replaceApp() {

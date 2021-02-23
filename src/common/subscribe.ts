@@ -9,14 +9,12 @@ type ReplaceCallback = (data: any) => void
 
 const handlers: { [key in EVENTTYPES]?: ReplaceCallback[] } = {}
 
-export function subscribeEvent(handler: ReplaceHandler): void {
-  if (!handler) {
-    return
-  }
-  if (getFlag(handler.type)) return
+export function subscribeEvent(handler: ReplaceHandler): boolean {
+  if (!handler || getFlag(handler.type)) return false
   setFlag(handler.type, true)
   handlers[handler.type] = handlers[handler.type] || []
   handlers[handler.type].push(handler.callback)
+  return true
 }
 
 export function triggerHandlers(type: EVENTTYPES | WxEvents, data: any): void {

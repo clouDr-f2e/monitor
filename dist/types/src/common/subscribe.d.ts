@@ -4,6 +4,6 @@ export interface ReplaceHandler {
     callback: ReplaceCallback;
 }
 declare type ReplaceCallback = (data: any) => void;
-export declare function subscribeEvent(handler: ReplaceHandler): void;
+export declare function subscribeEvent(handler: ReplaceHandler): boolean;
 export declare function triggerHandlers(type: EVENTTYPES | WxEvents, data: any): void;
 export {};

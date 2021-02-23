@@ -17,4 +17,12 @@ export interface TransportDataType {
   record?: any[]
 }
 ```
+### 21-02-23
+修复了微信小程序配置项:debug:true的问题、
+
+修复了发布订阅的策略，现在配置silentConsole不会再重写原生的console
+
+
+
+
 

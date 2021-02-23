@@ -5,7 +5,8 @@ export class Logger {
   private enabled = false
   private _console: Console = {} as Console
   constructor() {
-    if (_global.console) {
+    _global.console = console || _global.console
+    if (console || _global.console) {
       const logType = ['log', 'debug', 'info', 'warn', 'error', 'assert']
       logType.forEach((level) => {
         if (!(level in _global.console)) return

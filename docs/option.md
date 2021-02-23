@@ -1,4 +1,24 @@
-# options
+## 全局函数
+### log
+```js
+interface LogTypes {
+  message: string;
+  tag?: string;
+  level?: Severity;
+  ex?: any;
+}
+export declare function log({ message, tag, level, ex }: LogTypes): void;
+```
+手动上报函数[具体使用](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md#%E6%89%8B%E5%8A%A8%E4%B8%8A%E6%8A%A5)
+### MitoVue
+初始化Vue的插件，用于`npm`引入时的监控Vue的报错，[详细使用]()
+### SDK_VERSION
+sdk版本
+### SDK_NAME
+sdk名称
+### errorBoundaryReport
+react@next的ErrorBoundary的错误上报函数
+## options
 
 ### options.property
 
@@ -10,7 +30,7 @@
 |            `debug`             | `boolean` | `false`    | 默认不会在控制台打印用户行为和错误信息，为true时将会在控台打印 |
 |        `enableTraceId`         | `boolean` | `false`    | 为`true`时，页面的所有请求都会生成一个uuid，放入请求头中，和配置项：`traceIdFieldName`搭配使用 |
 |       `traceIdFieldName`       | `string`  | `Trace-Id` | 如果`enableTraceId`为true时，将会在所有请求头中添加`key`为`Trace-Id`，`value`为`uuid`的`traceId`，与`includeHttpUrlTraceIdRegExp`搭配使用 |
-|  `includeHttpUrlTraceIdRegExp  | ` RegExp` | `null`     | 如果你开启了`enableTraceId`，还需要配置该属性，比如将改属性置为：`/api/`，那么所有包含`api`的的接口地址都将塞入traceId |
+|  `includeHttpUrlTraceIdRegExp`  | ` RegExp` | `null`     | 如果你开启了`enableTraceId`，还需要配置该属性，比如将改属性置为：`/api/`，那么所有包含`api`的的接口地址都将塞入traceId |
 |        `maxBreadcrumbs`        | `number`  | `20`       | 用户行为存放的最大容量，最大是100，当你配置超过100时，最终还是会设置成100，一方面是防止占更多的内存、一方面是保存超过100条用户行为没多大意义 |
 |      `filterXhrUrlRegExp`      | `RegExp`  | `null`     | 默认为空，所有ajax都会被监听，不为空时，filterXhrUrlRegExp.test(xhr.url)为true时过滤 |
 |          `silentXhr`           | `boolean` | `false`    | 默认会监控xhr，为true时，将不再监控                          |
@@ -55,7 +75,7 @@ export interface HooksTypes {
    * ../param event 有SDK生成的错误事件
    * ../returns 如果返回 null | undefined | boolean 时，将忽略本次上传
    */
-  beforeDataReport?(event: ReportDataType): PromiseLike<ReportDataType | null> | ReportDataType | CANCEL
+  beforeDataReport?(event: TransportDataType): Promise<TransportDataType | null | CANCEL> | TransportDataType | CANCEL | null
   /**
    * 钩子函数，在每次添加用户行为事件前都会调用
    *
@@ -101,7 +121,13 @@ MITO.init({
 #### beforeDataReport
 
 ```typescript
-function(event: ReportDataType)
+function(event: TransportDataType): Promise<TransportDataType | null | CANCEL> | TransportDataType | CANCEL | null
+interface TransportDataType{
+  authInfo: AuthInfo
+  breadcrumb: BreadcrumbPushData[]
+  data: ReportDataType
+  record?: any[]
+}
 interface ReportDataType {
   type?: ERRORTYPES
   message?: string
@@ -137,8 +163,8 @@ interface ReportDataType {
 ```typescript
 MITO.init({
   ...
-  beforeDataReport(event){
-  	if (event.url === 'test.com/test') return false
+  async beforeDataReport(event){
+  	if (event.data.url === 'test.com/test') return false
 	}
 })
 ```

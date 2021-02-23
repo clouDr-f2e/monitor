@@ -31,7 +31,7 @@ function replace(type: WxEvents | EVENTTYPES) {
 }
 
 export function addReplaceHandler(handler: ReplaceHandler) {
-  subscribeEvent(handler)
+  if (!subscribeEvent(handler)) return
   replace(handler.type as WxEvents)
 }
 

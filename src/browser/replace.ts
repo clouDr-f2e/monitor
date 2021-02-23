@@ -44,7 +44,7 @@ function replace(type: EVENTTYPES) {
 }
 
 export function addReplaceHandler(handler: ReplaceHandler) {
-  subscribeEvent(handler)
+  if (!subscribeEvent(handler)) return
   replace(handler.type as EVENTTYPES)
 }
 
