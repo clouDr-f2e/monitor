@@ -11,13 +11,13 @@ export declare function log({ message, tag, level, ex }: LogTypes): void;
 ```
 手动上报函数[具体使用](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md#%E6%89%8B%E5%8A%A8%E4%B8%8A%E6%8A%A5)
 ### MitoVue
-初始化Vue的插件，用于`npm`引入时的监控Vue的报错，[详细使用]()
+初始化Vue的插件，用于`npm`引入时的监控Vue的报错，[详细使用](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md#vue26npm%E5%8C%85%E5%BD%A2%E5%BC%8F)
 ### SDK_VERSION
-sdk版本
+sdk版本：string
 ### SDK_NAME
-sdk名称
+sdk名称：string
 ### errorBoundaryReport
-react@next的ErrorBoundary的错误上报函数
+react@next的ErrorBoundary的错误上报函数[具体使用](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md#NPM%E5%8C%85%E5%BD%A2%E5%BC%8F)
 ## options
 
 ### options.property
