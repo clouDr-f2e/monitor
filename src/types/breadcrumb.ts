@@ -2,7 +2,7 @@ import { Severity } from '../utils/Severity'
 import { BREADCRUMBTYPES } from '../common/constant'
 import { ReportDataType } from './transportData'
 import { Replace } from './replace'
-import { IAnyObject } from './common'
+import { IAnyObject, TNumStrObj } from './common'
 
 export interface BreadcrumbPushData {
   /**
@@ -10,7 +10,14 @@ export interface BreadcrumbPushData {
    */
   type: BREADCRUMBTYPES
   // string for click dom
-  data: ReportDataType | string | Replace.IRouter | Replace.TriggerConsole | WxLifeCycleBreadcrumb | WxOnShareAppMessageBreadcrumb | WxRequestErrorBreadcrumb
+  data:
+    | ReportDataType
+    | Replace.IRouter
+    | Replace.TriggerConsole
+    | WxLifeCycleBreadcrumb
+    | WxOnShareAppMessageBreadcrumb
+    | WxRequestErrorBreadcrumb
+    | TNumStrObj
   /**
    * 分为user action、debug、http、
    */

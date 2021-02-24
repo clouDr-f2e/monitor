@@ -1,9 +1,10 @@
 import { Severity } from '../utils/Severity';
+import { TNumStrObj } from '@/types/common';
 interface LogTypes {
-    message: string;
-    tag?: string;
+    message: TNumStrObj;
+    tag?: TNumStrObj;
     level?: Severity;
-    ex?: any;
+    ex?: Error | any;
 }
 export declare function log({ message, tag, level, ex }: LogTypes): void;
 export {};

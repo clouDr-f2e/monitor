@@ -776,7 +776,7 @@ function hashCode(str) {
 }
 
 var name = "@zyf2e/mitojs";
-var version = "1.2.5";
+var version = "1.2.6";
 
 var SDK_NAME = name;
 var SDK_VERSION = version;

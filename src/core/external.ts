@@ -4,16 +4,20 @@ import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
 import { Severity } from '../utils/Severity'
 import { getCurrentRoute } from '@/wx-mini/utils'
+import { TNumStrObj } from '@/types/common'
 
 interface LogTypes {
-  message: string | number | Object
-  tag?: string
+  message: TNumStrObj
+  tag?: TNumStrObj
   level?: Severity
-  ex?: any
+  ex?: Error | any
 }
 
 /**
+ *
  * 自定义上报事件
+ * @export
+ * @param {LogTypes} { message = 'emptyMsg', tag = '', level = Severity.Critical, ex = '' }
  */
 export function log({ message = 'emptyMsg', tag = '', level = Severity.Critical, ex = '' }: LogTypes): void {
   let errorInfo = {}

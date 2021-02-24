@@ -3,10 +3,10 @@ import { Severity } from '../utils/Severity';
 import { BREADCRUMBTYPES } from '../common/constant';
 import { ReportDataType } from './transportData';
 import { Replace } from './replace';
-import { IAnyObject } from './common';
+import { IAnyObject, TNumStrObj } from './common';
 export interface BreadcrumbPushData {
     type: BREADCRUMBTYPES;
-    data: ReportDataType | string | Replace.IRouter | Replace.TriggerConsole | WxLifeCycleBreadcrumb | WxOnShareAppMessageBreadcrumb | WxRequestErrorBreadcrumb;
+    data: ReportDataType | Replace.IRouter | Replace.TriggerConsole | WxLifeCycleBreadcrumb | WxOnShareAppMessageBreadcrumb | WxRequestErrorBreadcrumb | TNumStrObj;
     category?: string;
     time?: number;
     level: Severity;

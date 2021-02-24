@@ -39,3 +39,5 @@ export interface IntegrationError {
   name: string
   stacks: ErrorStack[]
 }
+
+export type TNumStrObj = number | string | object
