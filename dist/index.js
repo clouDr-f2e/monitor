@@ -2196,11 +2196,12 @@ function replaceRoute() {
                 if (variableTypeDetection.isFunction(options.complete) ||
                     variableTypeDetection.isFunction(options.success) ||
                     variableTypeDetection.isFunction(options.fail)) {
+                    var _fail_1 = options.fail;
                     var failHandler = function (res) {
                         var failData = __assign(__assign({}, data), { isFail: true, message: res.errMsg });
                         triggerHandlers(EVENTTYPES.MINI_ROUTE, failData);
-                        if (variableTypeDetection.isFunction(options.fail)) {
-                            return options.fail(res);
+                        if (variableTypeDetection.isFunction(_fail_1)) {
+                            return _fail_1(res);
                         }
                     };
                     options.fail = failHandler;

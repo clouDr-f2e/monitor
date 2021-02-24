@@ -284,6 +284,7 @@ export function replaceNetwork() {
             return options.success(res)
           }
         }
+        const _fail = options.fail
         const failHandler:
           | WechatMiniprogram.RequestFailCallback
           | WechatMiniprogram.DownloadFileFailCallback
@@ -294,8 +295,8 @@ export function replaceNetwork() {
           data.errMsg = err.errMsg
 
           triggerHandlers(EVENTTYPES.XHR, data)
-          if (typeof options.fail === 'function') {
-            return options.fail(err)
+          if (variableTypeDetection.isFunction(_fail)) {
+            return _fail(err)
           }
         }
         const actOptions = {
@@ -303,7 +304,6 @@ export function replaceNetwork() {
           success: successHandler,
           fail: failHandler
         }
-
         return originRequest.call(this, actOptions)
       }
     })
@@ -344,6 +344,7 @@ export function replaceRoute() {
           variableTypeDetection.isFunction(options.success) ||
           variableTypeDetection.isFunction(options.fail)
         ) {
+          const _fail = options.fail
           const failHandler:
             | WechatMiniprogram.SwitchTabFailCallback
             | WechatMiniprogram.ReLaunchFailCallback
@@ -356,8 +357,8 @@ export function replaceRoute() {
               message: res.errMsg
             }
             triggerHandlers(EVENTTYPES.MINI_ROUTE, failData)
-            if (variableTypeDetection.isFunction(options.fail)) {
-              return options.fail(res)
+            if (variableTypeDetection.isFunction(_fail)) {
+              return _fail(res)
             }
           }
           options.fail = failHandler
