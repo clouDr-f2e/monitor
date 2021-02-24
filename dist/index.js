@@ -778,7 +778,7 @@ function hashCode(str) {
 }
 
 var name = "@zyf2e/mitojs";
-var version = "1.2.6";
+var version = "1.2.7";
 
 var SDK_NAME = name;
 var SDK_VERSION = version;
@@ -2157,13 +2157,14 @@ function replaceNetwork() {
                         return options$1.success(res);
                     }
                 };
+                var _fail = options$1.fail;
                 var failHandler = function (err) {
                     var endTime = getTimestamp();
                     data.elapsedTime = endTime - data.sTime;
                     data.errMsg = err.errMsg;
                     triggerHandlers(EVENTTYPES.XHR, data);
-                    if (typeof options$1.fail === 'function') {
-                        return options$1.fail(err);
+                    if (variableTypeDetection.isFunction(_fail)) {
+                        return _fail(err);
                     }
                 };
                 var actOptions = __assign(__assign({}, options$1), { success: successHandler, fail: failHandler });
