@@ -191,7 +191,7 @@ function replaceAction(
               throttleGesturetrigger(e)
             }
           }
-          originMethod.apply(this, args)
+          return originMethod.apply(this, args)
         }
       },
       true
