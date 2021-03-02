@@ -1,0 +1,17 @@
+0 silly argv {
+0 silly argv   _: [ 'bootstrap' ],
+0 silly argv   lernaVersion: '3.22.1',
+0 silly argv   '$0': '/Users/ks/Desktop/tryCatch/github/mitojs/node_modules/.bin/lerna'
+0 silly argv }
+1 notice cli v3.22.1
+2 verbose rootPath /Users/ks/Desktop/tryCatch/github/mitojs
+3 error Error: Invalid package name "@mito/comœmon": name can only contain URL-friendly characters
+3 error     at invalidPackageName (/Users/ks/Desktop/tryCatch/github/mitojs/node_modules/npm-package-arg/npa.js:86:15)
+3 error     at Result.setName (/Users/ks/Desktop/tryCatch/github/mitojs/node_modules/npm-package-arg/npa.js:121:11)
+3 error     at new Result (/Users/ks/Desktop/tryCatch/github/mitojs/node_modules/npm-package-arg/npa.js:111:23)
+3 error     at Function.resolve (/Users/ks/Desktop/tryCatch/github/mitojs/node_modules/npm-package-arg/npa.js:58:15)
+3 error     at /Users/ks/Desktop/tryCatch/github/mitojs/node_modules/@lerna/package-graph/index.js:61:30
+3 error     at Array.forEach (<anonymous>)
+3 error     at /Users/ks/Desktop/tryCatch/github/mitojs/node_modules/@lerna/package-graph/index.js:55:38
+3 error     at Map.forEach (<anonymous>)
+3 error     at new PackageGraph (/Users/ks/Desktop/tryCatch/github/mitojs/node_modules/@lerna/package-graph/index.js:44:10)

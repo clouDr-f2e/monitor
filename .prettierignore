@@ -1,3 +1,4 @@
 **/*.svg
 /dist
 /node_modules
+*.md

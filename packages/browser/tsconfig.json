@@ -1,0 +1,18 @@
+{
+  "include": [
+    "src/**/*",
+    "test/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "esm",
+    "build"
+  ],
+  "compilerOptions": {
+    "rootDir": ".",
+    "types": [
+      "node",
+    ]
+  }
+}

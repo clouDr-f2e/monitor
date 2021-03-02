@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.build.json",
+  "include": [
+    "src/**/*",
+    "test/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "esm",
+    "build"
+  ],
+  "compilerOptions": {
+    "rootDir": ".",
+    "types": [
+      "node",
+    ]
+  }
+}

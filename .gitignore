@@ -5,7 +5,7 @@ node_modules
 # dist
 
 # test
-coverage
+coverageq
 .idea
 
 src/company
