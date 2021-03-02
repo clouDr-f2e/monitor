@@ -8,4 +8,4 @@ node_modules
 coverageq
 .idea
 
-package/company
+packages/company
