@@ -28,6 +28,7 @@ const common = {
     }),
     typescript({
       tsconfig: 'tsconfig.build.json',
+      useTsconfigDeclarationDir: true,
       tsconfigOverride: {
         compilerOptions: {
           declaration: true,
@@ -43,25 +44,25 @@ const common = {
 const esmPackage = {
   input: common.input,
   output: {
-    file: 'build/index.esm.js',
+    file: 'dist/index.esm.js',
     format: 'esm',
     name: 'MITO',
-    sourcemap: true
+    sourcemap: false
   },
   plugins: [
     ...common.plugins,
     clear({
-      targets: ['build']
+      targets: ['dist']
     })
   ]
 }
 const cjsPackage = {
   input: common.input,
   output: {
-    file: 'build/index.js',
+    file: 'dist/index.js',
     format: 'cjs',
     name: 'MITO',
-    sourcemap: true
+    sourcemap: false
   },
   plugins: [...common.plugins]
 }
@@ -69,9 +70,10 @@ const cjsPackage = {
 const iifePackage = {
   input: common.input,
   output: {
-    file: 'build/index.min.js',
+    file: 'dist/index.min.js',
     format: 'iife',
-    name: 'MITO'
+    name: 'MITO',
+    sourcemap: true
   },
   plugins: [...common.plugins, terser()]
 }

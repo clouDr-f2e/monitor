@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist",
+    "declarationDir": "./dist/types/", // 类型声明文件的输出目录
   },
   "include": ["src/**/*"],
 }
