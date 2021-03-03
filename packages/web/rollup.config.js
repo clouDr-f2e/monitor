@@ -11,7 +11,9 @@ const paths = {
   '@mito/core': ['../core/src'],
   '@mito/types': ['../types/src'],
   '@mito/shared': ['../shared/src'],
-  '@mito/browser': ['../browser/src']
+  '@mito/browser': ['../browser/src'],
+  '@mito/react': ['../react/src'],
+  '@mito/vue': ['../vue/src']
 }
 const common = {
   input: 'src/index.ts',

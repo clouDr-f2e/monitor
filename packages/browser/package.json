@@ -1,11 +1,11 @@
 {
   "name": "@mito/browser",
   "version": "1.0.0",
-  "description": "A SDK for monitoring browser errors",
+  "description": "",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/index.js",
-  "module": "esm/index.js",
+  "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "run-p build:esm build:es5",
@@ -13,11 +13,13 @@
     "build:es5": "tsc -p tsconfig.build.json",
     "build:bundle": "rollup  --config"
   },
-  "devDependencies": {
+  "dependencies": {
     "@mito/utils": "1.0.0",
     "@mito/core": "1.0.0",
     "@mito/shared": "1.0.0",
-    "@mito/types": "1.0.0",
+    "@mito/types": "1.0.0"
+  },
+  "devDependencies": {
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-html": "^0.2.0",

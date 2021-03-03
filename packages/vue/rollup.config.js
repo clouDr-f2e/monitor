@@ -10,7 +10,7 @@ const paths = {
   '@mito/utils': ['../utils/src'],
   '@mito/core': ['../core/src'],
   '@mito/types': ['../types/src'],
-  '@mito/common': ['../common/src']
+  '@mito/shared': ['../shared/src']
 }
 const common = {
   input: 'src/index.ts',

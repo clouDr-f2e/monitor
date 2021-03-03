@@ -33,6 +33,10 @@ export function setTraceId(httpUrl: string, callback: (headerFieldName: string, 
   }
 }
 
+/**
+ * init core methods
+ * @param paramOptions
+ */
 export function initOptions(paramOptions: InitOptions = {}) {
   setSilentFlag(paramOptions)
   breadcrumb.bindOptions(paramOptions)

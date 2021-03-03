@@ -17,7 +17,7 @@
     "@mito/core": "1.0.0",
     "@mito/utils": "1.0.0",
     "@mito/browser": "1.0.0",
-    "@mito/common": "1.0.0",
+    "@mito/shared": "1.0.0",
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-html": "^0.2.0",

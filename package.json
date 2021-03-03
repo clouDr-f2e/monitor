@@ -49,7 +49,8 @@
     "packages/utils",
     "packages/wx-mini",
     "packages/vue",
-    "packages/react"
+    "packages/react",
+    "packages/web"
   ],
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.1",
