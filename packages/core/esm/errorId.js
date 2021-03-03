@@ -1,7 +1,7 @@
 import { getAppId, isWxMiniEnv, variableTypeDetection } from '@mito/utils';
 import { ERRORTYPES, EVENTTYPES } from '@mito/common';
 var allErrorNumber = {};
-export default function createErrorId(data, apikey) {
+export function createErrorId(data, apikey) {
     var id;
     switch (data.type) {
         case ERRORTYPES.FETCH_ERROR:

@@ -1,4 +1,4 @@
-import { BREADCRUMBTYPES, ERRORTYPES, globalVar, ERROR_TYPE_RE, HTTP_CODE } from '@mito/common'
+import { BREADCRUMBTYPES, ERRORTYPES, ERROR_TYPE_RE, HTTP_CODE } from '@mito/common'
 import { transportData, breadcrumb, resourceTransform, httpTransform } from '@mito/core'
 import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStack, unknownToString, Severity } from '@mito/utils'
 import { ReportDataType, Replace, MITOHttp } from '@mito/types'

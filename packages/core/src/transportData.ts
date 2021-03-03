@@ -1,8 +1,8 @@
-import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection,Queue } from '@mito/utils'
-import createErrorId from './errorId'
+import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue } from '@mito/utils'
+import { createErrorId } from './errorId'
 import { SDK_NAME, SDK_VERSION, SERVER_URL } from '@mito/common'
 import { breadcrumb } from './breadcrumb'
-import { AuthInfo, TransportDataType, ReportDataType,EMethods, InitOptions } from '@mito/types'
+import { AuthInfo, TransportDataType, ReportDataType, EMethods, InitOptions } from '@mito/types'
 
 /**
  * 用来传输数据类，包含img标签、xhr请求
@@ -14,10 +14,10 @@ import { AuthInfo, TransportDataType, ReportDataType,EMethods, InitOptions } fro
 export class TransportData {
   // static img = new Image()
   queue: Queue
-  private beforeDataReport: unknown = null
-  private backTrackerId: InitOptions | unknown = null
-  private configReportXhr: unknown = null
-  private apikey = ''
+  beforeDataReport: unknown = null
+  backTrackerId: InitOptions | unknown = null
+  configReportXhr: unknown = null
+  apikey = ''
   constructor(public url: string) {
     this.queue = new Queue()
   }

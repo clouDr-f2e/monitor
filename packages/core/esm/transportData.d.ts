@@ -3,10 +3,10 @@ import { AuthInfo, TransportDataType, ReportDataType, InitOptions } from '@mito/
 export declare class TransportData {
     url: string;
     queue: Queue;
-    private beforeDataReport;
-    private backTrackerId;
-    private configReportXhr;
-    private apikey;
+    beforeDataReport: unknown;
+    backTrackerId: InitOptions | unknown;
+    configReportXhr: unknown;
+    apikey: string;
     constructor(url: string);
     getRecord(): any[];
     beforePost(data: ReportDataType): Promise<string | false>;
@@ -20,6 +20,6 @@ export declare class TransportData {
     bindOptions(options?: InitOptions): void;
     send(data: ReportDataType): Promise<void>;
 }
-declare const transportData: import("../dist").TransportData | TransportData;
+declare const transportData: any;
 export { transportData };
 //# sourceMappingURL=transportData.d.ts.map

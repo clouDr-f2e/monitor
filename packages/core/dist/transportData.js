@@ -35,13 +35,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.transportData = exports.TransportData = void 0;
 var utils_1 = require("@mito/utils");
-var errorId_1 = __importDefault(require("./errorId"));
+var errorId_1 = require("./errorId");
 var common_1 = require("@mito/common");
 var breadcrumb_1 = require("./breadcrumb");
 var types_1 = require("@mito/types");
@@ -67,7 +64,7 @@ var TransportData = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        errorId = errorId_1.default(data, this.apikey);
+                        errorId = errorId_1.createErrorId(data, this.apikey);
                         if (!errorId)
                             return [2, false];
                         data.errorId = errorId;

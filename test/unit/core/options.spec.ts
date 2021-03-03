@@ -1,4 +1,4 @@
-import { options, setTraceId } from '@/core'
+import { options, setTraceId } from '@mito/core'
 
 describe('options.ts', () => {
   it('should setTraceId func work', () => {

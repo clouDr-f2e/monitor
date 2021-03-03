@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue } from '@mito/utils';
-import createErrorId from './errorId';
+import { createErrorId } from './errorId';
 import { SDK_NAME, SDK_VERSION, SERVER_URL } from '@mito/common';
 import { breadcrumb } from './breadcrumb';
 import { EMethods } from '@mito/types';

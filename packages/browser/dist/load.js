@@ -27,7 +27,7 @@ function setupReplace() {
     });
     replace_1.addReplaceHandler({
         callback: function (data) {
-            handleConsole(data);
+            common_1.handleConsole(data);
         },
         type: common_1.EVENTTYPES.CONSOLE
     });

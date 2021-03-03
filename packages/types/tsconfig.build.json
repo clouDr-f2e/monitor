@@ -3,7 +3,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "allowJs": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+    "exclude": [
+      "node_modules",
+      "dist",
+      "esm",
+      "build"
+    ],
 }

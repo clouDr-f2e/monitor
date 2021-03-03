@@ -3,10 +3,10 @@ import { AuthInfo, TransportDataType, ReportDataType, InitOptions } from '@mito/
 export declare class TransportData {
     url: string;
     queue: Queue;
-    private beforeDataReport;
-    private backTrackerId;
-    private configReportXhr;
-    private apikey;
+    beforeDataReport: unknown;
+    backTrackerId: InitOptions | unknown;
+    configReportXhr: unknown;
+    apikey: string;
     constructor(url: string);
     getRecord(): any[];
     beforePost(data: ReportDataType): Promise<string | false>;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeHashPath = exports.getRealPageOrigin = exports.getFlutterRealPath = exports.getFlutterRealOrigin = exports.getRealPath = void 0;
+exports.removeHashPath = exports.getRealPageOrigin = exports.getFlutterRealPath = exports.getFlutterRealOrigin = exports.getRealPath = exports.createErrorId = void 0;
 var utils_1 = require("@mito/utils");
 var common_1 = require("@mito/common");
 var allErrorNumber = {};
@@ -37,7 +37,7 @@ function createErrorId(data, apikey) {
     }
     return id;
 }
-exports.default = createErrorId;
+exports.createErrorId = createErrorId;
 function generatePromiseErrorId(data, apikey) {
     var locationUrl = getRealPath(data.url);
     if (data.name === common_1.EVENTTYPES.UNHANDLEDREJECTION) {

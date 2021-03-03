@@ -9,7 +9,7 @@ export declare class Options {
     constructor();
     bindOptions(options?: InitOptions): void;
 }
-declare const options: import("../dist").Options | Options;
+declare const options: any;
 export declare function setTraceId(httpUrl: string, callback: (headerFieldName: string, traceId: string) => void): void;
 export { options };
 //# sourceMappingURL=options.d.ts.map

@@ -1,4 +1,4 @@
-import { Queue } from '@/utils'
+import { Queue } from '@mito/utils'
 
 describe('queue.ts', () => {
   it('should queue class work', (done) => {

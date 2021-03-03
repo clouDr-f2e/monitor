@@ -6,7 +6,7 @@ const allErrorNumber: unknown = {}
  * generate error unique Id
  * @param data
  */
-export default function createErrorId(data: ReportDataType, apikey: string): number | null {
+export function createErrorId(data: ReportDataType, apikey: string): number | null {
   let id: any
   switch (data.type) {
     case ERRORTYPES.FETCH_ERROR:

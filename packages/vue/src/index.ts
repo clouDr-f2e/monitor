@@ -1,8 +1,7 @@
-import { getFlag, setFlag, slientConsoleScope } from '../utils/index'
-import { EVENTTYPES } from '../common/constant'
+import { getFlag, setFlag, slientConsoleScope, Severity } from '@mito/utils'
+import { EVENTTYPES } from '@mito/common'
 import { VueInstance, ViewModel } from './types'
 import { handleVueError } from './helper'
-import { Severity } from '../utils/Severity'
 
 const hasConsole = typeof console !== 'undefined'
 

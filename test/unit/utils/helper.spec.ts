@@ -1,4 +1,4 @@
-import { ERRORTYPES, globalVar } from '@/common/constant'
+import { ERRORTYPES, globalVar } from '@mito/common'
 import {
   defaultFunctionName,
   generateUUID,
@@ -16,7 +16,7 @@ import {
   typeofAny,
   unknownToString,
   validateOption
-} from '@/utils'
+} from '@mito/utils'
 
 describe('helper.ts', () => {
   it('should getLocationHref func work', () => {

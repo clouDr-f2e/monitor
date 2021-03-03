@@ -3,9 +3,9 @@ import { logger, validateOption, getTimestamp, slientConsoleScope, _support } fr
 import { BreadcrumbPushData, InitOptions } from '@mito/types'
 
 export class Breadcrumb {
-  private maxBreadcrumbs = 10
-  private beforePushBreadcrumb: unknown = null
-  private stack: BreadcrumbPushData[] = []
+  maxBreadcrumbs = 10
+  beforePushBreadcrumb: unknown = null
+  stack: BreadcrumbPushData[] = []
   constructor() {}
   /**
    * 添加用户行为栈

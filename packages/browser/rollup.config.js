@@ -22,20 +22,20 @@ const common = {
     json(),
     cleanup({
       comments: 'none'
+    }),
+    typescript({
+      tsconfig: 'tsconfig.build.json',
+      tsconfigOverride: {
+        compilerOptions: {
+          declaration: false,
+          declarationMap: false,
+          module: 'ES2015',
+          paths
+        }
+      },
+      include: ['*.ts+(|x)', '**/*.ts+(|x)', '../**/*.ts+(|x)']
     })
-  ],
-  typescript: {
-    tsconfig: 'tsconfig.build.json',
-    tsconfigOverride: {
-      compilerOptions: {
-        declaration: false,
-        declarationMap: false,
-        module: 'ES2015',
-        paths
-      }
-    },
-    include: ['*.ts+(|x)', '**/*.ts+(|x)', '../**/*.ts+(|x)']
-  }
+  ]
 }
 const esmPackage = {
   input: common.input,
@@ -49,11 +49,6 @@ const esmPackage = {
     ...common.plugins,
     clear({
       targets: ['build']
-    }),
-    typescript({
-      ...common.typescript,
-      useTsconfigDeclarationDir: true,
-      clean: true
     })
   ]
 }
@@ -65,13 +60,7 @@ const cjsPackage = {
     name: 'MITO',
     sourcemap: true
   },
-  plugins: [
-    ...common.plugins,
-    typescript({
-      ...common.typescript,
-      tsconfigOverride: { compilerOptions: { declaration: false } }
-    })
-  ]
+  plugins: [...common.plugins]
 }
 
 const iifePackage = {
@@ -81,14 +70,7 @@ const iifePackage = {
     format: 'iife',
     name: 'MITO'
   },
-  plugins: [
-    ...common.plugins,
-    typescript({
-      ...common.typescript,
-      tsconfigOverride: { compilerOptions: { declaration: false } }
-    }),
-    terser()
-  ]
+  plugins: [...common.plugins, terser()]
 }
 const total = {
   esmPackage,

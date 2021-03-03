@@ -1,12 +1,8 @@
-import { ResourceErrorTarget } from '@/browser/handleEvents'
-import { ERRORTYPES, HTTPTYPE } from '@/common/constant'
-import { httpTransform, resourceTransform } from '@/core'
-import { getRealPath } from '@/core/errorId'
-import { EMethods } from '@/types'
-import { MITOHttp } from '@/types/common'
-import { getLocationHref } from '@/utils'
-import { fromHttpStatus } from '@/utils/httpStatus'
-import { Severity } from '@/utils/Severity'
+import { ResourceErrorTarget } from '@mito/browser'
+import { ERRORTYPES, HTTPTYPE } from '@mito/common'
+import { httpTransform, resourceTransform, getRealPath } from '@mito/core'
+import { EMethods, MITOHttp } from '@mito/types'
+import { getLocationHref, fromHttpStatus, Severity } from '@mito/utils'
 
 describe('transformData.ts', () => {
   it('should resourceTransform func work', () => {

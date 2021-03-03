@@ -16,4 +16,5 @@ __exportStar(require("./transformData"), exports);
 __exportStar(require("./transportData"), exports);
 __exportStar(require("./external"), exports);
 __exportStar(require("./options"), exports);
+__exportStar(require("./errorId"), exports);
 //# sourceMappingURL=index.js.map

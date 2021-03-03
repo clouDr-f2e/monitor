@@ -5,7 +5,12 @@ node_modules
 # dist
 
 # test
-coverageq
+coverage
 .idea
 
 packages/company
+
+packages/*/dist
+packages/*/esm
+packages/*/build
+packages/*/node_modules

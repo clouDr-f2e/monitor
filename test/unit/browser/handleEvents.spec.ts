@@ -1,10 +1,8 @@
-import { HandleEvents } from '@/browser/handleEvents'
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, HTTPTYPE } from '@/common/constant'
-import { breadcrumb, httpTransform, transportData } from '@/core'
-import { EMethods } from '@/types'
-import { MITOHttp } from '@/types/common'
-import { getTimestamp } from '@/utils'
-import { Severity } from '@/utils/Severity'
+import { HandleEvents } from '@mito/browser'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, HTTPTYPE } from '@mito/common'
+import { breadcrumb, httpTransform, transportData } from '@mito/core'
+import { MITOHttp, EMethods } from '@mito/types'
+import { getTimestamp, Severity } from '@mito/utils'
 
 describe('handleEvents.ts', () => {
   afterEach(() => {

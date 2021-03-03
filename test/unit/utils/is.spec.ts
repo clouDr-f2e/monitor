@@ -1,4 +1,4 @@
-import { isEmpty, isEmptyObject, isError, isExistProperty, isInstanceOf, nativeToString, variableTypeDetection } from '@/utils'
+import { isEmpty, isEmptyObject, isError, isExistProperty, isInstanceOf, nativeToString, variableTypeDetection } from '@mito/utils'
 
 describe('is.ts', () => {
   it('should nativeToString var work', () => {
