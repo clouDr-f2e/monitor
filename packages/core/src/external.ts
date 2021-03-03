@@ -1,8 +1,7 @@
-import { ERRORTYPES, BREADCRUMBTYPES } from '@mito/common'
-import { isError, extractErrorStack, getLocationHref, getTimestamp, unknownToString, isWxMiniEnv, Severity } from '@mito/utils'
+import { ERRORTYPES, BREADCRUMBTYPES } from '@mito/shared'
+import { isError, extractErrorStack, getLocationHref, getTimestamp, unknownToString, isWxMiniEnv, Severity, getCurrentRoute } from '@mito/utils'
 import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
-// import { getCurrentRoute } from '@/wx-mini/utils'
 import { TNumStrObj } from '@mito/types'
 
 interface LogTypes {
@@ -30,7 +29,7 @@ export function log({ message = 'emptyMsg', tag = '', level = Severity.Critical,
     name: 'MITO.log',
     customTag: unknownToString(tag),
     time: getTimestamp(),
-    url: isWxMiniEnv ? '' : getLocationHref(),
+    url: isWxMiniEnv ? getCurrentRoute() : getLocationHref(),
     ...errorInfo
   }
   breadcrumb.push({

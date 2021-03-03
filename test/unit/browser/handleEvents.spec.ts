@@ -1,5 +1,5 @@
 import { HandleEvents } from '@mito/browser'
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, HTTPTYPE } from '@mito/common'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, HTTPTYPE } from '@mito/shared'
 import { breadcrumb, httpTransform, transportData } from '@mito/core'
 import { MITOHttp, EMethods } from '@mito/types'
 import { getTimestamp, Severity } from '@mito/utils'

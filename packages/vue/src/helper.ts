@@ -1,5 +1,5 @@
 import { getBigVersion, getLocationHref, getTimestamp, variableTypeDetection, Severity } from '@mito/utils'
-import { ERRORTYPES, BREADCRUMBTYPES } from '@mito/common'
+import { ERRORTYPES, BREADCRUMBTYPES } from '@mito/shared'
 import { ViewModel, VueInstance } from './types'
 import { breadcrumb, transportData } from '@mito/core'
 import { ReportDataType } from '@mito/types'

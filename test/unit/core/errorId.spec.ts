@@ -1,4 +1,4 @@
-import { ERRORTYPES } from '@mito/common'
+import { ERRORTYPES } from '@mito/shared'
 import { createErrorId, getFlutterRealOrigin, getFlutterRealPath, getRealPageOrigin, getRealPath } from '@mito/core'
 import { ReportDataType } from '@mito/types'
 import { isWxMiniEnv, Severity } from '@mito/utils'
@@ -7,7 +7,6 @@ describe('errorId.ts', () => {
   const apikey = '13213-1231-1231'
   describe('createErrorId func', () => {
     it('两个http Error应该生成不同的errorId', () => {
-      console.log('isWxMiniEnv', isWxMiniEnv)
       const httpError_1: ReportDataType = {
         type: ERRORTYPES.FETCH_ERROR,
         url: 'http://localhost:2021/JS/index.html',

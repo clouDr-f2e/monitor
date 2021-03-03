@@ -1,8 +1,5 @@
-import { options as sdkOptions, setTraceId, transportData } from '@mito/core'
+import { options as sdkOptions, ReplaceHandler, setTraceId, subscribeEvent, transportData, triggerHandlers } from '@mito/core'
 import {
-  ReplaceHandler,
-  subscribeEvent,
-  triggerHandlers,
   WxAppEvents,
   WxPageEvents,
   WxRouteEvents,
@@ -10,12 +7,12 @@ import {
   EVENTTYPES,
   HTTPTYPE,
   voidFun
-} from '@mito/common'
-import { getTimestamp, replaceOld, throttle, getFlag, isEmptyObject, variableTypeDetection } from '@mito/utils'
+} from '@mito/shared'
+import { getTimestamp, replaceOld, throttle, getFlag, isEmptyObject, variableTypeDetection, getCurrentRoute } from '@mito/utils'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
 import { MITOHttp } from '@mito/types'
 import { EMethods } from '@mito/types'
-import { getCurrentRoute, getNavigateBackTargetUrl } from './utils'
+import {  getNavigateBackTargetUrl } from './utils'
 import { ELinstenerTypes } from './constant'
 import { MiniRoute } from './types'
 

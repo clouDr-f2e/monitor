@@ -1,13 +1,8 @@
-import { BREADCRUMBTYPES, ERRORTYPES, ERROR_TYPE_RE, HTTP_CODE } from '@mito/common'
+import { BREADCRUMBTYPES, ERRORTYPES, ERROR_TYPE_RE, HTTP_CODE } from '@mito/shared'
 import { transportData, breadcrumb, resourceTransform, httpTransform } from '@mito/core'
 import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStack, unknownToString, Severity } from '@mito/utils'
-import { ReportDataType, Replace, MITOHttp } from '@mito/types'
+import { ReportDataType, Replace, MITOHttp, ResourceErrorTarget } from '@mito/types'
 
-export interface ResourceErrorTarget {
-  src?: string
-  href?: string
-  localName?: string
-}
 
 const HandleEvents = {
   /**

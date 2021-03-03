@@ -43,7 +43,7 @@
   ],
   "workspaces": [
     "packages/browser",
-    "packages/common",
+    "packages/shared",
     "packages/core",
     "packages/types",
     "packages/utils",

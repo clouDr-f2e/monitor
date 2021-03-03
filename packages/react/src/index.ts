@@ -1,4 +1,4 @@
-import { BREADCRUMBTYPES, ERRORTYPES } from '@mito/common'
+import { BREADCRUMBTYPES, ERRORTYPES } from '@mito/shared'
 import { isError, extractErrorStack, Severity } from '@mito/utils'
 import { breadcrumb, transportData } from '@mito/core'
 import { ReportDataType } from '@mito/types'

@@ -1,4 +1,4 @@
-import { voidFun } from '@mito/common'
+import { voidFun } from '@mito/shared'
 import { _global } from './global'
 export class Queue {
   private micro: Promise<void>

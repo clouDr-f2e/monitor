@@ -10,12 +10,13 @@ export default {
   },
   moduleFileExtensions: ['js', 'ts'],
   coveragePathIgnorePatterns: ['/src/wx-mini', '/src/React', '/src/Vue'],
+  // testMatch: ['**/is.spec.ts'],
   testMatch: ['**/*.spec.ts'],
   moduleNameMapper: {
     // alias src/(.*) not work
     // 从上到下优先匹配
     '@/test/(.*)': '<rootDir>/test/$1',
-    '@/(.*)': '<rootDir>/src/$1'
+    '@mito/(.*)': '<rootDir>/packages/$1/src/index'
   },
   globals: {
     'ts-jest': {

@@ -1,7 +1,7 @@
 import { _global, on, getTimestamp, replaceOld, throttle, getLocationHref, isExistProperty, variableTypeDetection, supportsHistory } from '@mito/utils'
-import { transportData, options, setTraceId } from '@mito/core'
+import { transportData, options, setTraceId, triggerHandlers, ReplaceHandler, subscribeEvent } from '@mito/core'
 import { EMethods, MITOHttp, MITOXMLHttpRequest } from '@mito/types'
-import { ReplaceHandler, subscribeEvent, triggerHandlers, voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '@mito/common'
+import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '@mito/shared'
 
 const clickThrottle = throttle(triggerHandlers, 600)
 

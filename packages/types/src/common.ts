@@ -1,7 +1,13 @@
-import { HTTPTYPE } from '@mito/common'
+import { HTTPTYPE } from '@mito/shared'
 
 export interface IAnyObject {
   [key: string]: any
+}
+
+export interface ResourceErrorTarget {
+  src?: string
+  href?: string
+  localName?: string
 }
 
 export interface MITOHttp {

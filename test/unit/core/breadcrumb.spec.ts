@@ -1,4 +1,4 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES } from '@mito/common'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES } from '@mito/shared'
 import { breadcrumb } from '@mito/core'
 import { BreadcrumbPushData } from '@mito/types'
 import { Severity } from '@mito/utils'

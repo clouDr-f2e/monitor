@@ -1,6 +1,6 @@
 import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue } from '@mito/utils'
 import { createErrorId } from './errorId'
-import { SDK_NAME, SDK_VERSION, SERVER_URL } from '@mito/common'
+import { SDK_NAME, SDK_VERSION, SERVER_URL } from '@mito/shared'
 import { breadcrumb } from './breadcrumb'
 import { AuthInfo, TransportDataType, ReportDataType, EMethods, InitOptions } from '@mito/types'
 

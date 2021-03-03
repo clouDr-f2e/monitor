@@ -1,6 +1,7 @@
 import { InitOptions } from '@mito/types'
-import { generateUUID, toStringValidateOption, validateOption, _support } from '@mito/utils'
-
+import { generateUUID, toStringValidateOption, validateOption, _support, setSilentFlag, logger } from '@mito/utils'
+import { breadcrumb } from './breadcrumb'
+import { transportData } from './transportData'
 export class Options {
   beforeAppAjaxSend: Function
   afterAppAjaxClose: Function
@@ -30,6 +31,14 @@ export function setTraceId(httpUrl: string, callback: (headerFieldName: string, 
     const traceId = generateUUID()
     callback(options.traceIdFieldName, traceId)
   }
+}
+
+export function initOptions(paramOptions: InitOptions = {}) {
+  setSilentFlag(paramOptions)
+  breadcrumb.bindOptions(paramOptions)
+  logger.bindOptions(paramOptions.debug)
+  transportData.bindOptions(paramOptions)
+  options.bindOptions(paramOptions)
 }
 
 export { options }

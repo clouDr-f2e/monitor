@@ -1,7 +1,6 @@
-import { ResourceErrorTarget } from '@mito/browser'
-import { ERRORTYPES, HTTPTYPE } from '@mito/common'
+import { ERRORTYPES, HTTPTYPE } from '@mito/shared'
 import { httpTransform, resourceTransform, getRealPath } from '@mito/core'
-import { EMethods, MITOHttp } from '@mito/types'
+import { EMethods, MITOHttp, ResourceErrorTarget } from '@mito/types'
 import { getLocationHref, fromHttpStatus, Severity } from '@mito/utils'
 
 describe('transformData.ts', () => {

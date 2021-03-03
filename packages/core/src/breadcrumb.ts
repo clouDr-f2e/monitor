@@ -1,4 +1,4 @@
-import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '@mito/common'
+import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '@mito/shared'
 import { logger, validateOption, getTimestamp, slientConsoleScope, _support } from '@mito/utils'
 import { BreadcrumbPushData, InitOptions } from '@mito/types'
 

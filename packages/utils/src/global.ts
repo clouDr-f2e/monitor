@@ -1,4 +1,4 @@
-import { EVENTTYPES, WxEvents } from '@mito/common'
+import { EVENTTYPES, WxEvents } from '@mito/shared'
 import { Breadcrumb, TransportData, Options } from '@mito/core'
 import { Logger } from './logger'
 import { variableTypeDetection } from './is'

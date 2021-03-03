@@ -10,8 +10,7 @@ const paths = {
   '@mito/utils': ['../utils/src'],
   '@mito/core': ['../core/src'],
   '@mito/types': ['../types/src'],
-  '@mito/shared': ['../shared/src'],
-  '@mito/browser': ['../browser/src']
+  '@mito/common': ['../common/src']
 }
 const common = {
   input: 'src/index.ts',
@@ -28,7 +27,7 @@ const common = {
       tsconfig: 'tsconfig.build.json',
       tsconfigOverride: {
         compilerOptions: {
-          declaration: true,
+          declaration: false,
           declarationMap: false,
           module: 'ES2015',
           paths

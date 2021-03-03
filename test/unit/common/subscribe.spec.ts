@@ -1,5 +1,5 @@
-import { EVENTTYPES } from '@mito/common'
-import { subscribeEvent, triggerHandlers } from '@mito/common'
+import { EVENTTYPES } from '@mito/shared'
+import { subscribeEvent, triggerHandlers } from '@mito/core'
 
 describe('subscribe.ts', () => {
   it('should subscribe work', () => {

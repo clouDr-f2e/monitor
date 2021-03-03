@@ -15,7 +15,6 @@ class PuppeteerEnvironment extends NodeEnvironment {
   }
 
   async setup() {
-    // console.log(chalk.yellow('Setup Test Environment.'))
     await super.setup()
     const wsEndpoint = fs.readFileSync(path.join(DIR, 'wsEndpoint'), 'utf8')
     if (!wsEndpoint) {

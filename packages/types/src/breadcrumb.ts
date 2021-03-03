@@ -1,5 +1,5 @@
 import { Severity } from '@mito/utils'
-import { BREADCRUMBTYPES } from '@mito/common'
+import { BREADCRUMBTYPES } from '@mito/shared'
 import { ReportDataType } from './transportData'
 import { Replace } from './replace'
 import { IAnyObject, TNumStrObj } from './common'

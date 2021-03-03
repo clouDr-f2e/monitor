@@ -1,5 +1,5 @@
 import { getAppId, isWxMiniEnv, variableTypeDetection } from '@mito/utils'
-import { ERRORTYPES, EVENTTYPES } from '@mito/common'
+import { ERRORTYPES, EVENTTYPES } from '@mito/shared'
 import { ReportDataType } from '@mito/types'
 const allErrorNumber: unknown = {}
 /**

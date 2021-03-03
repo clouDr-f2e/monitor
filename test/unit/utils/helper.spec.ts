@@ -1,4 +1,4 @@
-import { ERRORTYPES, globalVar } from '@mito/common'
+import { ERRORTYPES, globalVar } from '@mito/shared'
 import {
   defaultFunctionName,
   generateUUID,

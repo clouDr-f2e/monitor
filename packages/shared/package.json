@@ -1,7 +1,7 @@
 {
-  "name": "@mito/wx-mini",
+  "name": "@mito/shared",
   "version": "1.0.0",
-  "description": "A SDK for monitoring Vue errors",
+  "description": "A SDK for monitoring browser errors",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/index.js",
@@ -10,14 +10,11 @@
   "scripts": {
     "build": "run-p build:esm build:es5",
     "build:esm": "tsc -p tsconfig.esm.json",
-    "build:es5": "tsc -p tsconfig.build.json",
-    "build:bundle": "rollup  --config"
+    "build:es5": "tsc -p tsconfig.build.json"
   },
   "devDependencies": {
     "@mito/core": "1.0.0",
     "@mito/utils": "1.0.0",
-    "@mito/common": "1.0.0",
-    "@mito/browser": "1.0.0",
     "@mito/types": "1.0.0",
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-commonjs": "^14.0.0",

@@ -1,4 +1,4 @@
-import { EVENTTYPES } from '@mito/common'
+import { EVENTTYPES } from '@mito/shared'
 import { HandleWxConsoleEvents, HandleNetworkEvents, HandleWxEvents, HandleWxPageEvents } from './handleWxEvents'
 import { addReplaceHandler, replaceApp, replacePage, replaceComponent, replaceBehavior } from './replace'
 

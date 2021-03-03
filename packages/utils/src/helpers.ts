@@ -1,5 +1,5 @@
 import { IAnyObject, IntegrationError } from '@mito/types'
-import { globalVar, HTTP_CODE, ERRORTYPES } from '@mito/common'
+import { globalVar, HTTP_CODE, ERRORTYPES } from '@mito/shared'
 import { logger } from './logger'
 import { nativeToString, variableTypeDetection } from './is'
 
@@ -191,6 +191,24 @@ export function setUrlQuery(url: string, query: object) {
   }
   return url
 }
+
+/**
+ * 获取wx当前route的方法
+ * 必须是在进入Page或Component构造函数内部才能够获取到currentPages
+ * 否则都是在注册Page和Component时执行的代码，此时url默认返回'App'
+ */
+export function getCurrentRoute() {
+  if (!variableTypeDetection.isFunction(getCurrentPages)) {
+    return ''
+  }
+  const pages = getCurrentPages() // 在App里调用该方法，页面还没有生成，长度为0
+  if (!pages.length) {
+    return 'App'
+  }
+  const currentPage = pages.pop()
+  return setUrlQuery(currentPage.route, currentPage.options)
+}
+
 /**
  * 解析字符串错误信息，返回message、name、stacks
  * @param str error string

@@ -1,4 +1,4 @@
-import { ERRORTYPES } from '@mito/common'
+import { ERRORTYPES } from '@mito/shared'
 import { BreadcrumbPushData } from './breadcrumb'
 
 export interface AuthInfo {

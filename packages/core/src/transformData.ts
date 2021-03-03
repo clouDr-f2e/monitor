@@ -1,8 +1,8 @@
-import { ERRORTYPES, globalVar } from '@mito/common'
+import { BREADCRUMBTYPES, ERRORTYPES, globalVar } from '@mito/shared'
 import { getLocationHref, getTimestamp, Severity, fromHttpStatus, SpanStatus } from '@mito/utils'
-import { ReportDataType, MITOHttp } from '@mito/types'
+import { ReportDataType, MITOHttp, Replace, ResourceErrorTarget } from '@mito/types'
 import { getRealPath } from './errorId'
-import { ResourceErrorTarget } from '@mito/browser'
+import { breadcrumb } from './breadcrumb'
 
 export function httpTransform(data: MITOHttp): ReportDataType {
   let message = ''
@@ -49,5 +49,16 @@ export function resourceTransform(target: ResourceErrorTarget): ReportDataType {
     level: Severity.Low,
     time: getTimestamp(),
     name: `${resourceMap[target.localName] || target.localName}加载失败`
+  }
+}
+
+export function handleConsole(data: Replace.TriggerConsole): void {
+  if (globalVar.isLogAddBreadcrumb) {
+    breadcrumb.push({
+      type: BREADCRUMBTYPES.CONSOLE,
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.CONSOLE),
+      data,
+      level: Severity.fromString(data.level)
+    })
   }
 }

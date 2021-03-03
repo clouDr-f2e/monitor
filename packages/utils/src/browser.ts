@@ -1,4 +1,4 @@
-import { EVENTTYPES, ERRORTYPES, WxAppEvents, WxPageEvents } from '@mito/common'
+import { EVENTTYPES, ERRORTYPES, WxAppEvents, WxPageEvents } from '@mito/shared'
 import { getLocationHref, getTimestamp } from './helpers'
 import { setFlag } from './global'
 import { ReportDataType, InitOptions } from '@mito/types'

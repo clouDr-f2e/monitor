@@ -1,11 +1,12 @@
 import { getFlag, setFlag, slientConsoleScope, Severity } from '@mito/utils'
-import { EVENTTYPES } from '@mito/common'
+import { EVENTTYPES } from '@mito/shared'
 import { VueInstance, ViewModel } from './types'
 import { handleVueError } from './helper'
+import { SDK_VERSION, SDK_NAME, init, log } from '@mito/browser'
 
 const hasConsole = typeof console !== 'undefined'
 
-export const MitoVue = {
+const MitoVue = {
   install(Vue: VueInstance): void {
     if (getFlag(EVENTTYPES.VUE) || !Vue || !Vue.config) return
     setFlag(EVENTTYPES.VUE, true)
@@ -21,3 +22,5 @@ export const MitoVue = {
     }
   }
 }
+
+export { SDK_VERSION, SDK_NAME, init, log, MitoVue }

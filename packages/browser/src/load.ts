@@ -1,7 +1,7 @@
 import { HandleEvents } from './handleEvents'
 import { htmlElementAsString, Severity } from '@mito/utils'
-import { EVENTTYPES, BREADCRUMBTYPES, handleConsole } from '@mito/common'
-import { breadcrumb } from '@mito/core'
+import { EVENTTYPES, BREADCRUMBTYPES } from '@mito/shared'
+import { breadcrumb, handleConsole } from '@mito/core'
 import { addReplaceHandler } from './replace'
 export function setupReplace(): void {
   addReplaceHandler({

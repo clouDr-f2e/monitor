@@ -1,6 +1,6 @@
 import { Breadcrumb } from '@mito/core'
 import { BreadcrumbPushData } from './breadcrumb'
-import {  TransportDataType } from './transportData'
+import { TransportDataType } from './transportData'
 type CANCEL = null | undefined | boolean
 
 export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'OPTIONS'

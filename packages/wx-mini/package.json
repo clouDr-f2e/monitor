@@ -1,7 +1,7 @@
 {
-  "name": "@mito/vue",
+  "name": "@mito/wx-mini",
   "version": "1.0.0",
-  "description": "A SDK for monitoring browser errors",
+  "description": "A SDK for monitoring wx-mini errors",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/index.js",
