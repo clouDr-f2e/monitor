@@ -7,11 +7,6 @@
   "main": "dist/index.js",
   "module": "esm/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "run-p build:esm build:es5",
-    "build:esm": "tsc -p tsconfig.esm.json",
-    "build:es5": "tsc -p tsconfig.build.json"
-  },
   "dependencies": {
     "@mito/core": "1.0.0",
     "@mito/types": "1.0.0",
