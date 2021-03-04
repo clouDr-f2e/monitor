@@ -1,11 +1,10 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE } from '@/common/constant'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE } from '@mito/shared'
 import { version, name } from '../../../package.json'
 import puppeteer from 'puppeteer'
-import { BreadcrumbPushData, EMethods, ReportDataType, TransportDataType } from '@/types/index'
-import { Severity } from '@/utils/Severity'
-import { jsUrl } from '@/test/config'
-import { SpanStatus } from '@/utils/httpStatus'
+import { BreadcrumbPushData, EMethods, ReportDataType, TransportDataType } from '@mito/types'
+import { SpanStatus, Severity } from '@mito/utils'
 import { ServerUrls } from '../../../examples/server/config'
+import { jsUrl } from '@/test/config'
 
 describe('Native JS e2e:', () => {
   const timeout = 3000

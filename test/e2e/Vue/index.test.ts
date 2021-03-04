@@ -1,10 +1,10 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES } from '@/common/constant'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES } from '@mito/shared'
 import { vueUrl } from '@/test/config'
-import { ReportDataType, TransportDataType } from '@/types/transportData'
+import { TransportDataType, BreadcrumbPushData } from '@mito/types'
 import { version, name } from '../../../package.json'
-import { Severity } from '@/utils/Severity'
+import { Severity } from '@mito/utils'
 import puppeteer from 'puppeteer'
-import { BreadcrumbPushData } from '@/types/breadcrumb'
+import {} from '@mito/types'
 
 describe('Vue e2e', () => {
   const timeout = 3000

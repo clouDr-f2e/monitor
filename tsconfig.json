@@ -18,11 +18,15 @@
       "@mito/*": [
         "packages/*/src/"
       ],
+      "@/test/*": [
+        "test/*"
+      ],
     },
     "types": [
       "node",
       "jest",
-      "wechat-miniprogram"
+      "wechat-miniprogram",
+      "puppeteer"
     ],
     "target": "ES5", // 编译成什么版本
     "module": "CommonJS", // 当前代码语法
@@ -41,5 +45,6 @@
   },
   "exclude": [
     "node_modules",
+    "script"
   ],
 }

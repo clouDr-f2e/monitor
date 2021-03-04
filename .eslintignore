@@ -5,3 +5,5 @@
 **/build
 **/esm
 **/node_modules
+/script
+# rollup.config.js

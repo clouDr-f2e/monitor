@@ -5,9 +5,31 @@ import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 import clear from 'rollup-plugin-clear'
 import cleanup from 'rollup-plugin-cleanup'
-import { green } from 'chalk'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path')
+if (!process.env.TARGET) {
+  throw new Error('TARGET package must be specified')
+}
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const masterVersion = require('./package.json').version
+const packagesDir = path.resolve(__dirname, 'packages')
+const packageDir = path.resolve(packagesDir, process.env.TARGET)
+const packageDirDist = `${packageDir}/dist`
+const name = path.basename(packageDir)
+const pathResolve = (p) => path.resolve(packageDir, p)
+
+console.log('packageDir', packageDir)
+const paths = {
+  '@mito/utils': [`${packagesDir}/utils/src`],
+  '@mito/core': [`${packagesDir}/core/src`],
+  '@mito/types': [`${packagesDir}/types/src`],
+  '@mito/shared': [`${packagesDir}/shared/src`],
+  '@mito/browser': [`${packagesDir}/browser/src`],
+  '@mito/react': [`${packagesDir}/react/src`],
+  '@mito/vue': [`${packagesDir}/vue/src`]
+}
 const common = {
-  input: 'src/index.ts',
+  input: `${packageDir}/src/index.ts`,
   plugins: [
     resolve(),
     commonjs({
@@ -16,16 +38,27 @@ const common = {
     json(),
     cleanup({
       comments: 'none'
+    }),
+    typescript({
+      tsconfig: 'tsconfig.build.json',
+      // useTsconfigDeclarationDir: true,
+      tsconfigOverride: {
+        compilerOptions: {
+          declaration: false,
+          declarationMap: false,
+          declarationDir: `${packageDirDist}/types/`, // 类型声明文件的输出目录
+          module: 'ES2015',
+          paths
+        }
+      },
+      include: ['*.ts+(|x)', '**/*.ts+(|x)', '../**/*.ts+(|x)']
     })
-  ],
-  typescript: {
-    tsconfig: 'build.tsconfig.json'
-  }
+  ]
 }
 const esmPackage = {
   input: common.input,
   output: {
-    file: 'dist/index.esm.js',
+    file: `${packageDirDist}/index.esm.js`,
     format: 'esm',
     name: 'MITO',
     sourcemap: true
@@ -33,77 +66,34 @@ const esmPackage = {
   plugins: [
     ...common.plugins,
     clear({
-      targets: ['dist']
-    }),
-    typescript({
-      ...common.typescript,
-      useTsconfigDeclarationDir: true,
-      clean: true
+      targets: [packageDirDist]
     })
   ]
 }
 const cjsPackage = {
   input: common.input,
   output: {
-    file: 'dist/index.js',
+    file: `${packageDirDist}/index.js`,
     format: 'cjs',
     name: 'MITO',
     sourcemap: true
   },
-  plugins: [
-    ...common.plugins,
-    typescript({
-      ...common.typescript,
-      tsconfigOverride: { compilerOptions: { declaration: false } }
-    })
-  ]
+  plugins: [...common.plugins]
 }
-const localDebug = {
-  input: common.input,
-  output: {
-    file: '/Users/ks/Desktop/tryCatch/github/mito-vue-demo/src/bundle.js',
-    format: 'esm',
-    name: 'MITO'
-  },
-  plugins: [
-    ...common.plugins,
-    typescript({
-      ...common.typescript,
-      tsconfigOverride: { compilerOptions: { declaration: false } }
-    })
-  ]
-}
+
 const iifePackage = {
   input: common.input,
   output: {
-    file: 'dist/index.min.js',
+    file: `${packageDirDist}/index.min.js`,
     format: 'iife',
     name: 'MITO'
   },
-  plugins: [
-    ...common.plugins,
-    typescript({
-      ...common.typescript,
-      tsconfigOverride: { compilerOptions: { declaration: false } }
-    }),
-    terser()
-  ]
+  plugins: [...common.plugins, terser()]
 }
 const total = {
   esmPackage,
   iifePackage,
-  localDebug,
   cjsPackage
 }
 let result = total
-const ignore = process.env.IGNORE
-const include = process.env.INCLUDE
-console.log(green(`ignore: ${ignore}, include: ${include}`))
-if (ignore) {
-  delete total[ignore]
-  result = total
-}
-if (include) {
-  result = [total[include]]
-}
 export default [...Object.values(result)]

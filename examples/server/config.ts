@@ -7,7 +7,8 @@ const VueFilePath = resolveDirname('../Vue')
 const ReactFilePath = resolveDirname('../React')
 const Vue3FilePath = resolveDirname('../Vue3')
 // dist在外面一层
-const distFilePath = resolve('./dist')
+const distFilePath = resolve('./packages/web/dist')
+console.log(distFilePath)
 export const FilePaths = {
   '/JS': JsFilePath,
   '/Vue': VueFilePath,
