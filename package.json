@@ -3,6 +3,7 @@
   "description": "A SDK for monitoring browser and miniPrograme errors",
   "scripts": {
     "build": "node script/build.js",
+    "release": "node script/release.js",
     "lerna:build": "lerna run --stream build",
     "build:esm": "lerna run --stream build:esm",
     "build:es5": "lerna run --stream build:es5",

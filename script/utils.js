@@ -1,5 +1,6 @@
 const fs = require('fs')
 const chalk = require('chalk')
+const execa = require('execa')
 
 const targets = (exports.targets = fs.readdirSync('packages').filter((f) => {
   if (!fs.statSync(`packages/${f}`).isDirectory()) {
@@ -35,3 +36,10 @@ exports.fuzzyMatchTarget = (partialTargets, includeAllMatching) => {
     process.exit(1)
   }
 }
+
+exports.getArgv = () => {
+  var argv = require('minimist')(process.argv.slice(2))
+  return argv
+}
+
+exports.binRun = (bin, args, opts = {}) => execa(bin, args, { stdio: 'inherit', ...opts })

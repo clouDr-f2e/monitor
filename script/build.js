@@ -1,9 +1,8 @@
 const path = require('path')
-const execa = require('execa')
-const { targets: allTargets, fuzzyMatchTarget } = require('./utils')
+const { targets: allTargets, fuzzyMatchTarget, getArgv, binRun } = require('./utils')
 run()
 async function run() {
-  var argv = require('minimist')(process.argv.slice(2))
+  const argv = getArgv()
   console.log(argv)
   // accept npm run build web browser...
   const paramTarget = argv._
@@ -46,20 +45,16 @@ async function rollupBuild(target) {
     return
   }
   // const env = [pkg.buildOption && pkg.buildOption.env]
-  const result = await execa(
-    'rollup',
+  const result = await binRun('rollup', [
+    '-c',
+    '--environment',
     [
-      '-c',
-      '--environment',
-      [
-        // `COMMIT:${commit}`,
-        // `NODE_ENV:${env}`,
-        `TARGET:${target}`
-        // formats ? `FORMATS:${formats}` : ``,
-      ]
-        .filter(Boolean)
-        .join(',')
-    ],
-    { stdio: 'inherit' }
-  )
+      // `COMMIT:${commit}`,
+      // `NODE_ENV:${env}`,
+      `TARGET:${target}`
+      // formats ? `FORMATS:${formats}` : ``,
+    ]
+      .filter(Boolean)
+      .join(',')
+  ])
 }
