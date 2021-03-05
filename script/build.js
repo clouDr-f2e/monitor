@@ -3,9 +3,15 @@ const execa = require('execa')
 const { targets: allTargets, fuzzyMatchTarget } = require('./utils')
 run()
 async function run() {
-  // var argv = require('minimist')(process.argv.slice(2))
-  // console.log(argv)
-  buildAll(allTargets)
+  var argv = require('minimist')(process.argv.slice(2))
+  console.log(argv)
+  // accept npm run build web browser...
+  const paramTarget = argv._
+  if (paramTarget.length === 0) {
+    buildAll(allTargets)
+  } else {
+    buildAll(paramTarget)
+  }
 }
 
 function buildAll(targets) {
@@ -39,9 +45,6 @@ async function rollupBuild(target) {
   if (pkg.private) {
     return
   }
-
-  // await fs.remove(`${pkgDir}/dist`)
-
   // const env = [pkg.buildOption && pkg.buildOption.env]
   const result = await execa(
     'rollup',
