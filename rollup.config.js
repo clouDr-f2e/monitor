@@ -5,7 +5,7 @@ import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 import clear from 'rollup-plugin-clear'
 import cleanup from 'rollup-plugin-cleanup'
-// eslint-disable-next-line @ -eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
 if (!process.env.TARGET) {
   throw new Error('TARGET package must be specified')

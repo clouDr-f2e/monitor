@@ -1,14 +1,11 @@
 {
   "version": "1.0.0",
-  "description": "A SDK for monitoring browser and miniPrograme errors",
+  "private": true,
+  "license": "MIT",
+  "author": "cjinhuo",
   "scripts": {
     "build": "node script/build.js",
     "release": "node script/release.js",
-    "lerna:build": "lerna run --stream build",
-    "build:esm": "lerna run --stream build:esm",
-    "build:es5": "lerna run --stream build:es5",
-    "bootstrap": "lerna bootstrap",
-    "browser": "rollup --config TARGET:web",
     "watch:wx": "rollup --config wx.rollup.config.js --watch",
     "company": "rollup  --config src/company/browser/rollup.company.js",
     "company:wx": "rollup  --config src/company/wx-mini/rollup.wx.company.js",
@@ -19,9 +16,6 @@
     "test:watch": "jest --watch",
     "format": "prettier --write --parser typescript \"packages/**/*.ts?(x)\""
   },
-  "private": true,
-  "license": "MIT",
-  "author": "cjinhuo",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/clouDr-f2e/mitojs.git"
@@ -37,9 +31,9 @@
     ]
   },
   "keywords": [
-    "collect",
-    "sdk",
+    "mitojs",
     "error",
+    "collect",
     "broswer",
     "miniPrograme"
   ],
@@ -78,7 +72,6 @@
     "fs-extra": "^9.1.0",
     "husky": "^4.2.5",
     "jest": "^26.6.3",
-    "lerna": "^3.22.1",
     "lint-staged": "^10.2.11",
     "minimist": "^1.2.5",
     "msw": "^0.24.3",
