@@ -1,7 +1,7 @@
 {
   "name": "@mitojs/web",
   "version": "1.0.0",
-  "description": "A SDK for monitoring web errors",
+  "description": "A SDK For Monitoring Web(React、Vue) Errors",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/web.js",

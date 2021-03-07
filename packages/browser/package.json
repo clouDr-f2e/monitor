@@ -1,7 +1,7 @@
 {
   "name": "@mitojs/browser",
   "version": "1.0.0",
-  "description": "",
+  "description": "A SDK For Monitoring Browser Errors",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/browser.js",

@@ -1,7 +1,7 @@
 {
   "name": "@mitojs/core",
   "version": "1.0.0",
-  "description": "A SDK for monitoring browser errors",
+  "description": "@mitojs/core",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/core.js",

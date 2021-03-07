@@ -1,7 +1,7 @@
 {
   "name": "@mitojs/utils",
   "version": "1.0.0",
-  "description": "A SDK for monitoring browser errors",
+  "description": "@mitojs/utils",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/utils.js",

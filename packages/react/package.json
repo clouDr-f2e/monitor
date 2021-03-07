@@ -1,7 +1,7 @@
 {
   "name": "@mitojs/react",
   "version": "1.0.0",
-  "description": "A SDK for monitoring React errors",
+  "description": "A SDK For Report React ErrorBoundary",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/react.js",

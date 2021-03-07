@@ -1,12 +1,12 @@
 {
   "name": "@mitojs/shared",
   "version": "1.0.0",
-  "description": "A SDK for monitoring browser errors",
+  "description": "@mitojs/shared",
   "author": "cjinhuo",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "esm/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/shared.js",
+  "module": "dist/shared.esm.js",
+  "types": "dist/shared.d.ts",
   "files": [
     "dist"
   ]

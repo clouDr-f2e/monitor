@@ -1,12 +1,15 @@
 {
   "name": "@mitojs/types",
   "version": "1.0.0",
-  "description": "A SDK for monitoring browser errors",
+  "description": "@mitojs/types",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/types.js",
   "module": "dist/types.esm.js",
   "types": "dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@mitojs/core": "1.0.0",
     "@mitojs/utils": "1.0.0",
