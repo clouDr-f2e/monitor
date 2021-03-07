@@ -6,5 +6,8 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "esm/index.js",
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ]
 }

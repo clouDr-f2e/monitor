@@ -4,9 +4,12 @@
   "description": "A SDK for monitoring browser errors",
   "author": "cjinhuo",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "esm/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/core.js",
+  "module": "dist/core.esm.js",
+  "types": "dist/core.d.ts",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@mitojs/core": "1.0.0",
     "@mitojs/types": "1.0.0",
