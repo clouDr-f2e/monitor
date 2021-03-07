@@ -16,7 +16,7 @@ export default {
     // alias src/(.*) not work
     // 从上到下优先匹配
     '@/test/(.*)': '<rootDir>/test/$1',
-    '@mito/(.*)': '<rootDir>/packages/$1/src/index'
+    '@mitojs/(.*)': '<rootDir>/packages/$1/src/index'
   },
   globals: {
     'ts-jest': {

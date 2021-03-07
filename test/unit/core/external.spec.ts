@@ -1,6 +1,6 @@
-import { BREADCRUMBTYPES } from '@mito/shared'
-import { breadcrumb, log } from '@mito/core'
-import { Severity } from '@mito/utils'
+import { BREADCRUMBTYPES } from '@mitojs/shared'
+import { breadcrumb, log } from '@mitojs/core'
+import { Severity } from '@mitojs/utils'
 
 describe('external log function', () => {
   it('should log func work', () => {

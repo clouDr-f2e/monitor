@@ -1,4 +1,4 @@
-import { extractErrorStack, htmlElementAsString, parseUrlToObj, Severity } from '@mito/utils'
+import { extractErrorStack, htmlElementAsString, parseUrlToObj, Severity } from '@mitojs/utils'
 
 describe('browser.ts', () => {
   describe('htmlElementAsString function', () => {

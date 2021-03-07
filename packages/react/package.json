@@ -1,5 +1,5 @@
 {
-  "name": "@mito/react",
+  "name": "@mitojs/react",
   "version": "1.0.0",
   "description": "A SDK for monitoring React errors",
   "author": "cjinhuo",
@@ -8,8 +8,8 @@
   "module": "esm/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@mito/core": "1.0.0",
-    "@mito/utils": "1.0.0",
-    "@mito/shared": "1.0.0"
+    "@mitojs/core": "1.0.0",
+    "@mitojs/utils": "1.0.0",
+    "@mitojs/shared": "1.0.0"
   }
 }

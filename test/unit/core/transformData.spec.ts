@@ -1,7 +1,7 @@
-import { ERRORTYPES, HTTPTYPE } from '@mito/shared'
-import { httpTransform, resourceTransform, getRealPath } from '@mito/core'
-import { EMethods, MITOHttp, ResourceErrorTarget } from '@mito/types'
-import { getLocationHref, fromHttpStatus, Severity } from '@mito/utils'
+import { ERRORTYPES, HTTPTYPE } from '@mitojs/shared'
+import { httpTransform, resourceTransform, getRealPath } from '@mitojs/core'
+import { EMethods, MITOHttp, ResourceErrorTarget } from '@mitojs/types'
+import { getLocationHref, fromHttpStatus, Severity } from '@mitojs/utils'
 
 describe('transformData.ts', () => {
   it('should resourceTransform func work', () => {

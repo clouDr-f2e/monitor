@@ -1,7 +1,7 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES } from '@mito/shared'
-import { breadcrumb } from '@mito/core'
-import { BreadcrumbPushData } from '@mito/types'
-import { Severity } from '@mito/utils'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES } from '@mitojs/shared'
+import { breadcrumb } from '@mitojs/core'
+import { BreadcrumbPushData } from '@mitojs/types'
+import { Severity } from '@mitojs/utils'
 
 describe('breadcrumb.ts', () => {
   beforeAll(() => {

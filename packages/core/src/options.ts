@@ -1,5 +1,5 @@
-import { InitOptions } from '@mito/types'
-import { generateUUID, toStringValidateOption, validateOption, _support, setSilentFlag, logger } from '@mito/utils'
+import { InitOptions } from '@mitojs/types'
+import { generateUUID, toStringValidateOption, validateOption, _support, setSilentFlag, logger } from '@mitojs/utils'
 import { breadcrumb } from './breadcrumb'
 import { transportData } from './transportData'
 export class Options {

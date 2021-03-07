@@ -5,11 +5,13 @@ import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 import clear from 'rollup-plugin-clear'
 import cleanup from 'rollup-plugin-cleanup'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @ -eslint/no-var-requires
 const path = require('path')
 if (!process.env.TARGET) {
   throw new Error('TARGET package must be specified')
 }
+// 是否生成声明文件
+const isDeclaration = process.env.TYPES != null
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const masterVersion = require('./package.json').version
 const packagesDir = path.resolve(__dirname, 'packages')
@@ -18,15 +20,15 @@ const packageDirDist = `${packageDir}/dist`
 const name = path.basename(packageDir)
 const pathResolve = (p) => path.resolve(packageDir, p)
 
-console.log('packageDir', packageDir)
+console.log('name', name)
 const paths = {
-  '@mito/utils': [`${packagesDir}/utils/src`],
-  '@mito/core': [`${packagesDir}/core/src`],
-  '@mito/types': [`${packagesDir}/types/src`],
-  '@mito/shared': [`${packagesDir}/shared/src`],
-  '@mito/browser': [`${packagesDir}/browser/src`],
-  '@mito/react': [`${packagesDir}/react/src`],
-  '@mito/vue': [`${packagesDir}/vue/src`]
+  '@mitojs/utils': [`${packagesDir}/utils/src`],
+  '@mitojs/core': [`${packagesDir}/core/src`],
+  '@mitojs/types': [`${packagesDir}/types/src`],
+  '@mitojs/shared': [`${packagesDir}/shared/src`],
+  '@mitojs/browser': [`${packagesDir}/browser/src`],
+  '@mitojs/react': [`${packagesDir}/react/src`],
+  '@mitojs/vue': [`${packagesDir}/vue/src`]
 }
 const common = {
   input: `${packageDir}/src/index.ts`,
@@ -41,12 +43,12 @@ const common = {
     }),
     typescript({
       tsconfig: 'tsconfig.build.json',
-      // useTsconfigDeclarationDir: true,
+      useTsconfigDeclarationDir: true,
       tsconfigOverride: {
         compilerOptions: {
-          declaration: false,
-          declarationMap: false,
-          declarationDir: `${packageDirDist}/types/`, // 类型声明文件的输出目录
+          declaration: isDeclaration,
+          declarationMap: isDeclaration,
+          declarationDir: `${packageDirDist}/packages/`, // 类型声明文件的输出目录
           module: 'ES2015',
           paths
         }
@@ -58,7 +60,7 @@ const common = {
 const esmPackage = {
   input: common.input,
   output: {
-    file: `${packageDirDist}/index.esm.js`,
+    file: `${packageDirDist}/${name}.esm.js`,
     format: 'esm',
     name: 'MITO',
     sourcemap: true
@@ -73,7 +75,7 @@ const esmPackage = {
 const cjsPackage = {
   input: common.input,
   output: {
-    file: `${packageDirDist}/index.js`,
+    file: `${packageDirDist}/${name}.js`,
     format: 'cjs',
     name: 'MITO',
     sourcemap: true
@@ -84,7 +86,7 @@ const cjsPackage = {
 const iifePackage = {
   input: common.input,
   output: {
-    file: `${packageDirDist}/index.min.js`,
+    file: `${packageDirDist}/${name}.min.js`,
     format: 'iife',
     name: 'MITO'
   },

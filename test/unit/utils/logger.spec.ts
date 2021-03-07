@@ -1,4 +1,4 @@
-import { logger } from '@mito/utils'
+import { logger } from '@mitojs/utils'
 
 describe('logger.ts', () => {
   it('should logger config enabled can take effect', () => {

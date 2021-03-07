@@ -1,10 +1,9 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES } from '@mito/shared'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import { reactUrl } from '@/test/config'
-import { TransportDataType } from '@mito/types'
-import { version, name } from '../../../package.json'
-import { Severity } from '@mito/utils'
+import { TransportDataType } from '@mitojs/types'
+import { Severity } from '@mitojs/utils'
 import puppeteer from 'puppeteer'
-import { BreadcrumbPushData } from '@mito/types'
+import { BreadcrumbPushData } from '@mitojs/types'
 
 describe('React e2e', () => {
   const timeout = 3000
@@ -63,8 +62,8 @@ describe('React e2e', () => {
         expect(data.message).toBe('I crashed!')
         // stack is array
         expect(Array.isArray(data.stack)).toBeTruthy()
-        expect(authInfo.sdkName).toBe(name)
-        expect(authInfo.sdkVersion).toBe(version)
+        expect(authInfo.sdkName).toBe(SDK_NAME)
+        expect(authInfo.sdkVersion).toBe(SDK_VERSION)
         done()
       }
       uploadRequestHandles.push(uploadRequestHandle)

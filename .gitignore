@@ -1,8 +1,8 @@
-node_modules
+dist
 .DS_Store
-
-# build
-# dist
+node_modules
+coverage
+temp
 
 # test
 coverage
@@ -10,7 +10,5 @@ coverage
 
 packages/company
 
-packages/*/dist
-packages/*/esm
-packages/*/build
+packages/**/dist
 packages/*/node_modules

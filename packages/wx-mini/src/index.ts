@@ -1,7 +1,7 @@
-import { InitOptions } from '@mito/types'
-import { isWxMiniEnv } from '@mito/utils'
+import { InitOptions } from '@mitojs/types'
+import { isWxMiniEnv } from '@mitojs/utils'
 import { setupReplace } from './load'
-import { initOptions, log } from '@mito/core'
+import { initOptions, log } from '@mitojs/core'
 export function init(options: InitOptions = {}) {
   if (!isWxMiniEnv) return
   initOptions(options)

@@ -1,4 +1,4 @@
-import { HTTPTYPE } from '@mito/shared'
+import { HTTPTYPE } from '@mitojs/shared'
 
 export interface IAnyObject {
   [key: string]: any

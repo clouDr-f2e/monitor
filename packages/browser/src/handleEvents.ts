@@ -1,8 +1,7 @@
-import { BREADCRUMBTYPES, ERRORTYPES, ERROR_TYPE_RE, HTTP_CODE } from '@mito/shared'
-import { transportData, breadcrumb, resourceTransform, httpTransform } from '@mito/core'
-import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStack, unknownToString, Severity } from '@mito/utils'
-import { ReportDataType, Replace, MITOHttp, ResourceErrorTarget } from '@mito/types'
-
+import { BREADCRUMBTYPES, ERRORTYPES, ERROR_TYPE_RE, HTTP_CODE } from '@mitojs/shared'
+import { transportData, breadcrumb, resourceTransform, httpTransform } from '@mitojs/core'
+import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStack, unknownToString, Severity } from '@mitojs/utils'
+import { ReportDataType, Replace, MITOHttp, ResourceErrorTarget } from '@mitojs/types'
 
 const HandleEvents = {
   /**

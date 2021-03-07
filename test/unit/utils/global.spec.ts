@@ -1,6 +1,6 @@
-import { EVENTTYPES } from '@mito/shared'
-import { init } from '@mito/browser'
-import { getFlag, getGlobal, getGlobalMitoSupport, isBrowserEnv, isNodeEnv, isWxMiniEnv, setFlag, supportsHistory } from '@mito/utils'
+import { EVENTTYPES } from '@mitojs/shared'
+import { init } from '@mitojs/browser'
+import { getFlag, getGlobal, getGlobalMitoSupport, isBrowserEnv, isNodeEnv, isWxMiniEnv, setFlag, supportsHistory } from '@mitojs/utils'
 
 describe('global.ts', () => {
   it('should getGLoabl func work', () => {

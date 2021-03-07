@@ -1,5 +1,5 @@
 {
-  "name": "@mito/types",
+  "name": "@mitojs/types",
   "version": "1.0.0",
   "description": "A SDK for monitoring browser errors",
   "author": "cjinhuo",
@@ -8,9 +8,9 @@
   "module": "esm/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@mito/core": "1.0.0",
-    "@mito/utils": "1.0.0",
-    "@mito/browser": "1.0.0",
-    "@mito/shared": "1.0.0"
+    "@mitojs/core": "1.0.0",
+    "@mitojs/utils": "1.0.0",
+    "@mitojs/browser": "1.0.0",
+    "@mitojs/shared": "1.0.0"
   }
 }

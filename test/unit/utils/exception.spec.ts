@@ -1,4 +1,4 @@
-import { nativeTryCatch } from '@mito/utils'
+import { nativeTryCatch } from '@mitojs/utils'
 
 describe('exception.ts', () => {
   it('should nativeTryCatch func work', () => {

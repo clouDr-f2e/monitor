@@ -1,5 +1,5 @@
-import { EVENTTYPES, WxEvents } from '@mito/shared'
-import { getFlag, getFunctionName, logger, nativeTryCatch, setFlag } from '@mito/utils'
+import { EVENTTYPES, WxEvents } from '@mitojs/shared'
+import { getFlag, getFunctionName, logger, nativeTryCatch, setFlag } from '@mitojs/utils'
 export interface ReplaceHandler {
   type: EVENTTYPES | WxEvents
   callback: ReplaceCallback

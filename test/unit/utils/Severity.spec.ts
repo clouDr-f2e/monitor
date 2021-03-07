@@ -1,4 +1,4 @@
-import { Severity } from '@mito/utils'
+import { Severity } from '@mitojs/utils'
 
 describe('Severity.ts', () => {
   it('should fromString func work', () => {

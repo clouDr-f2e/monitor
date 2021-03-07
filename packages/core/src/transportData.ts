@@ -1,8 +1,8 @@
-import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue } from '@mito/utils'
+import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue } from '@mitojs/utils'
 import { createErrorId } from './errorId'
-import { SDK_NAME, SDK_VERSION, SERVER_URL } from '@mito/shared'
+import { SDK_NAME, SDK_VERSION, SERVER_URL } from '@mitojs/shared'
 import { breadcrumb } from './breadcrumb'
-import { AuthInfo, TransportDataType, ReportDataType, EMethods, InitOptions } from '@mito/types'
+import { AuthInfo, TransportDataType, ReportDataType, EMethods, InitOptions } from '@mitojs/types'
 
 /**
  * 用来传输数据类，包含img标签、xhr请求

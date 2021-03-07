@@ -1,4 +1,4 @@
-import { fromHttpStatus, SpanStatus } from '@mito/utils'
+import { fromHttpStatus, SpanStatus } from '@mitojs/utils'
 
 describe('httpStatus.ts', () => {
   it('should fromHttpStatus func work', () => {

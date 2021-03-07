@@ -1,17 +1,17 @@
 {
-  "name": "@mito/browser",
+  "name": "@mitojs/browser",
   "version": "1.0.0",
   "description": "",
   "author": "cjinhuo",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/browser.js",
+  "module": "dist/browser.esm.js",
+  "types": "dist/browser.d.ts",
   "dependencies": {
-    "@mito/utils": "1.0.0",
-    "@mito/core": "1.0.0",
-    "@mito/shared": "1.0.0",
-    "@mito/types": "1.0.0"
+    "@mitojs/utils": "1.0.0",
+    "@mitojs/core": "1.0.0",
+    "@mitojs/shared": "1.0.1",
+    "@mitojs/types": "1.0.0"
   },
   "buildOptions": {
     "formats": [

@@ -1,4 +1,4 @@
-import { voidFun } from '@mito/shared'
+import { voidFun } from '@mitojs/shared'
 
 /**
  * 原生try函数

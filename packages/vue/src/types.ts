@@ -1,4 +1,4 @@
-import { IAnyObject } from '@mito/types'
+import { IAnyObject } from '@mitojs/types'
 
 export interface VueInstance {
   config?: VueConfiguration

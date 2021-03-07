@@ -1,6 +1,6 @@
-import { getAppId, isWxMiniEnv, variableTypeDetection } from '@mito/utils'
-import { ERRORTYPES, EVENTTYPES } from '@mito/shared'
-import { ReportDataType } from '@mito/types'
+import { getAppId, isWxMiniEnv, variableTypeDetection } from '@mitojs/utils'
+import { ERRORTYPES, EVENTTYPES } from '@mitojs/shared'
+import { ReportDataType } from '@mitojs/types'
 const allErrorNumber: unknown = {}
 /**
  * generate error unique Id

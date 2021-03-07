@@ -1,4 +1,4 @@
-import { Breadcrumb } from '@mito/core'
+import { Breadcrumb } from '@mitojs/core'
 import { BreadcrumbPushData } from './breadcrumb'
 import { TransportDataType } from './transportData'
 type CANCEL = null | undefined | boolean

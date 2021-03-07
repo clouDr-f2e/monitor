@@ -1,5 +1,9 @@
 const path = require('path')
+const chalk = require('chalk')
+const fs = require('fs-extra')
+
 const { targets: allTargets, fuzzyMatchTarget, getArgv, binRun } = require('./utils')
+const buildTypes = true
 run()
 async function run() {
   const argv = getArgv()
@@ -51,10 +55,41 @@ async function rollupBuild(target) {
     [
       // `COMMIT:${commit}`,
       // `NODE_ENV:${env}`,
-      `TARGET:${target}`
-      // formats ? `FORMATS:${formats}` : ``,
+      `TARGET:${target}`,
+      `TYPES:${buildTypes}`
     ]
       .filter(Boolean)
       .join(',')
   ])
+
+  if (buildTypes && pkg.types) {
+    console.log(chalk.bold(chalk.yellow(`Rolling up type definitions for ${target}...`)))
+
+    // build types
+    const { Extractor, ExtractorConfig } = require('@microsoft/api-extractor')
+
+    const extractorConfigPath = path.resolve(pkgDir, `api-extractor.json`)
+    const extractorConfig = ExtractorConfig.loadFileAndPrepare(extractorConfigPath)
+    const extractorResult = Extractor.invoke(extractorConfig, {
+      localBuild: true,
+      showVerboseMessages: true
+    })
+    if (extractorResult.succeeded) {
+      // const typesDir = path.resolve(pkgDir, 'types')
+      // if (await fs.exists(typesDir)) {
+      //   const dtsPath = path.resolve(pkgDir, pkg.types)
+      //   const existing = await fs.readFile(dtsPath, 'utf-8')
+      //   const typeFiles = await fs.readdir(typesDir)
+      //   const toAdd = await Promise.all(
+      //     typeFiles.map((file) => {
+      //       return fs.readFile(path.resolve(typesDir, file), 'utf-8')
+      //     })
+      //   )
+      //   console.log('add', toAdd)
+      //   await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
+      // }
+      console.log(chalk.bold(chalk.green(`API Extractor completed successfully.`)))
+    }
+    await fs.remove(`${pkgDir}/dist/packages`)
+  }
 }

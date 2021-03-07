@@ -1,6 +1,6 @@
-import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '@mito/shared'
-import { logger, validateOption, getTimestamp, slientConsoleScope, _support } from '@mito/utils'
-import { BreadcrumbPushData, InitOptions } from '@mito/types'
+import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '@mitojs/shared'
+import { logger, validateOption, getTimestamp, slientConsoleScope, _support } from '@mitojs/utils'
+import { BreadcrumbPushData, InitOptions } from '@mitojs/types'
 
 export class Breadcrumb {
   maxBreadcrumbs = 10

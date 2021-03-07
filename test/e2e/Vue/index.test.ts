@@ -1,10 +1,9 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES } from '@mito/shared'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import { vueUrl } from '@/test/config'
-import { TransportDataType, BreadcrumbPushData } from '@mito/types'
-import { version, name } from '../../../package.json'
-import { Severity } from '@mito/utils'
+import { TransportDataType, BreadcrumbPushData } from '@mitojs/types'
+import { Severity } from '@mitojs/utils'
 import puppeteer from 'puppeteer'
-import {} from '@mito/types'
+import {} from '@mitojs/types'
 
 describe('Vue e2e', () => {
   const timeout = 3000
@@ -62,8 +61,8 @@ describe('Vue e2e', () => {
         expect(data.message).toBe("Cannot set property 'a' of undefined(v-on handler)")
         // stack is string
         expect(data.stack).toBeDefined()
-        expect(authInfo.sdkName).toBe(name)
-        expect(authInfo.sdkVersion).toBe(version)
+        expect(authInfo.sdkName).toBe(SDK_NAME)
+        expect(authInfo.sdkVersion).toBe(SDK_VERSION)
         done()
       }
       uploadRequestHandles.push(uploadRequestHandle)

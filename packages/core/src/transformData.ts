@@ -1,6 +1,6 @@
-import { BREADCRUMBTYPES, ERRORTYPES, globalVar } from '@mito/shared'
-import { getLocationHref, getTimestamp, Severity, fromHttpStatus, SpanStatus } from '@mito/utils'
-import { ReportDataType, MITOHttp, Replace, ResourceErrorTarget } from '@mito/types'
+import { BREADCRUMBTYPES, ERRORTYPES, globalVar } from '@mitojs/shared'
+import { getLocationHref, getTimestamp, Severity, fromHttpStatus, SpanStatus } from '@mitojs/utils'
+import { ReportDataType, MITOHttp, Replace, ResourceErrorTarget } from '@mitojs/types'
 import { getRealPath } from './errorId'
 import { breadcrumb } from './breadcrumb'
 
@@ -9,7 +9,8 @@ export function httpTransform(data: MITOHttp): ReportDataType {
   const { elapsedTime, time, method, traceId, type, status } = data
   const name = `${type}--${method}`
   if (status === 0) {
-    message = elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制或域名不存在' : 'http请求失败，失败原因：超时'
+    message =
+      elapsedTime <= globalVar.crossOriginThreshold ? 'http请求失败，失败原因：跨域限制或域名不存在' : 'http请求失败，失败原因：超时'
   } else {
     message = fromHttpStatus(status)
   }

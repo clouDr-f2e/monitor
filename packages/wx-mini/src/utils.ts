@@ -1,4 +1,4 @@
-import { setUrlQuery, variableTypeDetection } from '@mito/utils'
+import { setUrlQuery, variableTypeDetection } from '@mitojs/utils'
 
 /**
  * 后退时需要计算当前页面地址

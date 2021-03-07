@@ -1,8 +1,7 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE } from '@mito/shared'
-import { version, name } from '../../../package.json'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE, SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import puppeteer from 'puppeteer'
-import { BreadcrumbPushData, EMethods, ReportDataType, TransportDataType } from '@mito/types'
-import { SpanStatus, Severity } from '@mito/utils'
+import { BreadcrumbPushData, EMethods, ReportDataType, TransportDataType } from '@mitojs/types'
+import { SpanStatus, Severity } from '@mitojs/utils'
 import { ServerUrls } from '../../../examples/server/config'
 import { jsUrl } from '@/test/config'
 
@@ -51,8 +50,8 @@ describe('Native JS e2e:', () => {
         expect(data.type).toBe(ERRORTYPES.JAVASCRIPT_ERROR)
         expect(data.level).toBe(Severity.Normal)
         expect(Array.isArray(data.stack)).toBeTruthy()
-        expect(authInfo.sdkName).toBe(name)
-        expect(authInfo.sdkVersion).toBe(version)
+        expect(authInfo.sdkName).toBe(SDK_NAME)
+        expect(authInfo.sdkVersion).toBe(SDK_VERSION)
       }
       uploadRequestHandles.push(interceptRequest)
       await page.click('#codeErr')
@@ -121,8 +120,8 @@ describe('Native JS e2e:', () => {
         const { authInfo, data } = JSON.parse(request.postData()) as TransportDataType
         expect(data.type).toBe(ERRORTYPES.FETCH_ERROR)
         expect(data.level).toBe(Severity.Low)
-        expect(authInfo.sdkName).toBe(name)
-        expect(authInfo.sdkVersion).toBe(version)
+        expect(authInfo.sdkName).toBe(SDK_NAME)
+        expect(authInfo.sdkVersion).toBe(SDK_VERSION)
       }
       uploadRequestHandles.push(interceptedRequest)
       page.click('#exceptionReq')

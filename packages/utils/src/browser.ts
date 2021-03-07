@@ -1,7 +1,7 @@
-import { EVENTTYPES, ERRORTYPES, WxAppEvents, WxPageEvents } from '@mito/shared'
+import { EVENTTYPES, ERRORTYPES, WxAppEvents, WxPageEvents } from '@mitojs/shared'
 import { getLocationHref, getTimestamp } from './helpers'
 import { setFlag } from './global'
-import { ReportDataType, InitOptions } from '@mito/types'
+import { ReportDataType, InitOptions } from '@mitojs/types'
 import { Severity } from './Severity'
 
 /**

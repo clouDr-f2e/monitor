@@ -1,5 +1,5 @@
-import { options, setTraceId } from '@mito/core'
-import { _support } from '@mito/utils'
+import { options, setTraceId } from '@mitojs/core'
+import { _support } from '@mitojs/utils'
 
 describe('options.ts', () => {
   it('should setTraceId func work', () => {

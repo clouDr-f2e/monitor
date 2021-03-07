@@ -1,10 +1,17 @@
-import { getBigVersion, getLocationHref, getTimestamp, variableTypeDetection, Severity } from '@mito/utils'
-import { ERRORTYPES, BREADCRUMBTYPES } from '@mito/shared'
+import { getBigVersion, getLocationHref, getTimestamp, variableTypeDetection, Severity } from '@mitojs/utils'
+import { ERRORTYPES, BREADCRUMBTYPES } from '@mitojs/shared'
 import { ViewModel, VueInstance } from './types'
-import { breadcrumb, transportData } from '@mito/core'
-import { ReportDataType } from '@mito/types'
+import { breadcrumb, transportData } from '@mitojs/core'
+import { ReportDataType } from '@mitojs/types'
 
-export function handleVueError(err: Error, vm: ViewModel, info: string, level: Severity, breadcrumbLevel: Severity, Vue: VueInstance): void {
+export function handleVueError(
+  err: Error,
+  vm: ViewModel,
+  info: string,
+  level: Severity,
+  breadcrumbLevel: Severity,
+  Vue: VueInstance
+): void {
   const version = Vue?.version
   let data: ReportDataType = {
     type: ERRORTYPES.VUE_ERROR,

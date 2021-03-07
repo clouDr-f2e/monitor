@@ -1,5 +1,5 @@
-import { EVENTTYPES, WxEvents } from '@mito/shared'
-import { Breadcrumb, TransportData, Options } from '@mito/core'
+import { EVENTTYPES, WxEvents } from '@mitojs/shared'
+import { Breadcrumb, TransportData, Options } from '@mitojs/core'
 import { Logger } from './logger'
 import { variableTypeDetection } from './is'
 
@@ -21,7 +21,8 @@ interface MITOGlobal {
 export const isNodeEnv = variableTypeDetection.isProcess(typeof process !== 'undefined' ? process : 0)
 
 export const isWxMiniEnv =
-  variableTypeDetection.isObject(typeof wx !== 'undefined' ? wx : 0) && variableTypeDetection.isFunction(typeof App !== 'undefined' ? App : 0)
+  variableTypeDetection.isObject(typeof wx !== 'undefined' ? wx : 0) &&
+  variableTypeDetection.isFunction(typeof App !== 'undefined' ? App : 0)
 
 export const isBrowserEnv = variableTypeDetection.isWindow(typeof window !== 'undefined' ? window : 0)
 /**

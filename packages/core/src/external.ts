@@ -1,8 +1,17 @@
-import { ERRORTYPES, BREADCRUMBTYPES } from '@mito/shared'
-import { isError, extractErrorStack, getLocationHref, getTimestamp, unknownToString, isWxMiniEnv, Severity, getCurrentRoute } from '@mito/utils'
+import { ERRORTYPES, BREADCRUMBTYPES } from '@mitojs/shared'
+import {
+  isError,
+  extractErrorStack,
+  getLocationHref,
+  getTimestamp,
+  unknownToString,
+  isWxMiniEnv,
+  Severity,
+  getCurrentRoute
+} from '@mitojs/utils'
 import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
-import { TNumStrObj } from '@mito/types'
+import { TNumStrObj } from '@mitojs/types'
 
 interface LogTypes {
   message: TNumStrObj

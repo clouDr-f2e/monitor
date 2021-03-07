@@ -1,5 +1,5 @@
-import { getFlag, setFlag, slientConsoleScope, Severity } from '@mito/utils'
-import { EVENTTYPES } from '@mito/shared'
+import { getFlag, setFlag, slientConsoleScope, Severity } from '@mitojs/utils'
+import { EVENTTYPES } from '@mitojs/shared'
 import { VueInstance, ViewModel } from './types'
 import { handleVueError } from './helper'
 

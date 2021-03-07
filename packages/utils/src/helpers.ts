@@ -1,5 +1,5 @@
-import { IAnyObject, IntegrationError } from '@mito/types'
-import { globalVar, HTTP_CODE, ERRORTYPES } from '@mito/shared'
+import { IAnyObject, IntegrationError } from '@mitojs/types'
+import { globalVar, HTTP_CODE, ERRORTYPES } from '@mitojs/shared'
 import { logger } from './logger'
 import { nativeToString, variableTypeDetection } from './is'
 
@@ -21,7 +21,12 @@ type TotalEventName = keyof GlobalEventHandlersEventMap | keyof XMLHttpRequestEv
  * ../param {(boolean | Object)} opitons
  * ../returns
  */
-export function on(target: { addEventListener: Function }, eventName: TotalEventName, handler: Function, opitons: boolean | unknown = false): void {
+export function on(
+  target: { addEventListener: Function },
+  eventName: TotalEventName,
+  handler: Function,
+  opitons: boolean | unknown = false
+): void {
   target.addEventListener(eventName, handler, opitons)
 }
 

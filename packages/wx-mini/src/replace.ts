@@ -1,18 +1,10 @@
-import { options as sdkOptions, ReplaceHandler, setTraceId, subscribeEvent, transportData, triggerHandlers } from '@mito/core'
-import {
-  WxAppEvents,
-  WxPageEvents,
-  WxRouteEvents,
-  WxEvents,
-  EVENTTYPES,
-  HTTPTYPE,
-  voidFun
-} from '@mito/shared'
-import { getTimestamp, replaceOld, throttle, getFlag, isEmptyObject, variableTypeDetection, getCurrentRoute } from '@mito/utils'
+import { options as sdkOptions, ReplaceHandler, setTraceId, subscribeEvent, transportData, triggerHandlers } from '@mitojs/core'
+import { WxAppEvents, WxPageEvents, WxRouteEvents, WxEvents, EVENTTYPES, HTTPTYPE, voidFun } from '@mitojs/shared'
+import { getTimestamp, replaceOld, throttle, getFlag, isEmptyObject, variableTypeDetection, getCurrentRoute } from '@mitojs/utils'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
-import { MITOHttp } from '@mito/types'
-import { EMethods } from '@mito/types'
-import {  getNavigateBackTargetUrl } from './utils'
+import { MITOHttp } from '@mitojs/types'
+import { EMethods } from '@mitojs/types'
+import { getNavigateBackTargetUrl } from './utils'
 import { ELinstenerTypes } from './constant'
 import { MiniRoute } from './types'
 
@@ -89,7 +81,9 @@ const pageLifeMethods = [
  * 监听配置项下的页面生命周期函数
  */
 function replacePageLifeMethods(
-  options: WechatMiniprogram.Page.Options<WechatMiniprogram.Page.DataOption, WechatMiniprogram.Page.CustomOption> | WechatMiniprogram.Component.MethodOption
+  options:
+    | WechatMiniprogram.Page.Options<WechatMiniprogram.Page.DataOption, WechatMiniprogram.Page.CustomOption>
+    | WechatMiniprogram.Component.MethodOption
 ) {
   pageLifeMethods.forEach((method) => {
     replaceOld(
@@ -173,7 +167,9 @@ export function replaceBehavior() {
  * 监听配置项下的手势处理方法
  */
 function replaceAction(
-  options: WechatMiniprogram.Page.Options<WechatMiniprogram.Page.DataOption, WechatMiniprogram.Page.CustomOption> | WechatMiniprogram.Component.MethodOption
+  options:
+    | WechatMiniprogram.Page.Options<WechatMiniprogram.Page.DataOption, WechatMiniprogram.Page.CustomOption>
+    | WechatMiniprogram.Component.MethodOption
 ) {
   function gestureTrigger(e) {
     e.mitoWorked = true // 给事件对象增加特殊的标记，避免被无限透传
@@ -317,7 +313,13 @@ export function replaceNetwork() {
 
 // wx Route
 export function replaceRoute() {
-  const methods = [WxRouteEvents.SwitchTab, WxRouteEvents.ReLaunch, WxRouteEvents.RedirectTo, WxRouteEvents.NavigateTo, WxRouteEvents.NavigateBack]
+  const methods = [
+    WxRouteEvents.SwitchTab,
+    WxRouteEvents.ReLaunch,
+    WxRouteEvents.RedirectTo,
+    WxRouteEvents.NavigateTo,
+    WxRouteEvents.NavigateBack
+  ]
   methods.forEach((method) => {
     const originMethod = wx[method] as Function
     Object.defineProperty(wx, method, {

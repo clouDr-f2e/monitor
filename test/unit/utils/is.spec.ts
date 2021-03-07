@@ -1,4 +1,4 @@
-import { isEmpty } from '@mito/utils'
+import { isEmpty } from '@mitojs/utils'
 
 describe('is.ts', () => {
   it('should isEmpty func work', () => {

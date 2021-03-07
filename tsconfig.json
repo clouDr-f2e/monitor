@@ -15,7 +15,7 @@
     "removeComments": true, // 是否移除注释
     "forceConsistentCasingInFileNames": true, //禁止对同一个文件的不一致的引用。
     "paths": { // 指定模块的路径，和baseUrl有关联
-      "@mito/*": [
+      "@mitojs/*": [
         "packages/*/src/"
       ],
       "@/test/*": [
@@ -33,11 +33,11 @@
     // "outDir": "./dist/", // 输出目录
     "declaration": true, // 是否自动创建类型声明文件
     "declarationMap": true,
-    // "declarationDir": "./dist/types/", // 类型声明文件的输出目录
+    // "declarationDir": "./dist/packages/", // 类型声明文件的输出目录
     "typeRoots": [ // 指定某个文件夹的声明文件
       "node_modules/@types"
     ],
-    "allowJs": true, // 允许编译javascript文件。
+    "allowJs": false, // 不允许编译javascript文件。
     "lib": [ // 编译过程中需要引入的库文件的列表
       "es6",
       "dom"

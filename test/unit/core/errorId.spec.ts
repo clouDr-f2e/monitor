@@ -1,7 +1,7 @@
-import { ERRORTYPES } from '@mito/shared'
-import { createErrorId, getFlutterRealOrigin, getFlutterRealPath, getRealPageOrigin, getRealPath } from '@mito/core'
-import { ReportDataType } from '@mito/types'
-import { isWxMiniEnv, Severity } from '@mito/utils'
+import { ERRORTYPES } from '@mitojs/shared'
+import { createErrorId, getFlutterRealOrigin, getFlutterRealPath, getRealPageOrigin, getRealPath } from '@mitojs/core'
+import { ReportDataType } from '@mitojs/types'
+import { isWxMiniEnv, Severity } from '@mitojs/utils'
 
 describe('errorId.ts', () => {
   const apikey = '13213-1231-1231'

@@ -1,5 +1,5 @@
 {
-  "name": "@mito/utils",
+  "name": "@mitojs/utils",
   "version": "1.0.0",
   "description": "A SDK for monitoring browser errors",
   "author": "cjinhuo",

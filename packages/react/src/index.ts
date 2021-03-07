@@ -1,7 +1,7 @@
-import { BREADCRUMBTYPES, ERRORTYPES } from '@mito/shared'
-import { isError, extractErrorStack, Severity } from '@mito/utils'
-import { breadcrumb, transportData } from '@mito/core'
-import { ReportDataType } from '@mito/types'
+import { BREADCRUMBTYPES, ERRORTYPES } from '@mitojs/shared'
+import { isError, extractErrorStack, Severity } from '@mitojs/utils'
+import { breadcrumb, transportData } from '@mitojs/core'
+import { ReportDataType } from '@mitojs/types'
 
 /**
  * 收集react ErrorBoundary中的错误对象
