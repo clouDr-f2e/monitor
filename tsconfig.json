@@ -43,8 +43,9 @@
       "dom"
     ]
   },
-  "exclude": [
-    "node_modules",
-    "script"
+  "include": [
+    "packages",
+    "mito",
+    "test"
   ],
 }

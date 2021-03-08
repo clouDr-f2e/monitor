@@ -13,7 +13,7 @@
   "dependencies": {
     "@mitojs/utils": "1.0.0",
     "@mitojs/core": "1.0.0",
-    "@mitojs/shared": "1.0.1",
+    "@mitojs/shared": "1.0.0",
     "@mitojs/types": "1.0.0"
   },
   "buildOptions": {

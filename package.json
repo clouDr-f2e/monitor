@@ -6,15 +6,14 @@
   "scripts": {
     "build": "node script/build.js",
     "release": "node script/release.js",
-    "watch:wx": "rollup --config wx.rollup.config.js --watch",
-    "company": "rollup  --config src/company/browser/rollup.company.js",
-    "company:wx": "rollup  --config src/company/wx-mini/rollup.wx.company.js",
     "examples": "cross-env NODE_ENV=demo ts-node ./examples/server/index.ts",
     "e2e": "`nohup ts-node ./examples/server/index.ts >/dev/null 2>&1 &` && jest --config jest.config.ts",
     "unit": "jest --config jsdom.jest.config.ts",
     "test": " npm run unit && npm run e2e",
     "test:watch": "jest --watch",
-    "format": "prettier --write --parser typescript \"packages/**/*.ts?(x)\""
+    "format": "prettier --write -,-parser typescript \"packages/**/*.ts?(x)\"",
+    "company": "rollup  --config mito/web/rollup.company.js",
+    "company:wx": "rollup  --config mito/wx-mini/rollup.wx.company.js"
   },
   "repository": {
     "type": "git",

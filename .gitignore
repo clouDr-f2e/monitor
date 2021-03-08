@@ -3,12 +3,11 @@ dist
 node_modules
 coverage
 temp
+mito
 
 # test
 coverage
 .idea
-
-packages/company
 
 packages/**/dist
 packages/*/node_modules
