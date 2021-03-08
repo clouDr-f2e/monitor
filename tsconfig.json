@@ -32,7 +32,7 @@
     "module": "CommonJS", // 当前代码语法
     // "outDir": "./dist/", // 输出目录
     "declaration": true, // 是否自动创建类型声明文件
-    "declarationMap": true,
+    // "declarationMap": true,
     // "declarationDir": "./dist/packages/", // 类型声明文件的输出目录
     "typeRoots": [ // 指定某个文件夹的声明文件
       "node_modules/@types"
