@@ -14,26 +14,23 @@
 
 </div>
 
+## 功能
 
-## 功能特性
 - [x] 🔨监听请求错误
 - [x] 🔨console
 - [x] 🔨路由跳转
 - [x] 🔨代码报错
 - [x] 🔨click、wx:tab、touchmove
 - [x] 🔨资源加载错误
-- [x] 🏅自定义上报错误
+- [x] 🏅自定义上报错误 
 - [x] 🚀丰富的hooks与配置项支持可高定制化
 - [x] 🌝支持IE8和安卓5以上
 - [x] 👌持续迭代与更新
-- [x] 支持react@next
-- [x] 支持Vue2.6
-- [x] 支持Vue3.0
 - [x] 完善的e2e测试
-- [x] 支持原生微信小程序
-- [x] 支持uni-app等微信小程序框架
 - [x] 完善的单元测试（coding）
-
+- [x] 支持原生Web [@mitojs/browser](https://github.com/clouDr-f2e/mitojs/tree/master/packages/browser)
+- [x] 支持Web框架（Vue3、Vue2、React@Next） [@mitojs/web](https://github.com/clouDr-f2e/mitojs/tree/master/packages/web)
+- [x] 支持原生微信小程序、支持uni-app等微信小程序框架 [@mitojs/wx-mini](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini)
 
 
 ### 在线运行例子
