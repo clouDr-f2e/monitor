@@ -4,10 +4,9 @@
     </a>
     <p>一款轻量级的收集页面的用户点击行为、路由跳转、接口报错、代码报错、并上报服务端的SDK</p>
 
-[![npm version](https://img.shields.io/npm/v/@zyf2e/mitojs.svg?style=flat-square)](https://www.npmjs.org/package/@zyf2e/mitojs)
-[![install size](https://packagephobia.now.sh/badge?p=@zyf2e/mitojs)](https://packagephobia.now.sh/result?p=@zyf2e/mitojs)
-[![npm downloads](https://img.shields.io/npm/dm/@zyf2e/mitojs.svg?style=flat-square)](http://npm-stat.com/charts.html?package=@zyf2e/mitojs)
-[![build status](https://img.shields.io/travis/clouDr-f2e/mitojs/master.svg?style=flat-square)](https://travis-ci.com/github/clouDr-f2e/mitojs)
+[![npm version](https://img.shields.io/npm/v/@zyf2e/mitojs.svg?style=flat-square)](https://www.npmjs.com/package/@mitojs/web)
+<!-- [![npm downloads](https://img.shields.io/npm/dm/@zyf2e/mitojs.svg?style=flat-square)](http://npm-stat.com/charts.html?package=@zyf2e/mitojs) -->
+<!-- [![build status](https://img.shields.io/travis/clouDr-f2e/mitojs/master.svg?style=flat-square)](https://travis-ci.com/github/clouDr-f2e/mitojs) -->
 [![license](https://img.shields.io/github/license/clouDr-f2e/mitojs)](https://github.com/clouDr-f2e/mitojs/blob/dev/LICENSE)
 [![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![codecov](https://codecov.io/gh/clouDr-f2e/mitojs/branch/master/graph/badge.svg?token=W7JP5GDOM7)](https://codecov.io/gh/clouDr-f2e/mitojs)
@@ -81,17 +80,17 @@ $ yarn add @mitojs/wx-mini
 一开始只有`@zyf2e/mitojs`一个包，里面包含了原生浏览器、Vue、React、微信小程序的所有监控代码，使用起来比较简单，但是微信小程序的包是有大小限制，所以想要尽量限制`mitojs`的大小，所以花了点时间分包，分成：
 
 * `@mitojs/core`
-* ``@mitojs/shared`
+* `@mitojs/shared`
 * `@mitojs/browser`
-* ``@mitojs/vue`
+* `@mitojs/vue`
 * `@mitojs/react`
-* ``@mitojs/wx-mini`
+* `@mitojs/wx-mini`
 * `@mitojs/web`
 
 优势：
 
 1. 为了减少包大小
-2. 后续好维护，方便添加新功能：埋点SDK
+2. 后续好维护，方便添加新功能，如：埋点SDK、node监控
 
 ### 迁移
 
