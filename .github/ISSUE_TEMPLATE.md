@@ -14,7 +14,7 @@ A clear and concise description of what the bug is.
 A clear and concise description of what you expected to happen.
 
 **Information**
- - Mitojs Version [e.g. v1.0.0]
+ - Mitojs Version [e.g. v2.0.0]
  - Environment: [e.g. Vue2.6、Vue3.0、React17.0]
  - Error info stack [e.g. MITO is not defined]
 
