@@ -160,7 +160,7 @@ MITO.init({
 **如果你想要使用ErrorBoundary**
 
 ```js
-import * as MITO from '@zyf2e/mitojs';
+import * as MITO from '@mitojs/web';
 import React from 'react';
 
 class ErrorBoundary extends React.Component {
