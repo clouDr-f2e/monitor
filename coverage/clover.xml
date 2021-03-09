@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1615127277850" clover="3.2.0">
-  <project timestamp="1615127277850" name="All files">
+<coverage generated="1615277395958" clover="3.2.0">
+  <project timestamp="1615277395958" name="All files">
     <metrics statements="911" coveredstatements="711" conditionals="531" coveredconditionals="300" methods="176" coveredmethods="126" elements="1618" coveredelements="1137" complexity="0" loc="911" ncloc="911" packages="5" files="28" classes="28"/>
     <package name="browser.src">
       <metrics statements="204" coveredstatements="86" conditionals="106" coveredconditionals="25" methods="53" coveredmethods="18"/>
-      <file name="handleEvents.ts" path="/Users/ks/Desktop/mitojs/packages/browser/src/handleEvents.ts">
+      <file name="handleEvents.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/browser/src/handleEvents.ts">
         <metrics statements="45" coveredstatements="11" conditionals="23" coveredconditionals="5" methods="6" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -52,7 +52,7 @@
         <line num="136" count="0" type="stmt"/>
         <line num="140" count="2" type="stmt"/>
       </file>
-      <file name="index.ts" path="/Users/ks/Desktop/mitojs/packages/browser/src/index.ts">
+      <file name="index.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/browser/src/index.ts">
         <metrics statements="14" coveredstatements="14" conditionals="8" coveredconditionals="5" methods="5" coveredmethods="2"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -69,7 +69,7 @@
         <line num="16" count="1" type="stmt"/>
         <line num="19" count="2" type="stmt"/>
       </file>
-      <file name="load.ts" path="/Users/ks/Desktop/mitojs/packages/browser/src/load.ts">
+      <file name="load.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/browser/src/load.ts">
         <metrics statements="24" coveredstatements="14" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -96,7 +96,7 @@
         <line num="58" count="1" type="stmt"/>
         <line num="60" count="0" type="stmt"/>
       </file>
-      <file name="replace.ts" path="/Users/ks/Desktop/mitojs/packages/browser/src/replace.ts">
+      <file name="replace.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/browser/src/replace.ts">
         <metrics statements="121" coveredstatements="47" conditionals="73" coveredconditionals="15" methods="33" coveredmethods="14"/>
         <line num="1" count="2" type="stmt"/>
         <line num="12" count="2" type="stmt"/>
@@ -223,7 +223,7 @@
     </package>
     <package name="core.src">
       <metrics statements="256" coveredstatements="220" conditionals="160" coveredconditionals="99" methods="50" coveredmethods="42"/>
-      <file name="breadcrumb.ts" path="/Users/ks/Desktop/mitojs/packages/core/src/breadcrumb.ts">
+      <file name="breadcrumb.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/core/src/breadcrumb.ts">
         <metrics statements="42" coveredstatements="41" conditionals="36" coveredconditionals="27" methods="10" coveredmethods="10"/>
         <line num="1" count="8" type="stmt"/>
         <line num="2" count="8" type="stmt"/>
@@ -268,7 +268,7 @@
         <line num="85" count="8" type="cond" truecount="2" falsecount="0"/>
         <line num="86" count="8" type="stmt"/>
       </file>
-      <file name="errorId.ts" path="/Users/ks/Desktop/mitojs/packages/core/src/errorId.ts">
+      <file name="errorId.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/core/src/errorId.ts">
         <metrics statements="60" coveredstatements="46" conditionals="23" coveredconditionals="14" methods="11" coveredmethods="9"/>
         <line num="1" count="8" type="stmt"/>
         <line num="2" count="8" type="stmt"/>
@@ -331,7 +331,7 @@
         <line num="137" count="510" type="stmt"/>
         <line num="139" count="13" type="stmt"/>
       </file>
-      <file name="external.ts" path="/Users/ks/Desktop/mitojs/packages/core/src/external.ts">
+      <file name="external.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/core/src/external.ts">
         <metrics statements="11" coveredstatements="10" conditionals="12" coveredconditionals="6" methods="1" coveredmethods="1"/>
         <line num="1" count="8" type="stmt"/>
         <line num="2" count="8" type="stmt"/>
@@ -345,7 +345,7 @@
         <line num="44" count="1" type="stmt"/>
         <line num="50" count="1" type="stmt"/>
       </file>
-      <file name="index.ts" path="/Users/ks/Desktop/mitojs/packages/core/src/index.ts">
+      <file name="index.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/core/src/index.ts">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="8" type="stmt"/>
         <line num="2" count="8" type="stmt"/>
@@ -356,7 +356,7 @@
         <line num="7" count="8" type="stmt"/>
         <line num="8" count="8" type="stmt"/>
       </file>
-      <file name="options.ts" path="/Users/ks/Desktop/mitojs/packages/core/src/options.ts">
+      <file name="options.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/core/src/options.ts">
         <metrics statements="27" coveredstatements="27" conditionals="21" coveredconditionals="16" methods="5" coveredmethods="5"/>
         <line num="2" count="8" type="stmt"/>
         <line num="3" count="8" type="stmt"/>
@@ -386,7 +386,7 @@
         <line num="45" count="1" type="stmt"/>
         <line num="48" count="8" type="stmt"/>
       </file>
-      <file name="subscribe.ts" path="/Users/ks/Desktop/mitojs/packages/core/src/subscribe.ts">
+      <file name="subscribe.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/core/src/subscribe.ts">
         <metrics statements="14" coveredstatements="13" conditionals="10" coveredconditionals="9" methods="5" coveredmethods="4"/>
         <line num="2" count="8" type="stmt"/>
         <line num="10" count="8" type="stmt"/>
@@ -403,7 +403,7 @@
         <line num="25" count="1" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
       </file>
-      <file name="transformData.ts" path="/Users/ks/Desktop/mitojs/packages/core/src/transformData.ts">
+      <file name="transformData.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/core/src/transformData.ts">
         <metrics statements="19" coveredstatements="17" conditionals="14" coveredconditionals="9" methods="3" coveredmethods="2"/>
         <line num="1" count="8" type="stmt"/>
         <line num="2" count="8" type="stmt"/>
@@ -425,7 +425,7 @@
         <line num="57" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="58" count="0" type="stmt"/>
       </file>
-      <file name="transportData.ts" path="/Users/ks/Desktop/mitojs/packages/core/src/transportData.ts">
+      <file name="transportData.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/core/src/transportData.ts">
         <metrics statements="75" coveredstatements="58" conditionals="44" coveredconditionals="18" methods="15" coveredmethods="11"/>
         <line num="1" count="8" type="stmt"/>
         <line num="2" count="8" type="stmt"/>
@@ -506,13 +506,13 @@
     </package>
     <package name="shared.src">
       <metrics statements="87" coveredstatements="87" conditionals="18" coveredconditionals="18" methods="9" coveredmethods="9"/>
-      <file name="config.ts" path="/Users/ks/Desktop/mitojs/packages/shared/src/config.ts">
+      <file name="config.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/shared/src/config.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="16" type="stmt"/>
         <line num="2" count="16" type="stmt"/>
         <line num="3" count="16" type="stmt"/>
       </file>
-      <file name="constant.ts" path="/Users/ks/Desktop/mitojs/packages/shared/src/constant.ts">
+      <file name="constant.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/shared/src/constant.ts">
         <metrics statements="82" coveredstatements="82" conditionals="18" coveredconditionals="18" methods="9" coveredmethods="9"/>
         <line num="5" count="16" type="cond" truecount="2" falsecount="0"/>
         <line num="6" count="16" type="stmt"/>
@@ -597,7 +597,7 @@
         <line num="125" count="16" type="stmt"/>
         <line num="129" count="16" type="stmt"/>
       </file>
-      <file name="index.ts" path="/Users/ks/Desktop/mitojs/packages/shared/src/index.ts">
+      <file name="index.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/shared/src/index.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="16" type="stmt"/>
         <line num="2" count="16" type="stmt"/>
@@ -605,7 +605,7 @@
     </package>
     <package name="types.src">
       <metrics statements="10" coveredstatements="10" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-      <file name="index.ts" path="/Users/ks/Desktop/mitojs/packages/types/src/index.ts">
+      <file name="index.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/types/src/index.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="8" type="stmt"/>
         <line num="2" count="8" type="stmt"/>
@@ -613,7 +613,7 @@
         <line num="4" count="8" type="stmt"/>
         <line num="5" count="8" type="stmt"/>
       </file>
-      <file name="options.ts" path="/Users/ks/Desktop/mitojs/packages/types/src/options.ts">
+      <file name="options.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/types/src/options.ts">
         <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="8" count="8" type="cond" truecount="2" falsecount="0"/>
         <line num="9" count="8" type="stmt"/>
@@ -624,7 +624,7 @@
     </package>
     <package name="utils.src">
       <metrics statements="354" coveredstatements="308" conditionals="245" coveredconditionals="156" methods="63" coveredmethods="56"/>
-      <file name="Severity.ts" path="/Users/ks/Desktop/mitojs/packages/utils/src/Severity.ts">
+      <file name="Severity.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/utils/src/Severity.ts">
         <metrics statements="18" coveredstatements="18" conditionals="16" coveredconditionals="15" methods="3" coveredmethods="3"/>
         <line num="2" count="16" type="cond" truecount="2" falsecount="0"/>
         <line num="3" count="16" type="stmt"/>
@@ -645,7 +645,7 @@
         <line num="39" count="6" type="stmt"/>
         <line num="41" count="1" type="stmt"/>
       </file>
-      <file name="browser.ts" path="/Users/ks/Desktop/mitojs/packages/utils/src/browser.ts">
+      <file name="browser.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/utils/src/browser.ts">
         <metrics statements="74" coveredstatements="58" conditionals="75" coveredconditionals="35" methods="4" coveredmethods="4"/>
         <line num="1" count="16" type="stmt"/>
         <line num="2" count="16" type="stmt"/>
@@ -722,7 +722,7 @@
         <line num="162" count="0" type="stmt"/>
         <line num="164" count="1" type="stmt"/>
       </file>
-      <file name="exception.ts" path="/Users/ks/Desktop/mitojs/packages/utils/src/exception.ts">
+      <file name="exception.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/utils/src/exception.ts">
         <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="8" count="16" type="stmt"/>
         <line num="9" count="3" type="stmt"/>
@@ -731,7 +731,7 @@
         <line num="13" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="14" count="1" type="stmt"/>
       </file>
-      <file name="global.ts" path="/Users/ks/Desktop/mitojs/packages/utils/src/global.ts">
+      <file name="global.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/utils/src/global.ts">
         <metrics statements="26" coveredstatements="24" conditionals="32" coveredconditionals="19" methods="5" coveredmethods="5"/>
         <line num="4" count="16" type="stmt"/>
         <line num="21" count="16" type="cond" truecount="1" falsecount="1"/>
@@ -760,7 +760,7 @@
         <line num="72" count="1" type="cond" truecount="3" falsecount="0"/>
         <line num="74" count="1" type="cond" truecount="2" falsecount="0"/>
       </file>
-      <file name="helpers.ts" path="/Users/ks/Desktop/mitojs/packages/utils/src/helpers.ts">
+      <file name="helpers.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/utils/src/helpers.ts">
         <metrics statements="100" coveredstatements="85" conditionals="61" coveredconditionals="43" methods="23" coveredmethods="19"/>
         <line num="2" count="16" type="stmt"/>
         <line num="3" count="16" type="stmt"/>
@@ -863,7 +863,7 @@
         <line num="245" count="3" type="stmt"/>
         <line num="253" count="1" type="stmt"/>
       </file>
-      <file name="httpStatus.ts" path="/Users/ks/Desktop/mitojs/packages/utils/src/httpStatus.ts">
+      <file name="httpStatus.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/utils/src/httpStatus.ts">
         <metrics statements="37" coveredstatements="37" conditionals="23" coveredconditionals="23" methods="2" coveredmethods="2"/>
         <line num="2" count="16" type="cond" truecount="2" falsecount="0"/>
         <line num="4" count="16" type="stmt"/>
@@ -903,7 +903,7 @@
         <line num="72" count="1" type="stmt"/>
         <line num="76" count="1" type="stmt"/>
       </file>
-      <file name="index.ts" path="/Users/ks/Desktop/mitojs/packages/utils/src/index.ts">
+      <file name="index.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/utils/src/index.ts">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="16" type="stmt"/>
         <line num="2" count="16" type="stmt"/>
@@ -916,7 +916,7 @@
         <line num="9" count="16" type="stmt"/>
         <line num="10" count="16" type="stmt"/>
       </file>
-      <file name="is.ts" path="/Users/ks/Desktop/mitojs/packages/utils/src/is.ts">
+      <file name="is.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/utils/src/is.ts">
         <metrics statements="20" coveredstatements="15" conditionals="10" coveredconditionals="5" methods="7" coveredmethods="6"/>
         <line num="1" count="16" type="stmt"/>
         <line num="3" count="176" type="stmt"/>
@@ -939,7 +939,7 @@
         <line num="85" count="16" type="stmt"/>
         <line num="86" count="1" type="stmt"/>
       </file>
-      <file name="logger.ts" path="/Users/ks/Desktop/mitojs/packages/utils/src/logger.ts">
+      <file name="logger.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/utils/src/logger.ts">
         <metrics statements="35" coveredstatements="30" conditionals="18" coveredconditionals="10" methods="10" coveredmethods="9"/>
         <line num="1" count="16" type="stmt"/>
         <line num="2" count="16" type="stmt"/>
@@ -977,12 +977,12 @@
         <line num="52" count="16" type="cond" truecount="2" falsecount="0"/>
         <line num="53" count="16" type="stmt"/>
       </file>
-      <file name="mini.ts" path="/Users/ks/Desktop/mitojs/packages/utils/src/mini.ts">
+      <file name="mini.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/utils/src/mini.ts">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="16" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
       </file>
-      <file name="queue.ts" path="/Users/ks/Desktop/mitojs/packages/utils/src/queue.ts">
+      <file name="queue.ts" path="/Users/ks/Desktop/tryCatch/mitojs/packages/utils/src/queue.ts">
         <metrics statements="26" coveredstatements="24" conditionals="8" coveredconditionals="5" methods="7" coveredmethods="7"/>
         <line num="2" count="16" type="stmt"/>
         <line num="3" count="16" type="stmt"/>

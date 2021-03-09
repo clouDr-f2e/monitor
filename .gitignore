@@ -1,13 +1,16 @@
-dist
 .DS_Store
 node_modules
-coverage
-temp
+
+#company
 mito
 
 # test
 coverage
 .idea
 
-packages/**/dist
+# api-extractor
+temp
+dist
+
+packages/*/dist
 packages/*/node_modules
