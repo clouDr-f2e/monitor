@@ -17,3 +17,9 @@
 
 ### external
 手动上报错误
+
+### transform
+公共的格式转换函数
+
+### transport
+日志上报类

@@ -4,12 +4,12 @@
     </a>
     <p>一款轻量级的收集页面的用户点击行为、路由跳转、接口报错、代码报错、并上报服务端的SDK</p>
 
-[![npm version](https://img.shields.io/npm/v/@zyf2e/mitojs.svg?style=flat-square)](https://www.npmjs.com/package/@mitojs/web)
-<!-- [![npm downloads](https://img.shields.io/npm/dm/@zyf2e/mitojs.svg?style=flat-square)](http://npm-stat.com/charts.html?package=@zyf2e/mitojs) -->
-<!-- [![build status](https://img.shields.io/travis/clouDr-f2e/mitojs/master.svg?style=flat-square)](https://travis-ci.com/github/clouDr-f2e/mitojs) -->
+[![npm version](https://img.shields.io/npm/v/@mitojs/web.svg?style=flat-square)](https://www.npmjs.com/package/@mitojs/web)
 [![license](https://img.shields.io/github/license/clouDr-f2e/mitojs)](https://github.com/clouDr-f2e/mitojs/blob/dev/LICENSE)
 [![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![codecov](https://codecov.io/gh/clouDr-f2e/mitojs/branch/master/graph/badge.svg?token=W7JP5GDOM7)](https://codecov.io/gh/clouDr-f2e/mitojs)
+<!-- [![npm downloads](https://img.shields.io/npm/dm/@zyf2e/mitojs.svg?style=flat-square)](http://npm-stat.com/charts.html?package=@zyf2e/mitojs) -->
+<!-- [![build status](https://img.shields.io/travis/clouDr-f2e/mitojs/master.svg?style=flat-square)](https://travis-ci.com/github/clouDr-f2e/mitojs) -->
 
 </div>
 
