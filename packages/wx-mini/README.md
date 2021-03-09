@@ -11,11 +11,11 @@
 **main.js**
 
 ```js
-import MITO from '@mitojs/wx-mini';
+import {init, MitoVue} from '@mitojs/wx-mini';
 import Vue from 'vue';
 // 捕捉Vue框架抛出的错误
-Vue.use(MITO.MitoVue);
-MITO.init({
+Vue.use(MitoVue);
+init({
   // 服务器接口地址
   dsn: 'http://test.com/error',
   // 项目对应apikey

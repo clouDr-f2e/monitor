@@ -8,3 +8,5 @@ export function init(options: InitOptions = {}) {
   setupReplace()
   Object.assign(wx, { mitoLog: log })
 }
+
+export { log }

@@ -1,6 +1,6 @@
 {
   "name": "@mitojs/wx-mini",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A SDK For Monitoring wx-mini Errors",
   "author": "cjinhuo",
   "license": "MIT",

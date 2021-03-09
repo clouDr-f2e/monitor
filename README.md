@@ -27,14 +27,72 @@
 - [x] 🌝支持IE8和安卓5以上
 - [x] 👌持续迭代与更新
 - [x] 完善的e2e测试
-- [x] 完善的单元测试（coding）
+- [x] 完善的单元测试（77%~coding）
 - [x] 支持原生Web [@mitojs/browser](https://github.com/clouDr-f2e/mitojs/tree/master/packages/browser)
 - [x] 支持Web框架（Vue3、Vue2、React@Next） [@mitojs/web](https://github.com/clouDr-f2e/mitojs/tree/master/packages/web)
 - [x] 支持原生微信小程序、支持uni-app等微信小程序框架 [@mitojs/wx-mini](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini)
 
 
-### 在线运行例子
-[mito-在线demo](https://static.91jkys.com/web/mito-vue-demo/#/demo/one)
+
+## 安装
+
+### web
+
+#### 使用npm
+
+```bash
+$ npm i @mitojs/web	
+```
+
+### 使用yarn
+
+```bash
+$ yarn add @mitojs/web
+```
+
+#### 使用CDN
+
+```javascript
+<script src="https://cdn.jsdelivr.net/npm/@mitojs/web/dist/web.min.js"></script>
+```
+
+
+
+### wx-mini
+
+#### 使用npm
+
+```bash
+$ npm i @mitojs/wx-mini
+```
+
+### 使用yarn
+
+```bash
+$ yarn add @mitojs/wx-mini
+```
+
+#### 使用CDN
+
+```javascript
+<script src="https://cdn.jsdelivr.net/npm/@mitojs/wx-mini/dist/wx-mini.js"></script>
+```
+
+## 使用指南
+
+[使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md)
+
+
+
+## hooks与配置项
+
+[hooks与配置项](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md)
+
+
+
+
+### 示例
+[mitojs-在线demo](https://static.91jkys.com/web/mito-vue-demo/#/demo/one)
 
 ![mito-在线demo](https://tva1.sinaimg.cn/large/008eGmZEly1gmxgn4y1sag315g0m2hdt.gif)
 
@@ -53,17 +111,6 @@
 
 [wx-mini-在线示例](https://static.91jkys.com/f2e/mito-error-example/#/errors/4/info)
 
-
-
-## 使用指南
-
-[使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md)
-
-## hooks和配置项
-[使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md)
-
-
-
 ## issue
 
 欢迎所有人提`issue`，如果有什么好的建议和问题可以直接联系本人微信（备注mitojs）：
@@ -73,5 +120,7 @@
 
 
 
+
+## 🤝 Contributing [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 

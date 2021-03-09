@@ -23,11 +23,11 @@
 
 ### 使用npm
 
-`npm i @zyf2e/mitojs`
+`npm i @mitojs/web`
 
 ### 使用CDN
 
-`<script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.min.js"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@mitojs/web/dist/web.min.js"></script>`
 
 ## Vue
 
@@ -36,7 +36,7 @@
 **main.js**
 
 ```javascript
-import MITO from '@zyf2e/mitojs'
+import * as MITO from '@mitojs/web'
 import Vue from 'vue'
 Vue.use(MITO.MitoVue)
 MITO.init({
@@ -60,7 +60,7 @@ window.Vue = Vue
 
 ```js
     <header>
-      <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@mitojs/web/dist/web.min.js"></script>
       <script>
         Vue.use(MITO.MitoVue)
         MITO.init({
@@ -79,7 +79,7 @@ window.Vue = Vue
 ```javascript
 import App from './App.vue';
 import {createApp} from 'vue';
-import MITO from '@zyf2e/mitojs'
+import MITO from '@mitojs/web'
 const app = createApp(App);
 app.use(MITO.MitoVue)
 MITO.init({
@@ -108,7 +108,7 @@ app.mount('#app');
 
 ```js
     <header>
-      <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@mitojs/web/dist/web.min.js"></script>
       <script>
         Vue.use(MITO.MitoVue)
         MITO.init({
@@ -131,7 +131,7 @@ app.mount('#app');
 
 ```html
 <header>
-  <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mitojs/web/dist/web.min.js"></script>
   <script>
     MITO.init({
       // 服务器地址
@@ -146,7 +146,7 @@ app.mount('#app');
 ### NPM包形式
 
 ```js
-import MITO from '@zyf2e/mitojs';
+import * as MITO from '@mitojs/web';
 MITO.init({
   // 服务器接口地址
   dsn: 'http://test.com/error',
@@ -160,7 +160,7 @@ MITO.init({
 **如果你想要使用ErrorBoundary**
 
 ```js
-import MITO from '@zyf2e/mitojs';
+import * as MITO from '@zyf2e/mitojs';
 import React from 'react';
 
 class ErrorBoundary extends React.Component {
@@ -196,7 +196,7 @@ class ErrorBoundary extends React.Component {
 
 ```html
 <header>
-  <script src="https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mitojs/browser/dist/browser.min.js"></script>
   <script>
     MITO.init({
       // 服务器地址
@@ -216,15 +216,16 @@ class ErrorBoundary extends React.Component {
 
 如果你用类似`uni-app`框架，推荐使用`npm包`的形式来引入（v1.2.4以上支持微信小程序）
 
-`npm i @zyf2e/mitojs`
+`npm i @mitojs/wx-mini @mitojs/vue`
 
 **main.js**
 
 ```js
-import MITO from '@zyf2e/mitojs';
+import * as MITO from '@mitojs/wx-mini';
+import { MitoVue } from '@mitojs/vue'
 import Vue from 'vue';
 // 捕捉Vue框架抛出的错误
-Vue.use(MITO.MitoVue);
+Vue.use(MitoVue);
 MITO.init({
   // 服务器接口地址
   dsn: 'http://test.com/error',
@@ -235,7 +236,7 @@ MITO.init({
 
 ### 本地文件形式
 
-如果你是开发原生微信小程序的话，推荐将[https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.js](https://cdn.jsdelivr.net/npm/@zyf2e/mitojs/dist/index.js)`下载成一个JS文件，然后在`app.js`中引入
+如果你是开发原生微信小程序的话，推荐将[https://cdn.jsdelivr.net/npm/@mitojs/wx-mini/dist/wx-mini.js](https://cdn.jsdelivr.net/npm/@mitojs/wx-mini/dist/wx-mini.js)`下载成一个JS文件，然后在`app.js`中引入
 
 ![wx-mitojs](https://tva1.sinaimg.cn/large/008eGmZEly1gmtcvfkovkj31du0iqjs6.jpg)
 
@@ -249,13 +250,9 @@ MITO.init({
 
 ## 手动上报
 ### MITO.log
-```js
-
-```
-
 有时我们需要在某个业务代码中上报业务信息或者是埋点信息，这时可以用到`MITO.log`手动上报，下面这个例子就是在获取支付状态的接口是否异常，如果异常就上报异常信息。
 ```js
-import MITO from '@zyf2e/mitojs'
+import * as MITO from '@mitojs/web'
 
 $api.getPayStatus().then(res => {
   if (res.success) {
@@ -277,7 +274,7 @@ $api.getPayStatus().then(res => {
 ```
 还可以统计每个功能的浏览次数（PV）、用户量（UV），比如下面代码中在活动页埋点，UV的统计需要依赖`trackerId`，[trackerId详细配置](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md#backtrackerid)
 ```js
-import MITO from '@zyf2e/mitojs'
+import * as MITO from '@mitojs/web'
 
 /**
  * react hook 活动页
