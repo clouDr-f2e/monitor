@@ -1,17 +1,10 @@
 import { BREADCRUMBTYPES, ERRORTYPES } from '@mitojs/shared'
 import { breadcrumb, handleConsole, httpTransform, transportData } from '@mitojs/core'
-import {
-  ReportDataType,
-  Replace,
-  WxLifeCycleBreadcrumb,
-  WxOnShareAppMessageBreadcrumb,
-  WxOnTabItemTapBreadcrumb,
-  MITOHttp
-} from '@mitojs/types'
+import { ReportDataType, Replace, MITOHttp } from '@mitojs/types'
 import { extractErrorStack, getCurrentRoute, getTimestamp, isError, isHttpFail, parseErrorString, unknownToString } from '@mitojs/utils'
 import { Severity } from '@mitojs/utils'
 import { targetAsString } from './utils'
-import { MiniRoute } from './types'
+import { MiniRoute, WxLifeCycleBreadcrumb, WxOnShareAppMessageBreadcrumb, WxOnTabItemTapBreadcrumb } from './types'
 import { ELinstenerTypes } from './constant'
 
 const HandleWxAppEvents = {
