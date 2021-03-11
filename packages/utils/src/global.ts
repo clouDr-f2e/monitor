@@ -36,7 +36,7 @@ export function getGlobal<T>() {
   if (isNodeEnv) return (process as unknown) as MITOGlobal & T
 }
 
-const _global = getGlobal<Window & WechatMiniprogram.Wx>()
+const _global = getGlobal<Window>()
 const _support = getGlobalMitoSupport()
 
 export { _global, _support }
