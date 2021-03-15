@@ -336,7 +336,7 @@ export function replaceRoute() {
       ) {
         let toUrl
         if (method === WxRouteEvents.NavigateBack) {
-          toUrl = getNavigateBackTargetUrl((options as WechatMiniprogram.NavigateBackOption).delta)
+          toUrl = getNavigateBackTargetUrl((options as WechatMiniprogram.NavigateBackOption)?.delta)
         } else {
           toUrl = (options as WechatMiniprogram.SwitchTabOption).url
         }
