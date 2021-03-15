@@ -1,5 +1,6 @@
 export enum ELinstenerTypes {
   Touchmove = 'touchmove',
-  Tap = 'tap'
+  Tap = 'tap',
+  Longtap = 'longtap',
+  Longpress = 'longpress'
 }
-

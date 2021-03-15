@@ -45,7 +45,8 @@
     "packages/wx-mini",
     "packages/vue",
     "packages/react",
-    "packages/web"
+    "packages/web",
+    "packages/wx-mini-track"
   ],
   "devDependencies": {
     "@microsoft/api-extractor": "^7.13.2",
