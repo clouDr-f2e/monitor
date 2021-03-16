@@ -63,6 +63,14 @@ export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEvent
    * 默认20，最大100，超过100还是设置成100
    */
   maxBreadcrumbs?: number
+  /**
+   * 在引入wx-mini的情况下，使用该参数用来开启
+   */
+  enableTrack?: boolean
+  /**
+   * 在开启enableBury后，将所有埋点信息上报到该服务端地址
+   */
+  trackDsn?: string
 }
 
 export interface HooksTypes {

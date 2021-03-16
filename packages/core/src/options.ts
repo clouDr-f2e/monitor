@@ -9,17 +9,28 @@ export class Options {
   filterXhrUrlRegExp: RegExp
   includeHttpUrlTraceIdRegExp: RegExp
   traceIdFieldName = 'Trace-Id'
+  trackDsn: String
+
   constructor() {
     this.enableTraceId = false
   }
   bindOptions(options: InitOptions = {}): void {
-    const { beforeAppAjaxSend, enableTraceId, filterXhrUrlRegExp, traceIdFieldName, includeHttpUrlTraceIdRegExp } = options
+    const {
+      beforeAppAjaxSend,
+      enableTraceId,
+      filterXhrUrlRegExp,
+      traceIdFieldName,
+      includeHttpUrlTraceIdRegExp,
+      enableTrack,
+      trackDsn
+    } = options
     validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend)
     validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId)
     validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName)
     toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp)
     toStringValidateOption(includeHttpUrlTraceIdRegExp, 'includeHttpUrlTraceIdRegExp', '[object RegExp]') &&
       (this.includeHttpUrlTraceIdRegExp = includeHttpUrlTraceIdRegExp)
+    toStringValidateOption(trackDsn, 'trackDsn', '[object String]') && (this.trackDsn = trackDsn)
   }
 }
 

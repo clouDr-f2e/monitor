@@ -1,4 +1,5 @@
 import { setUrlQuery, variableTypeDetection } from '@mitojs/utils'
+import { DeviceInfo } from '@mitojs/types'
 
 /**
  * 后退时需要计算当前页面地址
@@ -27,4 +28,29 @@ export function targetAsString(e: WechatMiniprogram.BaseEvent): string {
     return `data-${key}=${e.currentTarget.dataset[key]}`
   })
   return `<element ${id} ${dataSets.join(' ')}/>`
+}
+
+export async function getWxMiniDeviceInfo(): Promise<DeviceInfo> {
+  const { pixelRatio, screenHeight, screenWidth } = wx.getSystemInfoSync()
+  const netType = await getWxMiniNetWrokType()
+  return {
+    ratio: pixelRatio,
+    clientHeight: screenHeight,
+    clientWidth: screenWidth,
+    netType
+  }
+}
+
+export async function getWxMiniNetWrokType(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    wx.getNetworkType({
+      success(res) {
+        resolve(res.networkType)
+      },
+      fail(err) {
+        console.error(`获取微信小程序网络类型失败:${err}`)
+        resolve('getNetWrokType failed')
+      }
+    })
+  })
 }

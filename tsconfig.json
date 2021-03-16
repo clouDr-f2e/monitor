@@ -46,6 +46,7 @@
   "include": [
     "packages",
     "mito",
-    "test"
+    "test",
+    "examples"
   ],
 }

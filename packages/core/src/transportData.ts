@@ -122,6 +122,10 @@ export class TransportData {
       return this.wxPost(data)
     }
   }
+  // for track
+  // trackSend(data: ) {
+
+  // }
 }
 const transportData = _support.transportData || (_support.transportData = new TransportData(SERVER_URL))
 export { transportData }
