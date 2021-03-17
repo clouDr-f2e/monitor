@@ -11,7 +11,8 @@ if (!process.env.TARGET) {
   throw new Error('TARGET package must be specified')
 }
 // 是否生成声明文件
-const isDeclaration = process.env.TYPES != null
+console.log(process.env.TYPES)
+const isDeclaration = process.env.TYPES !== 'false'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const masterVersion = require('./package.json').version
 const packagesDir = path.resolve(__dirname, 'packages')

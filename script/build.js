@@ -6,6 +6,7 @@ const { targets: allTargets, fuzzyMatchTarget, getArgv, binRun } = require('./ut
 let buildTypes = true
 // local debug
 let LOCALDIR = ''
+let rollupWatch = false
 run()
 async function run() {
   const argv = getArgv()
@@ -14,7 +15,7 @@ async function run() {
   const paramTarget = argv._
   LOCALDIR = argv.local
   buildTypes = argv.types !== 'false'
-  console.log(typeof buildTypes)
+  rollupWatch = argv.watch === 'true'
   if (paramTarget.length === 0) {
     buildAll(allTargets)
   } else {
@@ -54,7 +55,7 @@ async function rollupBuild(target) {
     return
   }
   // const env = [pkg.buildOption && pkg.buildOption.env]
-  const result = await binRun('rollup', [
+  const args = [
     '-c',
     '--environment',
     [
@@ -66,7 +67,9 @@ async function rollupBuild(target) {
     ]
       .filter(Boolean)
       .join(',')
-  ])
+  ]
+  rollupWatch && args.push('--watch')
+  const result = await binRun('rollup', args)
 
   if (buildTypes && pkg.types) {
     console.log(chalk.bold(chalk.yellow(`Rolling up type definitions for ${target}...`)))

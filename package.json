@@ -5,7 +5,7 @@
   "author": "cjinhuo",
   "scripts": {
     "build": "node script/build.js",
-    "local": "rollup --config rollup.debug.config.js",
+    "watch": "node script/build.js --watch=true",
     "release": "node script/release.js",
     "examples": "cross-env NODE_ENV=demo ts-node ./examples/server/index.ts",
     "e2e": "`nohup ts-node ./examples/server/index.ts >/dev/null 2>&1 &` && jest --config jest.config.ts",
