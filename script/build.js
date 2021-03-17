@@ -3,7 +3,7 @@ const chalk = require('chalk')
 const fs = require('fs-extra')
 
 const { targets: allTargets, fuzzyMatchTarget, getArgv, binRun } = require('./utils')
-const buildTypes = true
+let buildTypes = true
 // local debug
 let LOCALDIR = ''
 run()
@@ -13,6 +13,8 @@ async function run() {
   // accept npm run build web browser...
   const paramTarget = argv._
   LOCALDIR = argv.local
+  buildTypes = argv.types !== 'false'
+  console.log(typeof buildTypes)
   if (paramTarget.length === 0) {
     buildAll(allTargets)
   } else {
