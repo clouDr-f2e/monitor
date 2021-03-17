@@ -17,3 +17,17 @@ export interface DeviceInfo {
   // 像素密度倍率(计算屏幕实际宽高 可使用此参数： 例 height = clientHeight * radio)
   ratio: number
 }
+
+interface ITrackBaseParam {
+  trackId: string
+  custom?: string | { [prop: string]: string | number | boolean }
+  channel?: string
+}
+
+export interface ITrackPageParam extends ITrackBaseParam {
+  pageId?: string
+}
+
+export interface ITrackEventParam extends ITrackBaseParam {
+  eventName?: string
+}

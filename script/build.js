@@ -4,12 +4,15 @@ const fs = require('fs-extra')
 
 const { targets: allTargets, fuzzyMatchTarget, getArgv, binRun } = require('./utils')
 const buildTypes = true
+// local debug
+let LOCALDIR = ''
 run()
 async function run() {
   const argv = getArgv()
   console.log(argv)
   // accept npm run build web browser...
   const paramTarget = argv._
+  LOCALDIR = argv.local
   if (paramTarget.length === 0) {
     buildAll(allTargets)
   } else {
@@ -56,7 +59,8 @@ async function rollupBuild(target) {
       // `COMMIT:${commit}`,
       // `NODE_ENV:${env}`,
       `TARGET:${target}`,
-      `TYPES:${buildTypes}`
+      `TYPES:${buildTypes}`,
+      `LOCALDIR:${LOCALDIR}`
     ]
       .filter(Boolean)
       .join(',')

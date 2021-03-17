@@ -15,15 +15,7 @@ export class Options {
     this.enableTraceId = false
   }
   bindOptions(options: InitOptions = {}): void {
-    const {
-      beforeAppAjaxSend,
-      enableTraceId,
-      filterXhrUrlRegExp,
-      traceIdFieldName,
-      includeHttpUrlTraceIdRegExp,
-      enableTrack,
-      trackDsn
-    } = options
+    const { beforeAppAjaxSend, enableTraceId, filterXhrUrlRegExp, traceIdFieldName, includeHttpUrlTraceIdRegExp, trackDsn } = options
     validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend)
     validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId)
     validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName)

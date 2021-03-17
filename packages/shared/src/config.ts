@@ -1,3 +1,4 @@
 export const SDK_NAME = 'mitojs'
 export const SDK_VERSION = '2.0.3'
 export const SERVER_URL = '//localhost:3000/api/error/upload'
+export const TRACK_SERVER_URL = '//localhost:3000/api/track'

@@ -1,52 +1,52 @@
 import { BREADCRUMBTYPES, ERRORTYPES } from '@mitojs/shared'
-import { breadcrumb, handleConsole, httpTransform, transportData } from '@mitojs/core'
+import { breadcrumb, transportData } from '@mitojs/core'
 import { Severity } from '@mitojs/utils'
 import { targetAsString } from './utils'
 import { MiniRoute, WxLifeCycleBreadcrumb, WxOnShareAppMessageBreadcrumb, WxOnTabItemTapBreadcrumb } from './types'
 import { ELinstenerTypes } from './constant'
 
-const TrackWxAppEvents = {
-  onLaunch(options: WechatMiniprogram.App.LaunchShowOption) {
-    const data: WxLifeCycleBreadcrumb = {
-      path: options.path,
-      query: options.query
-    }
-    breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_LAUNCH),
-      type: BREADCRUMBTYPES.APP_ON_LAUNCH,
-      data,
-      level: Severity.Info
-    })
-  },
-  onShow(options: WechatMiniprogram.App.LaunchShowOption) {
-    const data: WxLifeCycleBreadcrumb = {
-      path: options.path,
-      query: options.query
-    }
-    breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_SHOW),
-      type: BREADCRUMBTYPES.APP_ON_SHOW,
-      data,
-      level: Severity.Info
-    })
-  },
-  onHide() {
-    breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_HIDE),
-      type: BREADCRUMBTYPES.APP_ON_HIDE,
-      data: null,
-      level: Severity.Info
-    })
-  },
-  onPageNotFound(data: WechatMiniprogram.OnPageNotFoundCallbackResult) {
-    breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
-      type: BREADCRUMBTYPES.ROUTE,
-      data,
-      level: Severity.Error
-    })
-  }
-}
+// const TrackWxAppEvents = {
+//   onLaunch(options: WechatMiniprogram.App.LaunchShowOption) {
+//     const data: WxLifeCycleBreadcrumb = {
+//       path: options.path,
+//       query: options.query
+//     }
+//     breadcrumb.push({
+//       category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_LAUNCH),
+//       type: BREADCRUMBTYPES.APP_ON_LAUNCH,
+//       data,
+//       level: Severity.Info
+//     })
+//   },
+//   onShow(options: WechatMiniprogram.App.LaunchShowOption) {
+//     const data: WxLifeCycleBreadcrumb = {
+//       path: options.path,
+//       query: options.query
+//     }
+//     breadcrumb.push({
+//       category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_SHOW),
+//       type: BREADCRUMBTYPES.APP_ON_SHOW,
+//       data,
+//       level: Severity.Info
+//     })
+//   },
+//   onHide() {
+//     breadcrumb.push({
+//       category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_HIDE),
+//       type: BREADCRUMBTYPES.APP_ON_HIDE,
+//       data: null,
+//       level: Severity.Info
+//     })
+//   },
+//   onPageNotFound(data: WechatMiniprogram.OnPageNotFoundCallbackResult) {
+//     breadcrumb.push({
+//       category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
+//       type: BREADCRUMBTYPES.ROUTE,
+//       data,
+//       level: Severity.Error
+//     })
+//   }
+// }
 
 const TrackWxPageEvents = {
   onShow() {
@@ -55,12 +55,7 @@ const TrackWxPageEvents = {
       path: page.route,
       query: page.options
     }
-    breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHOW),
-      type: BREADCRUMBTYPES.PAGE_ON_SHOW,
-      data,
-      level: Severity.Info
-    })
+    // 检测参数 是否上报
   },
   onHide() {
     // console.log('page onHide')
@@ -69,12 +64,7 @@ const TrackWxPageEvents = {
       path: page.route,
       query: page.options
     }
-    breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_HIDE),
-      type: BREADCRUMBTYPES.PAGE_ON_HIDE,
-      data,
-      level: Severity.Info
-    })
+    // 无痕上报
   },
   onShareAppMessage(options: WechatMiniprogram.Page.IShareAppMessageOption) {
     // console.log('page onShareAppMessage')
@@ -84,12 +74,7 @@ const TrackWxPageEvents = {
       query: page.options,
       options
     }
-    breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE),
-      type: BREADCRUMBTYPES.PAGE_ON_SHARE_APP_MESSAGE,
-      data,
-      level: Severity.Info
-    })
+    // 是否无痕上报
   },
   onShareTimeline() {
     // console.log('page onShareTimeline')
@@ -98,12 +83,7 @@ const TrackWxPageEvents = {
       path: page.route,
       query: page.options
     }
-    breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_SHARE_TIMELINE),
-      type: BREADCRUMBTYPES.PAGE_ON_SHARE_TIMELINE,
-      data,
-      level: Severity.Info
-    })
+    //
   },
   onTabItemTap(options: WechatMiniprogram.Page.ITabItemTapOption) {
     // console.log('page onTabItemTap')
@@ -113,12 +93,7 @@ const TrackWxPageEvents = {
       query: page.options,
       options
     }
-    breadcrumb.push({
-      category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_TAB_ITEM_TAP),
-      type: BREADCRUMBTYPES.PAGE_ON_TAB_ITEM_TAP,
-      data,
-      level: Severity.Info
-    })
+    //
   },
   onAction(e: WechatMiniprogram.BaseEvent) {
     let type = BREADCRUMBTYPES.TOUCHMOVE
@@ -163,4 +138,4 @@ const TrackWxEvents = {
   }
 }
 
-export { TrackWxAppEvents, TrackWxPageEvents, TrackWxEvents }
+export { TrackWxPageEvents, TrackWxEvents }

@@ -68,7 +68,7 @@ export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEvent
    */
   enableTrack?: boolean
   /**
-   * 在开启enableBury后，将所有埋点信息上报到该服务端地址
+   * 在开启enableBury后，将所有埋点信息上报到该服务端地址，如果该属性有值时才会启动无痕埋点
    */
   trackDsn?: string
 }

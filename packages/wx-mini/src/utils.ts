@@ -54,3 +54,7 @@ export async function getWxMiniNetWrokType(): Promise<string> {
     })
   })
 }
+
+// export function getQuery(query: string) {
+
+// }
