@@ -62,3 +62,7 @@ export interface TrackReportData {
   // libVersion sdk 版本 定制时手动拼上
   // libType sdk 类型 定制时手动拼上
 }
+
+export function isReportDataType(data: ReportDataType | TrackReportData): data is ReportDataType {
+  return (<ReportDataType>data).errorId !== undefined
+}

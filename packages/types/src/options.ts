@@ -23,7 +23,7 @@ export interface IBeforeAppAjaxSendConfig {
 }
 export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEventTypes {
   /**
-   * dsn服务器地址
+   * 错误监控的dsn服务器地址
    */
   dsn?: string
   /**

@@ -1,8 +1,8 @@
-import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue } from '@mitojs/utils'
+import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue, isEmpty } from '@mitojs/utils'
 import { createErrorId } from './errorId'
-import { SDK_NAME, SDK_VERSION, SERVER_URL } from '@mitojs/shared'
+import { SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import { breadcrumb } from './breadcrumb'
-import { AuthInfo, TransportDataType, ReportDataType, EMethods, InitOptions } from '@mitojs/types'
+import { AuthInfo, TransportDataType, ReportDataType, EMethods, InitOptions, TrackReportData, isReportDataType } from '@mitojs/types'
 
 /**
  * 用来传输数据类，包含img标签、xhr请求
@@ -18,7 +18,9 @@ export class TransportData {
   backTrackerId: InitOptions | unknown = null
   configReportXhr: unknown = null
   apikey = ''
-  constructor(public url: string) {
+  errorDsn = ''
+  trackDsn = ''
+  constructor() {
     this.queue = new Queue()
   }
   // imgRequest(data: Record<string, unknown>): void {
@@ -31,23 +33,26 @@ export class TransportData {
     }
     return []
   }
-  async beforePost(data: ReportDataType) {
-    const errorId = createErrorId(data, this.apikey)
-    if (!errorId) return false
-    data.errorId = errorId
-    let transportData = this.getTransportData(data)
-    if (typeof this.beforeDataReport === 'function') {
-      transportData = await this.beforeDataReport(transportData)
-      if (!transportData) return false
+  async beforePost(data: ReportDataType | TrackReportData) {
+    if (isReportDataType(data)) {
+      const errorId = createErrorId(data, this.apikey)
+      if (!errorId) return false
+      data.errorId = errorId
+      let transportData = this.getTransportData(data)
+      if (typeof this.beforeDataReport === 'function') {
+        transportData = await this.beforeDataReport(transportData)
+        if (!transportData) return false
+      }
+      return JSON.stringify(transportData)
     }
-    return JSON.stringify(transportData)
+    return JSON.stringify(data)
   }
-  async xhrPost(data: ReportDataType) {
+  async xhrPost(data: ReportDataType | TrackReportData, url: string) {
     const result = await this.beforePost(data)
     if (!result) return
     const requestFun = (): void => {
       const xhr = new XMLHttpRequest()
-      xhr.open(EMethods.Post, this.url)
+      xhr.open(EMethods.Post, url)
       xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
       xhr.withCredentials = true
       if (typeof this.configReportXhr === 'function') {
@@ -57,7 +62,7 @@ export class TransportData {
     }
     this.queue.addFn(requestFun)
   }
-  async wxPost(data: ReportDataType) {
+  async wxPost(data: ReportDataType | TrackReportData, url: string) {
     const result = await this.beforePost(data)
     if (!result) return
     const requestFun = (): void => {
@@ -66,7 +71,7 @@ export class TransportData {
         header: {
           'Content-Type': 'application/json;charset=UTF-8'
         },
-        url: this.url,
+        url,
         data: result
       })
     }
@@ -104,28 +109,43 @@ export class TransportData {
     }
   }
   isSdkTransportUrl(targetUrl: string): boolean {
-    return targetUrl.indexOf(this.url) !== -1
+    return targetUrl.indexOf(this.errorDsn) !== -1
   }
   bindOptions(options: InitOptions = {}): void {
     const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
-    validateOption(dsn, 'dsn', 'string') && (this.url = dsn)
+    validateOption(dsn, 'dsn', 'string') && (this.errorDsn = dsn)
     validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport)
     validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr)
     validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId)
   }
-  send(data: ReportDataType) {
+  /**
+   * 监控错误上报的请求函数
+   * @param data 错误上报数据格式
+   * @returns
+   */
+  send(data: ReportDataType | TrackReportData) {
+    let dsn = ''
+    if (isReportDataType(data)) {
+      dsn = this.errorDsn
+      if (isEmpty(dsn)) {
+        logger.error('没有传入监控错误上报的dsn地址，请在init中传入')
+        return
+      }
+    } else {
+      dsn = this.trackDsn
+      if (isEmpty(dsn)) {
+        logger.error('没有传入埋点上报的dsn地址，请在init中传入')
+        return
+      }
+    }
     if (isBrowserEnv) {
-      return this.xhrPost(data)
+      return this.xhrPost(data, dsn)
     }
     if (isWxMiniEnv) {
-      return this.wxPost(data)
+      return this.wxPost(data, dsn)
     }
   }
-  // for track
-  // trackSend(data: ) {
-
-  // }
 }
-const transportData = _support.transportData || (_support.transportData = new TransportData(SERVER_URL))
+const transportData = _support.transportData || (_support.transportData = new TransportData())
 export { transportData }

@@ -17,7 +17,7 @@ const isDeclaration = process.env.TYPES !== 'false'
 const masterVersion = require('./package.json').version
 const packagesDir = path.resolve(__dirname, 'packages')
 const packageDir = path.resolve(packagesDir, process.env.TARGET)
-const packageDirDist = process.env.LOCALDIR || `${packageDir}/dist`
+const packageDirDist = process.env.LOCALDIR === 'undefined' ? `${packageDir}/dist` : process.env.LOCALDIR
 const name = path.basename(packageDir)
 const pathResolve = (p) => path.resolve(packageDir, p)
 
