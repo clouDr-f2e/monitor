@@ -64,5 +64,5 @@ export interface TrackReportData {
 }
 
 export function isReportDataType(data: ReportDataType | TrackReportData): data is ReportDataType {
-  return (<ReportDataType>data).errorId !== undefined
+  return (<ReportDataType>data).type !== undefined
 }
