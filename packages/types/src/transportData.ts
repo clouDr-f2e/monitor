@@ -47,17 +47,17 @@ export interface ReportDataType {
 
 export interface TrackReportData {
   // uuid
-  id: string
+  id?: string
   // 埋点code 一般由人为传进来，可以自定义规范
-  trackId: string
+  trackId?: string
   // 埋点类型
   actionType: EActionType
   // 埋点开始时间
-  startTime: number
+  startTime?: number
   // 埋点停留时间
-  durationTime: number
+  durationTime?: number
   // 本地上报时间,用于校验时间 Date.now()  和服务器时间作比较
-  customTime: number
+  customTime?: number
   // debug 为true 则投递到日志库  为false 投递到埋点库 定制时手动拼上
   // libVersion sdk 版本 定制时手动拼上
   // libType sdk 类型 定制时手动拼上
