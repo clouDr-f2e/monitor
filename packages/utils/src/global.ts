@@ -2,6 +2,7 @@ import { EVENTTYPES, WxEvents } from '@mitojs/shared'
 import { Breadcrumb, TransportData, Options } from '@mitojs/core'
 import { Logger } from './logger'
 import { variableTypeDetection } from './is'
+import { DeviceInfo } from '@mitojs/types'
 
 // MITO的全局变量
 export interface MitoSupport {
@@ -10,6 +11,7 @@ export interface MitoSupport {
   transportData: TransportData
   replaceFlag: { [key in EVENTTYPES]?: boolean }
   record?: any[]
+  deviceInfo?: DeviceInfo
   options?: Options
 }
 

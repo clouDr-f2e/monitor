@@ -6,7 +6,9 @@ export enum EActionType {
   // 区域曝光
   VIEW = 'VIEW',
   // 时长埋点
-  DURATION = 'DURATION'
+  DURATION = 'DURATION',
+  // 其他埋点类型
+  OTHER = 'OTHER'
 }
 
 export interface DeviceInfo {
@@ -18,16 +20,7 @@ export interface DeviceInfo {
   ratio: number
 }
 
-interface ITrackBaseParam {
+export interface ITrackBaseParam {
   trackId: string
   custom?: string | { [prop: string]: string | number | boolean }
-  channel?: string
-}
-
-export interface ITrackPageParam extends ITrackBaseParam {
-  pageId?: string
-}
-
-export interface ITrackEventParam extends ITrackBaseParam {
-  eventName?: string
 }

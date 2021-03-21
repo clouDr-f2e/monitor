@@ -2,8 +2,7 @@ import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTy
 import { createErrorId } from './errorId'
 import { SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import { breadcrumb } from './breadcrumb'
-import { AuthInfo, TransportDataType, ReportDataType, EMethods, InitOptions, TrackReportData, isReportDataType } from '@mitojs/types'
-
+import { AuthInfo, TransportDataType, EMethods, InitOptions, isReportDataType, DeviceInfo, FinalReportType } from '@mitojs/types'
 /**
  * 用来传输数据类，包含img标签、xhr请求
  * 功能：支持img请求和xhr请求、可以断点续存（保存在localstorage），
@@ -33,21 +32,23 @@ export class TransportData {
     }
     return []
   }
-  async beforePost(data: ReportDataType | TrackReportData) {
+  getDeviceInfo(): DeviceInfo | any {
+    return _support.deviceInfo || {}
+  }
+  async beforePost(data: FinalReportType) {
     if (isReportDataType(data)) {
       const errorId = createErrorId(data, this.apikey)
       if (!errorId) return false
       data.errorId = errorId
-      let transportData = this.getTransportData(data)
-      if (typeof this.beforeDataReport === 'function') {
-        transportData = await this.beforeDataReport(transportData)
-        if (!transportData) return false
-      }
-      return JSON.stringify(transportData)
     }
-    return JSON.stringify(data)
+    let transportData = this.getTransportData(data)
+    if (typeof this.beforeDataReport === 'function') {
+      transportData = await this.beforeDataReport(transportData)
+      if (!transportData) return false
+    }
+    return JSON.stringify(transportData)
   }
-  async xhrPost(data: ReportDataType | TrackReportData, url: string) {
+  async xhrPost(data: FinalReportType, url: string) {
     const result = await this.beforePost(data)
     if (!result) return
     const requestFun = (): void => {
@@ -62,7 +63,7 @@ export class TransportData {
     }
     this.queue.addFn(requestFun)
   }
-  async wxPost(data: ReportDataType | TrackReportData, url: string) {
+  async wxPost(data: FinalReportType, url: string) {
     const result = await this.beforePost(data)
     if (!result) return
     const requestFun = (): void => {
@@ -100,21 +101,23 @@ export class TransportData {
     }
     return ''
   }
-  getTransportData(data: ReportDataType): TransportDataType {
+  getTransportData(data: FinalReportType): TransportDataType {
     return {
       authInfo: this.getAuthInfo(),
       breadcrumb: breadcrumb.getStack(),
       data,
-      record: this.getRecord()
+      record: this.getRecord(),
+      deviceInfo: this.getDeviceInfo()
     }
   }
   isSdkTransportUrl(targetUrl: string): boolean {
     return targetUrl.indexOf(this.errorDsn) !== -1
   }
   bindOptions(options: InitOptions = {}): void {
-    const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId } = options
+    const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId, trackDsn } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
     validateOption(dsn, 'dsn', 'string') && (this.errorDsn = dsn)
+    validateOption(trackDsn, 'trackDsn', 'string') && (this.trackDsn = trackDsn)
     validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport)
     validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr)
     validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId)
@@ -124,18 +127,18 @@ export class TransportData {
    * @param data 错误上报数据格式
    * @returns
    */
-  send(data: ReportDataType | TrackReportData) {
+  send(data: FinalReportType) {
     let dsn = ''
     if (isReportDataType(data)) {
       dsn = this.errorDsn
       if (isEmpty(dsn)) {
-        logger.error('没有传入监控错误上报的dsn地址，请在init中传入')
+        logger.error('dsn为空，没有传入监控错误上报的dsn地址，请在init中传入')
         return
       }
     } else {
       dsn = this.trackDsn
       if (isEmpty(dsn)) {
-        logger.error('没有传入埋点上报的dsn地址，请在init中传入')
+        logger.error('trackDsn为空，没有传入埋点上报的dsn地址，请在init中传入')
         return
       }
     }

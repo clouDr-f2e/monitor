@@ -21,7 +21,7 @@ type TSetRequestHeader = (key: string, value: string) => {}
 export interface IBeforeAppAjaxSendConfig {
   setRequestHeader: TSetRequestHeader
 }
-export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEventTypes {
+export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEventTypes, WxMiniHooksTypes {
   /**
    * 错误监控的dsn服务器地址
    */
@@ -110,11 +110,6 @@ export interface HooksTypes {
   beforeAppAjaxSend?(config: IRequestHeaderConfig, setRequestHeader: IBeforeAppAjaxSendConfig): void
 
   /**
-   * 钩子函数：在页面拦截的ajax后，收集当次数据并传入该函数后并调用
-   */
-  // afterAppAjaxClose?(data: ReportDataType): ReportDataType
-
-  /**
    * 钩子函数，在beforeDataReport后面调用，在整合上报数据和本身SDK信息数据前调用，当前函数执行完后立即将数据错误信息上报至服务端
    * trackerId表示用户唯一键（可以理解成userId），需要trackerId的意义可以区分每个错误影响的用户数量
    */
@@ -181,4 +176,18 @@ export interface WxSilentEventTypes {
    * 静默监控小程序路由
    */
   silentMiniRoute?: boolean
+}
+
+type IWxPageInstance = WechatMiniprogram.Page.Instance<WechatMiniprogram.IAnyObject, WechatMiniprogram.IAnyObject>
+// todo 文档编写
+interface WxMiniHooksTypes {
+  appOnLauch?(options: WechatMiniprogram.App.LaunchShowOption): void
+  appOnShow?(options: WechatMiniprogram.App.LaunchShowOption): void
+  appOnHide?(page: IWxPageInstance): void
+  onPageNotFound?(data: WechatMiniprogram.OnPageNotFoundCallbackResult): void
+  pageOnShow?(page: IWxPageInstance): void
+  pageOnHide?(page: IWxPageInstance): void
+  onShareAppMessage?(options: WechatMiniprogram.Page.IShareAppMessageOption & IWxPageInstance): void
+  onShareTimeline?(page: IWxPageInstance): void
+  onTabItemTap?(options: WechatMiniprogram.Page.ITabItemTapOption & IWxPageInstance): void
 }

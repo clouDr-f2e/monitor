@@ -52,24 +52,24 @@ export function parseUrlToObj(
   }
 }
 
-export function setSilentFlag(opitons: InitOptions = {}): void {
-  setFlag(EVENTTYPES.XHR, !!opitons.silentXhr)
-  setFlag(EVENTTYPES.FETCH, !!opitons.silentFetch)
-  setFlag(EVENTTYPES.CONSOLE, !!opitons.silentConsole)
-  setFlag(EVENTTYPES.DOM, !!opitons.silentDom)
-  setFlag(EVENTTYPES.HISTORY, !!opitons.silentHistory)
-  setFlag(EVENTTYPES.ERROR, !!opitons.silentError)
-  setFlag(EVENTTYPES.HASHCHANGE, !!opitons.silentHashchange)
-  setFlag(EVENTTYPES.UNHANDLEDREJECTION, !!opitons.silentUnhandledrejection)
-  setFlag(EVENTTYPES.VUE, !!opitons.silentVue)
+export function setSilentFlag(paramOptions: InitOptions = {}): void {
+  setFlag(EVENTTYPES.XHR, !!paramOptions.silentXhr)
+  setFlag(EVENTTYPES.FETCH, !!paramOptions.silentFetch)
+  setFlag(EVENTTYPES.CONSOLE, !!paramOptions.silentConsole)
+  setFlag(EVENTTYPES.DOM, !!paramOptions.silentDom)
+  setFlag(EVENTTYPES.HISTORY, !!paramOptions.silentHistory)
+  setFlag(EVENTTYPES.ERROR, !!paramOptions.silentError)
+  setFlag(EVENTTYPES.HASHCHANGE, !!paramOptions.silentHashchange)
+  setFlag(EVENTTYPES.UNHANDLEDREJECTION, !!paramOptions.silentUnhandledrejection)
+  setFlag(EVENTTYPES.VUE, !!paramOptions.silentVue)
   // wx App
-  setFlag(WxAppEvents.AppOnError, !!opitons.silentWxOnError)
-  setFlag(WxAppEvents.AppOnUnhandledRejection, !!opitons.silentUnhandledrejection)
-  setFlag(WxAppEvents.AppOnPageNotFound, !!opitons.silentWxOnPageNotFound)
+  setFlag(WxAppEvents.AppOnError, !!paramOptions.silentWxOnError)
+  setFlag(WxAppEvents.AppOnUnhandledRejection, !!paramOptions.silentUnhandledrejection)
+  setFlag(WxAppEvents.AppOnPageNotFound, !!paramOptions.silentWxOnPageNotFound)
   // wx Page
-  setFlag(WxPageEvents.PageOnShareAppMessage, !!opitons.silentWxOnShareAppMessage)
+  setFlag(WxPageEvents.PageOnShareAppMessage, !!paramOptions.silentWxOnShareAppMessage)
   // mini Route
-  setFlag(EVENTTYPES.MINI_ROUTE, !!opitons.silentMiniRoute)
+  setFlag(EVENTTYPES.MINI_ROUTE, !!paramOptions.silentMiniRoute)
 }
 
 /**

@@ -47,3 +47,8 @@ export interface IntegrationError {
 }
 
 export type TNumStrObj = number | string | object
+
+export interface LocalStorageValue<T = any> {
+  expireTime?: number
+  value: T | string
+}

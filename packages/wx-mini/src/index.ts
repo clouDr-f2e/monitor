@@ -2,6 +2,7 @@ import { InitOptions } from '@mitojs/types'
 import { isWxMiniEnv } from '@mitojs/utils'
 import { setupReplace } from './load'
 import { initOptions, log } from '@mitojs/core'
+import { sendTrackData, track } from './initiative'
 export function init(options: InitOptions = {}) {
   if (!isWxMiniEnv) return
   initOptions(options)
@@ -9,4 +10,4 @@ export function init(options: InitOptions = {}) {
   Object.assign(wx, { mitoLog: log })
 }
 
-export { log }
+export { log, sendTrackData, track }

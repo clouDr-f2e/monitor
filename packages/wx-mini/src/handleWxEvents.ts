@@ -1,14 +1,24 @@
 import { BREADCRUMBTYPES, ERRORTYPES } from '@mitojs/shared'
-import { breadcrumb, handleConsole, httpTransform, transportData } from '@mitojs/core'
+import { breadcrumb, handleConsole, httpTransform, transportData, options as sdkOptions } from '@mitojs/core'
 import { ReportDataType, Replace, MITOHttp } from '@mitojs/types'
-import { extractErrorStack, getCurrentRoute, getTimestamp, isError, isHttpFail, parseErrorString, unknownToString } from '@mitojs/utils'
+import {
+  extractErrorStack,
+  getCurrentRoute,
+  getTimestamp,
+  isError,
+  isHttpFail,
+  parseErrorString,
+  unknownToString,
+  _support
+} from '@mitojs/utils'
 import { Severity } from '@mitojs/utils'
-import { targetAsString } from './utils'
+import { getWxMiniDeviceInfo, targetAsString } from './utils'
 import { MiniRoute, WxLifeCycleBreadcrumb, WxOnShareAppMessageBreadcrumb, WxOnTabItemTapBreadcrumb } from './types'
 import { ELinstenerTypes } from './constant'
 
 const HandleWxAppEvents = {
   onLaunch(options: WechatMiniprogram.App.LaunchShowOption) {
+    sdkOptions.appOnLauch(options)
     const data: WxLifeCycleBreadcrumb = {
       path: options.path,
       query: options.query
@@ -20,7 +30,8 @@ const HandleWxAppEvents = {
       level: Severity.Info
     })
   },
-  onShow(options: WechatMiniprogram.App.LaunchShowOption) {
+  async onShow(options: WechatMiniprogram.App.LaunchShowOption) {
+    sdkOptions.appOnShow(options)
     const data: WxLifeCycleBreadcrumb = {
       path: options.path,
       query: options.query
@@ -31,8 +42,10 @@ const HandleWxAppEvents = {
       data,
       level: Severity.Info
     })
+    _support.deviceInfo = await getWxMiniDeviceInfo()
   },
   onHide() {
+    sdkOptions.appOnHide()
     breadcrumb.push({
       category: breadcrumb.getCategory(BREADCRUMBTYPES.APP_ON_HIDE),
       type: BREADCRUMBTYPES.APP_ON_HIDE,
@@ -82,6 +95,7 @@ const HandleWxAppEvents = {
     transportData.send(data)
   },
   onPageNotFound(data: WechatMiniprogram.OnPageNotFoundCallbackResult) {
+    sdkOptions.onPageNotFound(data)
     breadcrumb.push({
       category: breadcrumb.getCategory(BREADCRUMBTYPES.ROUTE),
       type: BREADCRUMBTYPES.ROUTE,
@@ -94,6 +108,7 @@ const HandleWxAppEvents = {
 const HandleWxPageEvents = {
   onShow() {
     const page = getCurrentPages().pop()
+    sdkOptions.pageOnShow(page)
     const data: WxLifeCycleBreadcrumb = {
       path: page.route,
       query: page.options
@@ -108,6 +123,7 @@ const HandleWxPageEvents = {
   onHide() {
     // console.log('page onHide')
     const page = getCurrentPages().pop()
+    sdkOptions.pageOnHide(page)
     const data: WxLifeCycleBreadcrumb = {
       path: page.route,
       query: page.options
@@ -122,6 +138,10 @@ const HandleWxPageEvents = {
   onShareAppMessage(options: WechatMiniprogram.Page.IShareAppMessageOption) {
     // console.log('page onShareAppMessage')
     const page = getCurrentPages().pop()
+    sdkOptions.onShareAppMessage({
+      ...page,
+      ...options
+    })
     const data: WxOnShareAppMessageBreadcrumb = {
       path: page.route,
       query: page.options,
@@ -137,6 +157,7 @@ const HandleWxPageEvents = {
   onShareTimeline() {
     // console.log('page onShareTimeline')
     const page = getCurrentPages().pop()
+    sdkOptions.onShareTimeline(page)
     const data: WxLifeCycleBreadcrumb = {
       path: page.route,
       query: page.options
@@ -151,6 +172,10 @@ const HandleWxPageEvents = {
   onTabItemTap(options: WechatMiniprogram.Page.ITabItemTapOption) {
     // console.log('page onTabItemTap')
     const page = getCurrentPages().pop()
+    sdkOptions.onTabItemTap({
+      ...page,
+      ...options
+    })
     const data: WxOnTabItemTapBreadcrumb = {
       path: page.route,
       query: page.options,

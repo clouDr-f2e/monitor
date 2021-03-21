@@ -1,5 +1,8 @@
-import { setUrlQuery, variableTypeDetection } from '@mitojs/utils'
-import { DeviceInfo } from '@mitojs/types'
+import { generateUUID, getTimestamp, setUrlQuery, variableTypeDetection } from '@mitojs/utils'
+import { DeviceInfo, IAnyObject, LocalStorageValue } from '@mitojs/types'
+import { SDK_NAME } from '@mitojs/shared'
+const LocalStorageSessionIdKey = `${SDK_NAME}:sessionId`
+const LocalStorageChannelKey = `${SDK_NAME}:Channel`
 
 /**
  * 后退时需要计算当前页面地址
@@ -55,6 +58,50 @@ export async function getWxMiniNetWrokType(): Promise<string> {
   })
 }
 
-// export function getQuery(query: string) {
+/**
+ *
+ * @param query
+ */
+export function getQuery(query: IAnyObject) {
+  console.log('query', query)
+}
 
-// }
+/**
+ * 获取回话ID
+ * @param isFirst 是否是第一次进入
+ */
+export function getSessionId(isFirst = false): string {
+  if (isFirst) {
+    const sessionId = generateUUID()
+    const value = {
+      value: sessionId,
+      expireTime: getTimestamp() + 30 * 60 * 1000
+    }
+    wx.setStorageSync(LocalStorageSessionIdKey, value)
+    return sessionId
+  }
+  const result = wx.getStorageSync(LocalStorageSessionIdKey) as LocalStorageValue
+  if (result && result.expireTime > getTimestamp()) {
+    wx.setStorageSync(LocalStorageSessionIdKey, {
+      ...result,
+      expireTime: getTimestamp() + 30 * 60 * 1000
+    })
+    return result.value
+  }
+  return ''
+}
+
+/**
+ * 从localstorage获取渠道id
+ */
+export function getChannel(): string {
+  const result = wx.getStorageSync(LocalStorageChannelKey) as LocalStorageValue
+  if (result && result.expireTime > getTimestamp()) {
+    wx.setStorageSync(LocalStorageChannelKey, {
+      ...result,
+      expireTime: getTimestamp() + 30 * 60 * 1000
+    })
+    return result.value
+  }
+  return ''
+}

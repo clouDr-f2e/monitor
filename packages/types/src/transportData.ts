@@ -1,6 +1,6 @@
 import { ERRORTYPES } from '@mitojs/shared'
 import { BreadcrumbPushData } from './breadcrumb'
-import { EActionType } from './track'
+import { DeviceInfo, EActionType } from './track'
 
 export interface AuthInfo {
   apikey: string
@@ -11,10 +11,13 @@ export interface AuthInfo {
 
 export interface TransportDataType {
   authInfo: AuthInfo
-  breadcrumb: BreadcrumbPushData[]
-  data: ReportDataType
+  breadcrumb?: BreadcrumbPushData[]
+  data?: FinalReportType
   record?: any[]
+  deviceInfo?: DeviceInfo
 }
+
+export type FinalReportType = ReportDataType | TrackReportData
 
 export interface ReportDataType {
   type?: ERRORTYPES
@@ -64,5 +67,5 @@ export interface TrackReportData {
 }
 
 export function isReportDataType(data: ReportDataType | TrackReportData): data is ReportDataType {
-  return (<ReportDataType>data).type !== undefined
+  return (<TrackReportData>data).actionType === undefined
 }
