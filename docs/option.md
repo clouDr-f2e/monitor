@@ -230,3 +230,23 @@ MITO.init({
 })
 ```
 
+### wx-mini.hook
+
+#### appOnLaunch?(*options*: WechatMiniprogram.App.LaunchShowOption): void
+
+####  appOnShow?(*options*: WechatMiniprogram.App.LaunchShowOption): void
+
+#### appOnHide?(*page*: IWxPageInstance): void
+
+####  onPageNotFound?(*data*: WechatMiniprogram.OnPageNotFoundCallbackResult): void
+
+####  pageOnShow?(*page*: IWxPageInstance): void
+
+####  pageOnHide?(*page*: IWxPageInstance): void
+
+####  onShareAppMessage?(*options*: WechatMiniprogram.Page.IShareAppMessageOption & IWxPageInstance): void
+
+####  onShareTimeline?(*page*: IWxPageInstance): void
+
+####  onTabItemTap?(*options*: WechatMiniprogram.Page.ITabItemTapOption & IWxPageInstance): void
+

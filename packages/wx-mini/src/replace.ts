@@ -318,7 +318,8 @@ export function replaceRoute() {
     WxRouteEvents.ReLaunch,
     WxRouteEvents.RedirectTo,
     WxRouteEvents.NavigateTo,
-    WxRouteEvents.NavigateBack
+    WxRouteEvents.NavigateBack,
+    WxRouteEvents.NavigateToMiniProgram
   ]
   methods.forEach((method) => {
     const originMethod = wx[method] as Function
@@ -333,6 +334,7 @@ export function replaceRoute() {
           | WechatMiniprogram.RedirectToOption
           | WechatMiniprogram.NavigateToOption
           | WechatMiniprogram.NavigateBackOption
+          | WechatMiniprogram.NavigateToMiniProgramOption
       ) {
         let toUrl
         if (method === WxRouteEvents.NavigateBack) {
@@ -369,6 +371,9 @@ export function replaceRoute() {
             }
           }
           options.fail = failHandler
+        }
+        if (method === WxRouteEvents.NavigateToMiniProgram && variableTypeDetection.isFunction(sdkOptions.wxNavigateToMiniProgram)) {
+          options = sdkOptions.wxNavigateToMiniProgram(options)
         }
         return originMethod.call(this, options)
       }

@@ -9,7 +9,7 @@ export class Options {
   includeHttpUrlTraceIdRegExp: RegExp
   traceIdFieldName = 'Trace-Id'
   // wx-mini
-  appOnLauch: Function = () => {}
+  appOnLaunch: Function = () => {}
   appOnShow: Function = () => {}
   onPageNotFound: Function = () => {}
   appOnHide: Function = () => {}
@@ -18,6 +18,8 @@ export class Options {
   onShareAppMessage: Function = () => {}
   onShareTimeline: Function = () => {}
   onTabItemTap: Function = () => {}
+  // need return opitons，so defaul value is undefined
+  wxNavigateToMiniProgram: Function
 
   constructor() {
     this.enableTraceId = false
@@ -29,7 +31,7 @@ export class Options {
       filterXhrUrlRegExp,
       traceIdFieldName,
       includeHttpUrlTraceIdRegExp,
-      appOnLauch,
+      appOnLaunch,
       appOnShow,
       appOnHide,
       pageOnShow,
@@ -37,11 +39,12 @@ export class Options {
       onPageNotFound,
       onShareAppMessage,
       onShareTimeline,
-      onTabItemTap
+      onTabItemTap,
+      wxNavigateToMiniProgram
     } = options
     validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend)
     // wx-mini hooks
-    validateOption(appOnLauch, 'appOnLauch', 'function') && (this.appOnLauch = appOnLauch)
+    validateOption(appOnLaunch, 'appOnLaunch', 'function') && (this.appOnLaunch = appOnLaunch)
     validateOption(appOnShow, 'appOnShow', 'function') && (this.appOnShow = appOnShow)
     validateOption(appOnHide, 'appOnHide', 'function') && (this.appOnHide = appOnHide)
     validateOption(pageOnShow, 'pageOnShow', 'function') && (this.pageOnShow = pageOnShow)
@@ -50,6 +53,8 @@ export class Options {
     validateOption(onShareAppMessage, 'onShareAppMessage', 'function') && (this.onShareAppMessage = onShareAppMessage)
     validateOption(onShareTimeline, 'onShareTimeline', 'function') && (this.onShareTimeline = onShareTimeline)
     validateOption(onTabItemTap, 'onTabItemTap', 'function') && (this.onTabItemTap = onTabItemTap)
+    validateOption(wxNavigateToMiniProgram, 'wxNavigateToMiniProgram', 'function') &&
+      (this.wxNavigateToMiniProgram = wxNavigateToMiniProgram)
 
     validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId)
     validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName)

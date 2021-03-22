@@ -9,5 +9,5 @@ export function init(options: InitOptions = {}) {
   setupReplace()
   Object.assign(wx, { mitoLog: log })
 }
-
+// 重写 wx.navigateToMiniProgram 把query sessionId是否要带归去
 export { log, sendTrackData, track }

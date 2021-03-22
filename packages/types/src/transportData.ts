@@ -59,8 +59,8 @@ export interface TrackReportData {
   startTime?: number
   // 埋点停留时间
   durationTime?: number
-  // 本地上报时间,用于校验时间 Date.now()  和服务器时间作比较
-  customTime?: number
+  // 上报时间
+  trackTime?: number
   // debug 为true 则投递到日志库  为false 投递到埋点库 定制时手动拼上
   // libVersion sdk 版本 定制时手动拼上
   // libType sdk 类型 定制时手动拼上

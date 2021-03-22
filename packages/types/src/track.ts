@@ -21,6 +21,7 @@ export interface DeviceInfo {
 }
 
 export interface ITrackBaseParam {
-  trackId: string
+  trackId?: string
   custom?: string | { [prop: string]: string | number | boolean }
+  [key: string]: any
 }

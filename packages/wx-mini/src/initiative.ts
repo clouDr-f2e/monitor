@@ -3,21 +3,12 @@ import { transportData } from '@mitojs/core'
 import { generateUUID, getTimestamp } from '@mitojs/utils'
 
 export function track(actionType: EActionType, param: ITrackBaseParam) {
-  const { trackId } = param
   const data = {
     actionType,
-    trackId
+    ...param
   }
   sendTrackData(data)
 }
-// 在init的page onHide hooks中调用
-// export function trackDuration() {
-//   const data: TrackReportData = {
-//     actionType: EActionType.DURATION,
-//     trackId: generateUUID()
-//   }
-//   sendTrackData(data)
-// }
 
 /**
  * 手动发送埋点数据到服务端
@@ -25,10 +16,10 @@ export function track(actionType: EActionType, param: ITrackBaseParam) {
  */
 export function sendTrackData(data: TrackReportData) {
   const id = generateUUID()
-  const startTime = getTimestamp()
+  const trackTime = getTimestamp()
   transportData.send({
     id,
-    startTime,
+    trackTime,
     ...data
   })
 }

@@ -88,7 +88,7 @@ export interface HooksTypes {
    * ../param event 有SDK生成的错误事件
    * ../returns 如果返回 null | undefined | boolean 时，将忽略本次上传
    */
-  beforeDataReport?(event: TransportDataType): Promise<TransportDataType | null | CANCEL> | TransportDataType | CANCEL | null
+  beforeDataReport?(event: TransportDataType): Promise<TransportDataType | null | CANCEL> | TransportDataType | any | CANCEL | null
   /**
    * 钩子函数，在每次添加用户行为事件前都会调用
    *
@@ -178,10 +178,10 @@ export interface WxSilentEventTypes {
   silentMiniRoute?: boolean
 }
 
-type IWxPageInstance = WechatMiniprogram.Page.Instance<WechatMiniprogram.IAnyObject, WechatMiniprogram.IAnyObject>
-// todo 文档编写
+export type IWxPageInstance = WechatMiniprogram.Page.Instance<WechatMiniprogram.IAnyObject, WechatMiniprogram.IAnyObject>
+
 interface WxMiniHooksTypes {
-  appOnLauch?(options: WechatMiniprogram.App.LaunchShowOption): void
+  appOnLaunch?(options: WechatMiniprogram.App.LaunchShowOption): void
   appOnShow?(options: WechatMiniprogram.App.LaunchShowOption): void
   appOnHide?(page: IWxPageInstance): void
   onPageNotFound?(data: WechatMiniprogram.OnPageNotFoundCallbackResult): void
@@ -190,4 +190,9 @@ interface WxMiniHooksTypes {
   onShareAppMessage?(options: WechatMiniprogram.Page.IShareAppMessageOption & IWxPageInstance): void
   onShareTimeline?(page: IWxPageInstance): void
   onTabItemTap?(options: WechatMiniprogram.Page.ITabItemTapOption & IWxPageInstance): void
+  /**
+   * 重写wx.NavigateToMiniProgram将里面的参数抛出来，便于在跳转时更改query和extraData
+   * @param options
+   */
+  wxNavigateToMiniProgram?(options: WechatMiniprogram.NavigateToMiniProgramOption): WechatMiniprogram.NavigateToMiniProgramOption
 }

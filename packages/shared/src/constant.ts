@@ -38,6 +38,7 @@ export enum WxRouteEvents {
   RedirectTo = 'redirectTo',
   NavigateTo = 'navigateTo',
   NavigateBack = 'navigateBack',
+  NavigateToMiniProgram = 'navigateToMiniProgram',
   RouteFail = 'routeFail'
 }
 

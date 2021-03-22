@@ -18,7 +18,7 @@ import { ELinstenerTypes } from './constant'
 
 const HandleWxAppEvents = {
   onLaunch(options: WechatMiniprogram.App.LaunchShowOption) {
-    sdkOptions.appOnLauch(options)
+    sdkOptions.appOnLaunch(options)
     const data: WxLifeCycleBreadcrumb = {
       path: options.path,
       query: options.query
@@ -121,7 +121,6 @@ const HandleWxPageEvents = {
     })
   },
   onHide() {
-    // console.log('page onHide')
     const page = getCurrentPages().pop()
     sdkOptions.pageOnHide(page)
     const data: WxLifeCycleBreadcrumb = {
@@ -136,7 +135,6 @@ const HandleWxPageEvents = {
     })
   },
   onShareAppMessage(options: WechatMiniprogram.Page.IShareAppMessageOption) {
-    // console.log('page onShareAppMessage')
     const page = getCurrentPages().pop()
     sdkOptions.onShareAppMessage({
       ...page,
@@ -155,7 +153,6 @@ const HandleWxPageEvents = {
     })
   },
   onShareTimeline() {
-    // console.log('page onShareTimeline')
     const page = getCurrentPages().pop()
     sdkOptions.onShareTimeline(page)
     const data: WxLifeCycleBreadcrumb = {
@@ -170,7 +167,6 @@ const HandleWxPageEvents = {
     })
   },
   onTabItemTap(options: WechatMiniprogram.Page.ITabItemTapOption) {
-    // console.log('page onTabItemTap')
     const page = getCurrentPages().pop()
     sdkOptions.onTabItemTap({
       ...page,
