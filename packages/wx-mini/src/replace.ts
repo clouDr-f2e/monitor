@@ -55,10 +55,11 @@ export function replaceApp() {
           method.replace('AppOn', 'on'),
           function (originMethod: voidFun) {
             return function (...args: any): void {
-              triggerHandlers.apply(null, [method, ...args])
+              // 让原本的函数比抛出的hooks先执行，便于埋点判断是否重复
               if (originMethod) {
                 originMethod.apply(this, args)
               }
+              triggerHandlers.apply(null, [method, ...args])
             }
           },
           true
@@ -91,10 +92,10 @@ function replacePageLifeMethods(
       method.replace('PageOn', 'on'),
       function (originMethod: (args: any) => void) {
         return function (...args: any[]): void {
-          triggerHandlers.apply(null, [method, ...args])
           if (originMethod) {
             originMethod.apply(this, args)
           }
+          triggerHandlers.apply(null, [method, ...args])
         }
       },
       true
@@ -162,7 +163,6 @@ export function replaceBehavior() {
     return originBehavior.call(this, behaviorOptions)
   }
 }
-
 /**
  * 监听配置项下的手势处理方法
  */
@@ -177,27 +177,29 @@ function replaceAction(
   }
   const throttleGesturetrigger = throttle(gestureTrigger, 500)
   const linstenerTypes = [ELinstenerTypes.Touchmove, ELinstenerTypes.Tap]
-  Object.keys(options).forEach((m) => {
-    if ('function' !== typeof options[m]) {
-      return
-    }
-    replaceOld(
-      options,
-      m,
-      function (originMethod: (args: any) => void) {
-        return function (...args: any): void {
-          const e = args[0]
-          if (e && e.type && e.currentTarget && !e.mitoWorked) {
-            if (linstenerTypes.indexOf(e.type) > -1) {
-              throttleGesturetrigger(e)
+  if (options) {
+    Object.keys(options).forEach((m) => {
+      if ('function' !== typeof options[m]) {
+        return
+      }
+      replaceOld(
+        options,
+        m,
+        function (originMethod: (args: any) => void) {
+          return function (...args: any): void {
+            const e = args[0]
+            if (e && e.type && e.currentTarget && !e.mitoWorked) {
+              if (linstenerTypes.indexOf(e.type) > -1) {
+                throttleGesturetrigger(e)
+              }
             }
+            return originMethod.apply(this, args)
           }
-          return originMethod.apply(this, args)
-        }
-      },
-      true
-    )
-  })
+        },
+        true
+      )
+    })
+  }
 }
 
 function replaceConsole() {
@@ -236,7 +238,9 @@ export function replaceNetwork() {
         } else {
           method = EMethods.Post
         }
-        const { url, header } = options
+        const { url } = options
+        let header = options.header
+        !header || (header = {})
         if ((method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) {
           return originRequest.call(this, options)
         }

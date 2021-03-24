@@ -13,6 +13,7 @@ export interface MitoSupport {
   record?: any[]
   deviceInfo?: DeviceInfo
   options?: Options
+  track?: any
 }
 
 interface MITOGlobal {

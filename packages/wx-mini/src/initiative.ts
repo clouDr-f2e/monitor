@@ -4,10 +4,12 @@ import { generateUUID, getTimestamp } from '@mitojs/utils'
 
 export function track(actionType: EActionType, param: ITrackBaseParam) {
   const data = {
-    actionType,
-    ...param
+    ...param,
+    // rewrite actionType
+    actionType
   }
   sendTrackData(data)
+  return data
 }
 
 /**
