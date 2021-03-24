@@ -20,7 +20,7 @@ export class Options {
   onTabItemTap: Function = () => {}
   // need return opitons，so defaul value is undefined
   wxNavigateToMiniProgram: Function
-
+  triggerWxEvent: Function = () => {}
   constructor() {
     this.enableTraceId = false
   }
@@ -40,7 +40,8 @@ export class Options {
       onShareAppMessage,
       onShareTimeline,
       onTabItemTap,
-      wxNavigateToMiniProgram
+      wxNavigateToMiniProgram,
+      triggerWxEvent
     } = options
     validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend)
     // wx-mini hooks
@@ -55,6 +56,7 @@ export class Options {
     validateOption(onTabItemTap, 'onTabItemTap', 'function') && (this.onTabItemTap = onTabItemTap)
     validateOption(wxNavigateToMiniProgram, 'wxNavigateToMiniProgram', 'function') &&
       (this.wxNavigateToMiniProgram = wxNavigateToMiniProgram)
+    validateOption(triggerWxEvent, 'triggerWxEvent', 'function') && (this.triggerWxEvent = triggerWxEvent)
 
     validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId)
     validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName)

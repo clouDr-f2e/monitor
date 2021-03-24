@@ -195,4 +195,5 @@ interface WxMiniHooksTypes {
    * @param options
    */
   wxNavigateToMiniProgram?(options: WechatMiniprogram.NavigateToMiniProgramOption): WechatMiniprogram.NavigateToMiniProgramOption
+  triggerWxEvent?(e: WechatMiniprogram.BaseEvent): void
 }

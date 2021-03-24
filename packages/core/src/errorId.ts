@@ -128,7 +128,7 @@ export function removeHashPath(url: string): string {
   return url.replace(/(\S+)(\/#\/)(\S*)/, `$1`)
 }
 
-function hashCode(str: string): number {
+export function hashCode(str: string): number {
   let hash = 0
   if (str.length == 0) return hash
   for (let i = 0; i < str.length; i++) {

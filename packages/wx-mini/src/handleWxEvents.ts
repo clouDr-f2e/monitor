@@ -185,6 +185,7 @@ const HandleWxPageEvents = {
     })
   },
   onAction(e: WechatMiniprogram.BaseEvent) {
+    sdkOptions.triggerWxEvent(e)
     let type = BREADCRUMBTYPES.TOUCHMOVE
     if (e.type === ELinstenerTypes.Tap) {
       type = BREADCRUMBTYPES.TAP
