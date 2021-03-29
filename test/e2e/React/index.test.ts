@@ -1,6 +1,6 @@
 import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import { reactUrl } from '@/test/config'
-import { TransportDataType } from '@mitojs/types'
+import { ReportDataType, TransportDataType } from '@mitojs/types'
 import { Severity } from '@mitojs/utils'
 import puppeteer from 'puppeteer'
 import { BreadcrumbPushData } from '@mitojs/types'
@@ -55,13 +55,13 @@ describe('React e2e', () => {
         expect(stack[0].data).toBe('Error: I crashed!')
         // upload
         const { authInfo, data } = JSON.parse(request.postData()) as TransportDataType
-        expect(data.type).toBe(ERRORTYPES.REACT_ERROR)
-        expect(data.level).toBe(Severity.Normal)
-        expect(data.name).toBe('Error')
-        expect(data.level).toBe(Severity.Normal)
-        expect(data.message).toBe('I crashed!')
+        expect((data as ReportDataType).type).toBe(ERRORTYPES.REACT_ERROR)
+        expect((data as ReportDataType).level).toBe(Severity.Normal)
+        expect((data as ReportDataType).name).toBe('Error')
+        expect((data as ReportDataType).level).toBe(Severity.Normal)
+        expect((data as ReportDataType).message).toBe('I crashed!')
         // stack is array
-        expect(Array.isArray(data.stack)).toBeTruthy()
+        expect(Array.isArray((data as ReportDataType).stack)).toBeTruthy()
         expect(authInfo.sdkName).toBe(SDK_NAME)
         expect(authInfo.sdkVersion).toBe(SDK_VERSION)
         done()

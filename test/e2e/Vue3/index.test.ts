@@ -1,6 +1,6 @@
 import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import { vue3Url } from '@/test/config'
-import { TransportDataType, BreadcrumbPushData } from '@mitojs/types'
+import { TransportDataType, BreadcrumbPushData, ReportDataType } from '@mitojs/types'
 import { Severity } from '@mitojs/utils'
 import puppeteer from 'puppeteer'
 import {} from '@mitojs/types'
@@ -54,15 +54,15 @@ describe('Vue3 e2e', () => {
         expect(stack[1].level).toBe(Severity.Error)
         // upload
         const { authInfo, data } = JSON.parse(request.postData()) as TransportDataType
-        expect(data.type).toBe(ERRORTYPES.VUE_ERROR)
-        expect(data.level).toBe(Severity.Normal)
-        expect(data.name).toBe('TypeError')
-        expect(data.level).toBe(Severity.Normal)
-        expect(data.componentName).toBe('component <error-button>')
-        expect(data.propsData).toEqual({ btnName: '点击:Vue3错误上报' })
-        expect(data.message).toBe("Cannot set property 'a' of undefined(native event handler)")
+        expect((data as ReportDataType).type).toBe(ERRORTYPES.VUE_ERROR)
+        expect((data as ReportDataType).level).toBe(Severity.Normal)
+        expect((data as ReportDataType).name).toBe('TypeError')
+        expect((data as ReportDataType).level).toBe(Severity.Normal)
+        expect((data as ReportDataType).componentName).toBe('component <error-button>')
+        expect((data as ReportDataType).propsData).toEqual({ btnName: '点击:Vue3错误上报' })
+        expect((data as ReportDataType).message).toBe("Cannot set property 'a' of undefined(native event handler)")
         // stack is string
-        expect(data.stack).toBeDefined()
+        expect((data as ReportDataType).stack).toBeDefined()
         expect(authInfo.sdkName).toBe(SDK_NAME)
         expect(authInfo.sdkVersion).toBe(SDK_VERSION)
         done()

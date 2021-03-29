@@ -47,9 +47,9 @@ describe('Native JS e2e:', () => {
     async () => {
       function interceptRequest(request: puppeteer.Request) {
         const { authInfo, data } = JSON.parse(request.postData()) as TransportDataType
-        expect(data.type).toBe(ERRORTYPES.JAVASCRIPT_ERROR)
-        expect(data.level).toBe(Severity.Normal)
-        expect(Array.isArray(data.stack)).toBeTruthy()
+        expect((data as ReportDataType).type).toBe(ERRORTYPES.JAVASCRIPT_ERROR)
+        expect((data as ReportDataType).level).toBe(Severity.Normal)
+        expect(Array.isArray((data as ReportDataType).stack)).toBeTruthy()
         expect(authInfo.sdkName).toBe(SDK_NAME)
         expect(authInfo.sdkVersion).toBe(SDK_VERSION)
       }
@@ -118,8 +118,8 @@ describe('Native JS e2e:', () => {
       finishedRequestHandles.push(requestfinishedHandle)
       function interceptedRequest(request: puppeteer.Request) {
         const { authInfo, data } = JSON.parse(request.postData()) as TransportDataType
-        expect(data.type).toBe(ERRORTYPES.FETCH_ERROR)
-        expect(data.level).toBe(Severity.Low)
+        expect((data as ReportDataType).type).toBe(ERRORTYPES.FETCH_ERROR)
+        expect((data as ReportDataType).level).toBe(Severity.Low)
         expect(authInfo.sdkName).toBe(SDK_NAME)
         expect(authInfo.sdkVersion).toBe(SDK_VERSION)
       }
@@ -175,8 +175,8 @@ describe('Native JS e2e:', () => {
       finishedRequestHandles.push(requestfinishedHandle)
       function interceptedRequest(request: puppeteer.Request) {
         const { data } = JSON.parse(request.postData()) as TransportDataType
-        expect(data.type).toBe(ERRORTYPES.FETCH_ERROR)
-        expect(data.level).toBe(Severity.Low)
+        expect((data as ReportDataType).type).toBe(ERRORTYPES.FETCH_ERROR)
+        expect((data as ReportDataType).level).toBe(Severity.Low)
       }
       uploadRequestHandles.push(interceptedRequest)
       page.click('#exceptionFetch')
@@ -193,11 +193,11 @@ describe('Native JS e2e:', () => {
         expect(stack[1].type).toBe(BREADCRUMBTYPES.CUSTOMER)
         expect(stack[1].level).toBe(Severity.Error)
         const { data } = JSON.parse(request.postData()) as TransportDataType
-        expect(data.customTag).toBe('测试')
-        expect(data.name).toBe('MITO.log')
-        expect(data.type).toBe(ERRORTYPES.LOG_ERROR)
-        expect(data.level).toBe(Severity.Critical)
-        expect(data.message).toBe(JSON.stringify({ one: 111 }))
+        expect((data as ReportDataType).customTag).toBe('测试')
+        expect((data as ReportDataType).name).toBe('MITO.log')
+        expect((data as ReportDataType).type).toBe(ERRORTYPES.LOG_ERROR)
+        expect((data as ReportDataType).level).toBe(Severity.Critical)
+        expect((data as ReportDataType).message).toBe(JSON.stringify({ one: 111 }))
         done()
       }
       uploadRequestHandles.push(interceptedRequest)
@@ -215,10 +215,10 @@ describe('Native JS e2e:', () => {
         expect(stack[1].type).toBe(BREADCRUMBTYPES.UNHANDLEDREJECTION)
         expect(stack[1].level).toBe(Severity.Error)
         const { data } = JSON.parse(request.postData()) as TransportDataType
-        expect(data.name).toBe('unhandledrejection')
-        expect(data.type).toBe(ERRORTYPES.PROMISE_ERROR)
-        expect(data.level).toBe(Severity.Low)
-        expect(data.message).toBe('promise reject')
+        expect((data as ReportDataType).name).toBe('unhandledrejection')
+        expect((data as ReportDataType).type).toBe(ERRORTYPES.PROMISE_ERROR)
+        expect((data as ReportDataType).level).toBe(Severity.Low)
+        expect((data as ReportDataType).message).toBe('promise reject')
         done()
       }
       uploadRequestHandles.push(interceptedRequest)
