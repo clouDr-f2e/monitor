@@ -92,10 +92,10 @@ function replacePageLifeMethods(
       method.replace('PageOn', 'on'),
       function (originMethod: (args: any) => void) {
         return function (...args: any[]): void {
-          if (originMethod) {
-            originMethod.apply(this, args)
-          }
           triggerHandlers.apply(null, [method, ...args])
+          if (originMethod) {
+            return originMethod.apply(this, args)
+          }
         }
       },
       true
@@ -283,6 +283,7 @@ export function replaceNetwork() {
           data.elapsedTime = endTime - data.sTime
           data.status = res.statusCode
           data.errMsg = res.errMsg
+          data.time = endTime
 
           triggerHandlers(EVENTTYPES.XHR, data)
           if (typeof options.success === 'function') {
