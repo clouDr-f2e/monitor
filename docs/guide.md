@@ -283,14 +283,35 @@ function ActivePage() {
   useEffect(() => {
     //可统计PV、UV
     MITO.log({
-      message: '活动页',
-      // 标签：可选
-      // tag: ''
+      // 可选
+      // message: '统计',
+      // 可选
+      tag: '活动页统计'
     })
   }, [])
   return <div>这是活动页</div>
 }
 ```
+**生成errorId规则**
+主要是根据传入的`tag`来生成的，所以相同的`tag`加上不同的`message`生成相同的`errorId`，比如:
+```js
+MITO.log({
+  // 可选
+  message: '这是测试1',
+  // 可选
+  tag: '活动页统计'
+})
+```
+
+```js
+MITO.log({
+  // 可选
+  message: '这是测试2',
+  // 可选
+  tag: '活动页统计'
+})
+```
+上面两个`errorId`是相同的，但只要`tag`变一下两个`errorId`就不一样了
 
 
 
@@ -318,12 +339,11 @@ function ActivePage() {
 </details>
 
 <details>
- <summary>前端平台后端会不会开源出来？有没有免费的saas服务可以直接使用？</summary>
+ <summary>监控平台服务端会不会开源出来？有没有免费的saas服务可以直接使用？</summary>
 
 
 
-目前后端也在持续迭代中，等迭代稳定后会考虑将`saas`服务开放出来
-
+目前服务端也在持续迭代中，等迭代稳定后会考虑将`saas`服务开放出来
 
 
 </details>

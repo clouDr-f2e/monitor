@@ -25,9 +25,10 @@ react@next的ErrorBoundary的错误上报函数[具体使用](https://github.com
 |              Name              | Type      | Default    | Description                                                  |
 | :----------------------------: | --------- | ---------- | ------------------------------------------------------------ |
 |             `dsn`              | `string`  | `""`       | dsn服务地址，上报接口的地址，post方法                        |
+|           `trackDsn`           | `string`  | `""`       | trackDsn服务地址，埋点上报接口的地址，为空时不上报，post方法                 |
 |           `disabled`           | `boolean` | `false`    | 默认是开启状态，为true时，会将sdk禁用                        |
 |            `apikey`            | `string`  | `""`       | 每个项目对应一个apikey，用于存放错误集合的唯一标识           |
-|            `debug`             | `boolean` | `false`    | 默认不会在控制台打印用户行为和错误信息，为true时将会在控台打印 |
+|            `debug`             | `boolean` | `false`    | 默认不会在控制台打印用户行为和错误信息，为true时将会在控台打印，推荐本地调试时置为true |
 |        `enableTraceId`         | `boolean` | `false`    | 为`true`时，页面的所有请求都会生成一个uuid，放入请求头中，和配置项：`traceIdFieldName`搭配使用 |
 |       `traceIdFieldName`       | `string`  | `Trace-Id` | 如果`enableTraceId`为true时，将会在所有请求头中添加`key`为`Trace-Id`，`value`为`uuid`的`traceId`，与`includeHttpUrlTraceIdRegExp`搭配使用 |
 |  `includeHttpUrlTraceIdRegExp`  | ` RegExp` | `null`     | 如果你开启了`enableTraceId`，还需要配置该属性，比如将改属性置为：`/api/`，那么所有包含`api`的的接口地址都将塞入traceId |
@@ -105,7 +106,7 @@ export interface HooksTypes {
 
 #### configReportXhr
 
-**示例**：上报服务端（你配置的dsn接口）时，可以自定义设置请求头，如下所示，设置了Content-Type
+**示例**：上报服务端（你配置的dsn或trackDsn接口）时，可以自定义设置请求头，如下所示，设置了Content-Type
 
 ```
 MITO.init({
@@ -232,21 +233,78 @@ MITO.init({
 
 ### wx-mini.hook
 
-#### appOnLaunch?(*options*: WechatMiniprogram.App.LaunchShowOption): void
+```js
+  /**
+   * wx小程序的App下的onLaunch执行完后再执行以下hook
+   */
+  appOnLaunch?(options: WechatMiniprogram.App.LaunchShowOption): void
+  /**
+   * wx小程序的App下的OnShow执行完后再执行以下hook
+   */
+  appOnShow?(options: WechatMiniprogram.App.LaunchShowOption): void
+  /**
+   * wx小程序的App下的OnHide执行完后再执行以下hook
+   */
+  appOnHide?(page: IWxPageInstance): void
+  /**
+   * wx小程序的App下的onPageNotFound执行完后再执行以下hook
+   */
+  onPageNotFound?(data: WechatMiniprogram.OnPageNotFoundCallbackResult): void
+  /**
+   * 先执行hook:pageOnShow再执行wx小程序的Page下的onShow
+   */
+  pageOnShow?(page: IWxPageInstance): void
+  /**
+   * 先执行hook:pageOnHide再执行wx小程序的Page下的onHide
+   */
+  pageOnHide?(page: IWxPageInstance): void
+  /**
+   * 先执行hook:onShareAppMessage再执行wx小程序的Page下的onShareAppMessage
+   */
+  onShareAppMessage?(options: WechatMiniprogram.Page.IShareAppMessageOption & IWxPageInstance): void
+  /**
+   * 先执行hook:onShareTimeline再执行wx小程序的Page下的onShareTimeline
+   */
+  onShareTimeline?(page: IWxPageInstance): void
+  /**
+   * 先执行hook:onTabItemTap再执行wx小程序的Page下的onTabItemTap
+   */
+  onTabItemTap?(options: WechatMiniprogram.Page.ITabItemTapOption & IWxPageInstance): void
+  /**
+   * 重写wx.NavigateToMiniProgram将里面的参数抛出来，便于在跳转时更改query和extraData
+   * @param options
+   */
+  wxNavigateToMiniProgram?(options: WechatMiniprogram.NavigateToMiniProgramOption): WechatMiniprogram.NavigateToMiniProgramOption
+  /**
+   * 代理Action中所有函数，拿到第一个参数并抛出hook
+   * @param e
+   */
+  triggerWxEvent?(e: WechatMiniprogram.BaseEvent): void
+```
 
-####  appOnShow?(*options*: WechatMiniprogram.App.LaunchShowOption): void
-
-#### appOnHide?(*page*: IWxPageInstance): void
-
-####  onPageNotFound?(*data*: WechatMiniprogram.OnPageNotFoundCallbackResult): void
-
-####  pageOnShow?(*page*: IWxPageInstance): void
-
-####  pageOnHide?(*page*: IWxPageInstance): void
-
-####  onShareAppMessage?(*options*: WechatMiniprogram.Page.IShareAppMessageOption & IWxPageInstance): void
-
-####  onShareTimeline?(*page*: IWxPageInstance): void
-
-####  onTabItemTap?(*options*: WechatMiniprogram.Page.ITabItemTapOption & IWxPageInstance): void
-
+#### 示例
+```js
+MITO.init({
+  ...
+  appOnLaunch(options){
+  	console.log('wx app打开', options)
+	},
+  pageOnShow(options) {
+    // 页面打开，用于无痕埋点
+  },
+  pageOnHide(options) {
+    // 页面离开 用于无痕埋点
+  },
+  wxNavigateToMiniProgram(options) {
+    // 小程序跳小程序时query添加参数
+    options.path = options.path + '?params=something'
+    return options
+  },
+  triggerWxEvent(e) {
+    // 如果是用户触发的事件，可以拿到以下信息
+    // e.currentTarget.dataset
+    // e.currentTarget.id
+    // e.currentTarget.type
+  }
+})
+```

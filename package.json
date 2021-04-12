@@ -12,9 +12,7 @@
     "unit": "jest --config jsdom.jest.config.ts",
     "test": " npm run unit && npm run e2e",
     "test:watch": "jest --watch",
-    "format": "prettier --write -,-parser typescript \"packages/**/*.ts?(x)\"",
-    "company": "rollup  --config mito/web/rollup.company.js",
-    "company:wx": "rollup  --config mito/wx-mini/rollup.wx.company.js"
+    "format": "prettier --write -,-parser typescript \"packages/**/*.ts?(x)\""
   },
   "repository": {
     "type": "git",
