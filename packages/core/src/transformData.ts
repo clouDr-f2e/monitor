@@ -1,5 +1,5 @@
 import { BREADCRUMBTYPES, ERRORTYPES, globalVar } from '@mitojs/shared'
-import { getLocationHref, getTimestamp, Severity, fromHttpStatus, SpanStatus } from '@mitojs/utils'
+import { getLocationHref, getTimestamp, Severity, fromHttpStatus, SpanStatus, interceptStr } from '@mitojs/utils'
 import { ReportDataType, MITOHttp, Replace, ResourceErrorTarget } from '@mitojs/types'
 import { getRealPath } from './errorId'
 import { breadcrumb } from './breadcrumb'
@@ -46,7 +46,7 @@ export function resourceTransform(target: ResourceErrorTarget): ReportDataType {
   return {
     type: ERRORTYPES.RESOURCE_ERROR,
     url: getLocationHref(),
-    message: '资源地址: ' + (target.src.slice(0, 100) || target.href.slice(0, 100)),
+    message: '资源地址: ' + (interceptStr(target.src, 120) || interceptStr(target.href, 120)),
     level: Severity.Low,
     time: getTimestamp(),
     name: `${resourceMap[target.localName] || target.localName}加载失败`

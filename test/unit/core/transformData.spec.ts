@@ -1,7 +1,7 @@
 import { ERRORTYPES, HTTPTYPE } from '@mitojs/shared'
 import { httpTransform, resourceTransform, getRealPath } from '@mitojs/core'
 import { EMethods, MITOHttp, ResourceErrorTarget } from '@mitojs/types'
-import { getLocationHref, fromHttpStatus, Severity } from '@mitojs/utils'
+import { getLocationHref, fromHttpStatus, Severity, interceptStr } from '@mitojs/utils'
 
 describe('transformData.ts', () => {
   it('should resourceTransform func work', () => {
@@ -13,7 +13,7 @@ describe('transformData.ts', () => {
     expect(originData).toEqual({
       type: ERRORTYPES.RESOURCE_ERROR,
       url: getLocationHref(),
-      message: `资源地址: ${mockData.src.slice(0, 100)}`,
+      message: `资源地址: ${interceptStr(mockData.src, 120)}`,
       level: Severity.Low,
       time: originData.time,
       name: `图片加载失败`

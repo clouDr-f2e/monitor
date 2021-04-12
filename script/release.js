@@ -26,6 +26,10 @@ async function release() {
   })
 }
 
+async function validateVersion() {}
+
+async function changeVersion() {}
+
 async function publicPackage(pkgName) {
   const pkgRoot = getPkgRoot(pkgName)
   const pkgPath = path.resolve(pkgRoot, 'package.json')

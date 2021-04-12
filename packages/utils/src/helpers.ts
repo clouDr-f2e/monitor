@@ -198,6 +198,13 @@ export function setUrlQuery(url: string, query: object) {
   return url
 }
 
+export function interceptStr(str: string, interceptLength: number): string {
+  if (variableTypeDetection.isString(str)) {
+    return str.slice(0, interceptLength) + (str.length > interceptLength ? `:截取前${interceptLength}个字符` : '')
+  }
+  return ''
+}
+
 /**
  * 获取wx当前route的方法
  * 必须是在进入Page或Component构造函数内部才能够获取到currentPages
