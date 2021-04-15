@@ -31,9 +31,13 @@ export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEvent
    */
   disabled?: boolean
   /**
-   * 每个项目有一个唯一key
+   * 每个项目有一个唯一key，给监控的dsn用的
    */
   apikey?: string
+  /**
+   * 每个项目有一个唯一trackKey，给埋点的dsn用的
+   */
+  trackKey?: string
   /**
    * 默认为关闭，为true是会打印一些信息：breadcrumb
    */

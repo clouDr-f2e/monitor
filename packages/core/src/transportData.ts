@@ -27,6 +27,7 @@ export class TransportData {
   backTrackerId: InitOptions | unknown = null
   configReportXhr: unknown = null
   apikey = ''
+  trackKey = ''
   errorDsn = ''
   trackDsn = ''
   constructor() {
@@ -90,15 +91,20 @@ export class TransportData {
   }
   getAuthInfo(): AuthInfo {
     const trackerId = this.getTrackerId()
-    return {
+    const result: AuthInfo = {
       trackerId: String(trackerId),
       sdkVersion: SDK_VERSION,
-      sdkName: SDK_NAME,
-      apikey: this.apikey
+      sdkName: SDK_NAME
     }
+    this.apikey && (result.apikey = this.apikey)
+    this.trackKey && (result.trackKey = this.trackKey)
+    return result
   }
   getApikey() {
     return this.apikey
+  }
+  getTrackKey() {
+    return this.trackKey
   }
   getTrackerId(): string | number {
     if (typeof this.backTrackerId === 'function') {
@@ -124,8 +130,9 @@ export class TransportData {
     return targetUrl.indexOf(this.errorDsn) !== -1
   }
   bindOptions(options: InitOptions = {}): void {
-    const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId, trackDsn } = options
+    const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId, trackDsn, trackKey } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
+    validateOption(trackKey, 'trackKey', 'string') && (this.trackKey = trackKey)
     validateOption(dsn, 'dsn', 'string') && (this.errorDsn = dsn)
     validateOption(trackDsn, 'trackDsn', 'string') && (this.trackDsn = trackDsn)
     validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport)

@@ -3,7 +3,8 @@ import { BreadcrumbPushData } from './breadcrumb'
 import { DeviceInfo, EActionType } from './track'
 
 export interface AuthInfo {
-  apikey: string
+  apikey?: string
+  trackKey?: string
   sdkVersion: string
   sdkName: string
   trackerId: string
