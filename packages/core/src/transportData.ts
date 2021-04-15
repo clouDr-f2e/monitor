@@ -130,6 +130,7 @@ export class TransportData {
   isSdkTransportUrl(targetUrl: string): boolean {
     return targetUrl.indexOf(this.errorDsn) !== -1
   }
+
   bindOptions(options: InitOptions = {}): void {
     const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId, trackDsn, trackKey } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
