@@ -21,7 +21,6 @@ import { AuthInfo, TransportDataType, EMethods, InitOptions, isReportDataType, D
  * ../class Transport
  */
 export class TransportData {
-  static img = new Image()
   queue: Queue
   beforeDataReport: unknown = null
   backTrackerId: InitOptions | unknown = null
@@ -33,9 +32,11 @@ export class TransportData {
   constructor() {
     this.queue = new Queue()
   }
-  imgRequest(data: Record<string, unknown>, url: string): void {
-    TransportData.img.src = `${url}?${splitObjToQuery(data)}`
-  }
+  // imgRequest(data: Record<string, unknown>, url: string): void {
+  //   let img = new Image()
+  //   img.src = `${url}?${splitObjToQuery(data)}`
+  //   img = null
+  // }
   getRecord(): any[] {
     const recordData = _support.record
     if (recordData && variableTypeDetection.isArray(recordData) && recordData.length > 2) {
