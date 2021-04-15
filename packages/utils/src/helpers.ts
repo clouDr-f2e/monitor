@@ -53,15 +53,16 @@ export function replaceOld(source: IAnyObject, name: string, replacement: (...ar
  * 用&分割对象，返回a=1&b=2
  * ../param obj 需要拼接的对象
  */
-// export function splitObjToQuery(obj: Record<string, unknown>): string {
-//   return Object.entries(obj).reduce((result, [key, value], index) => {
-//     if (index !== 0) {
-//       result += '&'
-//     }
-//     result += `${key}=${value}`
-//     return result
-//   }, '')
-// }
+export function splitObjToQuery(obj: Record<string, unknown>): string {
+  return Object.entries(obj).reduce((result, [key, value], index) => {
+    if (index !== 0) {
+      result += '&'
+    }
+    const valueStr = variableTypeDetection.isObject(value) || variableTypeDetection.isArray(value) ? JSON.stringify(value) : value
+    result += `${key}=${valueStr}`
+    return result
+  }, '')
+}
 
 export const defaultFunctionName = '<anonymous>'
 /**

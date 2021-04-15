@@ -1,4 +1,14 @@
-import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue, isEmpty } from '@mitojs/utils'
+import {
+  _support,
+  validateOption,
+  logger,
+  isBrowserEnv,
+  isWxMiniEnv,
+  variableTypeDetection,
+  Queue,
+  isEmpty,
+  splitObjToQuery
+} from '@mitojs/utils'
 import { createErrorId } from './errorId'
 import { SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import { breadcrumb } from './breadcrumb'
@@ -11,7 +21,7 @@ import { AuthInfo, TransportDataType, EMethods, InitOptions, isReportDataType, D
  * ../class Transport
  */
 export class TransportData {
-  // static img = new Image()
+  static img = new Image()
   queue: Queue
   beforeDataReport: unknown = null
   backTrackerId: InitOptions | unknown = null
@@ -22,9 +32,9 @@ export class TransportData {
   constructor() {
     this.queue = new Queue()
   }
-  // imgRequest(data: Record<string, unknown>): void {
-  //   TransportData.img.src = `${this.url}?${splitObjToQuery(data)}`
-  // }
+  imgRequest(data: Record<string, unknown>, url: string): void {
+    TransportData.img.src = `${url}?${splitObjToQuery(data)}`
+  }
   getRecord(): any[] {
     const recordData = _support.record
     if (recordData && variableTypeDetection.isArray(recordData) && recordData.length > 2) {
