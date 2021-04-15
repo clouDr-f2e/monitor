@@ -31,6 +31,7 @@ const HandleWxAppEvents = {
     })
   },
   async onShow(options: WechatMiniprogram.App.LaunchShowOption) {
+    _support.deviceInfo = await getWxMiniDeviceInfo()
     sdkOptions.appOnShow(options)
     const data: WxLifeCycleBreadcrumb = {
       path: options.path,
@@ -42,7 +43,6 @@ const HandleWxAppEvents = {
       data,
       level: Severity.Info
     })
-    _support.deviceInfo = await getWxMiniDeviceInfo()
   },
   onHide() {
     sdkOptions.appOnHide()
