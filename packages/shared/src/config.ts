@@ -1,2 +1,2 @@
 export const SDK_NAME = 'mitojs'
-export const SDK_VERSION = '2.0.6'
+export const SDK_VERSION = '2.0.7'
