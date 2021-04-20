@@ -7,13 +7,14 @@ const VueFilePath = resolveDirname('../Vue')
 const ReactFilePath = resolveDirname('../React')
 const Vue3FilePath = resolveDirname('../Vue3')
 const distFilePath = resolve('./packages/web/dist')
-console.log(distFilePath)
+const wxDistFilePath = resolve('./packages/wx-mini/dist')
 export const FilePaths = {
   '/JS': JsFilePath,
   '/Vue': VueFilePath,
   '/React': ReactFilePath,
   '/Vue3': Vue3FilePath,
-  '/dist': distFilePath
+  '/dist': distFilePath,
+  '/wxDist': wxDistFilePath
 }
 
 export const ServerUrls = {
