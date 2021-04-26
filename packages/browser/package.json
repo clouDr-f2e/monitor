@@ -1,6 +1,6 @@
 {
   "name": "@mitojs/browser",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "A SDK For Monitoring Browser Errors",
   "author": "cjinhuo",
   "license": "MIT",
@@ -11,10 +11,10 @@
     "dist"
   ],
   "dependencies": {
-    "@mitojs/utils": "2.0.8",
-    "@mitojs/core": "2.0.8",
-    "@mitojs/shared": "2.0.8",
-    "@mitojs/types": "2.0.8"
+    "@mitojs/utils": "2.0.9",
+    "@mitojs/core": "2.0.9",
+    "@mitojs/shared": "2.0.9",
+    "@mitojs/types": "2.0.9"
   },
   "buildOptions": {
     "formats": [

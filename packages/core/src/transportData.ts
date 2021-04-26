@@ -59,10 +59,9 @@ export class TransportData {
       transportData = await this.beforeDataReport(transportData)
       if (!transportData) return false
     }
-    return JSON.stringify(transportData)
+    return transportData
   }
-  async urlHandle() {}
-  async xhrPost(data: string, url: string) {
+  async xhrPost(data: any, url: string) {
     const requestFun = (): void => {
       const xhr = new XMLHttpRequest()
       xhr.open(EMethods.Post, url)
@@ -75,7 +74,7 @@ export class TransportData {
     }
     this.queue.addFn(requestFun)
   }
-  async wxPost(data: string, url: string) {
+  async wxPost(data: any, url: string) {
     const requestFun = (): void => {
       wx.request({
         method: 'POST',
