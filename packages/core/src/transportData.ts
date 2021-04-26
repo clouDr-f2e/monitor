@@ -70,7 +70,7 @@ export class TransportData {
       if (typeof this.configReportXhr === 'function') {
         this.configReportXhr(xhr)
       }
-      xhr.send(data)
+      xhr.send(JSON.stringify(data))
     }
     this.queue.addFn(requestFun)
   }
