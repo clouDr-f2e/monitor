@@ -11,10 +11,7 @@
     "dist"
   ],
   "dependencies": {
-    "@mitojs/utils": "2.1.0",
-    "@mitojs/core": "2.1.0",
-    "@mitojs/shared": "2.1.0",
-    "@mitojs/types": "2.1.0",
+    "@mitojs/browser": "2.1.0",
     "@mitojs/react": "2.1.0",
     "@mitojs/vue": "2.1.0"
   }

@@ -11,6 +11,12 @@ $ yarn
 $ yarn build
 ```
 
+### npm global
+`npm install --global rollup`
+
+`npm install --global prettier`
+
+
 ## examples
 ```
 $ yarn run examples
@@ -26,6 +32,7 @@ yarn run unit
 ```
 $ yarn run e2e
 ```
+
 
 
 ### local build
