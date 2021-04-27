@@ -679,6 +679,13 @@
   "resolved" "https://registry.npmjs.org/@rollup/plugin-html/-/plugin-html-0.2.3.tgz"
   "version" "0.2.3"
 
+"@rollup/plugin-json@^4.1.0":
+  "integrity" "sha1-VOCYZ65pY8WThE2L16nHGClElvM="
+  "resolved" "https://registry.npm.taobao.org/@rollup/plugin-json/download/@rollup/plugin-json-4.1.0.tgz"
+  "version" "4.1.0"
+  dependencies:
+    "@rollup/pluginutils" "^3.0.8"
+
 "@rollup/plugin-node-resolve@^8.4.0":
   "integrity" "sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ=="
   "resolved" "https://registry.npmjs.org/@rollup/plugin-node-resolve/-/plugin-node-resolve-8.4.0.tgz"
@@ -5112,7 +5119,7 @@
   dependencies:
     "estree-walker" "^0.6.1"
 
-"rollup@^1.20.0||^2.0.0", "rollup@^2.0.0", "rollup@^2.21.0", "rollup@^2.3.4", "rollup@>=1.26.3", "rollup@>=2.0":
+"rollup@^1.20.0 || ^2.0.0", "rollup@^1.20.0||^2.0.0", "rollup@^2.0.0", "rollup@^2.21.0", "rollup@^2.3.4", "rollup@>=1.26.3", "rollup@>=2.0":
   "integrity" "sha512-WiOGAPbXoHu+TOz6hyYUxIksOwsY/21TRWoO593jgYt8mvYafYqQl+axaA8y1z2HFazNUUrsMSjahV2A6/2R9A=="
   "resolved" "https://registry.npmjs.org/rollup/-/rollup-2.40.0.tgz"
   "version" "2.40.0"
