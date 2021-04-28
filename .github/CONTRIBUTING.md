@@ -44,3 +44,10 @@ types：是否生成声明文件
 
 wx-mini：表示打包的模块，如果想打包多个模块，可以跟着多个模块名称：web wx-mini，不用=
 
+
+### version script
+`npm run version [version] [...modules]`
+
+`npm run version 2.2.2 core`：表示将`core`包的`package.json`的`version`和`dependencies`的`@mitojs`开头的`version`改为2.2.2
+
+`npm run version 2.2.2`表示将`packages`下面的所有包都改为`2.2.2`
