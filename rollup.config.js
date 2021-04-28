@@ -5,6 +5,9 @@ import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 import clear from 'rollup-plugin-clear'
 import cleanup from 'rollup-plugin-cleanup'
+import size from 'rollup-plugin-sizes'
+import { visualizer } from 'rollup-plugin-visualizer'
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
 if (!process.env.TARGET) {
@@ -29,12 +32,22 @@ const paths = {
   '@mitojs/shared': [`${packagesDir}/shared/src`],
   '@mitojs/browser': [`${packagesDir}/browser/src`],
   '@mitojs/react': [`${packagesDir}/react/src`],
-  '@mitojs/vue': [`${packagesDir}/vue/src`]
+  '@mitojs/vue': [`${packagesDir}/vue/src`],
+  '@mitojs/wx-mini': [`${packagesDir}/wx-mini/src`]
 }
+
+const external = [paths['@mitojs/core'], paths['@mitojs/utils'], paths['@mitojs/types']]
 const common = {
   input: `${packageDir}/src/index.ts`,
+  // out: {
+  //   banner: `/* ${name} version ' + ${masterVersion} + ' */`,
+  //   footer: '/* follow me on Github! @cjinhuo */'
+  // },
+  external,
   plugins: [
     resolve(),
+    size(),
+    visualizer(),
     commonjs({
       exclude: 'node_modules'
     }),
@@ -59,13 +72,15 @@ const common = {
   ]
 }
 const esmPackage = {
-  input: common.input,
+  // input: common.input,
+  // external: common.external,
   output: {
     file: `${packageDirDist}/${name}.esm.js`,
     format: 'esm',
     name: 'MITO',
     sourcemap: true
   },
+  ...common,
   plugins: [
     ...common.plugins,
     clear({
@@ -74,23 +89,27 @@ const esmPackage = {
   ]
 }
 const cjsPackage = {
-  input: common.input,
+  // input: common.input,
+  // external: common.external,
   output: {
     file: `${packageDirDist}/${name}.js`,
     format: 'cjs',
     name: 'MITO',
     sourcemap: true
   },
+  ...common,
   plugins: [...common.plugins]
 }
 
 const iifePackage = {
-  input: common.input,
+  // input: common.input,
+  // external: common.external,
   output: {
     file: `${packageDirDist}/${name}.min.js`,
     format: 'iife',
     name: 'MITO'
   },
+  ...common,
   plugins: [...common.plugins, terser()]
 }
 const total = {

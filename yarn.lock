@@ -2600,6 +2600,11 @@
   dependencies:
     "flat-cache" "^3.0.4"
 
+"filesize@^6.0.1":
+  "integrity" "sha1-3/U8+z8QTJ5CLzRtU76NvMlxvxE="
+  "resolved" "https://registry.nlark.com/filesize/download/filesize-6.3.0.tgz"
+  "version" "6.3.0"
+
 "fill-range@^4.0.0":
   "integrity" "sha1-1USBHUKPmOsGpj3EAtJAPDKMOPc="
   "resolved" "https://registry.npmjs.org/fill-range/-/fill-range-4.0.0.tgz"
@@ -4296,6 +4301,11 @@
   "resolved" "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   "version" "1.0.4"
 
+"module-details-from-path@^1.0.3":
+  "integrity" "sha1-EUyUlnPiqKNenTV4hSeqN7Z52is="
+  "resolved" "https://registry.npm.taobao.org/module-details-from-path/download/module-details-from-path-1.0.3.tgz"
+  "version" "1.0.3"
+
 "ms@2.0.0":
   "integrity" "sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g="
   "resolved" "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz"
@@ -4333,6 +4343,11 @@
   "integrity" "sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s="
   "resolved" "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.7.tgz"
   "version" "0.0.7"
+
+"nanoid@^3.1.22":
+  "integrity" "sha1-s1+Pt9FRmQqK69WqUBXAPPcm+EQ="
+  "resolved" "https://registry.npm.taobao.org/nanoid/download/nanoid-3.1.22.tgz"
+  "version" "3.1.22"
 
 "nanomatch@^1.2.9":
   "integrity" "sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA=="
@@ -4516,7 +4531,7 @@
   dependencies:
     "mimic-fn" "^2.1.0"
 
-"open@^7.3.0":
+"open@^7.3.0", "open@^7.4.2":
   "integrity" "sha512-MVHddDVweXZF3awtlAS+6pgKLlm/JgxZ90+/NBurBoQctVOOB/zDdVjcyPzQ+0laDGbsWgrRkflI65sQeOgT9Q=="
   "resolved" "https://registry.npmjs.org/open/-/open-7.4.2.tgz"
   "version" "7.4.2"
@@ -5091,6 +5106,14 @@
   dependencies:
     "rimraf" "^2.6.2"
 
+"rollup-plugin-sizes@^1.0.4":
+  "integrity" "sha1-o5VpnGl0CzB1g2iT28fulcne0C4="
+  "resolved" "https://registry.nlark.com/rollup-plugin-sizes/download/rollup-plugin-sizes-1.0.4.tgz"
+  "version" "1.0.4"
+  dependencies:
+    "filesize" "^6.0.1"
+    "module-details-from-path" "^1.0.3"
+
 "rollup-plugin-terser@^6.1.0":
   "integrity" "sha512-4fB3M9nuoWxrwm39habpd4hvrbrde2W2GG4zEGPQg1YITNkM3Tqur5jSuXlWNzbv/2aMLJ+dZJaySc3GCD8oDw=="
   "resolved" "https://registry.npmjs.org/rollup-plugin-terser/-/rollup-plugin-terser-6.1.0.tgz"
@@ -5112,6 +5135,16 @@
     "resolve" "1.17.0"
     "tslib" "2.0.1"
 
+"rollup-plugin-visualizer@^5.4.1":
+  "integrity" "sha1-7CXIjR66ttUj6TjACEyhTP5jsC4="
+  "resolved" "https://registry.nlark.com/rollup-plugin-visualizer/download/rollup-plugin-visualizer-5.4.1.tgz"
+  "version" "5.4.1"
+  dependencies:
+    "nanoid" "^3.1.22"
+    "open" "^7.4.2"
+    "source-map" "^0.7.3"
+    "yargs" "^16.2.0"
+
 "rollup-pluginutils@^2.8.2":
   "integrity" "sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ=="
   "resolved" "https://registry.npmjs.org/rollup-pluginutils/-/rollup-pluginutils-2.8.2.tgz"
@@ -5120,9 +5153,9 @@
     "estree-walker" "^0.6.1"
 
 "rollup@^1.20.0 || ^2.0.0", "rollup@^1.20.0||^2.0.0", "rollup@^2.0.0", "rollup@^2.21.0", "rollup@^2.3.4", "rollup@>=1.26.3", "rollup@>=2.0":
-  "integrity" "sha512-WiOGAPbXoHu+TOz6hyYUxIksOwsY/21TRWoO593jgYt8mvYafYqQl+axaA8y1z2HFazNUUrsMSjahV2A6/2R9A=="
-  "resolved" "https://registry.npmjs.org/rollup/-/rollup-2.40.0.tgz"
-  "version" "2.40.0"
+  "integrity" "sha1-j7hZF8nzVgVyDpIyjzzL+6b3i0g="
+  "resolved" "https://registry.npm.taobao.org/rollup/download/rollup-2.45.2.tgz?cache=0&sync_timestamp=1618288827648&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frollup%2Fdownload%2Frollup-2.45.2.tgz"
+  "version" "2.45.2"
   optionalDependencies:
     "fsevents" "~2.3.1"
 
@@ -5422,8 +5455,8 @@
   "version" "0.6.1"
 
 "source-map@^0.7.3":
-  "integrity" "sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ=="
-  "resolved" "https://registry.npmjs.org/source-map/-/source-map-0.7.3.tgz"
+  "integrity" "sha1-UwL4FpAxc1ImVECS5kmB91F1A4M="
+  "resolved" "https://registry.npm.taobao.org/source-map/download/source-map-0.7.3.tgz"
   "version" "0.7.3"
 
 "sourcemap-codec@^1.4.4":
