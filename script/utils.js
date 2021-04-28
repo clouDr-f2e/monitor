@@ -48,3 +48,5 @@ exports.binRun = (bin, args, opts = {}) => execa(bin, args, { stdio: 'inherit', 
 exports.getPkgRoot = (pkg) => path.resolve(__dirname, '../packages/' + pkg)
 
 exports.step = (msg) => console.log(chalk.cyan(msg))
+
+exports.errLog = (msg) => console.log(chalk.red(msg))
