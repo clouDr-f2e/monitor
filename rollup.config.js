@@ -36,14 +36,12 @@ const paths = {
   '@mitojs/wx-mini': [`${packagesDir}/wx-mini/src`]
 }
 
-const external = [paths['@mitojs/core'], paths['@mitojs/utils'], paths['@mitojs/types']]
 const common = {
   input: `${packageDir}/src/index.ts`,
-  // out: {
-  //   banner: `/* ${name} version ' + ${masterVersion} + ' */`,
-  //   footer: '/* follow me on Github! @cjinhuo */'
-  // },
-  external,
+  output: {
+    banner: `/* @mitojs/${name} version ' + ${masterVersion} */`,
+    footer: '/* follow me on Github! @cjinhuo */'
+  },
   plugins: [
     resolve(),
     size(),
@@ -72,15 +70,14 @@ const common = {
   ]
 }
 const esmPackage = {
-  // input: common.input,
-  // external: common.external,
+  ...common,
   output: {
     file: `${packageDirDist}/${name}.esm.js`,
     format: 'esm',
     name: 'MITO',
-    sourcemap: true
+    sourcemap: true,
+    ...common.output
   },
-  ...common,
   plugins: [
     ...common.plugins,
     clear({
@@ -89,27 +86,26 @@ const esmPackage = {
   ]
 }
 const cjsPackage = {
-  // input: common.input,
-  // external: common.external,
+  ...common,
   output: {
     file: `${packageDirDist}/${name}.js`,
     format: 'cjs',
     name: 'MITO',
-    sourcemap: true
+    sourcemap: true,
+    minifyInternalExports: true,
+    ...common.output
   },
-  ...common,
   plugins: [...common.plugins]
 }
 
 const iifePackage = {
-  // input: common.input,
-  // external: common.external,
+  ...common,
   output: {
     file: `${packageDirDist}/${name}.min.js`,
     format: 'iife',
-    name: 'MITO'
+    name: 'MITO',
+    ...common.output
   },
-  ...common,
   plugins: [...common.plugins, terser()]
 }
 const total = {
