@@ -35,6 +35,11 @@
 - [x] 支持原生微信小程序、支持uni-app等微信小程序框架 [@mitojs/wx-mini](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini)
 
 
+## 迭代~~~
+web性能监控SDK [@Chryseis](https://github.com/Chryseis) coding~，预计6月份出第一版
+
+微信小程序性能监控[@zty1205](https://github.com/zty1205) coding~，预计6月份出第一版
+
 
 ## 安装
 
