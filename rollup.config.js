@@ -40,6 +40,7 @@ const common = {
     banner: `/* @mitojs/${name} version ' + ${masterVersion} */`,
     footer: '/* follow me on Github! @cjinhuo */'
   },
+  external: ['@mitojs/core', '@mitojs/utils', '@mitojs/types', '@mitojs/shared'],
   plugins: [
     resolve(),
     size(),
@@ -71,7 +72,7 @@ const esmPackage = {
   ...common,
   output: {
     file: `${packageDirDist}/${name}.esm.js`,
-    format: 'esm',
+    format: 'es',
     name: 'MITO',
     sourcemap: true,
     ...common.output
