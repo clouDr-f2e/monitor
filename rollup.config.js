@@ -86,6 +86,7 @@ const esmPackage = {
 }
 const cjsPackage = {
   ...common,
+  external: [],
   output: {
     file: `${packageDirDist}/${name}.js`,
     format: 'cjs',
@@ -99,6 +100,7 @@ const cjsPackage = {
 
 const iifePackage = {
   ...common,
+  external: [],
   output: {
     file: `${packageDirDist}/${name}.min.js`,
     format: 'iife',
