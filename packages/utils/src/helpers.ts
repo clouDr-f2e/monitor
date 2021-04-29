@@ -224,7 +224,7 @@ export function getCurrentRoute() {
 }
 
 /**
- * 解析字符串错误信息，返回message、name、stacks
+ * 解析字符串错误信息，返回message、name、stack
  * @param str error string
  */
 export function parseErrorString(str: string): IntegrationError {
@@ -235,7 +235,7 @@ export function parseErrorString(str: string): IntegrationError {
   }
   const message = splitLine.splice(0, 1)[0]
   const name = splitLine.splice(0, 1)[0].split(':')[0]
-  const stacks = []
+  const stack = []
   splitLine.forEach((errorLine: string) => {
     const regexpGetFun = /at\s+([\S]+)\s+\(/ // 获取 [ 函数名 ]
     const regexGetFile = /\(([^)]+)\)/ // 获取 [ 有括号的文件 , 没括号的文件 ]
@@ -251,7 +251,7 @@ export function parseErrorString(str: string): IntegrationError {
     const funcNameMatch = Array.isArray(funcExec) && funcExec.length > 0 ? funcExec[1].trim() : ''
     const fileURLMatch = Array.isArray(fileURLExec) && fileURLExec.length > 0 ? fileURLExec[1] : ''
     const lineInfo = fileURLMatch.split(':')
-    stacks.push({
+    stack.push({
       args: [], // 请求参数
       func: funcNameMatch || ERRORTYPES.UNKNOWN_FUNCTION, // 前端分解后的报错
       column: Number(lineInfo.pop()), // 前端分解后的列
@@ -262,6 +262,6 @@ export function parseErrorString(str: string): IntegrationError {
   return {
     message,
     name,
-    stacks
+    stack
   }
 }

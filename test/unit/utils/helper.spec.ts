@@ -141,7 +141,7 @@ TypeError: this.hah is not a function
     at ge.clickJsBtn (http://127.0.0.1:18351/appservice/pages/sdk/sdk.js:27:10)
     at http://127.0.0.1:18351/appservice/__dev__/WAService.js:2:3233753
     at a (http://127.0.0.1:18351/appservice/__dev__/WAService.js:2:3160801)`
-    const { message, name, stacks } = parseErrorString(wxErrorString)
+    const { message, name, stack } = parseErrorString(wxErrorString)
     expect(message).toBe('this.hah is not a function')
     expect(name).toBe('TypeError')
     const expectStack = [
@@ -167,6 +167,6 @@ TypeError: this.hah is not a function
         url: 'http://127.0.0.1:18351/appservice/__dev__/WAService.js'
       }
     ]
-    expect(stacks).toEqual(expectStack)
+    expect(stack).toEqual(expectStack)
   })
 })
