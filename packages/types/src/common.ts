@@ -43,7 +43,7 @@ export interface ErrorStack {
 export interface IntegrationError {
   message: string
   name: string
-  stacks: ErrorStack[]
+  stack: ErrorStack[]
 }
 
 export type TNumStrObj = number | string | object

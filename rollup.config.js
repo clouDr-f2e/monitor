@@ -5,13 +5,15 @@ import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 import clear from 'rollup-plugin-clear'
 import cleanup from 'rollup-plugin-cleanup'
+import size from 'rollup-plugin-sizes'
+import { visualizer } from 'rollup-plugin-visualizer'
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
 if (!process.env.TARGET) {
   throw new Error('TARGET package must be specified')
 }
 // 是否生成声明文件
-console.log(process.env.TYPES)
 const isDeclaration = process.env.TYPES !== 'false'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const masterVersion = require('./package.json').version
@@ -21,7 +23,6 @@ const packageDirDist = process.env.LOCALDIR === 'undefined' ? `${packageDir}/dis
 const name = path.basename(packageDir)
 const pathResolve = (p) => path.resolve(packageDir, p)
 
-console.log('name', name)
 const paths = {
   '@mitojs/utils': [`${packagesDir}/utils/src`],
   '@mitojs/core': [`${packagesDir}/core/src`],
@@ -29,12 +30,21 @@ const paths = {
   '@mitojs/shared': [`${packagesDir}/shared/src`],
   '@mitojs/browser': [`${packagesDir}/browser/src`],
   '@mitojs/react': [`${packagesDir}/react/src`],
-  '@mitojs/vue': [`${packagesDir}/vue/src`]
+  '@mitojs/vue': [`${packagesDir}/vue/src`],
+  '@mitojs/wx-mini': [`${packagesDir}/wx-mini/src`]
 }
+
 const common = {
   input: `${packageDir}/src/index.ts`,
+  output: {
+    banner: `/* @mitojs/${name} version ' + ${masterVersion} */`,
+    footer: '/* follow me on Github! @cjinhuo */'
+  },
+  external: ['@mitojs/core', '@mitojs/utils', '@mitojs/types', '@mitojs/shared'],
   plugins: [
     resolve(),
+    size(),
+    visualizer(),
     commonjs({
       exclude: 'node_modules'
     }),
@@ -59,12 +69,13 @@ const common = {
   ]
 }
 const esmPackage = {
-  input: common.input,
+  ...common,
   output: {
     file: `${packageDirDist}/${name}.esm.js`,
-    format: 'esm',
+    format: 'es',
     name: 'MITO',
-    sourcemap: true
+    sourcemap: true,
+    ...common.output
   },
   plugins: [
     ...common.plugins,
@@ -74,22 +85,27 @@ const esmPackage = {
   ]
 }
 const cjsPackage = {
-  input: common.input,
+  ...common,
+  external: [],
   output: {
     file: `${packageDirDist}/${name}.js`,
     format: 'cjs',
     name: 'MITO',
-    sourcemap: true
+    sourcemap: true,
+    minifyInternalExports: true,
+    ...common.output
   },
   plugins: [...common.plugins]
 }
 
 const iifePackage = {
-  input: common.input,
+  ...common,
+  external: [],
   output: {
     file: `${packageDirDist}/${name}.min.js`,
     format: 'iife',
-    name: 'MITO'
+    name: 'MITO',
+    ...common.output
   },
   plugins: [...common.plugins, terser()]
 }

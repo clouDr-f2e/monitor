@@ -9,5 +9,8 @@ coverage
 temp
 dist
 
+# analsis
+stats.html
+
 packages/*/dist
 packages/*/node_modules

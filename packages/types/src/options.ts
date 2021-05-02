@@ -31,9 +31,13 @@ export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEvent
    */
   disabled?: boolean
   /**
-   * 每个项目有一个唯一key
+   * 每个项目有一个唯一key，给监控的dsn用的
    */
   apikey?: string
+  /**
+   * 每个项目有一个唯一trackKey，给埋点的dsn用的
+   */
+  trackKey?: string
   /**
    * 默认为关闭，为true是会打印一些信息：breadcrumb
    */
@@ -89,6 +93,15 @@ export interface HooksTypes {
    * ../returns 如果返回 null | undefined | boolean 时，将忽略本次上传
    */
   beforeDataReport?(event: TransportDataType): Promise<TransportDataType | null | CANCEL> | TransportDataType | any | CANCEL | null
+  /**
+   *
+   * 钩子函数，每次发送前都会调用
+   * @param {TransportDataType} event 上报的数据格式
+   * @param {string} url 上报到服务端的地址
+   * @returns {string} 返回空时不上报
+   * @memberof HooksTypes
+   */
+  configReportUrl?(event: TransportDataType, url: string): string
   /**
    * 钩子函数，在每次添加用户行为事件前都会调用
    *

@@ -1,2 +1,4 @@
+import { version } from '../package.json'
+
 export const SDK_NAME = 'mitojs'
-export const SDK_VERSION = '2.0.4'
+export const SDK_VERSION = version

@@ -1,11 +1,12 @@
 {
-  "version": "2.0.4",
+  "version": "2.1.3",
   "private": true,
   "license": "MIT",
   "author": "cjinhuo",
   "scripts": {
     "build": "node script/build.js",
     "watch": "node script/build.js --watch=true",
+    "version": "node script/version.js",
     "release": "node script/release.js",
     "examples": "cross-env NODE_ENV=demo ts-node ./examples/server/index.ts",
     "e2e": "`nohup ts-node ./examples/server/index.ts >/dev/null 2>&1 &` && jest --config jest.config.ts",
@@ -13,8 +14,8 @@
     "test": " npm run unit && npm run e2e",
     "test:watch": "jest --watch",
     "format": "prettier --write -,-parser typescript \"packages/**/*.ts?(x)\"",
-    "mi": "jest ./test/e2e/Mini/index.test.ts --config jest.config.ts",
-    "mi2": "node ./test/e2e/Mini/index.js"
+    "format:package": "prettier --write \"packages/**/package.json\"",
+    "mi": "jest ./test/e2e/Mini/index.test.ts --config jest.config.ts"
   },
   "repository": {
     "type": "git",
@@ -37,25 +38,13 @@
     "broswer",
     "miniPrograme"
   ],
-  "workspaces": [
-    "packages/browser",
-    "packages/shared",
-    "packages/core",
-    "packages/types",
-    "packages/utils",
-    "packages/wx-mini",
-    "packages/vue",
-    "packages/react",
-    "packages/web",
-    "packages/wx-mini-track"
-  ],
   "devDependencies": {
     "@microsoft/api-extractor": "^7.13.2",
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-html": "^0.2.0",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^8.4.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-typescript": "^4.1.2",
     "@types/express": "^4.17.9",
     "@types/jest": "^26.0.19",
@@ -80,11 +69,13 @@
     "open": "^7.3.0",
     "prettier": "^2.0.5",
     "puppeteer": "^5.5.0",
-    "rollup": "^2.21.0",
+    "rollup": "^2.45.2",
     "rollup-plugin-cleanup": "^3.2.1",
     "rollup-plugin-clear": "^2.0.7",
+    "rollup-plugin-sizes": "^1.0.4",
     "rollup-plugin-terser": "^6.1.0",
     "rollup-plugin-typescript2": "^0.27.1",
+    "rollup-plugin-visualizer": "^5.4.1",
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",

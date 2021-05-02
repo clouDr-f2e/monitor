@@ -1,4 +1,14 @@
-import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue, isEmpty } from '@mitojs/utils'
+import {
+  _support,
+  validateOption,
+  logger,
+  isBrowserEnv,
+  isWxMiniEnv,
+  variableTypeDetection,
+  Queue,
+  isEmpty,
+  splitObjToQuery
+} from '@mitojs/utils'
 import { createErrorId } from './errorId'
 import { SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import { breadcrumb } from './breadcrumb'
@@ -11,19 +21,22 @@ import { AuthInfo, TransportDataType, EMethods, InitOptions, isReportDataType, D
  * ../class Transport
  */
 export class TransportData {
-  // static img = new Image()
   queue: Queue
   beforeDataReport: unknown = null
   backTrackerId: InitOptions | unknown = null
   configReportXhr: unknown = null
+  configReportUrl: unknown = null
   apikey = ''
+  trackKey = ''
   errorDsn = ''
   trackDsn = ''
   constructor() {
     this.queue = new Queue()
   }
-  // imgRequest(data: Record<string, unknown>): void {
-  //   TransportData.img.src = `${this.url}?${splitObjToQuery(data)}`
+  // imgRequest(data: Record<string, unknown>, url: string): void {
+  //   let img = new Image()
+  //   img.src = `${url}?${splitObjToQuery(data)}`
+  //   img = null
   // }
   getRecord(): any[] {
     const recordData = _support.record
@@ -46,11 +59,9 @@ export class TransportData {
       transportData = await this.beforeDataReport(transportData)
       if (!transportData) return false
     }
-    return JSON.stringify(transportData)
+    return transportData
   }
-  async xhrPost(data: FinalReportType, url: string) {
-    const result = await this.beforePost(data)
-    if (!result) return
+  async xhrPost(data: any, url: string) {
     const requestFun = (): void => {
       const xhr = new XMLHttpRequest()
       xhr.open(EMethods.Post, url)
@@ -59,13 +70,11 @@ export class TransportData {
       if (typeof this.configReportXhr === 'function') {
         this.configReportXhr(xhr)
       }
-      xhr.send(result)
+      xhr.send(JSON.stringify(data))
     }
     this.queue.addFn(requestFun)
   }
-  async wxPost(data: FinalReportType, url: string) {
-    const result = await this.beforePost(data)
-    if (!result) return
+  async wxPost(data: any, url: string) {
     const requestFun = (): void => {
       wx.request({
         method: 'POST',
@@ -73,22 +82,27 @@ export class TransportData {
           'Content-Type': 'application/json;charset=UTF-8'
         },
         url,
-        data: result
+        data
       })
     }
     this.queue.addFn(requestFun)
   }
   getAuthInfo(): AuthInfo {
     const trackerId = this.getTrackerId()
-    return {
+    const result: AuthInfo = {
       trackerId: String(trackerId),
       sdkVersion: SDK_VERSION,
-      sdkName: SDK_NAME,
-      apikey: this.apikey
+      sdkName: SDK_NAME
     }
+    this.apikey && (result.apikey = this.apikey)
+    this.trackKey && (result.trackKey = this.trackKey)
+    return result
   }
   getApikey() {
     return this.apikey
+  }
+  getTrackKey() {
+    return this.trackKey
   }
   getTrackerId(): string | number {
     if (typeof this.backTrackerId === 'function') {
@@ -111,23 +125,33 @@ export class TransportData {
     }
   }
   isSdkTransportUrl(targetUrl: string): boolean {
-    return targetUrl.indexOf(this.errorDsn) !== -1
+    let isSdkDsn = false
+    if (this.errorDsn && targetUrl.indexOf(this.errorDsn) !== -1) {
+      isSdkDsn = true
+    }
+    if (this.trackDsn && targetUrl.indexOf(this.trackDsn) !== -1) {
+      isSdkDsn = true
+    }
+    return isSdkDsn
   }
+
   bindOptions(options: InitOptions = {}): void {
-    const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId, trackDsn } = options
+    const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId, trackDsn, trackKey, configReportUrl } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
+    validateOption(trackKey, 'trackKey', 'string') && (this.trackKey = trackKey)
     validateOption(dsn, 'dsn', 'string') && (this.errorDsn = dsn)
     validateOption(trackDsn, 'trackDsn', 'string') && (this.trackDsn = trackDsn)
     validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport)
     validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr)
     validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId)
+    validateOption(configReportUrl, 'configReportUrl', 'function') && (this.configReportUrl = configReportUrl)
   }
   /**
    * 监控错误上报的请求函数
    * @param data 错误上报数据格式
    * @returns
    */
-  send(data: FinalReportType) {
+  async send(data: FinalReportType) {
     let dsn = ''
     if (isReportDataType(data)) {
       dsn = this.errorDsn
@@ -142,11 +166,17 @@ export class TransportData {
         return
       }
     }
+    const result = await this.beforePost(data)
+    if (!result) return
+    if (typeof this.configReportUrl === 'function') {
+      dsn = this.configReportUrl(result, dsn)
+      if (!dsn) return
+    }
     if (isBrowserEnv) {
-      return this.xhrPost(data, dsn)
+      return this.xhrPost(result, dsn)
     }
     if (isWxMiniEnv) {
-      return this.wxPost(data, dsn)
+      return this.wxPost(result, dsn)
     }
   }
 }

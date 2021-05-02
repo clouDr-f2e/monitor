@@ -1,6 +1,7 @@
 const fs = require('fs')
 const chalk = require('chalk')
 const execa = require('execa')
+const path = require('path')
 
 const targets = (exports.targets = fs.readdirSync('packages').filter((f) => {
   if (!fs.statSync(`packages/${f}`).isDirectory()) {
@@ -43,3 +44,9 @@ exports.getArgv = () => {
 }
 
 exports.binRun = (bin, args, opts = {}) => execa(bin, args, { stdio: 'inherit', ...opts })
+
+exports.getPkgRoot = (pkg) => path.resolve(__dirname, '../packages/' + pkg)
+
+exports.step = (msg) => console.log(chalk.cyan(msg))
+
+exports.errLog = (msg) => console.log(chalk.red(msg))

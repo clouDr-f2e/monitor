@@ -81,7 +81,7 @@ async function rollupBuild(target) {
     const extractorConfig = ExtractorConfig.loadFileAndPrepare(extractorConfigPath)
     const extractorResult = Extractor.invoke(extractorConfig, {
       localBuild: true,
-      showVerboseMessages: true
+      showVerboseMessages: false
     })
     if (extractorResult.succeeded) {
       // const typesDir = path.resolve(pkgDir, 'types')

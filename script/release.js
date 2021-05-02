@@ -1,10 +1,9 @@
 const chalk = require('chalk')
 
-const { getArgv, targets: allTargets, binRun } = require('./utils')
+const { getArgv, targets: allTargets, binRun, getPkgRoot, step } = require('./utils')
+
 const path = require('path')
 const fs = require('fs')
-const step = (msg) => console.log(chalk.cyan(msg))
-const getPkgRoot = (pkg) => path.resolve(__dirname, '../packages/' + pkg)
 
 let beReleasedPackages = []
 
@@ -25,10 +24,6 @@ async function release() {
     publicPackage(target)
   })
 }
-
-async function validateVersion() {}
-
-async function changeVersion() {}
 
 async function publicPackage(pkgName) {
   const pkgRoot = getPkgRoot(pkgName)

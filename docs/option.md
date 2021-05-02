@@ -78,6 +78,14 @@ export interface HooksTypes {
    */
   beforeDataReport?(event: TransportDataType): Promise<TransportDataType | null | CANCEL> | TransportDataType | CANCEL | null
   /**
+   * 钩子函数，每次发送前都会调用，设置上报到服务端的地址
+   *
+   * @param {string} url 上报到服务端的地址
+   * @returns {(string | null)} 返回string
+   * @memberof HooksTypes
+   */
+  configReportUrl?(url: string): string
+  /**
    * 钩子函数，在每次添加用户行为事件前都会调用
    *
    * ../param breadcrumb 由SDK生成的breacrumb事件栈

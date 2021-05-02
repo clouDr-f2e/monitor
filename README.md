@@ -35,6 +35,11 @@
 - [x] 支持原生微信小程序、支持uni-app等微信小程序框架 [@mitojs/wx-mini](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini)
 
 
+## 迭代~~~
+web性能监控SDK [@Chryseis](https://github.com/Chryseis) coding~，预计6月份出第一版
+
+微信小程序性能监控[@zty1205](https://github.com/zty1205) coding~，预计6月份出第一版
+
 
 ## 安装
 
@@ -78,38 +83,18 @@ $ yarn add @mitojs/wx-mini
 <script src="https://cdn.jsdelivr.net/npm/@mitojs/wx-mini/dist/wx-mini.js"></script>
 ```
 
-## 迁移指南
-### 改造原因
-一开始只有`@zyf2e/mitojs`一个包，里面包含了原生浏览器、Vue、React、微信小程序的所有监控代码，使用起来比较简单，但是微信小程序的包是有大小限制，所以想要尽量限制`mitojs`的大小，分成：
+## 使用指南
 
-* `@mitojs/core`
-* `@mitojs/shared`
-* `@mitojs/browser`
-* `@mitojs/vue`
-* `@mitojs/react`
-* `@mitojs/wx-mini`
-* `@mitojs/web`
-
-优势：
-
-1. 为了减少包大小
-2. 后续好维护，方便添加新功能，如：埋点SDK、node监控
-
-### 迁移
+[使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md)
 
 * [vue接入指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md#Vue)
 * [react接入指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md#react)
 * [wx-mini接入指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md#微信小程序)
 
-## 使用指南
-
-[使用指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md)
-
 
 ## hooks与配置项
 
 [hooks与配置项](https://github.com/clouDr-f2e/mitojs/blob/master/docs/option.md)
-
 
 
 
