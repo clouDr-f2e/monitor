@@ -1,36 +1,28 @@
 <!-- pages/automator/automator.wxml -->
 <view class="page">
  <view class="cell">
+  <button class="btn" id="click-promise-btn" type="primary" data-click="on-reject-promise" bindtap="onTapRejectPromise">
+   reject Promise
+  </button>
+ </view>
+ <view class="cell">
   <button class="btn" id="click-err-btn" data-click="on-tap-err" type="primary" bindtap="onTapError">
    点击js报错
   </button>
  </view>
  <view class="cell">
-  <button class="btn" type="primary" data-click="on-reject-promise" bindtap="onTapRejectPromise">
-   reject Promise
+  <button class="btn" id="click-request-btn" data-click="on-tap-request" type="primary" bindtap="onTapRequest">
+   请求报错
   </button>
  </view>
  <view class="cell">
-  <button class="btn" type="primary" data-click="on-no-route" bindtap="onTapNoRoute">
+  <button class="btn" id="click-router-btn" type="primary" data-click="on-no-route" bindtap="onTapNoRoute">
    跳转不存在的页面
   </button>
  </view>
  <view class="cell">
-  <button class="btn" type="primary" data-click="on-to-route" bindtap="onTapRoute">跳转到首页</button>
- </view>
- <view class="cell">
-  <button class="btn" type="primary" data-click="on-rediret-route" bindtap="onTapRediretRoute">
-   重定向首页
-  </button>
- </view>
- <view class="cell">
-  <button class="btn" type="primary" data-click="on-back-route" bindtap="onTapBackRoute">
-   路由返回
-  </button>
- </view>
- <view class="cell">
-  <button class="btn" type="primary" data-click="on-down-file" bindtap="onTapDownFile">
-   下载存在的文件
+  <button class="btn" id="click-file-btn" type="primary" data-click="on-down-file" bindtap="onTapDownFile">
+   下载报错
   </button>
  </view>
 </view>

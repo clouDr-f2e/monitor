@@ -1,7 +1,10 @@
-import * as MITO from './utils/mito.wx.qa.js'
+import * as MITO from './utils/wx-mini'
 MITO.init({
   apikey: 'a1329cc0-563b-11eb-98fe-259847d73cdd',
-  projectId: 1
+  projectId: 1,
+  dsn: 'http://localhost:2021/errors/upload',
+  silentConsole: true,
+  debug: false
 })
 
 function interceptRequest(params) {

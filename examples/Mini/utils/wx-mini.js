@@ -1,3 +1,4 @@
+/* @mitojs/wx-mini version ' + 2.1.3 */
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -56,8 +57,10 @@ function __spreadArrays() {
     return r;
 }
 
+var version = "2.1.3";
+
 var SDK_NAME = 'mitojs';
-var SDK_VERSION = '2.0.3';
+var SDK_VERSION = version;
 
 var ERRORTYPES;
 (function (ERRORTYPES) {
@@ -96,6 +99,7 @@ var WxRouteEvents;
     WxRouteEvents["RedirectTo"] = "redirectTo";
     WxRouteEvents["NavigateTo"] = "navigateTo";
     WxRouteEvents["NavigateBack"] = "navigateBack";
+    WxRouteEvents["NavigateToMiniProgram"] = "navigateToMiniProgram";
     WxRouteEvents["RouteFail"] = "routeFail";
 })(WxRouteEvents || (WxRouteEvents = {}));
 __assign(__assign(__assign({}, WxAppEvents), WxPageEvents), ERRORTYPES);
@@ -308,6 +312,8 @@ function getLocationHref() {
 }
 function replaceOld(source, name, replacement, isForced) {
     if (isForced === void 0) { isForced = false; }
+    if (source === undefined)
+        return;
     if (name in source || isForced) {
         var original = source[name];
         var wrapped = replacement(original);
@@ -383,6 +389,9 @@ function unknownToString(target) {
     }
     return JSON.stringify(target);
 }
+function getBigVersion(version) {
+    return Number(version.split('.')[0]);
+}
 function isHttpFail(code) {
     return code === 0 || code === HTTP_CODE.BAD_REQUEST || code > HTTP_CODE.UNAUTHORIZED;
 }
@@ -419,7 +428,7 @@ function parseErrorString(str) {
     }
     var message = splitLine.splice(0, 1)[0];
     var name = splitLine.splice(0, 1)[0].split(':')[0];
-    var stacks = [];
+    var stack = [];
     splitLine.forEach(function (errorLine) {
         var regexpGetFun = /at\s+([\S]+)\s+\(/;
         var regexGetFile = /\(([^)]+)\)/;
@@ -432,7 +441,7 @@ function parseErrorString(str) {
         var funcNameMatch = Array.isArray(funcExec) && funcExec.length > 0 ? funcExec[1].trim() : '';
         var fileURLMatch = Array.isArray(fileURLExec) && fileURLExec.length > 0 ? fileURLExec[1] : '';
         var lineInfo = fileURLMatch.split(':');
-        stacks.push({
+        stack.push({
             args: [],
             func: funcNameMatch || ERRORTYPES.UNKNOWN_FUNCTION,
             column: Number(lineInfo.pop()),
@@ -443,7 +452,7 @@ function parseErrorString(str) {
     return {
         message: message,
         name: name,
-        stacks: stacks
+        stack: stack
     };
 }
 
@@ -858,6 +867,7 @@ var EActionType;
     EActionType["EVENT"] = "EVENT";
     EActionType["VIEW"] = "VIEW";
     EActionType["DURATION"] = "DURATION";
+    EActionType["DURATION_VIEW"] = "DURATION_VIEW";
     EActionType["OTHER"] = "OTHER";
 })(EActionType || (EActionType = {}));
 
@@ -866,7 +876,9 @@ var TransportData = (function () {
         this.beforeDataReport = null;
         this.backTrackerId = null;
         this.configReportXhr = null;
+        this.configReportUrl = null;
         this.apikey = '';
+        this.trackKey = '';
         this.errorDsn = '';
         this.trackDsn = '';
         this.queue = new Queue();
@@ -901,75 +913,66 @@ var TransportData = (function () {
                         if (!transportData)
                             return [2, false];
                         _a.label = 2;
-                    case 2: return [2, JSON.stringify(transportData)];
+                    case 2: return [2, transportData];
                 }
             });
         });
     };
     TransportData.prototype.xhrPost = function (data, url) {
         return __awaiter(this, void 0, void 0, function () {
-            var result, requestFun;
+            var requestFun;
             var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4, this.beforePost(data)];
-                    case 1:
-                        result = _a.sent();
-                        if (!result)
-                            return [2];
-                        requestFun = function () {
-                            var xhr = new XMLHttpRequest();
-                            xhr.open(EMethods.Post, url);
-                            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-                            xhr.withCredentials = true;
-                            if (typeof _this.configReportXhr === 'function') {
-                                _this.configReportXhr(xhr);
-                            }
-                            xhr.send(result);
-                        };
-                        this.queue.addFn(requestFun);
-                        return [2];
-                }
+                requestFun = function () {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open(EMethods.Post, url);
+                    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                    xhr.withCredentials = true;
+                    if (typeof _this.configReportXhr === 'function') {
+                        _this.configReportXhr(xhr);
+                    }
+                    xhr.send(JSON.stringify(data));
+                };
+                this.queue.addFn(requestFun);
+                return [2];
             });
         });
     };
     TransportData.prototype.wxPost = function (data, url) {
         return __awaiter(this, void 0, void 0, function () {
-            var result, requestFun;
+            var requestFun;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4, this.beforePost(data)];
-                    case 1:
-                        result = _a.sent();
-                        if (!result)
-                            return [2];
-                        requestFun = function () {
-                            wx.request({
-                                method: 'POST',
-                                header: {
-                                    'Content-Type': 'application/json;charset=UTF-8'
-                                },
-                                url: url,
-                                data: result
-                            });
-                        };
-                        this.queue.addFn(requestFun);
-                        return [2];
-                }
+                requestFun = function () {
+                    wx.request({
+                        method: 'POST',
+                        header: {
+                            'Content-Type': 'application/json;charset=UTF-8'
+                        },
+                        url: url,
+                        data: data
+                    });
+                };
+                this.queue.addFn(requestFun);
+                return [2];
             });
         });
     };
     TransportData.prototype.getAuthInfo = function () {
         var trackerId = this.getTrackerId();
-        return {
+        var result = {
             trackerId: String(trackerId),
             sdkVersion: SDK_VERSION,
-            sdkName: SDK_NAME,
-            apikey: this.apikey
+            sdkName: SDK_NAME
         };
+        this.apikey && (result.apikey = this.apikey);
+        this.trackKey && (result.trackKey = this.trackKey);
+        return result;
     };
     TransportData.prototype.getApikey = function () {
         return this.apikey;
+    };
+    TransportData.prototype.getTrackKey = function () {
+        return this.trackKey;
     };
     TransportData.prototype.getTrackerId = function () {
         if (typeof this.backTrackerId === 'function') {
@@ -993,40 +996,68 @@ var TransportData = (function () {
         };
     };
     TransportData.prototype.isSdkTransportUrl = function (targetUrl) {
-        return targetUrl.indexOf(this.errorDsn) !== -1;
+        var isSdkDsn = false;
+        if (this.errorDsn && targetUrl.indexOf(this.errorDsn) !== -1) {
+            isSdkDsn = true;
+        }
+        if (this.trackDsn && targetUrl.indexOf(this.trackDsn) !== -1) {
+            isSdkDsn = true;
+        }
+        return isSdkDsn;
     };
     TransportData.prototype.bindOptions = function (options) {
         if (options === void 0) { options = {}; }
-        var dsn = options.dsn, beforeDataReport = options.beforeDataReport, apikey = options.apikey, configReportXhr = options.configReportXhr, backTrackerId = options.backTrackerId, trackDsn = options.trackDsn;
+        var dsn = options.dsn, beforeDataReport = options.beforeDataReport, apikey = options.apikey, configReportXhr = options.configReportXhr, backTrackerId = options.backTrackerId, trackDsn = options.trackDsn, trackKey = options.trackKey, configReportUrl = options.configReportUrl;
         validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey);
+        validateOption(trackKey, 'trackKey', 'string') && (this.trackKey = trackKey);
         validateOption(dsn, 'dsn', 'string') && (this.errorDsn = dsn);
         validateOption(trackDsn, 'trackDsn', 'string') && (this.trackDsn = trackDsn);
         validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport);
         validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr);
         validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId);
+        validateOption(configReportUrl, 'configReportUrl', 'function') && (this.configReportUrl = configReportUrl);
     };
     TransportData.prototype.send = function (data) {
-        var dsn = '';
-        if (isReportDataType(data)) {
-            dsn = this.errorDsn;
-            if (isEmpty(dsn)) {
-                logger.error('dsn为空，没有传入监控错误上报的dsn地址，请在init中传入');
-                return;
-            }
-        }
-        else {
-            dsn = this.trackDsn;
-            if (isEmpty(dsn)) {
-                logger.error('trackDsn为空，没有传入埋点上报的dsn地址，请在init中传入');
-                return;
-            }
-        }
-        if (isBrowserEnv) {
-            return this.xhrPost(data, dsn);
-        }
-        if (isWxMiniEnv) {
-            return this.wxPost(data, dsn);
-        }
+        return __awaiter(this, void 0, void 0, function () {
+            var dsn, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        dsn = '';
+                        if (isReportDataType(data)) {
+                            dsn = this.errorDsn;
+                            if (isEmpty(dsn)) {
+                                logger.error('dsn为空，没有传入监控错误上报的dsn地址，请在init中传入');
+                                return [2];
+                            }
+                        }
+                        else {
+                            dsn = this.trackDsn;
+                            if (isEmpty(dsn)) {
+                                logger.error('trackDsn为空，没有传入埋点上报的dsn地址，请在init中传入');
+                                return [2];
+                            }
+                        }
+                        return [4, this.beforePost(data)];
+                    case 1:
+                        result = _a.sent();
+                        if (!result)
+                            return [2];
+                        if (typeof this.configReportUrl === 'function') {
+                            dsn = this.configReportUrl(result, dsn);
+                            if (!dsn)
+                                return [2];
+                        }
+                        if (isBrowserEnv) {
+                            return [2, this.xhrPost(result, dsn)];
+                        }
+                        if (isWxMiniEnv) {
+                            return [2, this.wxPost(result, dsn)];
+                        }
+                        return [2];
+                }
+            });
+        });
     };
     return TransportData;
 }());
@@ -1096,7 +1127,7 @@ var Options = (function () {
     function Options() {
         this.beforeAppAjaxSend = function () { };
         this.traceIdFieldName = 'Trace-Id';
-        this.appOnLauch = function () { };
+        this.appOnLaunch = function () { };
         this.appOnShow = function () { };
         this.onPageNotFound = function () { };
         this.appOnHide = function () { };
@@ -1105,13 +1136,14 @@ var Options = (function () {
         this.onShareAppMessage = function () { };
         this.onShareTimeline = function () { };
         this.onTabItemTap = function () { };
+        this.triggerWxEvent = function () { };
         this.enableTraceId = false;
     }
     Options.prototype.bindOptions = function (options) {
         if (options === void 0) { options = {}; }
-        var beforeAppAjaxSend = options.beforeAppAjaxSend, enableTraceId = options.enableTraceId, filterXhrUrlRegExp = options.filterXhrUrlRegExp, traceIdFieldName = options.traceIdFieldName, includeHttpUrlTraceIdRegExp = options.includeHttpUrlTraceIdRegExp, appOnLauch = options.appOnLauch, appOnShow = options.appOnShow, appOnHide = options.appOnHide, pageOnShow = options.pageOnShow, pageOnHide = options.pageOnHide, onPageNotFound = options.onPageNotFound, onShareAppMessage = options.onShareAppMessage, onShareTimeline = options.onShareTimeline, onTabItemTap = options.onTabItemTap;
+        var beforeAppAjaxSend = options.beforeAppAjaxSend, enableTraceId = options.enableTraceId, filterXhrUrlRegExp = options.filterXhrUrlRegExp, traceIdFieldName = options.traceIdFieldName, includeHttpUrlTraceIdRegExp = options.includeHttpUrlTraceIdRegExp, appOnLaunch = options.appOnLaunch, appOnShow = options.appOnShow, appOnHide = options.appOnHide, pageOnShow = options.pageOnShow, pageOnHide = options.pageOnHide, onPageNotFound = options.onPageNotFound, onShareAppMessage = options.onShareAppMessage, onShareTimeline = options.onShareTimeline, onTabItemTap = options.onTabItemTap, wxNavigateToMiniProgram = options.wxNavigateToMiniProgram, triggerWxEvent = options.triggerWxEvent;
         validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend);
-        validateOption(appOnLauch, 'appOnLauch', 'function') && (this.appOnLauch = appOnLauch);
+        validateOption(appOnLaunch, 'appOnLaunch', 'function') && (this.appOnLaunch = appOnLaunch);
         validateOption(appOnShow, 'appOnShow', 'function') && (this.appOnShow = appOnShow);
         validateOption(appOnHide, 'appOnHide', 'function') && (this.appOnHide = appOnHide);
         validateOption(pageOnShow, 'pageOnShow', 'function') && (this.pageOnShow = pageOnShow);
@@ -1120,6 +1152,9 @@ var Options = (function () {
         validateOption(onShareAppMessage, 'onShareAppMessage', 'function') && (this.onShareAppMessage = onShareAppMessage);
         validateOption(onShareTimeline, 'onShareTimeline', 'function') && (this.onShareTimeline = onShareTimeline);
         validateOption(onTabItemTap, 'onTabItemTap', 'function') && (this.onTabItemTap = onTabItemTap);
+        validateOption(wxNavigateToMiniProgram, 'wxNavigateToMiniProgram', 'function') &&
+            (this.wxNavigateToMiniProgram = wxNavigateToMiniProgram);
+        validateOption(triggerWxEvent, 'triggerWxEvent', 'function') && (this.triggerWxEvent = triggerWxEvent);
         validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId);
         validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName);
         toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp);
@@ -1234,7 +1269,7 @@ var ELinstenerTypes;
 
 var HandleWxAppEvents = {
     onLaunch: function (options$1) {
-        options.appOnLauch(options$1);
+        options.appOnLaunch(options$1);
         var data = {
             path: options$1.path,
             query: options$1.query
@@ -1248,10 +1283,14 @@ var HandleWxAppEvents = {
     },
     onShow: function (options$1) {
         return __awaiter(this, void 0, void 0, function () {
-            var data, _a;
+            var _a, data;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
+                        _a = _support;
+                        return [4, getWxMiniDeviceInfo()];
+                    case 1:
+                        _a.deviceInfo = _b.sent();
                         options.appOnShow(options$1);
                         data = {
                             path: options$1.path,
@@ -1263,10 +1302,6 @@ var HandleWxAppEvents = {
                             data: data,
                             level: Severity.Info
                         });
-                        _a = _support;
-                        return [4, getWxMiniDeviceInfo()];
-                    case 1:
-                        _a.deviceInfo = _b.sent();
                         return [2];
                 }
             });
@@ -1396,6 +1431,7 @@ var HandleWxPageEvents = {
         });
     },
     onAction: function (e) {
+        options.triggerWxEvent(e);
         var type = BREADCRUMBTYPES.TOUCHMOVE;
         if (e.type === ELinstenerTypes.Tap) {
             type = BREADCRUMBTYPES.TAP;
@@ -1510,10 +1546,10 @@ function replaceApp() {
                         for (var _i = 0; _i < arguments.length; _i++) {
                             args[_i] = arguments[_i];
                         }
-                        triggerHandlers.apply(null, __spreadArrays([method], args));
                         if (originMethod) {
                             originMethod.apply(this, args);
                         }
+                        triggerHandlers.apply(null, __spreadArrays([method], args));
                     };
                 }, true);
             });
@@ -1538,7 +1574,7 @@ function replacePageLifeMethods(options) {
                 }
                 triggerHandlers.apply(null, __spreadArrays([method], args));
                 if (originMethod) {
-                    originMethod.apply(this, args);
+                    return originMethod.apply(this, args);
                 }
             };
         }, true);
@@ -1595,26 +1631,28 @@ function replaceAction(options) {
     }
     var throttleGesturetrigger = throttle(gestureTrigger, 500);
     var linstenerTypes = [ELinstenerTypes.Touchmove, ELinstenerTypes.Tap];
-    Object.keys(options).forEach(function (m) {
-        if ('function' !== typeof options[m]) {
-            return;
-        }
-        replaceOld(options, m, function (originMethod) {
-            return function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i] = arguments[_i];
-                }
-                var e = args[0];
-                if (e && e.type && e.currentTarget && !e.mitoWorked) {
-                    if (linstenerTypes.indexOf(e.type) > -1) {
-                        throttleGesturetrigger(e);
+    if (options) {
+        Object.keys(options).forEach(function (m) {
+            if ('function' !== typeof options[m]) {
+                return;
+            }
+            replaceOld(options, m, function (originMethod) {
+                return function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i] = arguments[_i];
                     }
-                }
-                return originMethod.apply(this, args);
-            };
-        }, true);
-    });
+                    var e = args[0];
+                    if (e && e.type && e.currentTarget && !e.mitoWorked) {
+                        if (linstenerTypes.indexOf(e.type) > -1) {
+                            throttleGesturetrigger(e);
+                        }
+                    }
+                    return originMethod.apply(this, args);
+                };
+            }, true);
+        });
+    }
 }
 function replaceConsole() {
     if (console && variableTypeDetection.isObject(console)) {
@@ -1661,7 +1699,9 @@ function replaceNetwork() {
                 else {
                     method = EMethods.Post;
                 }
-                var url = options$1.url, header = options$1.header;
+                var url = options$1.url;
+                var header = options$1.header;
+                !header || (header = {});
                 if ((method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) {
                     return originRequest.call(this, options$1);
                 }
@@ -1701,6 +1741,7 @@ function replaceNetwork() {
                     data.elapsedTime = endTime - data.sTime;
                     data.status = res.statusCode;
                     data.errMsg = res.errMsg;
+                    data.time = endTime;
                     triggerHandlers(EVENTTYPES.XHR, data);
                     if (typeof options$1.success === 'function') {
                         return options$1.success(res);
@@ -1728,7 +1769,8 @@ function replaceRoute() {
         WxRouteEvents.ReLaunch,
         WxRouteEvents.RedirectTo,
         WxRouteEvents.NavigateTo,
-        WxRouteEvents.NavigateBack
+        WxRouteEvents.NavigateBack,
+        WxRouteEvents.NavigateToMiniProgram
     ];
     methods.forEach(function (method) {
         var originMethod = wx[method];
@@ -1736,24 +1778,24 @@ function replaceRoute() {
             writable: true,
             enumerable: true,
             configurable: true,
-            value: function (options) {
+            value: function (options$1) {
                 var _a;
                 var toUrl;
                 if (method === WxRouteEvents.NavigateBack) {
-                    toUrl = getNavigateBackTargetUrl((_a = options) === null || _a === void 0 ? void 0 : _a.delta);
+                    toUrl = getNavigateBackTargetUrl((_a = options$1) === null || _a === void 0 ? void 0 : _a.delta);
                 }
                 else {
-                    toUrl = options.url;
+                    toUrl = options$1.url;
                 }
                 var data = {
                     from: getCurrentRoute(),
                     to: toUrl
                 };
                 triggerHandlers(EVENTTYPES.MINI_ROUTE, data);
-                if (variableTypeDetection.isFunction(options.complete) ||
-                    variableTypeDetection.isFunction(options.success) ||
-                    variableTypeDetection.isFunction(options.fail)) {
-                    var _fail_1 = options.fail;
+                if (variableTypeDetection.isFunction(options$1.complete) ||
+                    variableTypeDetection.isFunction(options$1.success) ||
+                    variableTypeDetection.isFunction(options$1.fail)) {
+                    var _fail_1 = options$1.fail;
                     var failHandler = function (res) {
                         var failData = __assign(__assign({}, data), { isFail: true, message: res.errMsg });
                         triggerHandlers(EVENTTYPES.MINI_ROUTE, failData);
@@ -1761,9 +1803,12 @@ function replaceRoute() {
                             return _fail_1(res);
                         }
                     };
-                    options.fail = failHandler;
+                    options$1.fail = failHandler;
                 }
-                return originMethod.call(this, options);
+                if (method === WxRouteEvents.NavigateToMiniProgram && variableTypeDetection.isFunction(options.wxNavigateToMiniProgram)) {
+                    options$1 = options.wxNavigateToMiniProgram(options$1);
+                }
+                return originMethod.call(this, options$1);
             }
         });
     });
@@ -1797,18 +1842,113 @@ function setupReplace() {
 }
 
 function track(actionType, param) {
-    var trackId = param.trackId;
-    var data = {
-        actionType: actionType,
-        trackId: trackId
-    };
+    var data = __assign(__assign({}, param), { actionType: actionType });
     sendTrackData(data);
+    return data;
 }
 function sendTrackData(data) {
     var id = generateUUID();
-    var startTime = getTimestamp();
+    var trackTime = getTimestamp();
     transportData.send(__assign({ id: id,
-        startTime: startTime }, data));
+        trackTime: trackTime }, data));
+}
+
+function handleVueError(err, vm, info, level, breadcrumbLevel, Vue) {
+    var version = Vue === null || Vue === void 0 ? void 0 : Vue.version;
+    var data = {
+        type: ERRORTYPES.VUE_ERROR,
+        message: err.message + "(" + info + ")",
+        level: level,
+        url: getLocationHref(),
+        name: err.name,
+        stack: err.stack || [],
+        time: getTimestamp()
+    };
+    if (variableTypeDetection.isString(version)) {
+        console.log('getBigVersion', getBigVersion(version));
+        switch (getBigVersion(version)) {
+            case 2:
+                data = __assign(__assign({}, data), vue2VmHandler(vm));
+                break;
+            case 3:
+                data = __assign(__assign({}, data), vue3VmHandler(vm));
+                break;
+            default:
+                return;
+        }
+    }
+    breadcrumb.push({
+        type: BREADCRUMBTYPES.VUE,
+        category: breadcrumb.getCategory(BREADCRUMBTYPES.VUE),
+        data: data,
+        level: breadcrumbLevel
+    });
+    transportData.send(data);
+}
+function vue2VmHandler(vm) {
+    var componentName = '';
+    if (vm.$root === vm) {
+        componentName = 'root';
+    }
+    else {
+        var name_1 = vm._isVue ? (vm.$options && vm.$options.name) || (vm.$options && vm.$options._componentTag) : vm.name;
+        componentName =
+            (name_1 ? 'component <' + name_1 + '>' : 'anonymous component') +
+                (vm._isVue && vm.$options && vm.$options.__file ? ' at ' + (vm.$options && vm.$options.__file) : '');
+    }
+    return {
+        componentName: componentName,
+        propsData: vm.$options && vm.$options.propsData
+    };
+}
+function vue3VmHandler(vm) {
+    var componentName = '';
+    if (vm.$root === vm) {
+        componentName = 'root';
+    }
+    else {
+        console.log(vm.$options);
+        var name_2 = vm.$options && vm.$options.name;
+        componentName = name_2 ? 'component <' + name_2 + '>' : 'anonymous component';
+    }
+    return {
+        componentName: componentName,
+        propsData: vm.$props
+    };
+}
+
+var hasConsole = typeof console !== 'undefined';
+var MitoVue = {
+    install: function (Vue) {
+        if (getFlag(EVENTTYPES.VUE) || !Vue || !Vue.config)
+            return;
+        setFlag(EVENTTYPES.VUE, true);
+        Vue.config.errorHandler = function (err, vm, info) {
+            handleVueError.apply(null, [err, vm, info, Severity.Normal, Severity.Error, Vue]);
+            if (hasConsole && !Vue.config.silent) {
+                slientConsoleScope(function () {
+                    console.error('Error in ' + info + ': "' + err.toString() + '"', vm);
+                    console.error(err);
+                });
+            }
+        };
+    }
+};
+
+function errorBoundaryReport(ex) {
+    if (!isError(ex)) {
+        console.warn('传入的react error不是一个object Error');
+        return;
+    }
+    var error = extractErrorStack(ex, Severity.Normal);
+    error.type = ERRORTYPES.REACT_ERROR;
+    breadcrumb.push({
+        type: BREADCRUMBTYPES.REACT,
+        category: breadcrumb.getCategory(BREADCRUMBTYPES.REACT),
+        data: error.name + ": " + error.message,
+        level: Severity.fromString(error.level)
+    });
+    transportData.send(error);
 }
 
 function init(options) {
@@ -1817,11 +1957,14 @@ function init(options) {
         return;
     initOptions(options);
     setupReplace();
-    Object.assign(wx, { mitoLog: log });
+    Object.assign(wx, { mitoLog: log, SDK_NAME: SDK_NAME, SDK_VERSION: SDK_VERSION });
 }
 
+exports.MitoVue = MitoVue;
+exports.errorBoundaryReport = errorBoundaryReport;
 exports.init = init;
 exports.log = log;
 exports.sendTrackData = sendTrackData;
 exports.track = track;
+/* follow me on Github! @cjinhuo */
 //# sourceMappingURL=wx-mini.js.map

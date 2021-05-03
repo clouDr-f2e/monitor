@@ -15,7 +15,7 @@
     "test:watch": "jest --watch",
     "format": "prettier --write -,-parser typescript \"packages/**/*.ts?(x)\"",
     "format:package": "prettier --write \"packages/**/package.json\"",
-    "mi": "jest ./test/e2e/Mini/index.test.ts --config jest.config.ts"
+    "e2e:mini": "jest ./test/e2e/Mini/index.test.ts --config jest.config.ts"
   },
   "repository": {
     "type": "git",
