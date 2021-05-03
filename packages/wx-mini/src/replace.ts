@@ -299,7 +299,7 @@ export function replaceNetwork() {
           const endTime = getTimestamp()
           data.elapsedTime = endTime - data.sTime
           data.errMsg = err.errMsg
-
+          data.status = 0
           triggerHandlers(EVENTTYPES.XHR, data)
           if (variableTypeDetection.isFunction(_fail)) {
             return _fail(err)

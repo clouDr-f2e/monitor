@@ -85,6 +85,7 @@ export class TransportData {
         data
       })
     }
+    console.log('wx request')
     this.queue.addFn(requestFun)
   }
   getAuthInfo(): AuthInfo {
