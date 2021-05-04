@@ -66,17 +66,13 @@ export class TransportData {
   }
   async wxPost(data: any, url: string) {
     const requestFun = (): void => {
-      debugger
-      console.log('data', data, url, JSON.stringify(data))
-      // const requestData = JSON.stringify(data)
-      // console.log('requestData', requestData)
       wx.request({
         method: 'POST',
         header: {
           'Content-Type': 'application/json;charset=UTF-8'
         },
         url,
-        data
+        data: JSON.stringify(data)
       })
     }
     this.queue.addFn(requestFun)
