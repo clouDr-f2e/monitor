@@ -240,11 +240,12 @@ export function replaceNetwork() {
         }
         const { url } = options
         let header = options.header
-        !header || (header = {})
+        !header && (header = {})
+
         if ((method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) {
           return originRequest.call(this, options)
         }
-        let reqData
+        let reqData = undefined
         if (hook === 'request') {
           reqData = (options as WechatMiniprogram.RequestOption).data
         } else if (hook === 'downloadFile') {

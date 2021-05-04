@@ -1,14 +1,4 @@
-import {
-  _support,
-  validateOption,
-  logger,
-  isBrowserEnv,
-  isWxMiniEnv,
-  variableTypeDetection,
-  Queue,
-  isEmpty,
-  splitObjToQuery
-} from '@mitojs/utils'
+import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue, isEmpty } from '@mitojs/utils'
 import { createErrorId } from './errorId'
 import { SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import { breadcrumb } from './breadcrumb'
@@ -76,6 +66,10 @@ export class TransportData {
   }
   async wxPost(data: any, url: string) {
     const requestFun = (): void => {
+      debugger
+      console.log('data', data, url, JSON.stringify(data))
+      // const requestData = JSON.stringify(data)
+      // console.log('requestData', requestData)
       wx.request({
         method: 'POST',
         header: {
@@ -85,7 +79,6 @@ export class TransportData {
         data
       })
     }
-    console.log('wx request')
     this.queue.addFn(requestFun)
   }
   getAuthInfo(): AuthInfo {
