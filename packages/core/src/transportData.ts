@@ -1,14 +1,4 @@
-import {
-  _support,
-  validateOption,
-  logger,
-  isBrowserEnv,
-  isWxMiniEnv,
-  variableTypeDetection,
-  Queue,
-  isEmpty,
-  splitObjToQuery
-} from '@mitojs/utils'
+import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue, isEmpty } from '@mitojs/utils'
 import { createErrorId } from './errorId'
 import { SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import { breadcrumb } from './breadcrumb'
@@ -82,7 +72,7 @@ export class TransportData {
           'Content-Type': 'application/json;charset=UTF-8'
         },
         url,
-        data
+        data: JSON.stringify(data)
       })
     }
     this.queue.addFn(requestFun)
