@@ -3,13 +3,13 @@ import Page from 'miniprogram-automator/out/Page'
 import { BreadcrumbPushData, EMethods, ReportDataType, TransportDataType, Replace } from '@mitojs/types'
 import automator from 'miniprogram-automator'
 import { resolve } from 'path'
-import { SpanStatus, Severity } from '@mitojs/utils'
+import { Severity } from '@mitojs/utils'
 import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE, SDK_NAME, SDK_VERSION } from '@mitojs/shared'
 import { ServerUrls } from '../../../examples/server/config'
 
 describe('Min e2e:', () => {
   const timeout = 60000 // 打开开发工具较慢
-  const waitFor = 800
+  const waitFor = 1000
   let _miniProgram: MiniProgram
   let _page: Page
 
@@ -21,7 +21,13 @@ describe('Min e2e:', () => {
 
   async function getRequestOptions(): Promise<WechatMiniprogram.RequestOption> {
     return await _miniProgram.evaluate(() => {
-      return wx['__MITO_REQUEST__'] as WechatMiniprogram.RequestOption
+      let options = wx['__MITO_REQUEST__']
+      return {
+        method: options.method,
+        header: options.header,
+        url: options.url,
+        data: typeof options.data === 'object' ? options.data : JSON.parse(options.data)
+      } as WechatMiniprogram.RequestOption
     })
   }
 
@@ -48,10 +54,6 @@ describe('Min e2e:', () => {
     let page: Page = await miniProgram.reLaunch('/pages/automator/automator')
     await page.waitFor(waitFor)
     _page = page
-  }, timeout)
-
-  afterAll(() => {
-    _miniProgram.close()
   }, timeout)
 
   beforeEach(async () => {
@@ -123,68 +125,78 @@ describe('Min e2e:', () => {
   )
 
   // 没发请求
-  // it(
-  //   'A exception get XHR request，breadcrumb stack should add two and upload this error',
-  //   async () => {
-  //     const element = await _page.$('#click-request-btn')
-  //     await element.tap()
+  it(
+    'A exception get XHR request，breadcrumb stack should add two and upload this error',
+    async () => {
+      const element = await _page.$('#click-request-btn')
+      await element.tap()
 
-  //     await _page.waitFor(waitFor)
+      await _page.waitFor(waitFor)
 
-  //     const options = await getRequestOptions()
+      const options = await getRequestOptions()
 
-  //     const { authInfo, data } = options.data as TransportDataType
+      const { authInfo, data } = options.data as TransportDataType
 
-  //     expect((data as ReportDataType).type).toBe(ERRORTYPES.FETCH_ERROR)
-  //     expect((data as ReportDataType).level).toBe(Severity.Low)
-  //     expect(authInfo.sdkName).toBe(SDK_NAME)
-  //     expect(authInfo.sdkVersion).toBe(SDK_VERSION)
+      expect((data as ReportDataType).type).toBe(ERRORTYPES.FETCH_ERROR)
+      expect((data as ReportDataType).level).toBe(Severity.Low)
+      expect(authInfo.sdkName).toBe(SDK_NAME)
+      expect(authInfo.sdkVersion).toBe(SDK_VERSION)
 
-  //     const stack: BreadcrumbPushData[] = await getStack()
+      const stack: BreadcrumbPushData[] = await getStack()
 
-  //     expect(stack[1].category).toBe(BREADCRUMBCATEGORYS.HTTP)
-  //     expect(stack[1].type).toBe(BREADCRUMBTYPES.XHR)
-  //     expect(stack[1].level).toBe(Severity.Info) // ?todo error
-  //     expect((stack[1].data as ReportDataType).message).toBe('request:fail ')
-  //     expect((stack[1].data as ReportDataType).request.httpType).toBe(HTTPTYPE.XHR)
-  //     expect((stack[1].data as ReportDataType).request.method).toBe(EMethods.Get)
-  //     expect((stack[1].data as ReportDataType).request.url).toBe(ServerUrls.exceptionGet)
+      expect(stack[1].category).toBe(BREADCRUMBCATEGORYS.HTTP)
+      expect(stack[1].type).toBe(BREADCRUMBTYPES.XHR)
+      expect(stack[1].level).toBe(Severity.Info) //
+      expect((stack[1].data as ReportDataType).message).toBe(`http请求失败，失败原因：跨域限制或域名不存在 ${ServerUrls.exceptionGet}`)
+      expect((stack[1].data as ReportDataType).request.httpType).toBe(HTTPTYPE.XHR)
+      expect((stack[1].data as ReportDataType).request.method).toBe(EMethods.Get)
+      expect((stack[1].data as ReportDataType).request.url).toBe(ServerUrls.exceptionGet)
 
-  //     // todo 没找到这项
-  //     expect(stack[2].category).toBe(BREADCRUMBCATEGORYS.EXCEPTION)
-  //     expect(stack[2].type).toBe(BREADCRUMBTYPES.XHR)
-  //     expect(stack[2].level).toBe(Severity.Error)
-  //     expect((stack[2].data as ReportDataType).request.httpType).toBe(HTTPTYPE.XHR)
-  //     expect((stack[2].data as ReportDataType).message).toBe(`${SpanStatus.InternalError} ${ServerUrls.exceptionGet}`)
-  //     expect((stack[2].data as ReportDataType).request.method).toBe(EMethods.Get)
-  //     expect((stack[2].data as ReportDataType).request.url).toBe(ServerUrls.exceptionGet)
-  //   },
-  //   timeout
-  // )
+      expect(stack[2].category).toBe(BREADCRUMBCATEGORYS.EXCEPTION)
+      expect(stack[2].type).toBe(BREADCRUMBTYPES.XHR)
+      expect(stack[2].level).toBe(Severity.Error)
+      expect((stack[2].data as ReportDataType).request.httpType).toBe(HTTPTYPE.XHR)
+      expect((stack[2].data as ReportDataType).message).toBe(`http请求失败，失败原因：跨域限制或域名不存在 ${ServerUrls.exceptionGet}`)
+      expect((stack[2].data as ReportDataType).request.method).toBe(EMethods.Get)
+      expect((stack[2].data as ReportDataType).request.url).toBe(ServerUrls.exceptionGet)
+    },
+    timeout
+  )
 
-  // 没发请求
-  // it(
-  //   'Router error, should add two and upload this error',
-  //   async () => {
-  //     const element = await _page.$('#click-router-btn')
-  //     await element.tap()
+  it(
+    'Router error, should add two and upload this error',
+    async () => {
+      const element = await _page.$('#click-router-btn')
+      await element.tap()
 
-  //     await _page.waitFor(waitFor)
+      await _page.waitFor(waitFor)
 
-  //     const options = await getRequestOptions()
+      const options = await getRequestOptions()
 
-  //     const { authInfo, data } = options.data as TransportDataType
+      const { authInfo, data } = options.data as TransportDataType
 
-  //     const stack: BreadcrumbPushData[] = await getStack()
+      expect((data as ReportDataType).name).toBe('MINI_ROUTE_ERROR')
+      expect((data as ReportDataType).type).toBe(ERRORTYPES.ROUTE_ERROR)
+      expect((data as ReportDataType).level).toBe(Severity.Error)
+      expect(authInfo.sdkName).toBe(SDK_NAME)
+      expect(authInfo.sdkVersion).toBe(SDK_VERSION)
 
-  //     expect(stack[1].category).toBe(BREADCRUMBCATEGORYS.USER)
-  //     expect(stack[1].type).toBe(BREADCRUMBTYPES.RESOURCE)
-  //     expect(stack[1].level).toBe(Severity.Info) // ? error
-  //     expect((stack[1].data as Replace.IRouter).from).toBe('pages/automator/automator?')
-  //     expect((stack[1].data as Replace.IRouter).to).toBe('/pages/noRoute/index')
-  //   },
-  //   timeout
-  // )
+      const stack: BreadcrumbPushData[] = await getStack()
+
+      expect(stack[1].category).toBe(BREADCRUMBCATEGORYS.USER)
+      expect(stack[1].type).toBe(BREADCRUMBTYPES.ROUTE)
+      expect(stack[1].level).toBe(Severity.Info)
+      expect((stack[1].data as Replace.IRouter).from).toBe('pages/automator/automator?')
+      expect((stack[1].data as Replace.IRouter).to).toBe('/pages/noRoute/index')
+
+      expect(stack[2].category).toBe(BREADCRUMBCATEGORYS.EXCEPTION)
+      expect(stack[2].type).toBe(BREADCRUMBTYPES.ROUTE)
+      expect(stack[2].level).toBe(Severity.Error)
+      expect((stack[2].data as Replace.IRouter).from).toBe('pages/automator/automator?')
+      expect((stack[2].data as Replace.IRouter).to).toBe('/pages/noRoute/index')
+    },
+    timeout
+  )
 
   it(
     'Download File error, should add three and upload this error',

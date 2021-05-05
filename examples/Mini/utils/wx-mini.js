@@ -1,4 +1,4 @@
-/* @mitojs/wx-mini version ' + 2.1.3 */
+/* @mitojs/wx-mini version ' + 2.1.4 */
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -57,7 +57,7 @@ function __spreadArrays() {
     return r;
 }
 
-var version = "2.1.3";
+var version = "2.1.4";
 
 var SDK_NAME = 'mitojs';
 var SDK_VERSION = version;
@@ -949,7 +949,7 @@ var TransportData = (function () {
                             'Content-Type': 'application/json;charset=UTF-8'
                         },
                         url: url,
-                        data: data
+                        data: JSON.stringify(data)
                     });
                 };
                 this.queue.addFn(requestFun);
@@ -1701,11 +1701,11 @@ function replaceNetwork() {
                 }
                 var url = options$1.url;
                 var header = options$1.header;
-                !header || (header = {});
+                !header && (header = {});
                 if ((method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) {
                     return originRequest.call(this, options$1);
                 }
-                var reqData;
+                var reqData = undefined;
                 if (hook === 'request') {
                     reqData = options$1.data;
                 }
@@ -1752,6 +1752,7 @@ function replaceNetwork() {
                     var endTime = getTimestamp();
                     data.elapsedTime = endTime - data.sTime;
                     data.errMsg = err.errMsg;
+                    data.status = 0;
                     triggerHandlers(EVENTTYPES.XHR, data);
                     if (variableTypeDetection.isFunction(_fail)) {
                         return _fail(err);

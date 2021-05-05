@@ -19,6 +19,7 @@ Page({
   onTapRequest() {
     wx.request({
       url: '/exception',
+      method: 'GET',
       data: {
         a: 1,
         b: 2
@@ -33,8 +34,14 @@ Page({
   },
   onTapNoRoute() {
     wx.navigateTo({
-      url: '/pages/noRoute/index'
-    }).catch((err) => console.log('跳转到一个不存的页面出错：：：', err))
+      url: '/pages/noRoute/index',
+      fail(err) {
+        console.log('err', err)
+      },
+      success(res) {
+        console.log('res = ', res)
+      }
+    })
   },
   onTapDownFile() {
     // 存在的地址
