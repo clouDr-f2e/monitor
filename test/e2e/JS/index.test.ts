@@ -19,9 +19,6 @@ describe('Native JS e2e:', () => {
   beforeEach(async () => {
     browser = await puppeteer.launch()
     page = await browser.newPage()
-    // page.on('console', (msg) => {
-    //   for (let i = 0; i < msg.args().length; ++i) console.log(`${i}: ${msg.args()[i]}`)
-    // })
     await page.goto(jsUrl)
     page.on('request', (request) => {
       if (request.url().includes(ServerUrls.errorsUpload) && uploadRequestHandles.length > 0) {

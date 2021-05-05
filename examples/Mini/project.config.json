@@ -23,7 +23,7 @@
     "compileHotReLoad": false,
     "useMultiFrameRuntime": true,
     "useApiHook": true,
-    "useApiHostProcess": true,
+    "useApiHostProcess": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -41,7 +41,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.16.0",
-  "appid": "wxab2f9a4af54b22e4",
+  "appid": "wx0244efe11fd2b3e2",
   "projectname": "gayLen-wxmp",
   "debugOptions": {
     "hidedInDevtools": []

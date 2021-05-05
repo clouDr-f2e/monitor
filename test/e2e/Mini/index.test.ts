@@ -21,7 +21,7 @@ describe('Min e2e:', () => {
 
   async function getRequestOptions(): Promise<WechatMiniprogram.RequestOption> {
     return await _miniProgram.evaluate(() => {
-      let options = wx['__MITO_REQUEST__']
+      const options = wx['__MITO_REQUEST__']
       return {
         method: options.method,
         header: options.header,
@@ -46,12 +46,11 @@ describe('Min e2e:', () => {
    * 微信开发工具设置 -> 安全设置 -> 安全 -> 打开服务端口
    */
   beforeAll(async () => {
-    let miniProgram: MiniProgram = await automator.launch({
+    const miniProgram: MiniProgram = await automator.launch({
       projectPath: resolve(__dirname, '../../../examples/Mini')
     })
     _miniProgram = miniProgram
-
-    let page: Page = await miniProgram.reLaunch('/pages/automator/automator')
+    const page: Page = await miniProgram.reLaunch('/pages/automator/automator')
     await page.waitFor(waitFor)
     _page = page
   }, timeout)
@@ -62,15 +61,13 @@ describe('Min e2e:', () => {
 
   it(
     'Code Error btn click，breadcrumb stack should add two and upload this error',
-    async () => {
+    async (done) => {
       const element = await _page.$('#click-err-btn')
       await element.tap()
-
       await _page.waitFor(waitFor)
 
       // 请求体
       const options = await getRequestOptions()
-
       const { authInfo, data } = options.data as TransportDataType
 
       expect((data as ReportDataType).type).toBe(ERRORTYPES.JAVASCRIPT_ERROR)
@@ -91,13 +88,14 @@ describe('Min e2e:', () => {
       expect(stack[1].category).toBe(BREADCRUMBCATEGORYS.EXCEPTION)
       expect(stack[1].level).toBe(Severity.Error)
       expect(stack.length).toBe(2)
+      done()
     },
     timeout
   )
 
   it(
     'PromiseError，breadcrumb should add two and upload this error',
-    async () => {
+    async (done) => {
       const element = await _page.$('#click-promise-btn')
       await element.tap()
 
@@ -120,6 +118,7 @@ describe('Min e2e:', () => {
       expect(stack[1].type).toBe(BREADCRUMBTYPES.UNHANDLEDREJECTION)
       expect(stack[1].level).toBe(Severity.Error)
       expect(stack.length).toBe(2)
+      done()
     },
     timeout
   )
@@ -127,7 +126,7 @@ describe('Min e2e:', () => {
   // 没发请求
   it(
     'A exception get XHR request，breadcrumb stack should add two and upload this error',
-    async () => {
+    async (done) => {
       const element = await _page.$('#click-request-btn')
       await element.tap()
 
@@ -146,7 +145,7 @@ describe('Min e2e:', () => {
 
       expect(stack[1].category).toBe(BREADCRUMBCATEGORYS.HTTP)
       expect(stack[1].type).toBe(BREADCRUMBTYPES.XHR)
-      expect(stack[1].level).toBe(Severity.Info) //
+      expect(stack[1].level).toBe(Severity.Info)
       expect((stack[1].data as ReportDataType).message).toBe(`http请求失败，失败原因：跨域限制或域名不存在 ${ServerUrls.exceptionGet}`)
       expect((stack[1].data as ReportDataType).request.httpType).toBe(HTTPTYPE.XHR)
       expect((stack[1].data as ReportDataType).request.method).toBe(EMethods.Get)
@@ -159,13 +158,14 @@ describe('Min e2e:', () => {
       expect((stack[2].data as ReportDataType).message).toBe(`http请求失败，失败原因：跨域限制或域名不存在 ${ServerUrls.exceptionGet}`)
       expect((stack[2].data as ReportDataType).request.method).toBe(EMethods.Get)
       expect((stack[2].data as ReportDataType).request.url).toBe(ServerUrls.exceptionGet)
+      done()
     },
     timeout
   )
 
   it(
     'Router error, should add two and upload this error',
-    async () => {
+    async (done) => {
       const element = await _page.$('#click-router-btn')
       await element.tap()
 
@@ -194,13 +194,14 @@ describe('Min e2e:', () => {
       expect(stack[2].level).toBe(Severity.Error)
       expect((stack[2].data as Replace.IRouter).from).toBe('pages/automator/automator?')
       expect((stack[2].data as Replace.IRouter).to).toBe('/pages/noRoute/index')
+      done()
     },
     timeout
   )
 
   it(
     'Download File error, should add three and upload this error',
-    async () => {
+    async (done) => {
       const element = await _page.$('#click-file-btn')
       await element.tap()
 
@@ -235,6 +236,7 @@ describe('Min e2e:', () => {
       expect((stack[2].data as ReportDataType).request.method).toBe(EMethods.Get)
       expect((stack[2].data as ReportDataType).request.url).toBe('https://www.baidu.com/downloadFile')
       expect(stack.length).toBe(3)
+      done()
     },
     timeout
   )
