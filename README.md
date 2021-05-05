@@ -28,7 +28,7 @@
 - [x] 🚀丰富的hooks与配置项支持可高定制化
 - [x] 🌝支持IE8和安卓5以上
 - [x] 👌持续迭代与更新
-- [x] 完善的e2e测试
+- [x] 完善的浏览器e2e和微信小程序e2e
 - [x] 完善的单元测试（77%~coding）
 - [x] 支持原生Web [@mitojs/browser](https://github.com/clouDr-f2e/mitojs/tree/master/packages/browser)
 - [x] 支持Web框架（Vue3、Vue2、React@Next） [@mitojs/web](https://github.com/clouDr-f2e/mitojs/tree/master/packages/web)
