@@ -21,7 +21,7 @@ const packagesDir = path.resolve(__dirname, 'packages')
 const packageDir = path.resolve(packagesDir, process.env.TARGET)
 const packageDirDist = process.env.LOCALDIR === 'undefined' ? `${packageDir}/dist` : process.env.LOCALDIR
 const name = path.basename(packageDir)
-const pathResolve = (p) => path.resolve(packageDir, p)
+// const pathResolve = (p) => path.resolve(packageDir, p)
 const M = '@mitojs'
 const paths = {
   '@mitojs/utils': [`${packagesDir}/utils/src`],
