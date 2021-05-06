@@ -22,7 +22,7 @@ const packageDir = path.resolve(packagesDir, process.env.TARGET)
 const packageDirDist = process.env.LOCALDIR === 'undefined' ? `${packageDir}/dist` : process.env.LOCALDIR
 const name = path.basename(packageDir)
 const pathResolve = (p) => path.resolve(packageDir, p)
-
+const M = '@mitojs'
 const paths = {
   '@mitojs/utils': [`${packagesDir}/utils/src`],
   '@mitojs/core': [`${packagesDir}/core/src`],
@@ -37,14 +37,17 @@ const paths = {
 const common = {
   input: `${packageDir}/src/index.ts`,
   output: {
-    banner: `/* @mitojs/${name} version ' + ${masterVersion} */`,
+    banner: `/* ${M}/${name} version ' + ${masterVersion} */`,
     footer: '/* follow me on Github! @cjinhuo */'
   },
-  external: ['@mitojs/core', '@mitojs/utils', '@mitojs/types', '@mitojs/shared'],
+  external: [...Object.keys(paths)],
   plugins: [
     resolve(),
     size(),
-    visualizer(),
+    visualizer({
+      title: `${m} analyzer`,
+      filename: 'analyzer.html'
+    }),
     commonjs({
       exclude: 'node_modules'
     }),

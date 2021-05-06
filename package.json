@@ -12,10 +12,9 @@
     "e2e": "`nohup ts-node ./examples/server/index.ts >/dev/null 2>&1 &` && jest --runTestsByPath ./test/e2e/JS/index.test.ts ./test/e2e/Vue/index.test.ts ./test/e2e/Vue3/index.test.ts ./test/e2e/React/index.test.ts --config jest.config.ts",
     "unit": "jest --config jsdom.jest.config.ts",
     "test": " npm run unit && npm run e2e",
-    "test:watch": "jest --watch",
+    "e2e:mini": "jest --runTestsByPath ./test/e2e/Mini/index.test.ts --detectOpenHandles --forceExit --config jest.config.ts",
     "format": "prettier --write -,-parser typescript \"packages/**/*.ts?(x)\"",
-    "format:package": "prettier --write \"packages/**/package.json\"",
-    "e2e:mini": "jest --runTestsByPath ./test/e2e/Mini/index.test.ts --detectOpenHandles --forceExit --config jest.config.ts"
+    "format:package": "prettier --write \"packages/**/package.json\""
   },
   "repository": {
     "type": "git",
