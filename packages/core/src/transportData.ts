@@ -13,9 +13,10 @@ import { AuthInfo, TransportDataType, EMethods, InitOptions, isReportDataType, D
 export class TransportData {
   queue: Queue
   beforeDataReport: unknown = null
-  backTrackerId: InitOptions | unknown = null
+  backTrackerId: unknown = null
   configReportXhr: unknown = null
   configReportUrl: unknown = null
+  useImgUpload = false
   apikey = ''
   trackKey = ''
   errorDsn = ''
@@ -23,11 +24,15 @@ export class TransportData {
   constructor() {
     this.queue = new Queue()
   }
-  // imgRequest(data: Record<string, unknown>, url: string): void {
-  //   let img = new Image()
-  //   img.src = `${url}?${splitObjToQuery(data)}`
-  //   img = null
-  // }
+  imgRequest(data: any, url: string): void {
+    const requestFun = () => {
+      let img = new Image()
+      const spliceStr = url.indexOf('?') === -1 ? '?' : '&'
+      img.src = `${url}${spliceStr}data=${encodeURIComponent(JSON.stringify(data))}`
+      img = null
+    }
+    this.queue.addFn(requestFun)
+  }
   getRecord(): any[] {
     const recordData = _support.record
     if (recordData && variableTypeDetection.isArray(recordData) && recordData.length > 2) {
@@ -126,11 +131,12 @@ export class TransportData {
   }
 
   bindOptions(options: InitOptions = {}): void {
-    const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId, trackDsn, trackKey, configReportUrl } = options
+    const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId, trackDsn, trackKey, configReportUrl, useImgUpload } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
     validateOption(trackKey, 'trackKey', 'string') && (this.trackKey = trackKey)
     validateOption(dsn, 'dsn', 'string') && (this.errorDsn = dsn)
     validateOption(trackDsn, 'trackDsn', 'string') && (this.trackDsn = trackDsn)
+    validateOption(useImgUpload, 'useImgUpload', 'boolean') && (this.useImgUpload = useImgUpload)
     validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport)
     validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr)
     validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId)
@@ -162,8 +168,9 @@ export class TransportData {
       dsn = this.configReportUrl(result, dsn)
       if (!dsn) return
     }
+
     if (isBrowserEnv) {
-      return this.xhrPost(result, dsn)
+      return this.useImgUpload ? this.imgRequest(result, dsn) : this.xhrPost(result, dsn)
     }
     if (isWxMiniEnv) {
       return this.wxPost(result, dsn)

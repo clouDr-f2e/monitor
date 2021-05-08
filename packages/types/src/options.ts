@@ -35,6 +35,10 @@ export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEvent
    */
   apikey?: string
   /**
+   * 使用img上报的方式，默认为false，默认是xhr的上报方式
+   */
+  useImgUpload?: boolean
+  /**
    * 每个项目有一个唯一trackKey，给埋点的dsn用的
    */
   trackKey?: string

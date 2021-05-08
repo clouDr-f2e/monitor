@@ -45,7 +45,7 @@ const common = {
     resolve(),
     size(),
     visualizer({
-      title: `${m} analyzer`,
+      title: `${M} analyzer`,
       filename: 'analyzer.html'
     }),
     commonjs({
