@@ -1,0 +1,19 @@
+{
+  "name": "@mitojs/performance",
+  "version": "0.0.1",
+  "description": "A SDK For Monitoring Browser performance",
+  "license": "MIT",
+  "author": "karl@rovos.com",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "buildOptions": {
+    "formats": [
+      "esm-bundler",
+      "cjs"
+    ]
+  }
+}

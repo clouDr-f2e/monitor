@@ -79,6 +79,17 @@ export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEvent
    * 在开启enableBury后，将所有埋点信息上报到该服务端地址，如果该属性有值时才会启动无痕埋点
    */
   trackDsn?: string
+  /**
+  * 是否开启页面性能数据收集
+  */
+  enableMonitor?: boolean
+
+  /**
+  * 是否开启 SPA Hash 模式
+  */
+  enableSPA?: boolean
+
+
 }
 
 export interface HooksTypes {
