@@ -1,8 +1,8 @@
-function init():void {
+class WebVitals {
+  constructor() {
+    
+  }
 
 }
 
 
-export {
-  init
-}
