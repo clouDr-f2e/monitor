@@ -1,6 +1,6 @@
 {
   "name": "@mitojs/types",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "@mitojs/types",
   "author": "cjinhuo",
   "license": "MIT",
@@ -11,10 +11,10 @@
     "dist"
   ],
   "dependencies": {
-    "@mitojs/core": "2.1.5",
-    "@mitojs/utils": "2.1.5",
-    "@mitojs/browser": "2.1.5",
-    "@mitojs/shared": "2.1.5",
+    "@mitojs/core": "2.1.6",
+    "@mitojs/utils": "2.1.6",
+    "@mitojs/browser": "2.1.6",
+    "@mitojs/shared": "2.1.6",
     "@types/wechat-miniprogram": "^3.1.0"
   }
 }

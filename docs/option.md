@@ -195,7 +195,6 @@ export class Breadcrumb{
   push()
   getStack()
 }
-
 ```
 
 **示例**：如果`type`是`Console`的就过滤，不会`push`到当前用户行为栈中
@@ -244,6 +243,10 @@ MITO.init({
 
 ```js
   /**
+   * wx小程序上报时的
+   */
+  configReportWxRequest?(): WechatMiniprogram.RequestOption
+	/**
    * wx小程序的App下的onLaunch执行完后再执行以下hook
    */
   appOnLaunch?(options: WechatMiniprogram.App.LaunchShowOption): void
@@ -314,6 +317,14 @@ MITO.init({
     // e.currentTarget.dataset
     // e.currentTarget.id
     // e.currentTarget.type
+  },
+  configReportWxRequest() {
+    return {
+      header: {
+        'Content-Type': 'text/plain; charset=UTF-8'
+      },
+      dataType: 'text'
+    }
   }
 })
 ```

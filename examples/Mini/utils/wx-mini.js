@@ -1,4 +1,4 @@
-/* @mitojs/wx-mini version ' + 2.1.4 */
+/* @mitojs/wx-mini version ' + 2.1.5 */
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -57,7 +57,7 @@ function __spreadArrays() {
     return r;
 }
 
-var version = "2.1.4";
+var version = "2.1.5";
 
 var SDK_NAME = 'mitojs';
 var SDK_VERSION = version;
@@ -877,12 +877,23 @@ var TransportData = (function () {
         this.backTrackerId = null;
         this.configReportXhr = null;
         this.configReportUrl = null;
+        this.configReportWxRequest = null;
+        this.useImgUpload = false;
         this.apikey = '';
         this.trackKey = '';
         this.errorDsn = '';
         this.trackDsn = '';
         this.queue = new Queue();
     }
+    TransportData.prototype.imgRequest = function (data, url) {
+        var requestFun = function () {
+            var img = new Image();
+            var spliceStr = url.indexOf('?') === -1 ? '?' : '&';
+            img.src = "" + url + spliceStr + "data=" + encodeURIComponent(JSON.stringify(data));
+            img = null;
+        };
+        this.queue.addFn(requestFun);
+    };
     TransportData.prototype.getRecord = function () {
         var recordData = _support.record;
         if (recordData && variableTypeDetection.isArray(recordData) && recordData.length > 2) {
@@ -941,16 +952,16 @@ var TransportData = (function () {
     TransportData.prototype.wxPost = function (data, url) {
         return __awaiter(this, void 0, void 0, function () {
             var requestFun;
+            var _this = this;
             return __generator(this, function (_a) {
                 requestFun = function () {
-                    wx.request({
-                        method: 'POST',
-                        header: {
-                            'Content-Type': 'application/json;charset=UTF-8'
-                        },
-                        url: url,
-                        data: JSON.stringify(data)
-                    });
+                    var requestOptions = { method: 'POST' };
+                    if (typeof _this.configReportWxRequest === 'function') {
+                        var params = _this.configReportWxRequest();
+                        requestOptions = __assign(__assign({}, requestOptions), params);
+                    }
+                    requestOptions = __assign(__assign({}, requestOptions), { data: JSON.stringify(data), url: url });
+                    wx.request(requestOptions);
                 };
                 this.queue.addFn(requestFun);
                 return [2];
@@ -1007,15 +1018,17 @@ var TransportData = (function () {
     };
     TransportData.prototype.bindOptions = function (options) {
         if (options === void 0) { options = {}; }
-        var dsn = options.dsn, beforeDataReport = options.beforeDataReport, apikey = options.apikey, configReportXhr = options.configReportXhr, backTrackerId = options.backTrackerId, trackDsn = options.trackDsn, trackKey = options.trackKey, configReportUrl = options.configReportUrl;
+        var dsn = options.dsn, beforeDataReport = options.beforeDataReport, apikey = options.apikey, configReportXhr = options.configReportXhr, backTrackerId = options.backTrackerId, trackDsn = options.trackDsn, trackKey = options.trackKey, configReportUrl = options.configReportUrl, useImgUpload = options.useImgUpload, configReportWxRequest = options.configReportWxRequest;
         validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey);
         validateOption(trackKey, 'trackKey', 'string') && (this.trackKey = trackKey);
         validateOption(dsn, 'dsn', 'string') && (this.errorDsn = dsn);
         validateOption(trackDsn, 'trackDsn', 'string') && (this.trackDsn = trackDsn);
+        validateOption(useImgUpload, 'useImgUpload', 'boolean') && (this.useImgUpload = useImgUpload);
         validateOption(beforeDataReport, 'beforeDataReport', 'function') && (this.beforeDataReport = beforeDataReport);
         validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr);
         validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId);
         validateOption(configReportUrl, 'configReportUrl', 'function') && (this.configReportUrl = configReportUrl);
+        validateOption(configReportWxRequest, 'configReportWxRequest', 'function') && (this.configReportWxRequest = configReportWxRequest);
     };
     TransportData.prototype.send = function (data) {
         return __awaiter(this, void 0, void 0, function () {
@@ -1049,7 +1062,7 @@ var TransportData = (function () {
                                 return [2];
                         }
                         if (isBrowserEnv) {
-                            return [2, this.xhrPost(result, dsn)];
+                            return [2, this.useImgUpload ? this.imgRequest(result, dsn) : this.xhrPost(result, dsn)];
                         }
                         if (isWxMiniEnv) {
                             return [2, this.wxPost(result, dsn)];

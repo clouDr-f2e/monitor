@@ -16,6 +16,7 @@ export class TransportData {
   backTrackerId: unknown = null
   configReportXhr: unknown = null
   configReportUrl: unknown = null
+  configReportWxRequest: unknown = null
   useImgUpload = false
   apikey = ''
   trackKey = ''
@@ -71,14 +72,18 @@ export class TransportData {
   }
   async wxPost(data: any, url: string) {
     const requestFun = (): void => {
-      wx.request({
-        method: 'POST',
-        header: {
-          'Content-Type': 'application/json;charset=UTF-8'
-        },
-        url,
-        data: JSON.stringify(data)
-      })
+      let requestOptions = { method: 'POST' } as WechatMiniprogram.RequestOption
+      if (typeof this.configReportWxRequest === 'function') {
+        const params = this.configReportWxRequest()
+        // default method
+        requestOptions = { ...requestOptions, ...params }
+      }
+      requestOptions = {
+        ...requestOptions,
+        data: JSON.stringify(data),
+        url
+      }
+      wx.request(requestOptions)
     }
     this.queue.addFn(requestFun)
   }
@@ -131,7 +136,18 @@ export class TransportData {
   }
 
   bindOptions(options: InitOptions = {}): void {
-    const { dsn, beforeDataReport, apikey, configReportXhr, backTrackerId, trackDsn, trackKey, configReportUrl, useImgUpload } = options
+    const {
+      dsn,
+      beforeDataReport,
+      apikey,
+      configReportXhr,
+      backTrackerId,
+      trackDsn,
+      trackKey,
+      configReportUrl,
+      useImgUpload,
+      configReportWxRequest
+    } = options
     validateOption(apikey, 'apikey', 'string') && (this.apikey = apikey)
     validateOption(trackKey, 'trackKey', 'string') && (this.trackKey = trackKey)
     validateOption(dsn, 'dsn', 'string') && (this.errorDsn = dsn)
@@ -141,6 +157,7 @@ export class TransportData {
     validateOption(configReportXhr, 'configReportXhr', 'function') && (this.configReportXhr = configReportXhr)
     validateOption(backTrackerId, 'backTrackerId', 'function') && (this.backTrackerId = backTrackerId)
     validateOption(configReportUrl, 'configReportUrl', 'function') && (this.configReportUrl = configReportUrl)
+    validateOption(configReportWxRequest, 'configReportWxRequest', 'function') && (this.configReportWxRequest = configReportWxRequest)
   }
   /**
    * 监控错误上报的请求函数

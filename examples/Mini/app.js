@@ -4,7 +4,15 @@ MITO.init({
   projectId: 1,
   dsn: 'http://localhost:2021/errors/upload',
   silentConsole: true,
-  debug: false
+  debug: false,
+  configReportWxRequest() {
+    return {
+      header: {
+        'Content-Type': 'text/plain; charset=UTF-8'
+      },
+      dataType: 'text'
+    }
+  }
 })
 
 function interceptRequest(params) {

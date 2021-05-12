@@ -199,6 +199,10 @@ export type IWxPageInstance = WechatMiniprogram.Page.Instance<WechatMiniprogram.
 
 interface WxMiniHooksTypes {
   /**
+   * wx小程序上报时的wx.request配置
+   */
+  configReportWxRequest?(): WechatMiniprogram.RequestOption
+  /**
    * wx小程序的App下的onLaunch执行完后再执行以下hook
    */
   appOnLaunch?(options: WechatMiniprogram.App.LaunchShowOption): void
