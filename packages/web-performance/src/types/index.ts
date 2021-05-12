@@ -1,9 +1,11 @@
-export interface Config {
+import WebVitals from '../index'
+
+export interface IConfig {
   projectName: string
   version?: string
 }
 
-export interface PerformanceNavigationTiming {
+export interface IPerformanceNavigationTiming {
   dnsLookup?: number
   initialConnection?: number
   ssl?: number
@@ -12,3 +14,7 @@ export interface PerformanceNavigationTiming {
   domParse?: number
   resourceDownload?: number
 }
+
+export interface IMetrics {}
+
+export interface IWebVitals {}

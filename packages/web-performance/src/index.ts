@@ -4,11 +4,11 @@
  * @class
  * @author allen(https://github.com/Chryseis)
  * */
-import { Config } from './types'
+import { IConfig, IWebVitals } from './types'
 import generateUniqueID from './utils/generateUniqueID'
 
-class WebVitals {
-  constructor(config: Config) {
+class WebVitals implements IWebVitals {
+  constructor(config: IConfig) {
     const { projectName, version } = config
     const sectionId = generateUniqueID(projectName, version)
   }
