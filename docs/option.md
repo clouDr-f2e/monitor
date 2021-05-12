@@ -175,6 +175,8 @@ MITO.init({
   ...
   async beforeDataReport(event){
   	if (event.data.url === 'test.com/test') return false
+    // 注意:判断是否调用dsn还是trackDsn的规则
+    // (event.data.actionType === undefined || !event.data.isTrackData) 为true那么认为此次上报的类型是错误上报，否则是埋点上报
 	}
 })
 ```

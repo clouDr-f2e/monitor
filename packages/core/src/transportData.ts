@@ -64,7 +64,7 @@ export class TransportData {
       xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
       xhr.withCredentials = true
       if (typeof this.configReportXhr === 'function') {
-        this.configReportXhr(xhr)
+        this.configReportXhr(xhr, data)
       }
       xhr.send(JSON.stringify(data))
     }
@@ -74,7 +74,7 @@ export class TransportData {
     const requestFun = (): void => {
       let requestOptions = { method: 'POST' } as WechatMiniprogram.RequestOption
       if (typeof this.configReportWxRequest === 'function') {
-        const params = this.configReportWxRequest()
+        const params = this.configReportWxRequest(data)
         // default method
         requestOptions = { ...requestOptions, ...params }
       }

@@ -89,7 +89,7 @@ export interface HooksTypes {
    * xhr.withCredentials = true,后面调用该函数
    * ../param xhr XMLHttpRequest的实例
    */
-  configReportXhr?(xhr: XMLHttpRequest): void
+  configReportXhr?(xhr: XMLHttpRequest, reportData: TransportDataType | any): void
   /**
    * 钩子函数，在每次发送事件前会调用
    *
@@ -201,7 +201,7 @@ interface WxMiniHooksTypes {
   /**
    * wx小程序上报时的wx.request配置
    */
-  configReportWxRequest?(): WechatMiniprogram.RequestOption
+  configReportWxRequest?(event: TransportDataType | any): Partial<WechatMiniprogram.RequestOption>
   /**
    * wx小程序的App下的onLaunch执行完后再执行以下hook
    */

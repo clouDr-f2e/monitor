@@ -20,7 +20,12 @@ export interface TransportDataType {
 
 export type FinalReportType = ReportDataType | TrackReportData
 
-export interface ReportDataType {
+interface ICommonDataType {
+  // 是否是埋点数据
+  isTrackData?: boolean
+}
+
+export interface ReportDataType extends ICommonDataType {
   type?: ERRORTYPES
   message?: string
   url: string
@@ -49,7 +54,7 @@ export interface ReportDataType {
   customTag?: string
 }
 
-export interface TrackReportData {
+export interface TrackReportData extends ICommonDataType {
   // uuid
   id?: string
   // 埋点code 一般由人为传进来，可以自定义规范
@@ -62,11 +67,8 @@ export interface TrackReportData {
   durationTime?: number
   // 上报时间
   trackTime?: number
-  // debug 为true 则投递到日志库  为false 投递到埋点库 定制时手动拼上
-  // libVersion sdk 版本 定制时手动拼上
-  // libType sdk 类型 定制时手动拼上
 }
 
 export function isReportDataType(data: ReportDataType | TrackReportData): data is ReportDataType {
-  return (<TrackReportData>data).actionType === undefined
+  return (<TrackReportData>data).actionType === undefined && !data.isTrackData
 }
