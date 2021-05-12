@@ -11,6 +11,7 @@
  * */
 import { IPerformanceNavigationTiming } from '../types'
 import { isPerformanceSupported } from '../utils/isSupported'
+import { metricsName } from '../constants'
 
 const getNavigationTiming = (): IPerformanceNavigationTiming => {
   if (!isPerformanceSupported) {
@@ -42,5 +43,16 @@ const getNavigationTiming = (): IPerformanceNavigationTiming => {
     contentDownload: responseEnd - responseStart,
     domParse: domInteractive - responseEnd,
     resourceDownload: loadEventStart - domContentLoadedEventEnd
+  }
+}
+
+/*
+ * @param {string}
+ * @param {boolean}
+ * */
+const initNavigationTiming = (sectionId: string, report, immediately: boolean = true): void => {
+  const navigationTiming = getNavigationTiming()
+
+  if (immediately) {
   }
 }

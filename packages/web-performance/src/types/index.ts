@@ -1,5 +1,3 @@
-import WebVitals from '../index'
-
 export interface IConfig {
   projectName: string
   version?: string
@@ -15,6 +13,9 @@ export interface IPerformanceNavigationTiming {
   resourceDownload?: number
 }
 
-export interface IMetrics {}
+export interface IMetrics {
+  name: string
+  value: any
+}
 
 export interface IWebVitals {}
