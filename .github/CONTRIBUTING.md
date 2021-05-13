@@ -52,6 +52,11 @@ types：是否生成声明文件
 
 wx-mini：表示打包的模块，如果想打包多个模块，可以跟着多个模块名称：web wx-mini，不用=
 
+### local watch
+打开`watch`热更新
+
+`npm run build -- --watch=true web`
+
 
 ### version script
 `npm run version [version] [...modules]`

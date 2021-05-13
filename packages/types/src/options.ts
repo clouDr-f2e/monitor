@@ -72,6 +72,10 @@ export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEvent
    */
   maxBreadcrumbs?: number
   /**
+   * 按钮点击和微信触摸事件节流时间，默认是0
+   */
+  throttleDelayTime?: number
+  /**
    * 在引入wx-mini的情况下，使用该参数用来开启
    */
   enableTrack?: boolean

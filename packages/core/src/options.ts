@@ -8,6 +8,7 @@ export class Options {
   filterXhrUrlRegExp: RegExp
   includeHttpUrlTraceIdRegExp: RegExp
   traceIdFieldName = 'Trace-Id'
+  throttleDelayTime = 0
   // wx-mini
   appOnLaunch: Function = () => {}
   appOnShow: Function = () => {}
@@ -21,6 +22,7 @@ export class Options {
   // need return opitons，so defaul value is undefined
   wxNavigateToMiniProgram: Function
   triggerWxEvent: Function = () => {}
+
   constructor() {
     this.enableTraceId = false
   }
@@ -30,6 +32,7 @@ export class Options {
       enableTraceId,
       filterXhrUrlRegExp,
       traceIdFieldName,
+      throttleDelayTime,
       includeHttpUrlTraceIdRegExp,
       appOnLaunch,
       appOnShow,
@@ -60,6 +63,7 @@ export class Options {
 
     validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId)
     validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName)
+    validateOption(throttleDelayTime, 'throttleDelayTime', 'number') && (this.throttleDelayTime = throttleDelayTime)
     toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp)
     toStringValidateOption(includeHttpUrlTraceIdRegExp, 'includeHttpUrlTraceIdRegExp', '[object RegExp]') &&
       (this.includeHttpUrlTraceIdRegExp = includeHttpUrlTraceIdRegExp)
