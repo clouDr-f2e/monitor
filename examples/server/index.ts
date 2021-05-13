@@ -14,16 +14,11 @@ Object.entries(FilePaths).forEach(([path, resolvePath]) => {
 
 // mock
 app.get(ServerUrls.normalGet, (req, res) => {
-  setTimeout(() => {
-    res.send('get 正常请求响应体')
-  }, 3000)
+  res.send('get 正常请求响应体')
 })
 
 app.get(ServerUrls.exceptionGet, (req, res) => {
-  setTimeout(() => {
-    res.status(500).send('get 异常响应体!!!')
-    // res.send('get 正常请求响应体')
-  }, 2000)
+  res.status(500).send('get 异常响应体!!!')
 })
 
 app.post(ServerUrls.normalPost, (req, res) => {

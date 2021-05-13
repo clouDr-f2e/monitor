@@ -31,6 +31,7 @@ react@next的ErrorBoundary的错误上报函数[具体使用](https://github.com
 |            `debug`             | `boolean` | `false`    | 默认不会在控制台打印用户行为和错误信息，为true时将会在控台打印，推荐本地调试时置为true |
 | `useImgUpload` | `boolean` | `false` | 为true时，则使用img上报的方式，会在dsn后面追加data=encodeURIComponent(reportData)，在服务端接受时需要decodeURIComponent，默认为false。（小程序只能用wx.request上报的方式，也就是xhr，而且走img请求的话，url是有字符长度限制的，所以推荐走xhr） |
 |        `enableTraceId`         | `boolean` | `false`    | 为`true`时，页面的所有请求都会生成一个uuid，放入请求头中，和配置项：`traceIdFieldName`搭配使用 |
+| `throttleDelayTime` | `number` | `0` | 默认会收集`click`到的标签，该参数可以设置按钮点击节流时间 |
 |       `traceIdFieldName`       | `string`  | `Trace-Id` | 如果`enableTraceId`为true时，将会在所有请求头中添加`key`为`Trace-Id`，`value`为`uuid`的`traceId`，与`includeHttpUrlTraceIdRegExp`搭配使用 |
 |  `includeHttpUrlTraceIdRegExp`  | ` RegExp` | `null`     | 如果你开启了`enableTraceId`，还需要配置该属性，比如将改属性置为：`/api/`，那么所有包含`api`的的接口地址都将塞入traceId |
 |        `maxBreadcrumbs`        | `number`  | `20`       | 用户行为存放的最大容量，最大是100，当你配置超过100时，最终还是会设置成100，一方面是防止占更多的内存、一方面是保存超过100条用户行为没多大意义 |
