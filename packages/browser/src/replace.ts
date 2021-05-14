@@ -219,7 +219,7 @@ function consoleReplace(): void {
     })
   })
 }
-// 上一次的路由
+// last time route
 let lastHref: string
 lastHref = getLocationHref()
 function historyReplace(): void {
@@ -228,6 +228,7 @@ function historyReplace(): void {
   _global.onpopstate = function (this: WindowEventHandlers, ...args: any[]): any {
     const to = getLocationHref()
     const from = lastHref
+    lastHref = to
     triggerHandlers(EVENTTYPES.HISTORY, {
       from,
       to
