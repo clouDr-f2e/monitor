@@ -15,7 +15,8 @@
     "e2e:mini": "jest --runTestsByPath ./test/e2e/Mini/index.test.ts --detectOpenHandles --forceExit --config jest.config.ts",
     "format": "prettier --write -,-parser typescript \"packages/**/*.ts?(x)\"",
     "format:package": "prettier --write \"packages/**/package.json\"",
-    "commit": "git add . && git cz"
+    "commit": "git add . && git cz",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "repository": {
     "type": "git",

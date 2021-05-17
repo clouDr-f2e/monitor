@@ -10,6 +10,8 @@ import { visualizer } from 'rollup-plugin-visualizer'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const fs = require('fs')
 if (!process.env.TARGET) {
   throw new Error('TARGET package must be specified')
 }
@@ -20,19 +22,19 @@ const masterVersion = require('./package.json').version
 const packagesDir = path.resolve(__dirname, 'packages')
 const packageDir = path.resolve(packagesDir, process.env.TARGET)
 const packageDirDist = process.env.LOCALDIR === 'undefined' ? `${packageDir}/dist` : process.env.LOCALDIR
+// package => file name
 const name = path.basename(packageDir)
 // const pathResolve = (p) => path.resolve(packageDir, p)
+
+// major name
 const M = '@mitojs'
-const paths = {
-  '@mitojs/utils': [`${packagesDir}/utils/src`],
-  '@mitojs/core': [`${packagesDir}/core/src`],
-  '@mitojs/types': [`${packagesDir}/types/src`],
-  '@mitojs/shared': [`${packagesDir}/shared/src`],
-  '@mitojs/browser': [`${packagesDir}/browser/src`],
-  '@mitojs/react': [`${packagesDir}/react/src`],
-  '@mitojs/vue': [`${packagesDir}/vue/src`],
-  '@mitojs/wx-mini': [`${packagesDir}/wx-mini/src`]
-}
+const packageDirs = fs.readdirSync(packagesDir)
+const paths = {}
+packageDirs.forEach((dir) => {
+  // filter hidden files
+  if (dir.startsWith('.')) return
+  paths[`${M}/${dir}`] = [`${packagesDir}/${dir}/src`]
+})
 
 const common = {
   input: `${packageDir}/src/index.ts`,
