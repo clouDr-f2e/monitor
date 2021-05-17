@@ -3,5 +3,5 @@ export const metricsName = {
   FP: 'first-paint',
   FCP: 'first-contentful-paint',
   LCP: 'largest-contentful-paint',
-  DI: 'device-info'
+  DI: 'device-information'
 }
