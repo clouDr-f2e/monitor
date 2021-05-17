@@ -4,7 +4,6 @@
   "license": "MIT",
   "author": "cjinhuo",
   "scripts": {
-    "cz": "cz",
     "build": "node script/build.js",
     "watch": "node script/build.js --watch=true",
     "version": "node script/version.js",
