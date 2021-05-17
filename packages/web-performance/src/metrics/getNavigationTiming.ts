@@ -52,7 +52,7 @@ const getNavigationTiming = (): IPerformanceNavigationTiming => {
  * @param {Boolean} immediately, if immediately is true,data will report immediately
  * */
 export const initNavigationTiming = (report: IReportHandler, immediately: Boolean = true): void => {
-  const navigationTiming = getNavigationTiming()
+  const navigationTiming: IPerformanceNavigationTiming = getNavigationTiming()
 
   const metrics = { name: metricsName.NT, value: navigationTiming } as IMetrics
 

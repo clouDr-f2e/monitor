@@ -15,6 +15,18 @@ export interface IPerformanceNavigationTiming {
   resourceDownload?: number
 }
 
+export interface IDeviceInformation {
+  deviceMemory?: number
+  hardwareConcurrency?: number
+  jsHeapSizeLimit?: number
+  totalJSHeapSize?: number
+  usedJSHeapSize?: number
+  fps?: number
+  downlink?: number
+  effectiveType?: string
+  rtt?: number
+}
+
 export interface IMetrics {
   name: string
   value: any

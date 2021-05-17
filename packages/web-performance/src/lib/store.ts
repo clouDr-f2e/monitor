@@ -1,5 +1,10 @@
 import { IMetrics } from '../types'
 
+/*
+ * store metrics
+ *
+ * @class
+ * */
 class metricsStore {
   state: Map<string, IMetrics>
 
