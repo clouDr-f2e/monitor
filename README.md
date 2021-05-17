@@ -1,6 +1,6 @@
 <div align="center">
     <a href="#" target="_blank">
-    <img src="https://i.loli.net/2020/08/21/87uCfjsrWwhA5YL.jpg" alt="Ohbug" height="90">
+    <img src="https://tva1.sinaimg.cn/large/008i3skNly1gql8asit7qj30de05c3yg.jpg" alt="mito-logo" height="90">
     </a>
     <p>一款轻量级的收集页面的用户点击行为、路由跳转、接口报错、代码报错、并上报服务端的SDK</p>
 
