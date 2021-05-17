@@ -9,9 +9,10 @@
  * dom parse = domInteractive - responseEnd
  * resource download = loadEventStart - domContentLoadedEventEnd
  * */
-import { IPerformanceNavigationTiming } from '../types'
+import { IMetrics, IPerformanceNavigationTiming, IReportHandler } from '../types'
 import { isPerformanceSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
+import metricsStore from '../lib/store'
 
 const getNavigationTiming = (): IPerformanceNavigationTiming => {
   if (!isPerformanceSupported) {
@@ -47,12 +48,17 @@ const getNavigationTiming = (): IPerformanceNavigationTiming => {
 }
 
 /*
- * @param {string}
- * @param {boolean}
+ * @param {Function} bindReport
+ * @param {Boolean} immediately, if immediately is true,data will report immediately
  * */
-const initNavigationTiming = (sectionId: string, report, immediately: boolean = true): void => {
+export const initNavigationTiming = (report: IReportHandler, immediately: Boolean = true): void => {
   const navigationTiming = getNavigationTiming()
 
+  const metrics = { name: metricsName.NT, value: navigationTiming } as IMetrics
+
   if (immediately) {
+    report(metrics)
   }
+
+  metricsStore.set(metricsName.NT, metrics)
 }
