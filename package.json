@@ -15,7 +15,8 @@
     "test": " npm run unit && npm run e2e",
     "e2e:mini": "jest --runTestsByPath ./test/e2e/Mini/index.test.ts --detectOpenHandles --forceExit --config jest.config.ts",
     "format": "prettier --write -,-parser typescript \"packages/**/*.ts?(x)\"",
-    "format:package": "prettier --write \"packages/**/package.json\""
+    "format:package": "prettier --write \"packages/**/package.json\"",
+    "commit": "git add . && git cz"
   },
   "repository": {
     "type": "git",
