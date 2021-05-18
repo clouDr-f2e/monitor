@@ -2,7 +2,7 @@ export interface IConfig {
   projectName: string
   version?: string
   reportCallback: Function
-  immediatelyReport: Boolean
+  immediatelyReport: boolean
 }
 
 export interface IPerformanceNavigationTiming {

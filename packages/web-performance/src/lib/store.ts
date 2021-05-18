@@ -24,6 +24,10 @@ class metricsStore {
   has(key: metricsName) {
     return this.state.has(key)
   }
+
+  getValues() {
+    return Array.from(this.state.values())
+  }
 }
 
 export default new metricsStore()

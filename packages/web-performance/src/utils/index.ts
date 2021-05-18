@@ -2,7 +2,7 @@ export const roundByFour = (num: number) => {
   return parseFloat(num.toFixed(4))
 }
 
-export const convertToKB = (bytes: number): number | null => {
+export const convertToMB = (bytes: number): number | null => {
   if (typeof bytes !== 'number') {
     return null
   }
