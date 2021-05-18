@@ -41,3 +41,9 @@ export interface IWebVitals {}
 export interface IReportHandler {
   (metrics: IMetrics | Array<IMetrics>): void
 }
+
+export interface IConnection {
+  downlink: number
+  effectiveType: string
+  rtt: number
+}

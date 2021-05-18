@@ -15,7 +15,7 @@ import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 
 const getNavigationTiming = (): IPerformanceNavigationTiming => {
-  if (!isPerformanceSupported) {
+  if (!isPerformanceSupported()) {
     console.error('browser do not support performance')
     return
   }
@@ -48,10 +48,11 @@ const getNavigationTiming = (): IPerformanceNavigationTiming => {
 }
 
 /*
- * @param {Function} bindReport
+ * @param {metricsStore} store
+ * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initNavigationTiming = (report: IReportHandler, immediately: boolean = true): void => {
+export const initNavigationTiming = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
   const navigationTiming: IPerformanceNavigationTiming = getNavigationTiming()
 
   const metrics = { name: metricsName.NT, value: navigationTiming } as IMetrics
@@ -60,5 +61,5 @@ export const initNavigationTiming = (report: IReportHandler, immediately: boolea
     report(metrics)
   }
 
-  metricsStore.set(metricsName.NT, metrics)
+  store.set(metricsName.NT, metrics)
 }

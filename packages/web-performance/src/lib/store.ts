@@ -1,4 +1,4 @@
-import { IMetrics } from '../types'
+import { IMetrics, IReportHandler } from '../types'
 import { metricsName } from '../constants'
 
 /*
@@ -8,9 +8,11 @@ import { metricsName } from '../constants'
  * */
 class metricsStore {
   state: Map<metricsName, IMetrics>
+  report: IReportHandler
 
-  constructor() {
+  constructor(report) {
     this.state = new Map<metricsName, IMetrics>()
+    this.report = report
   }
 
   set(key: metricsName, value: IMetrics) {
@@ -30,4 +32,4 @@ class metricsStore {
   }
 }
 
-export default new metricsStore()
+export default metricsStore

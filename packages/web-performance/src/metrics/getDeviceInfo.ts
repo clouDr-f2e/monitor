@@ -17,12 +17,12 @@ import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 
 const getDeviceInfo = (): IDeviceInformation => {
-  if (!isPerformanceSupported) {
+  if (!isPerformanceSupported()) {
     console.error('browser do not support performance')
     return
   }
 
-  if (!isNavigatorSupported) {
+  if (!isNavigatorSupported()) {
     console.error('browser do not support navigator')
     return
   }
@@ -39,10 +39,11 @@ const getDeviceInfo = (): IDeviceInformation => {
 }
 
 /*
- * @param {Function} bindReport
+ * @param {metricsStore} store
+ * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initDeviceInfo = (report: IReportHandler, immediately: boolean = true): void => {
+export const initDeviceInfo = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
   const deviceInfo: IDeviceInformation = getDeviceInfo()
 
   const metrics = { name: metricsName.DI, value: deviceInfo } as IMetrics
@@ -51,5 +52,5 @@ export const initDeviceInfo = (report: IReportHandler, immediately: boolean = tr
     report(metrics)
   }
 
-  metricsStore.set(metricsName.DI, metrics)
+  store.set(metricsName.DI, metrics)
 }
