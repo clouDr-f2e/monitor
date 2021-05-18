@@ -3,5 +3,6 @@ export enum metricsName {
   FP = 'first-paint',
   FCP = 'first-contentful-paint',
   LCP = 'largest-contentful-paint',
-  DI = 'device-information'
+  DI = 'device-information',
+  NW = 'network-information'
 }
