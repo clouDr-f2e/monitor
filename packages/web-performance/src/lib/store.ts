@@ -1,4 +1,5 @@
 import { IMetrics } from '../types'
+import { metricsName } from '../constants'
 
 /*
  * store metrics
@@ -6,21 +7,21 @@ import { IMetrics } from '../types'
  * @class
  * */
 class metricsStore {
-  state: Map<string, IMetrics>
+  state: Map<metricsName, IMetrics>
 
   constructor() {
-    this.state = new Map<string, IMetrics>()
+    this.state = new Map<metricsName, IMetrics>()
   }
 
-  set(key, value: IMetrics) {
+  set(key: metricsName, value: IMetrics) {
     this.state.set(key, value)
   }
 
-  get(key): IMetrics {
+  get(key: metricsName): IMetrics {
     return this.state.get(key)
   }
 
-  has(key) {
+  has(key: metricsName) {
     return this.state.has(key)
   }
 }

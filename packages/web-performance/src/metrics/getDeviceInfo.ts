@@ -7,4 +7,15 @@
  * totalJSHeapSize,the total allocated heap size, in bytes.
  * usedJSHeapSize,the currently active segment of JS heap, in bytes.
  * fps,a frame rate is the speed at which the browser is able to recalculate, layout and paint content to the display.
+ * userAgent
  * */
+import { IDeviceInformation } from '../types'
+import { isPerformanceSupported } from '../utils/isSupported'
+import { metricsName } from '../constants'
+
+const getDeviceInfo = (): IDeviceInformation => {
+  if (!isPerformanceSupported) {
+    console.log('browser do not support performance')
+    return
+  }
+}
