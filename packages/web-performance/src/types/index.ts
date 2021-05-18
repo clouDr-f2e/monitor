@@ -22,6 +22,10 @@ export interface IDeviceInformation {
   totalJSHeapSize?: number
   usedJSHeapSize?: number
   fps?: number
+  userAgent?: string
+}
+
+export interface INetworkInformation {
   downlink?: number
   effectiveType?: string
   rtt?: number
