@@ -13,6 +13,7 @@ export interface IPerformanceNavigationTiming {
   contentDownload?: number
   domParse?: number
   resourceDownload?: number
+  domReady?: number
 }
 
 export interface IDeviceInformation {
@@ -31,12 +32,26 @@ export interface INetworkInformation {
   rtt?: number
 }
 
+export interface IPageInformation {
+  host: string
+  hostname: string
+  href: string
+  protocol: string
+  origin: string
+  port: string
+  pathname: string
+  search: string
+  hash: string
+}
+
 export interface IMetrics {
   name: string
   value: any
 }
 
-export interface IWebVitals {}
+export interface IWebVitals {
+  getCurrentMetrics(): Array<IMetrics>
+}
 
 export interface IReportHandler {
   (metrics: IMetrics | Array<IMetrics>): void

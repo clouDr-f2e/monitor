@@ -23,11 +23,11 @@ class metricsStore {
     return this.state.get(key)
   }
 
-  has(key: metricsName) {
+  has(key: metricsName): boolean {
     return this.state.has(key)
   }
 
-  getValues() {
+  getValues(): Array<IMetrics> {
     return Array.from(this.state.values())
   }
 }

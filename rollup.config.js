@@ -31,7 +31,8 @@ const paths = {
   '@mitojs/browser': [`${packagesDir}/browser/src`],
   '@mitojs/react': [`${packagesDir}/react/src`],
   '@mitojs/vue': [`${packagesDir}/vue/src`],
-  '@mitojs/wx-mini': [`${packagesDir}/wx-mini/src`]
+  '@mitojs/wx-mini': [`${packagesDir}/wx-mini/src`],
+  '@mitojs/web-performance': [`${packagesDir}/web-performance/src`]
 }
 
 const common = {

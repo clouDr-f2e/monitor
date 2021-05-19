@@ -4,25 +4,33 @@
  * @class
  * @author allen(https://github.com/Chryseis)
  * */
-import { IConfig, IWebVitals } from './types'
+import { IConfig, IWebVitals, IMetrics } from './types'
 import generateUniqueID from './utils/generateUniqueID'
 import createReporter from './lib/createReporter'
-import createMetricsStore from './lib/store'
+import MetricsStore from './lib/store'
 import { initNavigationTiming } from './metrics/getNavigationTiming'
 import { initDeviceInfo } from './metrics/getDeviceInfo'
 import { initNetworkInfo } from './metrics/getNetworkInfo'
+import { initPageInfo } from './metrics/getPageInfo'
 
 class WebVitals implements IWebVitals {
+  metricsStore: MetricsStore
+
   constructor(config: IConfig) {
-    const { projectName, version, reportCallback, immediatelyReport } = config
+    const { projectName, version, reportCallback, immediatelyReport = false } = config
     const sectionId = generateUniqueID(projectName, version)
     const reporter = createReporter(sectionId, reportCallback)
-    const store = new createMetricsStore(reporter)
+    this.metricsStore = new MetricsStore(reporter)
 
-    initNavigationTiming(store, reporter, immediatelyReport)
-    initDeviceInfo(store, reporter, immediatelyReport)
-    initNetworkInfo(store, reporter, immediatelyReport)
+    initPageInfo(this.metricsStore, reporter, immediatelyReport)
+    initDeviceInfo(this.metricsStore, reporter, immediatelyReport)
+    initNetworkInfo(this.metricsStore, reporter, immediatelyReport)
+    initNavigationTiming(this.metricsStore, reporter, immediatelyReport)
+  }
+
+  getCurrentMetrics(): Array<IMetrics> {
+    return this.metricsStore.getValues()
   }
 }
 
-export default WebVitals
+export { WebVitals }

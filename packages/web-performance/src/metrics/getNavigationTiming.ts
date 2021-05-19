@@ -8,11 +8,13 @@
  * content download = responseEnd - responseStart
  * dom parse = domInteractive - responseEnd
  * resource download = loadEventStart - domContentLoadedEventEnd
+ * dom Ready = domContentLoadedEventEnd - fetchStart
  * */
 import { IMetrics, IPerformanceNavigationTiming, IReportHandler } from '../types'
 import { isPerformanceSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
+import { roundByFour } from '../utils'
 
 const getNavigationTiming = (): IPerformanceNavigationTiming => {
   if (!isPerformanceSupported()) {
@@ -33,17 +35,19 @@ const getNavigationTiming = (): IPerformanceNavigationTiming => {
     responseEnd,
     domInteractive,
     domContentLoadedEventEnd,
-    loadEventStart
+    loadEventStart,
+    fetchStart
   } = navigation
 
   return {
-    dnsLookup: domainLookupEnd - domainLookupStart,
-    initialConnection: connectEnd - connectStart,
-    ssl: connectEnd - secureConnectionStart,
-    ttfb: responseStart - requestStart,
-    contentDownload: responseEnd - responseStart,
-    domParse: domInteractive - responseEnd,
-    resourceDownload: loadEventStart - domContentLoadedEventEnd
+    dnsLookup: roundByFour(domainLookupEnd - domainLookupStart),
+    initialConnection: roundByFour(connectEnd - connectStart),
+    ssl: roundByFour(connectEnd - secureConnectionStart),
+    ttfb: roundByFour(responseStart - requestStart),
+    contentDownload: roundByFour(responseEnd - responseStart),
+    domParse: roundByFour(domInteractive - responseEnd),
+    resourceDownload: roundByFour(loadEventStart - domContentLoadedEventEnd),
+    domReady: roundByFour(domContentLoadedEventEnd - fetchStart)
   }
 }
 
