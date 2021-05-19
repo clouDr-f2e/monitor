@@ -62,3 +62,7 @@ export interface IConnection {
   effectiveType: string
   rtt: number
 }
+
+export interface PerformanceEntryHandler {
+  (entry: PerformanceEntry): void
+}
