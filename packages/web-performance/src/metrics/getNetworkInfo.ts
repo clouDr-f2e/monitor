@@ -10,7 +10,7 @@ import { isNavigatorSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 
-const getNetworkInfo = (): INetworkInformation => {
+const getNetworkInfo = (): INetworkInformation | undefined => {
   if (!isNavigatorSupported()) {
     console.error('browser do not support performance')
     return

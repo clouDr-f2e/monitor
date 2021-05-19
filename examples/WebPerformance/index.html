@@ -7,16 +7,12 @@
 <body>
 <script src="/wpDist/web-performance.min.js"></script>
 <script>
-  window.onload=function(){
-   var metrics = new MITO.WebVitals({
-      projectName:'allen-test',
-      version:'1.0.0',
-      reportCallback:console.log,
-      immediatelyReport:true
-    })
-
-    console.log(metrics.getCurrentMetrics())
-  }
+  new MITO.WebVitals({
+    projectName:'allen-test',
+    version:'1.0.0',
+    reportCallback:console.log,
+    immediatelyReport:true
+  })
 </script>
 </body>
 </html>

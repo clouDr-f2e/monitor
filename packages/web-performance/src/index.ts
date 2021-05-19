@@ -6,12 +6,14 @@
  * */
 import { IConfig, IWebVitals, IMetrics } from './types'
 import generateUniqueID from './utils/generateUniqueID'
+import { afterLoad } from './utils'
 import createReporter from './lib/createReporter'
 import MetricsStore from './lib/store'
 import { initNavigationTiming } from './metrics/getNavigationTiming'
 import { initDeviceInfo } from './metrics/getDeviceInfo'
 import { initNetworkInfo } from './metrics/getNetworkInfo'
 import { initPageInfo } from './metrics/getPageInfo'
+import { initResourceFlow } from './metrics/getResourceFlow'
 
 class WebVitals implements IWebVitals {
   metricsStore: MetricsStore
@@ -22,10 +24,13 @@ class WebVitals implements IWebVitals {
     const reporter = createReporter(sectionId, reportCallback)
     this.metricsStore = new MetricsStore(reporter)
 
-    initPageInfo(this.metricsStore, reporter, immediatelyReport)
-    initNetworkInfo(this.metricsStore, reporter, immediatelyReport)
-    initNavigationTiming(this.metricsStore, reporter, immediatelyReport)
-    initDeviceInfo(this.metricsStore, reporter, immediatelyReport)
+    afterLoad(() => {
+      initPageInfo(this.metricsStore, reporter, immediatelyReport)
+      initNetworkInfo(this.metricsStore, reporter, immediatelyReport)
+      initNavigationTiming(this.metricsStore, reporter, immediatelyReport)
+      initDeviceInfo(this.metricsStore, reporter, immediatelyReport)
+      initResourceFlow(this.metricsStore, reporter, immediatelyReport)
+    })
   }
 
   getCurrentMetrics(): Array<IMetrics> {

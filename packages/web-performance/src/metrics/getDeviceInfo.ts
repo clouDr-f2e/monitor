@@ -16,7 +16,7 @@ import { convertToMB } from '../utils'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 
-const getDeviceInfo = (): Promise<IDeviceInformation> => {
+const getDeviceInfo = (): Promise<IDeviceInformation> | undefined => {
   if (!isPerformanceSupported()) {
     console.error('browser do not support performance')
     return

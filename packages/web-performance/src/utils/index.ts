@@ -8,3 +8,11 @@ export const convertToMB = (bytes: number): number | null => {
   }
   return roundByFour(bytes / Math.pow(1024, 2))
 }
+
+export const afterLoad = (callback) => {
+  if (document.readyState === 'complete') {
+    setTimeout(callback)
+  } else {
+    addEventListener('pageshow', callback)
+  }
+}

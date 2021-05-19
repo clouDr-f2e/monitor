@@ -16,7 +16,7 @@ import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 import { roundByFour } from '../utils'
 
-const getNavigationTiming = (): IPerformanceNavigationTiming => {
+const getNavigationTiming = (): IPerformanceNavigationTiming | undefined => {
   if (!isPerformanceSupported()) {
     console.error('browser do not support performance')
     return
