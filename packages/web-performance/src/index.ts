@@ -23,9 +23,9 @@ class WebVitals implements IWebVitals {
     this.metricsStore = new MetricsStore(reporter)
 
     initPageInfo(this.metricsStore, reporter, immediatelyReport)
-    initDeviceInfo(this.metricsStore, reporter, immediatelyReport)
     initNetworkInfo(this.metricsStore, reporter, immediatelyReport)
     initNavigationTiming(this.metricsStore, reporter, immediatelyReport)
+    initDeviceInfo(this.metricsStore, reporter, immediatelyReport)
   }
 
   getCurrentMetrics(): Array<IMetrics> {
