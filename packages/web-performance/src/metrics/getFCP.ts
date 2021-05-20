@@ -5,6 +5,7 @@
  * */
 import { isPerformanceObserverSupported } from '../utils/isSupported'
 import { IMetrics, IReportHandler } from '../types'
+import { roundByFour } from '../utils'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 import observe from '../lib/observe'
@@ -37,7 +38,7 @@ const getFCP = (): Promise<PerformanceEntry> | undefined => {
  * */
 export const initFCP = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
   getFCP()?.then((firstPaint: PerformanceEntry) => {
-    const metrics = { name: metricsName.FCP, value: firstPaint.startTime } as IMetrics
+    const metrics = { name: metricsName.FCP, value: roundByFour(firstPaint.startTime, 2) } as IMetrics
 
     if (immediately) {
       report(metrics)
