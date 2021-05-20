@@ -3,6 +3,7 @@ export interface IConfig {
   version?: string
   reportCallback: Function
   immediatelyReport: boolean
+  customCompleteEvent?: string
 }
 
 export interface IPerformanceNavigationTiming {

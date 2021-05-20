@@ -14,12 +14,14 @@ import { initDeviceInfo } from './metrics/getDeviceInfo'
 import { initNetworkInfo } from './metrics/getNetworkInfo'
 import { initPageInfo } from './metrics/getPageInfo'
 import { initResourceFlow } from './metrics/getResourceFlow'
+import { initFP } from './metrics/getFP'
+import { initFCP } from './metrics/getFCP'
 
 let metricsStore: MetricsStore
 
 class WebVitals implements IWebVitals {
   constructor(config: IConfig) {
-    const { projectName, version, reportCallback, immediatelyReport = false } = config
+    const { projectName, version, reportCallback, immediatelyReport = false, customCompleteEvent = null } = config
     const sectionId = generateUniqueID(projectName, version)
     const reporter = createReporter(sectionId, reportCallback)
     metricsStore = new MetricsStore(reporter)
@@ -31,7 +33,9 @@ class WebVitals implements IWebVitals {
       initDeviceInfo(metricsStore, reporter, immediatelyReport)
     })
 
-    initResourceFlow(metricsStore, reporter, null, immediatelyReport)
+    initResourceFlow(metricsStore, reporter, customCompleteEvent, immediatelyReport)
+    initFP(metricsStore, reporter, immediatelyReport)
+    initFCP(metricsStore, reporter, immediatelyReport)
   }
 
   getCurrentMetrics(): Array<IMetrics> {

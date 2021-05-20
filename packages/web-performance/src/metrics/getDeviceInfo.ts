@@ -46,7 +46,7 @@ const getDeviceInfo = (): Promise<IDeviceInformation> | undefined => {
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
 export const initDeviceInfo = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
-  getDeviceInfo().then((deviceInfo: IDeviceInformation) => {
+  getDeviceInfo()?.then((deviceInfo: IDeviceInformation) => {
     const metrics = { name: metricsName.DI, value: deviceInfo } as IMetrics
 
     if (immediately) {
