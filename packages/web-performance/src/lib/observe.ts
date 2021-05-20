@@ -1,6 +1,6 @@
 import { PerformanceEntryHandler } from '../types'
 
-export const observe = (type: string, callback: PerformanceEntryHandler): PerformanceObserver | undefined => {
+const observe = (type: string, callback: PerformanceEntryHandler): PerformanceObserver | undefined => {
   try {
     if (PerformanceObserver.supportedEntryTypes.includes(type)) {
       const po: PerformanceObserver = new PerformanceObserver((l) => l.getEntries().map(callback))
@@ -9,5 +9,6 @@ export const observe = (type: string, callback: PerformanceEntryHandler): Perfor
       return po
     }
   } catch (e) {}
-  return
 }
+
+export default observe

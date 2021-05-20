@@ -15,26 +15,27 @@ import { initNetworkInfo } from './metrics/getNetworkInfo'
 import { initPageInfo } from './metrics/getPageInfo'
 import { initResourceFlow } from './metrics/getResourceFlow'
 
-class WebVitals implements IWebVitals {
-  metricsStore: MetricsStore
+let metricsStore: MetricsStore
 
+class WebVitals implements IWebVitals {
   constructor(config: IConfig) {
     const { projectName, version, reportCallback, immediatelyReport = false } = config
     const sectionId = generateUniqueID(projectName, version)
     const reporter = createReporter(sectionId, reportCallback)
-    this.metricsStore = new MetricsStore(reporter)
+    metricsStore = new MetricsStore(reporter)
 
     afterLoad(() => {
-      initPageInfo(this.metricsStore, reporter, immediatelyReport)
-      initNetworkInfo(this.metricsStore, reporter, immediatelyReport)
-      initNavigationTiming(this.metricsStore, reporter, immediatelyReport)
-      initDeviceInfo(this.metricsStore, reporter, immediatelyReport)
-      initResourceFlow(this.metricsStore, reporter, immediatelyReport)
+      initPageInfo(metricsStore, reporter, immediatelyReport)
+      initNetworkInfo(metricsStore, reporter, immediatelyReport)
+      initNavigationTiming(metricsStore, reporter, immediatelyReport)
+      initDeviceInfo(metricsStore, reporter, immediatelyReport)
     })
+
+    initResourceFlow(metricsStore, reporter, null, immediatelyReport)
   }
 
   getCurrentMetrics(): Array<IMetrics> {
-    return this.metricsStore.getValues()
+    return metricsStore.getValues()
   }
 }
 
