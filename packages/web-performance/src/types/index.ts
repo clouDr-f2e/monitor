@@ -67,3 +67,11 @@ export interface IConnection {
 export interface PerformanceEntryHandler {
   (entry: PerformanceEntry): void
 }
+
+export interface PerformanceEventTiming extends PerformanceEntry {
+  processingStart: DOMHighResTimeStamp
+  processingEnd: DOMHighResTimeStamp
+  duration: DOMHighResTimeStamp
+  cancelable?: boolean
+  target?: Element
+}

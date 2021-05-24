@@ -13,9 +13,11 @@ import { initNavigationTiming } from './metrics/getNavigationTiming'
 import { initDeviceInfo } from './metrics/getDeviceInfo'
 import { initNetworkInfo } from './metrics/getNetworkInfo'
 import { initPageInfo } from './metrics/getPageInfo'
-import { initResourceFlow } from './metrics/getResourceFlow'
 import { initFP } from './metrics/getFP'
 import { initFCP } from './metrics/getFCP'
+import { initFID } from './metrics/getFID'
+import { initLCP } from './metrics/getLCP'
+import { initResourceFlow } from './metrics/getResourceFlow'
 
 let metricsStore: MetricsStore
 
@@ -33,9 +35,11 @@ class WebVitals implements IWebVitals {
       initDeviceInfo(metricsStore, reporter, immediatelyReport)
     })
 
-    initResourceFlow(metricsStore, reporter, customCompleteEvent, immediatelyReport)
     initFP(metricsStore, reporter, immediatelyReport)
     initFCP(metricsStore, reporter, immediatelyReport)
+    initFID(metricsStore, reporter, immediatelyReport)
+    initLCP(metricsStore, reporter, immediatelyReport)
+    initResourceFlow(metricsStore, reporter, customCompleteEvent, immediatelyReport)
   }
 
   getCurrentMetrics(): Array<IMetrics> {
