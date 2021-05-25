@@ -18,7 +18,7 @@ import metricsStore from '../lib/store'
 import { roundByFour } from '../utils'
 import observe from '../lib/observe'
 
-const getLCP = (lcp: PerformanceEntry): PerformanceObserver | undefined => {
+const getLCP = (lcp): PerformanceObserver | undefined => {
   if (!isPerformanceObserverSupported()) {
     console.error('browser do not support performanceObserver')
     return
@@ -28,7 +28,7 @@ const getLCP = (lcp: PerformanceEntry): PerformanceObserver | undefined => {
 
   const entryHandler = (entry: PerformanceEntry) => {
     if (entry.startTime < firstHiddenTime.timeStamp) {
-      lcp = entry
+      lcp.value = entry
     }
   }
 
@@ -41,13 +41,14 @@ const getLCP = (lcp: PerformanceEntry): PerformanceObserver | undefined => {
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
 export const initLCP = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
-  let lcp = {} as PerformanceEntry
+  let lcp = { value: {} as PerformanceEntry }
   const po = getLCP(lcp)
 
   const stopListening = () => {
     po.disconnect()
 
-    const metrics = { name: metricsName.LCP, value: roundByFour(lcp.startTime, 2) }
+    const value = lcp.value
+    const metrics = { name: metricsName.LCP, value: roundByFour(value.startTime, 2) } as IMetrics
 
     if (immediately) {
       report(metrics)
