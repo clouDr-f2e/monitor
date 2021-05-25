@@ -2,6 +2,7 @@ export interface IConfig {
   projectName: string
   version?: string
   reportCallback: Function
+  reportUri?: string
   immediately: boolean
   customCompleteEvent?: string
 }
@@ -53,6 +54,10 @@ export interface IMetrics {
 export interface IWebVitals {
   getCurrentMetrics(): Array<IMetrics>
   dispatchCustomEvent(): void
+  setStartMark(markName: string): void
+  setEndMark(markName: string): void
+  clearMark(markName: string): void
+  customPaintComplete(): void
 }
 
 export interface IReportHandler {

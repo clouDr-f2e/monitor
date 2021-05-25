@@ -27,6 +27,10 @@ class metricsStore {
     return this.state.has(key)
   }
 
+  clear() {
+    this.state.clear()
+  }
+
   getValues(): Array<IMetrics> {
     return Array.from(this.state.values())
   }
