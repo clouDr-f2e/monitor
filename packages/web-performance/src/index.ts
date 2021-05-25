@@ -23,28 +23,30 @@ let metricsStore: MetricsStore
 
 class WebVitals implements IWebVitals {
   constructor(config: IConfig) {
-    const { projectName, version, reportCallback, immediatelyReport = false, customCompleteEvent = null } = config
+    const { projectName, version, reportCallback, immediately = false, customCompleteEvent = null } = config
     const sectionId = generateUniqueID(projectName, version)
     const reporter = createReporter(sectionId, reportCallback)
     metricsStore = new MetricsStore(reporter)
 
     afterLoad(() => {
-      initPageInfo(metricsStore, reporter, immediatelyReport)
-      initNetworkInfo(metricsStore, reporter, immediatelyReport)
-      initNavigationTiming(metricsStore, reporter, immediatelyReport)
-      initDeviceInfo(metricsStore, reporter, immediatelyReport)
+      initPageInfo(metricsStore, reporter, immediately)
+      initNetworkInfo(metricsStore, reporter, immediately)
+      initNavigationTiming(metricsStore, reporter, immediately)
+      initDeviceInfo(metricsStore, reporter, immediately)
     })
 
-    initFP(metricsStore, reporter, immediatelyReport)
-    initFCP(metricsStore, reporter, immediatelyReport)
-    initFID(metricsStore, reporter, immediatelyReport)
-    initLCP(metricsStore, reporter, immediatelyReport)
-    initResourceFlow(metricsStore, reporter, customCompleteEvent, immediatelyReport)
+    initFP(metricsStore, reporter, immediately)
+    initFCP(metricsStore, reporter, immediately)
+    initFID(metricsStore, reporter, immediately)
+    initLCP(metricsStore, reporter, immediately)
+    initResourceFlow(metricsStore, reporter, customCompleteEvent, immediately)
   }
 
   getCurrentMetrics(): Array<IMetrics> {
     return metricsStore.getValues()
   }
+
+  dispatchCustomEvent(): void {}
 }
 
 export { WebVitals }

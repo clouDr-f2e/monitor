@@ -2,7 +2,7 @@ export interface IConfig {
   projectName: string
   version?: string
   reportCallback: Function
-  immediatelyReport: boolean
+  immediately: boolean
   customCompleteEvent?: string
 }
 
@@ -52,6 +52,7 @@ export interface IMetrics {
 
 export interface IWebVitals {
   getCurrentMetrics(): Array<IMetrics>
+  dispatchCustomEvent(): void
 }
 
 export interface IReportHandler {
@@ -74,4 +75,8 @@ export interface PerformanceEventTiming extends PerformanceEntry {
   duration: DOMHighResTimeStamp
   cancelable?: boolean
   target?: Element
+}
+
+export interface OnHiddenCallback {
+  (event: Event): void
 }

@@ -57,7 +57,7 @@ export const initLCP = (store: metricsStore, report: IReportHandler, immediately
     store.set(metricsName.LCP, metrics)
   }
 
-  ;['click', 'keydown'].forEach((event) => {
+  ;['click', 'keydown'].forEach((event: string) => {
     addEventListener(event, stopListening, { once: true, capture: true })
   })
 }
