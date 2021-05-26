@@ -10,7 +10,7 @@ import { afterLoad, beforeUnload } from './utils'
 import { onHidden } from './lib/onHidden'
 import createReporter from './lib/createReporter'
 import MetricsStore from './lib/store'
-import setMark from './lib/setMark'
+import { setMark, clearMark } from './lib/setMark'
 import { initNavigationTiming } from './metrics/getNavigationTiming'
 import { initDeviceInfo } from './metrics/getDeviceInfo'
 import { initNetworkInfo } from './metrics/getNetworkInfo'
@@ -78,7 +78,10 @@ class WebVitals implements IWebVitals {
     setMark(`${markName}_end`)
   }
 
-  clearMark(markName: string) {}
+  clearMark(markName: string) {
+    clearMark(`${markName}_start`)
+    clearMark(`${markName}_end`)
+  }
 
   customCompletePaint(customMetricName: string) {}
 }

@@ -8,4 +8,12 @@ const setMark = (markName: string): void | undefined => {
   performance.mark(markName)
 }
 
-export default setMark
+const clearMark = (markName: string): void | undefined => {
+  if (!isPerformanceSupported()) {
+    return
+  }
+
+  performance.clearMarks(markName)
+}
+
+export { setMark, clearMark }
