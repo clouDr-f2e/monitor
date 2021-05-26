@@ -7,7 +7,7 @@ import { metricsName } from '../constants'
  * @class
  * */
 class metricsStore {
-  state: Map<metricsName, IMetrics>
+  state: Map<metricsName | string, IMetrics>
   report: IReportHandler
 
   constructor(report) {

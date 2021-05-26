@@ -57,7 +57,7 @@ export interface IWebVitals {
   setStartMark(markName: string): void
   setEndMark(markName: string): void
   clearMark(markName: string): void
-  customPaintComplete(): void
+  customCompletePaint(customMetricName: string): void
 }
 
 export interface IReportHandler {
