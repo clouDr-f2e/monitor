@@ -1,5 +1,6 @@
 /*
  *  Record 3 FPS and take the average (frame/second)
+ *  Simulate frames
  * */
 import { roundByFour } from './index'
 

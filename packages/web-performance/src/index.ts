@@ -6,7 +6,8 @@
  * */
 import { IConfig, IWebVitals, IMetrics } from './types'
 import generateUniqueID from './utils/generateUniqueID'
-import { afterLoad } from './utils'
+import { afterLoad, beforeUnload } from './utils'
+import { onHidden } from './lib/onHidden'
 import createReporter from './lib/createReporter'
 import MetricsStore from './lib/store'
 import { initNavigationTiming } from './metrics/getNavigationTiming'
@@ -20,6 +21,7 @@ import { initLCP } from './metrics/getLCP'
 import { initResourceFlow } from './metrics/getResourceFlow'
 
 let metricsStore: MetricsStore
+let reporter: ReturnType<typeof createReporter>
 
 class WebVitals implements IWebVitals {
   _customCompleteEvent: string
@@ -29,7 +31,7 @@ class WebVitals implements IWebVitals {
     this._customCompleteEvent = customCompleteEvent
 
     const sectionId = generateUniqueID(projectName, version)
-    const reporter = createReporter(sectionId, reportCallback)
+    reporter = createReporter(sectionId, reportCallback)
     metricsStore = new MetricsStore(reporter)
 
     afterLoad(() => {
@@ -45,12 +47,14 @@ class WebVitals implements IWebVitals {
     initLCP(metricsStore, reporter, immediately)
     initResourceFlow(metricsStore, reporter, customCompleteEvent, immediately)
 
-    // report metrics before unload
-    window.addEventListener('unload', () => {
-      const metrics = this.getCurrentMetrics()
-      if ('sendBeacon' in navigator && reportUri) {
-        navigator.sendBeacon(reportUri, JSON.stringify(metrics))
-      }
+    // report metrics when visibility and unload
+    ;[beforeUnload, onHidden].forEach((fn) => {
+      fn(() => {
+        const metrics = this.getCurrentMetrics()
+        if ('sendBeacon' in navigator && reportUri && metrics.length > 0) {
+          navigator.sendBeacon(reportUri, JSON.stringify(metrics))
+        }
+      })
     })
   }
 

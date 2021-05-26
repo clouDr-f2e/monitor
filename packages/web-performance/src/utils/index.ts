@@ -16,3 +16,7 @@ export const afterLoad = (callback) => {
     addEventListener('pageshow', callback)
   }
 }
+
+export const beforeUnload = (callback) => {
+  window.addEventListener('unload', callback)
+}
