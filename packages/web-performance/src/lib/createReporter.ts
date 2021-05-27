@@ -1,11 +1,15 @@
 import { IMetrics, IReportHandler } from '../types'
 
-const createReporter = (sectionId: string, callback: Function): IReportHandler => (data: IMetrics | Array<IMetrics>) => {
+const createReporter = (sectionId: string, appId: string, version: string, callback: Function): IReportHandler => (
+  data: IMetrics | Array<IMetrics>
+) => {
   if ('requestIdleCallback' in window) {
     ;(window as any).requestIdleCallback(
       () => {
         callback({
           sectionId,
+          appId,
+          version,
           data
         })
       },
@@ -14,6 +18,8 @@ const createReporter = (sectionId: string, callback: Function): IReportHandler =
   } else {
     callback({
       sectionId,
+      appId,
+      version,
       data
     })
   }

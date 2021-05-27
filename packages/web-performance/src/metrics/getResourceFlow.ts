@@ -39,6 +39,7 @@ export const initResourceFlow = (
   const completeEvent = customCompleteEvent || 'pageshow'
 
   const stopListening = () => {
+    resourceFlow = po.takeRecords().concat(resourceFlow)
     po.disconnect()
 
     const metrics = { name: metricsName.RL, value: resourceFlow } as IMetrics

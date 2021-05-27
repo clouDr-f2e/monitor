@@ -12,6 +12,7 @@
  * */
 import { isPerformanceObserverSupported } from '../utils/isSupported'
 import getFirstHiddenTime from '../lib/getFirstHiddenTime'
+import { onHidden } from '../lib/onHidden'
 import { metricsName } from '../constants'
 import { IMetrics, IReportHandler } from '../types'
 import metricsStore from '../lib/store'
@@ -45,6 +46,12 @@ export const initLCP = (store: metricsStore, report: IReportHandler, immediately
   const po = getLCP(lcp)
 
   const stopListening = () => {
+    po.takeRecords().forEach((entry: PerformanceEntry) => {
+      const firstHiddenTime = getFirstHiddenTime()
+      if (entry.startTime < firstHiddenTime.timeStamp) {
+        lcp.value = entry
+      }
+    })
     po.disconnect()
 
     const value = lcp.value
@@ -57,6 +64,7 @@ export const initLCP = (store: metricsStore, report: IReportHandler, immediately
     store.set(metricsName.LCP, metrics)
   }
 
+  onHidden(stopListening, true)
   ;['click', 'keydown'].forEach((event: string) => {
     addEventListener(event, stopListening, { once: true, capture: true })
   })

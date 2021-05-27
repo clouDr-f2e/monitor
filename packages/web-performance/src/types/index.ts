@@ -1,5 +1,5 @@
 export interface IConfig {
-  projectName: string
+  appId?: string
   version?: string
   reportCallback: Function
   reportUri?: string

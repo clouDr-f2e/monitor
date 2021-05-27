@@ -14,41 +14,52 @@ import { IMetrics, IPerformanceNavigationTiming, IReportHandler } from '../types
 import { isPerformanceSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
+import observe from '../lib/observe'
 import { roundByFour } from '../utils'
 
-const getNavigationTiming = (): IPerformanceNavigationTiming | undefined => {
+const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefined => {
   if (!isPerformanceSupported()) {
     console.error('browser do not support performance')
     return
   }
 
-  const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming
+  return new Promise((resolve) => {
+    const entryHandler = (entry: PerformanceNavigationTiming) => {
+      if (entry.entryType === 'navigation') {
+        if (po) {
+          po.disconnect()
+        }
 
-  const {
-    domainLookupStart,
-    domainLookupEnd,
-    connectStart,
-    connectEnd,
-    secureConnectionStart,
-    requestStart,
-    responseStart,
-    responseEnd,
-    domInteractive,
-    domContentLoadedEventEnd,
-    loadEventStart,
-    fetchStart
-  } = navigation
+        const {
+          domainLookupStart,
+          domainLookupEnd,
+          connectStart,
+          connectEnd,
+          secureConnectionStart,
+          requestStart,
+          responseStart,
+          responseEnd,
+          domInteractive,
+          domContentLoadedEventEnd,
+          loadEventStart,
+          fetchStart
+        } = entry
 
-  return {
-    dnsLookup: roundByFour(domainLookupEnd - domainLookupStart),
-    initialConnection: roundByFour(connectEnd - connectStart),
-    ssl: roundByFour(connectEnd - secureConnectionStart),
-    ttfb: roundByFour(responseStart - requestStart),
-    contentDownload: roundByFour(responseEnd - responseStart),
-    domParse: roundByFour(domInteractive - responseEnd),
-    resourceDownload: roundByFour(loadEventStart - domContentLoadedEventEnd),
-    domReady: roundByFour(domContentLoadedEventEnd - fetchStart)
-  }
+        resolve({
+          dnsLookup: roundByFour(domainLookupEnd - domainLookupStart),
+          initialConnection: roundByFour(connectEnd - connectStart),
+          ssl: roundByFour(connectEnd - secureConnectionStart),
+          ttfb: roundByFour(responseStart - requestStart),
+          contentDownload: roundByFour(responseEnd - responseStart),
+          domParse: roundByFour(domInteractive - responseEnd),
+          resourceDownload: roundByFour(loadEventStart - domContentLoadedEventEnd),
+          domReady: roundByFour(domContentLoadedEventEnd - fetchStart)
+        })
+      }
+    }
+
+    const po = observe('navigation', entryHandler)
+  })
 }
 
 /*
@@ -57,13 +68,13 @@ const getNavigationTiming = (): IPerformanceNavigationTiming | undefined => {
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
 export const initNavigationTiming = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
-  const navigationTiming: IPerformanceNavigationTiming = getNavigationTiming()
+  getNavigationTiming()?.then((navigationTiming) => {
+    const metrics = { name: metricsName.NT, value: navigationTiming } as IMetrics
 
-  const metrics = { name: metricsName.NT, value: navigationTiming } as IMetrics
+    if (immediately) {
+      report(metrics)
+    }
 
-  if (immediately) {
-    report(metrics)
-  }
-
-  store.set(metricsName.NT, metrics)
+    store.set(metricsName.NT, metrics)
+  })
 }

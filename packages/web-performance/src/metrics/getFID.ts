@@ -5,6 +5,7 @@
  * */
 import observe from '../lib/observe'
 import getFirstHiddenTime from '../lib/getFirstHiddenTime'
+import { onHidden } from '../lib/onHidden'
 import { isPerformanceObserverSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
@@ -23,7 +24,7 @@ const getFID = (): Promise<PerformanceEntry> | undefined => {
     // Only report FID if the page wasn't hidden prior to
     // the entry being dispatched. This typically happens when a
     // page is loaded in a background tab.
-    const eventHandle = (entry: PerformanceEventTiming) => {
+    const eventHandler = (entry: PerformanceEventTiming) => {
       if (entry.startTime < firstHiddenTime.timeStamp) {
         if (po) {
           po.disconnect()
@@ -33,7 +34,14 @@ const getFID = (): Promise<PerformanceEntry> | undefined => {
       }
     }
 
-    const po = observe('first-input', eventHandle)
+    const po = observe('first-input', eventHandler)
+
+    if (po) {
+      onHidden(() => {
+        po.takeRecords().map(eventHandler)
+        po.disconnect()
+      }, true)
+    }
   })
 }
 

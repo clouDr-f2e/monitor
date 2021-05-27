@@ -6,11 +6,12 @@
  * */
 import { IConfig, IWebVitals, IMetrics } from './types'
 import generateUniqueID from './utils/generateUniqueID'
-import { afterLoad, beforeUnload } from './utils'
+import { afterLoad, beforeUnload, unload } from './utils'
 import { onHidden } from './lib/onHidden'
 import createReporter from './lib/createReporter'
 import MetricsStore from './lib/store'
-import { setMark, clearMark } from './lib/setMark'
+import { measure } from './lib/measureCustomMetrics'
+import { setMark, clearMark, getMark, hasMark } from './lib/markHandler'
 import { initNavigationTiming } from './metrics/getNavigationTiming'
 import { initDeviceInfo } from './metrics/getDeviceInfo'
 import { initNetworkInfo } from './metrics/getNetworkInfo'
@@ -28,20 +29,20 @@ class WebVitals implements IWebVitals {
   _customCompleteEvent: string
 
   constructor(config: IConfig) {
-    const { projectName, version, reportCallback, reportUri = null, immediately = false, customCompleteEvent = null } = config
+    const { appId, version, reportCallback, reportUri = null, immediately = false, customCompleteEvent = null } = config
     this._customCompleteEvent = customCompleteEvent
 
-    const sectionId = generateUniqueID(projectName, version)
-    reporter = createReporter(sectionId, reportCallback)
+    const sectionId = generateUniqueID()
+    reporter = createReporter(sectionId, appId, version, reportCallback)
     metricsStore = new MetricsStore(reporter)
 
     afterLoad(() => {
       initPageInfo(metricsStore, reporter, immediately)
       initNetworkInfo(metricsStore, reporter, immediately)
-      initNavigationTiming(metricsStore, reporter, immediately)
       initDeviceInfo(metricsStore, reporter, immediately)
     })
 
+    initNavigationTiming(metricsStore, reporter, immediately)
     initFP(metricsStore, reporter, immediately)
     initFCP(metricsStore, reporter, immediately)
     initFID(metricsStore, reporter, immediately)
@@ -49,10 +50,10 @@ class WebVitals implements IWebVitals {
     initResourceFlow(metricsStore, reporter, customCompleteEvent, immediately)
 
     // report metrics when visibility and unload
-    ;[beforeUnload, onHidden].forEach((fn) => {
+    ;[beforeUnload, unload, onHidden].forEach((fn) => {
       fn(() => {
         const metrics = this.getCurrentMetrics()
-        if ('sendBeacon' in navigator && reportUri && metrics.length > 0) {
+        if ('sendBeacon' in navigator && reportUri && metrics.length > 0 && !immediately) {
           navigator.sendBeacon(reportUri, JSON.stringify(metrics))
         }
       })
@@ -76,6 +77,15 @@ class WebVitals implements IWebVitals {
 
   setEndMark(markName: string) {
     setMark(`${markName}_end`)
+
+    if (hasMark(`${markName}_start`)) {
+      const metrics = measure(`${markName}Metrics`, markName)
+      this.clearMark(markName)
+
+      reporter({ name: `${markName}Metrics`, value: metrics })
+    } else {
+      console.log('markName is not exist')
+    }
   }
 
   clearMark(markName: string) {
@@ -83,7 +93,14 @@ class WebVitals implements IWebVitals {
     clearMark(`${markName}_end`)
   }
 
-  customCompletePaint(customMetricName: string) {}
+  customCompletePaint(customCompletePaintName: string) {
+    setMark(customCompletePaintName)
+
+    const metrics = getMark(customCompletePaintName)
+    this.clearMark(customCompletePaintName)
+
+    reporter({ name: 'customCompletePaint', value: metrics })
+  }
 }
 
 export { WebVitals }

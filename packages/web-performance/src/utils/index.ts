@@ -18,5 +18,9 @@ export const afterLoad = (callback) => {
 }
 
 export const beforeUnload = (callback) => {
+  window.addEventListener('beforeunload', callback)
+}
+
+export const unload = (callback) => {
   window.addEventListener('unload', callback)
 }
