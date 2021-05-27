@@ -53,6 +53,7 @@ class WebVitals implements IWebVitals {
     ;[beforeUnload, unload, onHidden].forEach((fn) => {
       fn(() => {
         const metrics = this.getCurrentMetrics()
+        metricsStore.clear()
         if ('sendBeacon' in navigator && reportUri && metrics.length > 0 && !immediately) {
           navigator.sendBeacon(reportUri, JSON.stringify(metrics))
         }
