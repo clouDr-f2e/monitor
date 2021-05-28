@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>web-performance</title>
+  <link rel="stylesheet"
+        href="./index.css">
 </head>
 <body>
 <div>Performance example</div>
@@ -13,11 +15,11 @@
     version:'1.0.0',
     reportCallback:console.log,
     immediately:true,
-    customCompleteEvent:'realFinish'
+    customCompleteEvent:'custom-finish-paint'
   })
 
   setTimeout(()=>{
-    wv.dispatchCustomEvent()
+    wv.customCompletePaint()
   },5000)
 </script>
 </body>

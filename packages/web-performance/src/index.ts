@@ -26,11 +26,11 @@ let metricsStore: MetricsStore
 let reporter: ReturnType<typeof createReporter>
 
 class WebVitals implements IWebVitals {
-  _customCompleteEvent: string
+  private readonly _customPaintMetrics: string
 
   constructor(config: IConfig) {
-    const { appId, version, reportCallback, reportUri = null, immediately = false, customCompleteEvent = null } = config
-    this._customCompleteEvent = customCompleteEvent
+    const { appId, version, reportCallback, reportUri = null, immediately = false, customPaintMetrics = null } = config
+    this._customPaintMetrics = customPaintMetrics
 
     const sectionId = generateUniqueID()
     reporter = createReporter(sectionId, appId, version, reportCallback)
@@ -47,7 +47,7 @@ class WebVitals implements IWebVitals {
     initFCP(metricsStore, reporter, immediately)
     initFID(metricsStore, reporter, immediately)
     initLCP(metricsStore, reporter, immediately)
-    initResourceFlow(metricsStore, reporter, customCompleteEvent, immediately)
+    initResourceFlow(metricsStore, reporter, customPaintMetrics, immediately)
 
     // report metrics when visibility and unload
     ;[beforeUnload, unload, onHidden].forEach((fn) => {
@@ -67,8 +67,8 @@ class WebVitals implements IWebVitals {
 
   dispatchCustomEvent(): void {
     const event = document.createEvent('Events')
-    const customCompleteEvent = this._customCompleteEvent
-    event.initEvent(customCompleteEvent, false, true)
+    const customPaintMetrics = this._customPaintMetrics
+    event.initEvent(customPaintMetrics, false, true)
     document.dispatchEvent(event)
   }
 
@@ -80,10 +80,14 @@ class WebVitals implements IWebVitals {
     setMark(`${markName}_end`)
 
     if (hasMark(`${markName}_start`)) {
-      const metrics = measure(`${markName}Metrics`, markName)
+      const value = measure(`${markName}Metrics`, markName)
       this.clearMark(markName)
 
-      reporter({ name: `${markName}Metrics`, value: metrics })
+      const metrics = { name: `${markName}Metrics`, value }
+
+      reporter(metrics)
+
+      metricsStore.set(`${markName}Metrics`, metrics)
     } else {
       console.log('markName is not exist')
     }
@@ -94,13 +98,21 @@ class WebVitals implements IWebVitals {
     clearMark(`${markName}_end`)
   }
 
-  customCompletePaint(customCompletePaintName: string) {
-    setMark(customCompletePaintName)
+  customCompletePaint() {
+    const customPaintMetrics = this._customPaintMetrics
 
-    const metrics = getMark(customCompletePaintName)
-    this.clearMark(customCompletePaintName)
+    this.dispatchCustomEvent()
+    setMark(customPaintMetrics)
 
-    reporter({ name: 'customCompletePaint', value: metrics })
+    setTimeout(() => {
+      const value = getMark(customPaintMetrics)
+      this.clearMark(customPaintMetrics)
+
+      const metrics = { name: 'customCompletePaint', value }
+      reporter(metrics)
+
+      metricsStore.set('customCompletePaint', metrics)
+    })
   }
 }
 

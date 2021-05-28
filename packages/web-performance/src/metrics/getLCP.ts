@@ -46,22 +46,24 @@ export const initLCP = (store: metricsStore, report: IReportHandler, immediately
   const po = getLCP(lcp)
 
   const stopListening = () => {
-    po.takeRecords().forEach((entry: PerformanceEntry) => {
-      const firstHiddenTime = getFirstHiddenTime()
-      if (entry.startTime < firstHiddenTime.timeStamp) {
-        lcp.value = entry
+    if (po) {
+      po.takeRecords().forEach((entry: PerformanceEntry) => {
+        const firstHiddenTime = getFirstHiddenTime()
+        if (entry.startTime < firstHiddenTime.timeStamp) {
+          lcp.value = entry
+        }
+      })
+      po.disconnect()
+
+      const value = lcp.value
+      const metrics = { name: metricsName.LCP, value: roundByFour(value.startTime, 2) } as IMetrics
+
+      if (immediately) {
+        report(metrics)
       }
-    })
-    po.disconnect()
 
-    const value = lcp.value
-    const metrics = { name: metricsName.LCP, value: roundByFour(value.startTime, 2) } as IMetrics
-
-    if (immediately) {
-      report(metrics)
+      store.set(metricsName.LCP, metrics)
     }
-
-    store.set(metricsName.LCP, metrics)
   }
 
   onHidden(stopListening, true)

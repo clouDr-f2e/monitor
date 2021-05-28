@@ -57,6 +57,7 @@ export const initFID = (store: metricsStore, report: IReportHandler, immediately
       value: {
         eventName: entry.name,
         targetCls: entry.target.className,
+        startTime: roundByFour(entry.startTime, 2),
         delay: roundByFour(entry.processingStart - entry.startTime, 2),
         eventHandleTime: roundByFour(entry.processingEnd - entry.processingStart, 2)
       }

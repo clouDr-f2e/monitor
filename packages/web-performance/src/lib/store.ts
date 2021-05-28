@@ -11,19 +11,19 @@ class metricsStore {
   report: IReportHandler
 
   constructor(report) {
-    this.state = new Map<metricsName, IMetrics>()
+    this.state = new Map<metricsName | string, IMetrics>()
     this.report = report
   }
 
-  set(key: metricsName, value: IMetrics) {
+  set(key: metricsName | string, value: IMetrics) {
     this.state.set(key, value)
   }
 
-  get(key: metricsName): IMetrics {
+  get(key: metricsName | string): IMetrics {
     return this.state.get(key)
   }
 
-  has(key: metricsName): boolean {
+  has(key: metricsName | string): boolean {
     return this.state.has(key)
   }
 

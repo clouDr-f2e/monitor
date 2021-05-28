@@ -4,7 +4,7 @@ export interface IConfig {
   reportCallback: Function
   reportUri?: string
   immediately: boolean
-  customCompleteEvent?: string
+  customPaintMetrics?: string
 }
 
 export interface IPerformanceNavigationTiming {
