@@ -24,7 +24,6 @@ export interface IDeviceInformation {
   jsHeapSizeLimit?: number
   totalJSHeapSize?: number
   usedJSHeapSize?: number
-  fps?: number
   userAgent?: string
 }
 

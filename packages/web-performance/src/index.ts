@@ -20,6 +20,7 @@ import { initFP } from './metrics/getFP'
 import { initFCP } from './metrics/getFCP'
 import { initFID } from './metrics/getFID'
 import { initLCP } from './metrics/getLCP'
+import { initFPS } from './metrics/getFPS'
 import { initResourceFlow } from './metrics/getResourceFlow'
 
 let metricsStore: MetricsStore
@@ -47,6 +48,7 @@ class WebVitals implements IWebVitals {
     initFCP(metricsStore, reporter, immediately)
     initFID(metricsStore, reporter, immediately)
     initLCP(metricsStore, reporter, immediately)
+    initFPS(metricsStore, reporter, immediately)
     initResourceFlow(metricsStore, reporter, customPaintMetrics, immediately)
 
     // report metrics when visibility and unload

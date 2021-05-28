@@ -13,7 +13,14 @@
   window.wv= new MITO.WebVitals({
     appId:'allen-test',
     version:'1.0.0',
-    reportCallback:console.log,
+    reportCallback:(metrics) => {
+      const information = wv.getCurrentMetrics().filter(metrics=>metrics.name.indexOf('info')>-1)
+
+      console.log('information = ',information)
+      console.log('metrics = ',metrics)
+
+      // todo e.g Data cleaning
+    },
     immediately:true,
     customCompleteEvent:'custom-finish-paint'
   })

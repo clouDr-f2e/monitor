@@ -1,10 +1,13 @@
 /*
- *  Record 3 FPS and take the average (frame/second)
+ *  Record FPS and take the average (frame/second)
  *  Simulate frames
  * */
-import { roundByFour } from './index'
+import { roundByFour } from '../utils'
 
-const calculateFps = (): Promise<number> => {
+/*
+ * @params number
+ * */
+const calculateFps = (count: number): Promise<number> => {
   return new Promise((resolve) => {
     let frame = 0
     let lastFrameTime = +new Date()
@@ -22,7 +25,7 @@ const calculateFps = (): Promise<number> => {
         frame = 0
         lastFrameTime = +new Date()
 
-        if (fpsQueue.length > 3) {
+        if (fpsQueue.length > count) {
           cancelAnimationFrame(timerId)
           resolve(
             roundByFour(
