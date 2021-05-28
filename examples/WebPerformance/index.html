@@ -14,12 +14,17 @@
     appId:'allen-test',
     version:'1.0.0',
     reportCallback:(metrics) => {
-      const information = wv.getCurrentMetrics().filter(metrics=>metrics.name.indexOf('info')>-1)
+      const infos = wv.getCurrentMetrics().filter(metrics=>metrics.name.indexOf('info')>-1)
 
-      console.log('information = ',information)
-      console.log('metrics = ',metrics)
+      const [pageInfo,networkInfo,deviceInfo] = infos
+
+      function mergeData(data){
+        const {data:metrics,...rest}=data
+        return {...metrics,...rest,...pageInfo.value,...networkInfo.value,...deviceInfo.value}
+      }
 
       // todo e.g Data cleaning
+     console.log(mergeData(metrics))
     },
     immediately:true,
     customCompleteEvent:'custom-finish-paint'
