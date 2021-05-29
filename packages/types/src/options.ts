@@ -35,6 +35,10 @@ export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEvent
    */
   apikey?: string
   /**
+   * 使用img上报的方式，默认为false，默认是xhr的上报方式
+   */
+  useImgUpload?: boolean
+  /**
    * 每个项目有一个唯一trackKey，给埋点的dsn用的
    */
   trackKey?: string
@@ -68,6 +72,10 @@ export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEvent
    */
   maxBreadcrumbs?: number
   /**
+   * 按钮点击和微信触摸事件节流时间，默认是0
+   */
+  throttleDelayTime?: number
+  /**
    * 在引入wx-mini的情况下，使用该参数用来开启
    */
   enableTrack?: boolean
@@ -85,7 +93,7 @@ export interface HooksTypes {
    * xhr.withCredentials = true,后面调用该函数
    * ../param xhr XMLHttpRequest的实例
    */
-  configReportXhr?(xhr: XMLHttpRequest): void
+  configReportXhr?(xhr: XMLHttpRequest, reportData: TransportDataType | any): void
   /**
    * 钩子函数，在每次发送事件前会调用
    *
@@ -194,6 +202,10 @@ export interface WxSilentEventTypes {
 export type IWxPageInstance = WechatMiniprogram.Page.Instance<WechatMiniprogram.IAnyObject, WechatMiniprogram.IAnyObject>
 
 interface WxMiniHooksTypes {
+  /**
+   * wx小程序上报时的wx.request配置
+   */
+  configReportWxRequest?(event: TransportDataType | any): Partial<WechatMiniprogram.RequestOption>
   /**
    * wx小程序的App下的onLaunch执行完后再执行以下hook
    */

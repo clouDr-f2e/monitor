@@ -14,14 +14,16 @@ const HandleEvents = {
       type,
       category: breadcrumb.getCategory(type),
       data: { ...result },
-      level: Severity.Info
+      level: Severity.Info,
+      time: data.time
     })
     if (isError) {
       breadcrumb.push({
         type,
         category: breadcrumb.getCategory(BREADCRUMBTYPES.CODE_ERROR),
         data: { ...result },
-        level: Severity.Error
+        level: Severity.Error,
+        time: data.time
       })
       transportData.send(result)
     }

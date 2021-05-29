@@ -1,5 +1,5 @@
 {
-  "version": "2.1.3",
+  "version": "2.1.14",
   "private": true,
   "license": "MIT",
   "author": "cjinhuo",
@@ -9,12 +9,14 @@
     "version": "node script/version.js",
     "release": "node script/release.js",
     "examples": "cross-env NODE_ENV=demo ts-node ./examples/server/index.ts",
-    "e2e": "`nohup ts-node ./examples/server/index.ts >/dev/null 2>&1 &` && jest --config jest.config.ts",
+    "e2e": "`nohup ts-node ./examples/server/index.ts >/dev/null 2>&1 &` && jest --runTestsByPath ./test/e2e/JS/index.test.ts ./test/e2e/Vue/index.test.ts ./test/e2e/Vue3/index.test.ts ./test/e2e/React/index.test.ts --config jest.config.ts",
     "unit": "jest --config jsdom.jest.config.ts",
     "test": " npm run unit && npm run e2e",
-    "test:watch": "jest --watch",
+    "e2e:mini": "jest --runTestsByPath ./test/e2e/Mini/index.test.ts --detectOpenHandles --forceExit --config jest.config.ts",
     "format": "prettier --write -,-parser typescript \"packages/**/*.ts?(x)\"",
-    "format:package": "prettier --write \"packages/**/package.json\""
+    "format:package": "prettier --write \"packages/**/package.json\"",
+    "commit": "git add . && git cz",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1"
   },
   "repository": {
     "type": "git",
@@ -53,7 +55,7 @@
     "@typescript-eslint/eslint-plugin": "^3.6.1",
     "@typescript-eslint/parser": "^3.6.1",
     "cross-env": "^7.0.2",
-    "cz-conventional-changelog": "^3.2.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.4.0",
     "eslint-plugin-html": "^6.0.2",
     "execa": "^2.0.3",
@@ -63,6 +65,7 @@
     "jest": "^26.6.3",
     "lint-staged": "^10.2.11",
     "minimist": "^1.2.5",
+    "miniprogram-automator": "^0.10.0",
     "msw": "^0.24.3",
     "open": "^7.3.0",
     "prettier": "^2.0.5",

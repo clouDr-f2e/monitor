@@ -1,6 +1,9 @@
 import { rest } from 'msw'
 
 export const handlers = [
+  // rest.get('/error/upload.gif', (req, res, ctx) => {
+  // return res(ctx.jons)
+  // }),
   rest.post('/error/upload', (req, res, ctx) => {
     return res(
       ctx.json({

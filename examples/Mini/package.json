@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "e2e": "node ./automator.js"
+  },
+  "devDependencies": {
+    "miniprogram-automator": "^0.10.0"
+  }
+}

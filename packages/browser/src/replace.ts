@@ -13,8 +13,6 @@ import { transportData, options, setTraceId, triggerHandlers, ReplaceHandler, su
 import { EMethods, MITOHttp, MITOXMLHttpRequest } from '@mitojs/types'
 import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '@mitojs/shared'
 
-const clickThrottle = throttle(triggerHandlers, 600)
-
 function isFilterHttpUrl(url: string) {
   return options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url)
 }
@@ -105,7 +103,7 @@ function xhrReplace(): void {
           const { responseType, response, status } = this
           this.mito_xhr.reqData = args[0]
           const eTime = getTimestamp()
-          this.mito_xhr.time = eTime
+          this.mito_xhr.time = this.mito_xhr.sTime
           this.mito_xhr.status = status
           if (['', 'json', 'text'].indexOf(responseType) !== -1) {
             this.mito_xhr.responseText = typeof response === 'object' ? JSON.stringify(response) : response
@@ -156,7 +154,7 @@ function fetchReplace(): void {
             elapsedTime: eTime - sTime,
             status: tempRes.status,
             // statusText: tempRes.statusText,
-            time: eTime
+            time: sTime
           }
           tempRes.text().then((data) => {
             if (method === EMethods.Post && transportData.isSdkTransportUrl(url)) return
@@ -175,7 +173,7 @@ function fetchReplace(): void {
             elapsedTime: eTime - sTime,
             status: 0,
             // statusText: err.name + err.message,
-            time: eTime
+            time: sTime
           }
           triggerHandlers(EVENTTYPES.FETCH, handlerData)
           throw err
@@ -221,7 +219,7 @@ function consoleReplace(): void {
     })
   })
 }
-// 上一次的路由
+// last time route
 let lastHref: string
 lastHref = getLocationHref()
 function historyReplace(): void {
@@ -230,6 +228,7 @@ function historyReplace(): void {
   _global.onpopstate = function (this: WindowEventHandlers, ...args: any[]): any {
     const to = getLocationHref()
     const from = lastHref
+    lastHref = to
     triggerHandlers(EVENTTYPES.HISTORY, {
       from,
       to
@@ -264,6 +263,7 @@ function unhandledrejectionReplace(): void {
 
 function domReplace(): void {
   if (!('document' in _global)) return
+  const clickThrottle = throttle(triggerHandlers, options.throttleDelayTime)
   on(
     _global.document,
     'click',

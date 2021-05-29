@@ -2,8 +2,7 @@ import { options as sdkOptions, ReplaceHandler, setTraceId, subscribeEvent, tran
 import { WxAppEvents, WxPageEvents, WxRouteEvents, WxEvents, EVENTTYPES, HTTPTYPE, voidFun } from '@mitojs/shared'
 import { getTimestamp, replaceOld, throttle, getFlag, isEmptyObject, variableTypeDetection, getCurrentRoute } from '@mitojs/utils'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
-import { MITOHttp } from '@mitojs/types'
-import { EMethods } from '@mitojs/types'
+import { MITOHttp, EMethods } from '@mitojs/types'
 import { getNavigateBackTargetUrl } from './utils'
 import { ELinstenerTypes } from './constant'
 import { MiniRoute } from './types'
@@ -175,7 +174,7 @@ function replaceAction(
     e.mitoWorked = true // 给事件对象增加特殊的标记，避免被无限透传
     triggerHandlers(EVENTTYPES.DOM, e)
   }
-  const throttleGesturetrigger = throttle(gestureTrigger, 500)
+  const throttleGesturetrigger = throttle(gestureTrigger, sdkOptions.throttleDelayTime)
   const linstenerTypes = [ELinstenerTypes.Touchmove, ELinstenerTypes.Tap]
   if (options) {
     Object.keys(options).forEach((m) => {
@@ -240,11 +239,12 @@ export function replaceNetwork() {
         }
         const { url } = options
         let header = options.header
-        !header || (header = {})
+        !header && (header = {})
+
         if ((method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) {
           return originRequest.call(this, options)
         }
-        let reqData
+        let reqData = undefined
         if (hook === 'request') {
           reqData = (options as WechatMiniprogram.RequestOption).data
         } else if (hook === 'downloadFile') {
@@ -299,7 +299,7 @@ export function replaceNetwork() {
           const endTime = getTimestamp()
           data.elapsedTime = endTime - data.sTime
           data.errMsg = err.errMsg
-
+          data.status = 0
           triggerHandlers(EVENTTYPES.XHR, data)
           if (variableTypeDetection.isFunction(_fail)) {
             return _fail(err)
