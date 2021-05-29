@@ -98,7 +98,7 @@ class WebVitals implements IWebVitals {
     clearMark(`${markName}_end`)
   }
 
-  customCompletePaint() {
+  customCompletedPaint() {
     const customPaintMetrics = this._customPaintMetrics
 
     this.dispatchCustomEvent()

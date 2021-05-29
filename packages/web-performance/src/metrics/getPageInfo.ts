@@ -32,7 +32,8 @@ const getPageInfo = (): IPageInformation => {
     port,
     pathname,
     search,
-    hash
+    hash,
+    userAgent: 'userAgent' in navigator ? navigator.userAgent : ''
   }
 }
 

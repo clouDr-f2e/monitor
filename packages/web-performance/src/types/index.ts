@@ -25,7 +25,6 @@ export interface IDeviceInformation {
   jsHeapSizeLimit?: number
   totalJSHeapSize?: number
   usedJSHeapSize?: number
-  userAgent?: string
 }
 
 export interface INetworkInformation {
@@ -44,6 +43,7 @@ export interface IPageInformation {
   pathname: string
   search: string
   hash: string
+  userAgent?: string
 }
 
 export interface IMetrics {
@@ -57,7 +57,7 @@ export interface IWebVitals {
   setStartMark(markName: string): void
   setEndMark(markName: string): void
   clearMark(markName: string): void
-  customCompletePaint(customMetricName: string): void
+  customCompletedPaint(customMetricName: string): void
 }
 
 export interface IReportHandler {
