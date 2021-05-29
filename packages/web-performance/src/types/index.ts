@@ -85,3 +85,11 @@ export interface PerformanceEventTiming extends PerformanceEntry {
 export interface OnHiddenCallback {
   (event: Event): void
 }
+
+export interface IReportData {
+  sectionId: string
+  appId?: string
+  version?: string
+  data: IMetrics | Array<IMetrics>
+  timestamp: number
+}
