@@ -1,4 +1,4 @@
-/*
+/**
  * @author allen(https://github.com/Chryseis)
  * Page loads waterfall stream
  * dns lookup = domainLookupEnd - domainLookupStart
@@ -9,6 +9,7 @@
  * dom parse = domInteractive - responseEnd
  * resource download = loadEventStart - domContentLoadedEventEnd
  * dom Ready = domContentLoadedEventEnd - fetchStart
+ * page load = loadEventStart - fetchStart
  * */
 import { IMetrics, IPerformanceNavigationTiming, IReportHandler } from '../types'
 import { isPerformanceSupported } from '../utils/isSupported'
@@ -53,7 +54,8 @@ const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefine
           contentDownload: roundByFour(responseEnd - responseStart),
           domParse: roundByFour(domInteractive - responseEnd),
           resourceDownload: roundByFour(loadEventStart - domContentLoadedEventEnd),
-          domReady: roundByFour(domContentLoadedEventEnd - fetchStart)
+          domReady: roundByFour(domContentLoadedEventEnd - fetchStart),
+          pageLoad: roundByFour(loadEventStart - fetchStart)
         })
       }
     }
@@ -62,7 +64,7 @@ const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefine
   })
 }
 
-/*
+/**
  * @param {metricsStore} store
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately

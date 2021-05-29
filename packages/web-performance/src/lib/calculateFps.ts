@@ -4,7 +4,7 @@
  * */
 import { roundByFour } from '../utils'
 
-/*
+/**
  * @params number
  * */
 const calculateFps = (count: number): Promise<number> => {

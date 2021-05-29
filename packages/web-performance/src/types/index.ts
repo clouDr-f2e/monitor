@@ -16,6 +16,7 @@ export interface IPerformanceNavigationTiming {
   domParse?: number
   resourceDownload?: number
   domReady?: number
+  pageLoad?: number
 }
 
 export interface IDeviceInformation {

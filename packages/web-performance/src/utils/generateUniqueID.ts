@@ -1,4 +1,4 @@
-/*
+/**
  * @return {string} The current session ID for data cleansing
  * */
 const generateUniqueID = (): string => {

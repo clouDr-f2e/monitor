@@ -1,4 +1,4 @@
-/*
+/**
  * @author allen(https://github.com/Chryseis)
  * First Paint,is the time between navigation and when the browser renders the first pixels to the screen,
  * rendering anything that is visually different from what was on the screen prior to navigation.(https://developer.mozilla.org/en-US/docs/Glossary/First_paint)
@@ -31,7 +31,7 @@ const getFP = (): Promise<PerformanceEntry> | undefined => {
   })
 }
 
-/*
+/**
  * @param {metricsStore} store
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately

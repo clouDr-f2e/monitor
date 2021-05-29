@@ -1,7 +1,7 @@
 import { IMetrics, IReportHandler } from '../types'
 import { metricsName } from '../constants'
 
-/*
+/**
  * store metrics
  *
  * @class

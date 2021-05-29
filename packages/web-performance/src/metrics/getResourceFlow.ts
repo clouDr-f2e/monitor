@@ -21,7 +21,7 @@ const getResourceFlow = (resourceFlow: Array<PerformanceEntry>): PerformanceObse
   return observe('resource', entryHandler)
 }
 
-/*
+/**
  * @param {metricsStore} store
  * @param {Function} report
  * @param {string} customCompleteEvent

@@ -1,4 +1,4 @@
-/*
+/**
  * @author allen(https://github.com/Chryseis)
  * Device Info
  * deviceMemory,the deviceMemory read-only property of the Navigator interface returns the approximate amount of device memory in gigabytes.
@@ -35,7 +35,7 @@ const getDeviceInfo = (): IDeviceInformation | undefined => {
   }
 }
 
-/*
+/**
  * @param {metricsStore} store
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately

@@ -1,4 +1,4 @@
-/*
+/**
  * @author allen(https://github.com/Chryseis)
  * First Contentful Paint (FCP) is when the browser renders the first bit of content from the DOM,
  * providing the first feedback to the user that the page is actually loading(https://developer.mozilla.org/en-US/docs/Glossary/First_contentful_paint)
@@ -31,7 +31,7 @@ const getFCP = (): Promise<PerformanceEntry> | undefined => {
   })
 }
 
-/*
+/**
  * @param {metricsStore} store
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately

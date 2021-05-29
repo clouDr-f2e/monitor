@@ -1,4 +1,4 @@
-/*
+/**
  * @author allen(https://github.com/Chryseis)
  * Page Info
  * host
@@ -36,7 +36,7 @@ const getPageInfo = (): IPageInformation => {
   }
 }
 
-/*
+/**
  * @param {metricsStore} store
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately

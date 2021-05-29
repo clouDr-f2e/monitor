@@ -1,4 +1,4 @@
-/*
+/**
  * Performance monitoring entry
  *
  * @class
@@ -6,7 +6,7 @@
  * */
 import { IConfig, IWebVitals, IMetrics } from './types'
 import generateUniqueID from './utils/generateUniqueID'
-import { afterLoad, beforeUnload, unload } from './utils'
+import { beforeUnload, unload } from './utils'
 import { onHidden } from './lib/onHidden'
 import createReporter from './lib/createReporter'
 import MetricsStore from './lib/store'
@@ -37,11 +37,9 @@ class WebVitals implements IWebVitals {
     reporter = createReporter(sectionId, appId, version, reportCallback)
     metricsStore = new MetricsStore(reporter)
 
-    afterLoad(() => {
-      initPageInfo(metricsStore, reporter, immediately)
-      initNetworkInfo(metricsStore, reporter, immediately)
-      initDeviceInfo(metricsStore, reporter, immediately)
-    })
+    initPageInfo(metricsStore, reporter, immediately)
+    initNetworkInfo(metricsStore, reporter, immediately)
+    initDeviceInfo(metricsStore, reporter, immediately)
 
     initNavigationTiming(metricsStore, reporter, immediately)
     initFP(metricsStore, reporter, immediately)
@@ -51,7 +49,7 @@ class WebVitals implements IWebVitals {
     initFPS(metricsStore, reporter, immediately)
     initResourceFlow(metricsStore, reporter, customPaintMetrics, immediately)
 
-    // report metrics when visibility and unload
+    // if immediately is false,report metrics when visibility and unload
     ;[beforeUnload, unload, onHidden].forEach((fn) => {
       fn(() => {
         const metrics = this.getCurrentMetrics()

@@ -1,4 +1,4 @@
-/*
+/**
  * @author allen(https://github.com/Chryseis)
  * Why not First Meaningful Paint (FMP)
  * In the past we've recommended performance metrics like First Meaningful Paint (FMP) and Speed Index (SI) (both available
@@ -36,7 +36,7 @@ const getLCP = (lcp): PerformanceObserver | undefined => {
   return observe('largest-contentful-paint', entryHandler)
 }
 
-/*
+/**
  * @param {metricsStore} store
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
