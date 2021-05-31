@@ -37,10 +37,11 @@ class WebVitals implements IWebVitals {
     reporter = createReporter(sectionId, appId, version, reportCallback)
     metricsStore = new MetricsStore(reporter)
 
+    initPageInfo(metricsStore, reporter, immediately)
+    initNetworkInfo(metricsStore, reporter, immediately)
+    initDeviceInfo(metricsStore, reporter, immediately)
+
     afterLoad(() => {
-      initPageInfo(metricsStore, reporter, immediately)
-      initNetworkInfo(metricsStore, reporter, immediately)
-      initDeviceInfo(metricsStore, reporter, immediately)
       initNavigationTiming(metricsStore, reporter, immediately)
       initFP(metricsStore, reporter, immediately)
       initFCP(metricsStore, reporter, immediately)

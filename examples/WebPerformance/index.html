@@ -17,6 +17,7 @@
 <img class="img3"
      src="http://5b0988e595225.cdn.sohucs.com/images/20180820/9736fbe2bb9342428ec0d9a7472b9a4f.jpeg"
      alt="">
+<div id="container"></div>
 <script src="/wpDist/web-performance.min.js"></script>
 <script>
   window.wv = new MITO.WebVitals({
@@ -49,6 +50,23 @@
   mockRemote().then(() => {
     wv.customCompletedPaint()
   })
+
+  function batchInsertNodeIntoContainer() {
+    const count = 300
+
+    for (let i = 0; i < count; i++) {
+      let node = document.createElement('div')
+      node.innerHTML = 'this is a node'
+      node.style.width = '200px'
+      node.style.height = '100px'
+      document.querySelector('#container').append(node)
+    }
+  }
+
+  wv.setStartMark('insertNode')
+  batchInsertNodeIntoContainer()
+  wv.setEndMark('insertNode')
+
 
 </script>
 </body>
