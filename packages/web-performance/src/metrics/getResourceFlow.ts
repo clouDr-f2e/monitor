@@ -27,12 +27,7 @@ const getResourceFlow = (resourceFlow: Array<PerformanceEntry>): PerformanceObse
  * @param {string} customCompleteEvent
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initResourceFlow = (
-  store: metricsStore,
-  report: IReportHandler,
-  customCompleteEvent: string,
-  immediately = true
-): void => {
+export const initResourceFlow = (store: metricsStore, report: IReportHandler, customCompleteEvent: string, immediately = true): void => {
   let resourceFlow = []
   const po = getResourceFlow(resourceFlow)
 
