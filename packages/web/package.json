@@ -1,8 +1,8 @@
 {
   "name": "@mitojs/web",
-  "version": "2.1.14",
+  "version": "2.1.15",
   "description": "A SDK For Monitoring Web(React、Vue) Errors",
-  "author": "cjinhuo",
+  "author": "cjinhuo(https://github.com/cjinhuo)",
   "license": "MIT",
   "main": "dist/web.js",
   "module": "dist/web.esm.js",
@@ -11,8 +11,8 @@
     "dist"
   ],
   "dependencies": {
-    "@mitojs/browser": "2.1.14",
-    "@mitojs/react": "2.1.14",
-    "@mitojs/vue": "2.1.14"
+    "@mitojs/browser": "2.1.15",
+    "@mitojs/react": "2.1.15",
+    "@mitojs/vue": "2.1.15"
   }
 }

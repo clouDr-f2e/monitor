@@ -1,8 +1,12 @@
 {
   "name": "@mitojs/web-performance",
-  "version": "1.0.0",
+  "version": "2.1.15",
   "description": "A SDK For Report Web Performance",
   "main": "index.js",
   "author": "allen(https://github.com/Chryseis)",
-  "license": "MIT"
+  "license": "MIT",
+  "types": "dist/web-performance.d.ts",
+  "files": [
+    "dist"
+  ]
 }

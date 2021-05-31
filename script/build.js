@@ -99,6 +99,7 @@ async function rollupBuild(target) {
       // }
       console.log(chalk.bold(chalk.green(`API Extractor completed successfully.`)))
     }
+    console.log('pkgDir', pkgDir)
     await fs.remove(`${pkgDir}/dist/packages`)
   }
 }
