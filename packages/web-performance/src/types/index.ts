@@ -1,3 +1,5 @@
+import { metricsName } from '../constants'
+
 export interface IConfig {
   appId?: string
   version?: string
@@ -52,7 +54,7 @@ export interface IMetrics {
 }
 
 export interface IWebVitals {
-  getCurrentMetrics(): Array<IMetrics>
+  getCurrentMetrics(): IMetricsObj
   dispatchCustomEvent(): void
   setStartMark(markName: string): void
   setEndMark(markName: string): void
@@ -61,7 +63,7 @@ export interface IWebVitals {
 }
 
 export interface IReportHandler {
-  (metrics: IMetrics | Array<IMetrics>): void
+  (metrics: IMetrics | IMetricsObj): void
 }
 
 export interface IConnection {
@@ -90,6 +92,10 @@ export interface IReportData {
   sectionId: string
   appId?: string
   version?: string
-  data: IMetrics | Array<IMetrics>
+  data: IMetrics | IMetricsObj
   timestamp: number
+}
+
+export interface IMetricsObj {
+  [prop: string]: IMetrics
 }

@@ -24,9 +24,11 @@
     appId: 'allen-test',
     version: '1.0.0',
     reportCallback: (metrics) => {
-      const infos = wv.getCurrentMetrics().filter(metrics => metrics.name.indexOf('info') > -1)
+      const infos = wv.getCurrentMetrics()
 
-      const [pageInfo, networkInfo, deviceInfo] = infos
+      const pageInfo = infos['page-information']
+      const networkInfo = infos['network-information']
+      const deviceInfo = infos['page-information']
 
       function mergeData(data) {
         const { data: { name, ...metrics }, ...rest } = data

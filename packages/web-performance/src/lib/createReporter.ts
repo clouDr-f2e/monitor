@@ -1,4 +1,4 @@
-import { IMetrics, IReportHandler, IReportData } from '../types'
+import { IMetrics, IReportHandler, IReportData, IMetricsObj } from '../types'
 
 /**
  * @param {string} sectionId
@@ -8,7 +8,7 @@ import { IMetrics, IReportHandler, IReportData } from '../types'
  * @returns {IReportHandler}
  */
 const createReporter = (sectionId: string, appId: string, version: string, callback: Function): IReportHandler => (
-  data: IMetrics | Array<IMetrics>
+  data: IMetrics | IMetricsObj
 ) => {
   const reportData: IReportData = {
     sectionId,

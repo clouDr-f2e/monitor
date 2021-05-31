@@ -40,7 +40,8 @@ yarn add @mitojs/web-performance
 
 + getCurrentMetrics
 
-  返回当前所有指标
+  返回当前所有指标的对象，指标名称：navigation-timing、first-paint、first-contentful-paint、largest-contentful-paint、first-input-delay、resource-flow、fps，
+  自定义指标返回 ```{customMetrics}Metrics```
 + setStartMark
 
   描述：自定义开始标志，用于测量自定义指标

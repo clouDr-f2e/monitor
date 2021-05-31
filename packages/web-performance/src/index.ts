@@ -4,7 +4,7 @@
  * @class
  * @author allen(https://github.com/Chryseis)
  * */
-import { IConfig, IWebVitals, IMetrics } from './types'
+import { IConfig, IWebVitals, IMetrics, IMetricsObj } from './types'
 import generateUniqueID from './utils/generateUniqueID'
 import { afterLoad, beforeUnload, unload } from './utils'
 import { onHidden } from './lib/onHidden'
@@ -55,7 +55,7 @@ class WebVitals implements IWebVitals {
     ;[beforeUnload, unload, onHidden].forEach((fn) => {
       fn(() => {
         const metrics = this.getCurrentMetrics()
-        if ('sendBeacon' in navigator && reportUri && metrics.length > 0 && !immediately) {
+        if ('sendBeacon' in navigator && reportUri && Object.keys(metrics).length > 0 && !immediately) {
           navigator.sendBeacon(reportUri, JSON.stringify(metrics))
           metricsStore.clear()
         }
@@ -63,7 +63,7 @@ class WebVitals implements IWebVitals {
     })
   }
 
-  getCurrentMetrics(): Array<IMetrics> {
+  getCurrentMetrics(): IMetricsObj {
     return metricsStore.getValues()
   }
 
@@ -91,7 +91,13 @@ class WebVitals implements IWebVitals {
 
       metricsStore.set(`${markName}Metrics`, metrics)
     } else {
-      console.log('markName is not exist')
+      const value = getMark(`${markName}_end`)?.startTime
+      this.clearMark(`${markName}_end`)
+
+      const metrics = { name: `${markName}Metrics`, value }
+      reporter(metrics)
+
+      metricsStore.set(`${markName}Metrics`, metrics)
     }
   }
 
@@ -107,7 +113,7 @@ class WebVitals implements IWebVitals {
     setMark(customPaintMetrics)
 
     setTimeout(() => {
-      const value = getMark(customPaintMetrics)
+      const value = getMark(customPaintMetrics)?.startTime
       this.clearMark(customPaintMetrics)
 
       const metrics = { name: 'customCompletePaint', value }

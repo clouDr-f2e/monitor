@@ -1,4 +1,4 @@
-import { IMetrics, IReportHandler } from '../types'
+import { IMetrics, IMetricsObj, IReportHandler } from '../types'
 import { metricsName } from '../constants'
 
 /**
@@ -31,8 +31,11 @@ class metricsStore {
     this.state.clear()
   }
 
-  getValues(): Array<IMetrics> {
-    return Array.from(this.state.values())
+  getValues(): IMetricsObj {
+    return Array.from(this.state).reduce((obj, [key, value]) => {
+      obj[key] = value
+      return obj
+    }, {})
   }
 }
 
