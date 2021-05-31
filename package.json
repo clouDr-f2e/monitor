@@ -13,7 +13,7 @@
     "unit": "jest --config jsdom.jest.config.ts",
     "test": " npm run unit && npm run e2e",
     "e2e:mini": "jest --runTestsByPath ./test/e2e/Mini/index.test.ts --detectOpenHandles --forceExit --config jest.config.ts",
-    "format": "prettier --write -,-parser typescript \"packages/**/*.ts?(x)\"",
+    "format": "prettier --write \"packages/**/*.ts?(x)\" && eslint --fix --ext .ts packages",
     "format:package": "prettier --write \"packages/**/package.json\"",
     "commit": "git add . && git cz",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1"
@@ -21,16 +21,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/clouDr-f2e/mitojs.git"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.ts": [
-      "prettier --write"
-    ]
   },
   "keywords": [
     "mitojs",
@@ -61,7 +51,7 @@
     "execa": "^2.0.3",
     "express": "^4.17.1",
     "fs-extra": "^9.1.0",
-    "husky": "^4.2.5",
+    "husky": "^6.0.0",
     "jest": "^26.6.3",
     "lint-staged": "^10.2.11",
     "minimist": "^1.2.5",

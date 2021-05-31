@@ -24,9 +24,7 @@ export function htmlElementAsString(target: HTMLElement): string {
  * 将地址字符串转换成对象
  * @returns 返回一个对象
  */
-export function parseUrlToObj(
-  url: string
-): {
+export function parseUrlToObj(url: string): {
   host?: string
   path?: string
   protocol?: string
@@ -89,8 +87,10 @@ export function extractErrorStack(ex: any, level: Severity): ReportDataType {
     return normal
   }
 
-  const chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i,
-    gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$/i,
+  const chrome =
+      /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i,
+    gecko =
+      /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$/i,
     winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i,
     // Used to additionally parse URL/line/column from eval frames
     geckoEval = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i,

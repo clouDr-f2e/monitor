@@ -1,8 +1,5 @@
-import { generateUUID, getTimestamp, setUrlQuery, variableTypeDetection } from '@mitojs/utils'
-import { DeviceInfo, IAnyObject, LocalStorageValue } from '@mitojs/types'
-import { SDK_NAME } from '@mitojs/shared'
-const LocalStorageSessionIdKey = `${SDK_NAME}:sessionId`
-const LocalStorageChannelKey = `${SDK_NAME}:Channel`
+import { setUrlQuery, variableTypeDetection } from '@mitojs/utils'
+import { DeviceInfo } from '@mitojs/types'
 
 /**
  * 后退时需要计算当前页面地址
@@ -45,7 +42,7 @@ export async function getWxMiniDeviceInfo(): Promise<DeviceInfo> {
 }
 
 export async function getWxMiniNetWrokType(): Promise<string> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     wx.getNetworkType({
       success(res) {
         resolve(res.networkType)
