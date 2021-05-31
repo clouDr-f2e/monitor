@@ -42,7 +42,7 @@ const getPageInfo = (): IPageInformation => {
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initPageInfo = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
+export const initPageInfo = (store: metricsStore, report: IReportHandler, immediately = true): void => {
   const pageInfo: IPageInformation = getPageInfo()
 
   const metrics = { name: metricsName.PI, value: pageInfo } as IMetrics

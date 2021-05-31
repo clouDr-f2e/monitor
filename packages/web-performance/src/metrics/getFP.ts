@@ -36,7 +36,7 @@ const getFP = (): Promise<PerformanceEntry> | undefined => {
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initFP = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
+export const initFP = (store: metricsStore, report: IReportHandler, immediately = true): void => {
   getFP()?.then((entry: PerformanceEntry) => {
     const metrics = { name: metricsName.FP, value: roundByFour(entry.startTime, 2) } as IMetrics
 

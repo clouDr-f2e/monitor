@@ -39,7 +39,7 @@ const getDeviceInfo = (): IDeviceInformation | undefined => {
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initDeviceInfo = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
+export const initDeviceInfo = (store: metricsStore, report: IReportHandler, immediately = true): void => {
   const deviceInfo = getDeviceInfo()
   const metrics = { name: metricsName.DI, value: deviceInfo } as IMetrics
 

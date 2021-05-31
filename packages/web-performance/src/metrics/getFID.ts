@@ -50,7 +50,7 @@ const getFID = (): Promise<PerformanceEntry> | undefined => {
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initFID = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
+export const initFID = (store: metricsStore, report: IReportHandler, immediately = true): void => {
   getFID()?.then((entry: PerformanceEventTiming) => {
     const metrics = {
       name: metricsName.FID,

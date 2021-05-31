@@ -69,7 +69,7 @@ const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefine
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initNavigationTiming = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
+export const initNavigationTiming = (store: metricsStore, report: IReportHandler, immediately = true): void => {
   getNavigationTiming()?.then((navigationTiming) => {
     const metrics = { name: metricsName.NT, value: navigationTiming } as IMetrics
 

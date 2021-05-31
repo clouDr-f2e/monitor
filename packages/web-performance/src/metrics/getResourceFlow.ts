@@ -31,7 +31,7 @@ export const initResourceFlow = (
   store: metricsStore,
   report: IReportHandler,
   customCompleteEvent: string,
-  immediately: boolean = true
+  immediately = true
 ): void => {
   let resourceFlow = []
   const po = getResourceFlow(resourceFlow)

@@ -17,7 +17,7 @@ const getFPS = (): Promise<number> => {
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initFPS = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
+export const initFPS = (store: metricsStore, report: IReportHandler, immediately = true): void => {
   getFPS().then((fps: number) => {
     const metrics = { name: metricsName.FPS, value: fps }
 

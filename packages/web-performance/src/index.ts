@@ -4,7 +4,7 @@
  * @class
  * @author allen(https://github.com/Chryseis)
  * */
-import { IConfig, IWebVitals, IMetrics, IMetricsObj } from './types'
+import { IConfig, IWebVitals, IMetricsObj } from './types'
 import generateUniqueID from './utils/generateUniqueID'
 import { afterLoad, beforeUnload, unload } from './utils'
 import { onHidden } from './lib/onHidden'

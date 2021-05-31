@@ -41,8 +41,8 @@ const getLCP = (lcp): PerformanceObserver | undefined => {
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initLCP = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
-  let lcp = { value: {} as PerformanceEntry }
+export const initLCP = (store: metricsStore, report: IReportHandler, immediately = true): void => {
+  const lcp = { value: {} as PerformanceEntry }
   const po = getLCP(lcp)
 
   const stopListening = () => {

@@ -1,5 +1,3 @@
-import { metricsName } from '../constants'
-
 export interface IConfig {
   appId?: string
   version?: string

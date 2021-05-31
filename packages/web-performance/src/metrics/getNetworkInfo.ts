@@ -32,7 +32,7 @@ const getNetworkInfo = (): INetworkInformation | undefined => {
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initNetworkInfo = (store: metricsStore, report: IReportHandler, immediately: boolean = true): void => {
+export const initNetworkInfo = (store: metricsStore, report: IReportHandler, immediately = true): void => {
   const networkInfo: INetworkInformation = getNetworkInfo()
 
   const metrics = { name: metricsName.NI, value: networkInfo } as IMetrics

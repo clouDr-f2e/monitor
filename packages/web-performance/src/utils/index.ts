@@ -1,4 +1,4 @@
-export const roundByFour = (num: number, digits: number = 4) => {
+export const roundByFour = (num: number, digits = 4) => {
   return parseFloat(num.toFixed(digits))
 }
 

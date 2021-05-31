@@ -11,16 +11,16 @@ const calculateFps = (count: number): Promise<number> => {
   return new Promise((resolve) => {
     let frame = 0
     let lastFrameTime = +new Date()
-    let fpsQueue = []
+    const fpsQueue = []
     let timerId = null
 
     const calculate = () => {
-      let now = +new Date()
+      const now = +new Date()
 
       frame = frame + 1
 
       if (now > 1000 + lastFrameTime) {
-        let fps = Math.round(frame / ((now - lastFrameTime) / 1000))
+        const fps = Math.round(frame / ((now - lastFrameTime) / 1000))
         fpsQueue.push(fps)
         frame = 0
         lastFrameTime = +new Date()
