@@ -13,7 +13,7 @@
     "unit": "jest --config jsdom.jest.config.ts",
     "test": " npm run unit && npm run e2e",
     "e2e:mini": "jest --runTestsByPath ./test/e2e/Mini/index.test.ts --detectOpenHandles --forceExit --config jest.config.ts",
-    "format": "prettier --write -,-parser typescript \"packages/**/*.ts?(x)\"",
+    "format": "prettier --write \"packages/**/*.ts?(x)\" && eslint --fix --ext .ts packages",
     "format:package": "prettier --write \"packages/**/package.json\"",
     "commit": "git add . && git cz",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1"
@@ -29,7 +29,7 @@
   },
   "lint-staged": {
     "src/**/*.ts": [
-      "prettier --write"
+      "npm run format"
     ]
   },
   "keywords": [

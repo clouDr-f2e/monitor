@@ -34,9 +34,9 @@ export const isBrowserEnv = variableTypeDetection.isWindow(typeof window !== 'un
  * ../returns Global scope object
  */
 export function getGlobal<T>() {
-  if (isBrowserEnv) return (window as unknown) as MITOGlobal & T
-  if (isWxMiniEnv) return (wx as unknown) as MITOGlobal & T
-  if (isNodeEnv) return (process as unknown) as MITOGlobal & T
+  if (isBrowserEnv) return window as unknown as MITOGlobal & T
+  if (isWxMiniEnv) return wx as unknown as MITOGlobal & T
+  if (isNodeEnv) return process as unknown as MITOGlobal & T
 }
 
 const _global = getGlobal<Window>()

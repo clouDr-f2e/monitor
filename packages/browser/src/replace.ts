@@ -58,63 +58,55 @@ function xhrReplace(): void {
     return
   }
   const originalXhrProto = XMLHttpRequest.prototype
-  replaceOld(
-    originalXhrProto,
-    'open',
-    (originalOpen: voidFun): voidFun => {
-      return function (this: MITOXMLHttpRequest, ...args: any[]): void {
-        this.mito_xhr = {
-          method: variableTypeDetection.isString(args[0]) ? args[0].toUpperCase() : args[0],
-          url: args[1],
-          sTime: getTimestamp(),
-          type: HTTPTYPE.XHR
+  replaceOld(originalXhrProto, 'open', (originalOpen: voidFun): voidFun => {
+    return function (this: MITOXMLHttpRequest, ...args: any[]): void {
+      this.mito_xhr = {
+        method: variableTypeDetection.isString(args[0]) ? args[0].toUpperCase() : args[0],
+        url: args[1],
+        sTime: getTimestamp(),
+        type: HTTPTYPE.XHR
+      }
+      // this.ontimeout = function () {
+      //   console.log('超时', this)
+      // }
+      // this.timeout = 10000
+      // on(this, EVENTTYPES.ERROR, function (this: MITOXMLHttpRequest) {
+      //   if (this.mito_xhr.isSdkUrl) return
+      //   this.mito_xhr.isError = true
+      //   const eTime = getTimestamp()
+      //   this.mito_xhr.time = eTime
+      //   this.mito_xhr.status = this.status
+      //   this.mito_xhr.elapsedTime = eTime - this.mito_xhr.sTime
+      //   triggerHandlers(EVENTTYPES.XHR, this.mito_xhr)
+      //   logger.error(`接口错误,接口信息:${JSON.stringify(this.mito_xhr)}`)
+      // })
+      originalOpen.apply(this, args)
+    }
+  })
+  replaceOld(originalXhrProto, 'send', (originalSend: voidFun): voidFun => {
+    return function (this: MITOXMLHttpRequest, ...args: any[]): void {
+      const { method, url } = this.mito_xhr
+      setTraceId(url, (headerFieldName: string, traceId: string) => {
+        this.mito_xhr.traceId = traceId
+        this.setRequestHeader(headerFieldName, traceId)
+      })
+      options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method, url }, this)
+      on(this, 'loadend', function (this: MITOXMLHttpRequest) {
+        if ((method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) return
+        const { responseType, response, status } = this
+        this.mito_xhr.reqData = args[0]
+        const eTime = getTimestamp()
+        this.mito_xhr.time = this.mito_xhr.sTime
+        this.mito_xhr.status = status
+        if (['', 'json', 'text'].indexOf(responseType) !== -1) {
+          this.mito_xhr.responseText = typeof response === 'object' ? JSON.stringify(response) : response
         }
-        // this.ontimeout = function () {
-        //   console.log('超时', this)
-        // }
-        // this.timeout = 10000
-        // on(this, EVENTTYPES.ERROR, function (this: MITOXMLHttpRequest) {
-        //   if (this.mito_xhr.isSdkUrl) return
-        //   this.mito_xhr.isError = true
-        //   const eTime = getTimestamp()
-        //   this.mito_xhr.time = eTime
-        //   this.mito_xhr.status = this.status
-        //   this.mito_xhr.elapsedTime = eTime - this.mito_xhr.sTime
-        //   triggerHandlers(EVENTTYPES.XHR, this.mito_xhr)
-        //   logger.error(`接口错误,接口信息:${JSON.stringify(this.mito_xhr)}`)
-        // })
-        originalOpen.apply(this, args)
-      }
+        this.mito_xhr.elapsedTime = eTime - this.mito_xhr.sTime
+        triggerHandlers(EVENTTYPES.XHR, this.mito_xhr)
+      })
+      originalSend.apply(this, args)
     }
-  )
-  replaceOld(
-    originalXhrProto,
-    'send',
-    (originalSend: voidFun): voidFun => {
-      return function (this: MITOXMLHttpRequest, ...args: any[]): void {
-        const { method, url } = this.mito_xhr
-        setTraceId(url, (headerFieldName: string, traceId: string) => {
-          this.mito_xhr.traceId = traceId
-          this.setRequestHeader(headerFieldName, traceId)
-        })
-        options.beforeAppAjaxSend && options.beforeAppAjaxSend({ method, url }, this)
-        on(this, 'loadend', function (this: MITOXMLHttpRequest) {
-          if ((method === EMethods.Post && transportData.isSdkTransportUrl(url)) || isFilterHttpUrl(url)) return
-          const { responseType, response, status } = this
-          this.mito_xhr.reqData = args[0]
-          const eTime = getTimestamp()
-          this.mito_xhr.time = this.mito_xhr.sTime
-          this.mito_xhr.status = status
-          if (['', 'json', 'text'].indexOf(responseType) !== -1) {
-            this.mito_xhr.responseText = typeof response === 'object' ? JSON.stringify(response) : response
-          }
-          this.mito_xhr.elapsedTime = eTime - this.mito_xhr.sTime
-          triggerHandlers(EVENTTYPES.XHR, this.mito_xhr)
-        })
-        originalSend.apply(this, args)
-      }
-    }
-  )
+  })
 }
 
 function fetchReplace(): void {
