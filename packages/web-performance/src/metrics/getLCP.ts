@@ -55,14 +55,16 @@ export const initLCP = (store: metricsStore, report: IReportHandler, immediately
       })
       po.disconnect()
 
-      const value = lcp.value
-      const metrics = { name: metricsName.LCP, value: roundByFour(value.startTime, 2) } as IMetrics
+      if (!store.has(metricsName.LCP)) {
+        const value = lcp.value
+        const metrics = { name: metricsName.LCP, value: roundByFour(value.startTime, 2) } as IMetrics
 
-      if (immediately) {
-        report(metrics)
+        if (immediately) {
+          report(metrics)
+        }
+
+        store.set(metricsName.LCP, metrics)
       }
-
-      store.set(metricsName.LCP, metrics)
     }
   }
 

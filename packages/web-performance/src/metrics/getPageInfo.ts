@@ -10,6 +10,7 @@
  * pathname
  * search
  * hash
+ * screen resolution
  * */
 import { IMetrics, IPageInformation, IReportHandler } from '../types'
 import { metricsName } from '../constants'
@@ -22,6 +23,7 @@ const getPageInfo = (): IPageInformation => {
   }
 
   const { host, hostname, href, protocol, origin, port, pathname, search, hash } = location
+  const { width, height } = window.screen
 
   return {
     host,
@@ -33,7 +35,8 @@ const getPageInfo = (): IPageInformation => {
     pathname,
     search,
     hash,
-    userAgent: 'userAgent' in navigator ? navigator.userAgent : ''
+    userAgent: 'userAgent' in navigator ? navigator.userAgent : '',
+    screenResolution: `${width}x${height}`
   }
 }
 
