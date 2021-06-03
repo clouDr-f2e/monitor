@@ -44,6 +44,7 @@ export interface IPageInformation {
   search: string
   hash: string
   userAgent?: string
+  screenResolution: string
 }
 
 export interface IMetrics {
