@@ -1,0 +1,14 @@
+{
+  "name": "wx-mini-performance",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zty <https://github.com/zty1205>",
+  "license": "ISC",
+  "dependencies": {
+    "@types/wechat-miniprogram": "^3.3.0"
+  }
+}
