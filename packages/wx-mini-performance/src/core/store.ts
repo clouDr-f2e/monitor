@@ -1,13 +1,13 @@
-import { WxPerformancePushType, WxPerformanceType } from '../constant'
-import { noop, getPageUrl } from '../utils'
+import { noop, getPageUrl, getDeviceId } from '../utils'
 import { generateUUID, validateOption } from '@mitojs/utils'
+import { WxPerformancePushType } from '../constant'
 
 class Store {
   appId: string
-  report: (data: Array<WxPerformanceData>) => void
+  report: (data: WxPerformanceData) => void
   immediately?: boolean
   maxBreadcrumbs?: number
-  stack: Array<WxPerformanceData>
+  stack: Array<WxPerformanceObj>
 
   // wx
   getBatteryInfo: () => WechatMiniprogram.GetBatteryInfoSyncResult
@@ -25,19 +25,21 @@ class Store {
     this.stack = []
   }
 
-  _pushData(data: WxPerformanceData) {
+  async _pushData(data: Array<WxPerformanceObj>) {
     if (this.immediately) {
-      this.report([data])
+      let item = await this._createPerformanceData(data)
+      this.report(item)
       return
     }
-    this.stack.push(data)
+    this.stack = this.stack.concat(data)
     if (this.stack.length >= this.maxBreadcrumbs) {
       this.reportLeftData()
     }
   }
 
-  reportLeftData() {
-    this.report([...this.stack])
+  async reportLeftData() {
+    let item = await this._createPerformanceData(this.stack)
+    this.report(item)
     this.stack = []
   }
 
@@ -55,14 +57,16 @@ class Store {
     return nk.networkType
   }
 
-  async _createPerformanceData(type: WxPerformanceDataType, data): Promise<WxPerformanceData> {
+  async _createPerformanceData(data: Array<WxPerformanceObj>): Promise<WxPerformanceData> {
     const networkType = await this._getNetworkType()
+    const date = new Date()
 
     return {
-      type: type,
       appId: this.appId,
-      timestamp: Date.now(),
+      timestamp: date.getTime(),
+      time: date.toLocaleString(),
       uuid: generateUUID(),
+      deviceId: getDeviceId(),
       networkType: networkType,
       batteryLevel: this.getBatteryInfo().level,
       systemInfo: this._getSystemInfo(),
@@ -71,7 +75,7 @@ class Store {
     }
   }
 
-  push(type: WxPerformancePushType, data) {
+  push(type: WxPerformancePushType, data: WechatMiniprogram.OnMemoryWarningCallbackResult | Array<WxPerformanceEntryData>) {
     switch (type) {
       case WxPerformancePushType.MEMORY_WARNING:
         this.handleMemoryWarning(data as WechatMiniprogram.OnMemoryWarningCallbackResult)
@@ -85,15 +89,17 @@ class Store {
 
   // 内存警告会立即上报
   async handleMemoryWarning(data: WechatMiniprogram.OnMemoryWarningCallbackResult) {
-    let d = await this._createPerformanceData(WxPerformanceType.MEMORY_WARNING, data)
-    this.report([d])
+    let d = await this._createPerformanceData([{ ...data, type: WxPerformancePushType.MEMORY_WARNING, timestamp: Date.now() }])
+    this.report(d)
   }
 
   async handleWxPerformance(data: Array<WxPerformanceEntryData> = []) {
-    data.map(async (entry) => {
-      let pData = await this._createPerformanceData(entry.entryType as WxPerformanceDataType, entry)
-      this._pushData(pData)
+    let item: Array<WxPerformanceObj> = data.map((d) => {
+      d.type = WxPerformancePushType.WX_PERFORMANCE
+      d.timestamp = Date.now()
+      return d
     })
+    this._pushData(item)
   }
 }
 

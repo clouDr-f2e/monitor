@@ -1,22 +1,17 @@
-import { setUrlQuery, variableTypeDetection } from '@mitojs/utils'
+import { setUrlQuery, variableTypeDetection, generateUUID } from '@mitojs/utils'
 import { STORAGE_KEY } from '../constant'
 
 export function noop() {}
 
 // wx
 
-export function generateUUID(): string {
-  let uuid: string = wx.getStorageSync(STORAGE_KEY.uuid)
-  if (!uuid) {
-    let d = new Date().getTime()
-    uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      const r = (d + Math.random() * 16) % 16 | 0
-      d = Math.floor(d / 16)
-      return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16)
-    })
-    wx.setStorageSync(STORAGE_KEY.uuid, uuid)
+export function getDeviceId(): string {
+  let deviceId: string = wx.getStorageSync(STORAGE_KEY.deviceId)
+  if (!deviceId) {
+    const deviceId = generateUUID()
+    wx.setStorageSync(STORAGE_KEY.deviceId, deviceId)
   }
-  return uuid
+  return deviceId
 }
 
 export function getPageUrl() {

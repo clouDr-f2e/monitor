@@ -1,7 +1,3 @@
-interface WxPerformanceObj {
-  [k: string]: any
-}
-
 interface WxPerformanceInitOptions {
   /**
    * 小程序appId
@@ -43,19 +39,33 @@ type WxPerformanceDataType = 'memory_warning' | 'navigation' | 'render' | 'scrip
 
 type WxNetworkType = 'wifi' | '2g' | '3g' | '4g' | '5g' | 'unknown' | 'none'
 
+enum WxPerformancePushType {
+  MEMORY_WARNING = 'memory_warning',
+  WX_PERFORMANCE = 'wx_performance'
+}
+
+interface WxPerformanceAnyObj {
+  [k: string]: any
+}
+
+interface WxPerformanceObj extends WxPerformanceAnyObj {
+  type: WxPerformancePushType
+  timestamp: number
+}
 interface WxPerformanceData {
-  type: WxPerformanceDataType
   appId: string
   uuid: string
+  deviceId: string
   timestamp: number
+  time: string
   networkType: WxNetworkType
   batteryLevel: string
   systemInfo: WechatMiniprogram.SystemInfo
   page: string
-  data: null | WxPerformanceObj
+  data: null | WxPerformanceObj | Array<WxPerformanceObj>
 }
 
-interface WxPerformanceEntryData {
+interface WxPerformanceEntryData extends WxPerformanceObj {
   entryType: 'navigation' | 'render' | 'script' // 	指标类型
   name: 'route' | 'appLaunch' | 'firstRender' | 'evaluateScript' // 指标名称
   startTime: number // 指标调用开始时间；appLaunch为点击图标的时间
