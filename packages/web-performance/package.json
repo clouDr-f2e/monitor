@@ -2,9 +2,10 @@
   "name": "@mitojs/web-performance",
   "version": "2.1.15",
   "description": "A SDK For Report Web Performance",
-  "main": "index.js",
   "author": "allen(https://github.com/Chryseis)",
   "license": "MIT",
+  "main": "dist/web-performance.js",
+  "module": "dist/web-performance.esm.js",
   "types": "dist/web-performance.d.ts",
   "files": [
     "dist"
