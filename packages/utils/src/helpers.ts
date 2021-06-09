@@ -36,6 +36,7 @@ export function on(
  * ../param source 需要被重写的对象
  * ../param name 需要被重写对象的key
  * ../param replacement 以原有的函数作为参数，执行并重写原有函数
+ * ../param isForced 是否强制重写（可能原先没有该属性）
  * ../returns void
  */
 export function replaceOld(source: IAnyObject, name: string, replacement: (...args: any[]) => any, isForced = false): void {
