@@ -40,6 +40,7 @@ class WebVitals implements IWebVitals {
     initPageInfo(metricsStore, reporter, immediately)
     initNetworkInfo(metricsStore, reporter, immediately)
     initDeviceInfo(metricsStore, reporter, immediately)
+    initResourceFlow(metricsStore, reporter, customPaintMetrics, immediately)
 
     afterLoad(() => {
       initNavigationTiming(metricsStore, reporter, immediately)
@@ -48,7 +49,6 @@ class WebVitals implements IWebVitals {
       initFID(metricsStore, reporter, immediately)
       initLCP(metricsStore, reporter, immediately)
       initFPS(metricsStore, reporter, immediately)
-      initResourceFlow(metricsStore, reporter, customPaintMetrics, immediately)
     })
 
     // if immediately is false,report metrics when visibility and unload
