@@ -12,7 +12,7 @@
  * page load = loadEventStart - fetchStart
  * */
 import { IMetrics, IPerformanceNavigationTiming, IReportHandler } from '../types'
-import { isPerformanceSupported } from '../utils/isSupported'
+import { isPerformanceSupported, isPerformanceObserverSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 import observe from '../lib/observe'
@@ -24,43 +24,51 @@ const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefine
     return
   }
 
+  const resolveNavigationTiming = (entry: PerformanceNavigationTiming, resolve): void => {
+    const {
+      domainLookupStart,
+      domainLookupEnd,
+      connectStart,
+      connectEnd,
+      secureConnectionStart,
+      requestStart,
+      responseStart,
+      responseEnd,
+      domInteractive,
+      domContentLoadedEventEnd,
+      loadEventStart,
+      fetchStart
+    } = entry
+
+    resolve({
+      dnsLookup: roundByFour(domainLookupEnd - domainLookupStart),
+      initialConnection: roundByFour(connectEnd - connectStart),
+      ssl: roundByFour(connectEnd - secureConnectionStart),
+      ttfb: roundByFour(responseStart - requestStart),
+      contentDownload: roundByFour(responseEnd - responseStart),
+      domParse: roundByFour(domInteractive - responseEnd),
+      resourceDownload: roundByFour(loadEventStart - domContentLoadedEventEnd),
+      domReady: roundByFour(domContentLoadedEventEnd - fetchStart),
+      pageLoad: roundByFour(loadEventStart - fetchStart)
+    })
+  }
+
   return new Promise((resolve) => {
-    const entryHandler = (entry: PerformanceNavigationTiming) => {
-      if (entry.entryType === 'navigation') {
-        if (po) {
-          po.disconnect()
+    if (isPerformanceObserverSupported()) {
+      const entryHandler = (entry: PerformanceNavigationTiming) => {
+        if (entry.entryType === 'navigation') {
+          if (po) {
+            po.disconnect()
+          }
+
+          resolveNavigationTiming(entry, resolve)
         }
-
-        const {
-          domainLookupStart,
-          domainLookupEnd,
-          connectStart,
-          connectEnd,
-          secureConnectionStart,
-          requestStart,
-          responseStart,
-          responseEnd,
-          domInteractive,
-          domContentLoadedEventEnd,
-          loadEventStart,
-          fetchStart
-        } = entry
-
-        resolve({
-          dnsLookup: roundByFour(domainLookupEnd - domainLookupStart),
-          initialConnection: roundByFour(connectEnd - connectStart),
-          ssl: roundByFour(connectEnd - secureConnectionStart),
-          ttfb: roundByFour(responseStart - requestStart),
-          contentDownload: roundByFour(responseEnd - responseStart),
-          domParse: roundByFour(domInteractive - responseEnd),
-          resourceDownload: roundByFour(loadEventStart - domContentLoadedEventEnd),
-          domReady: roundByFour(domContentLoadedEventEnd - fetchStart),
-          pageLoad: roundByFour(loadEventStart - fetchStart)
-        })
       }
-    }
 
-    const po = observe('navigation', entryHandler)
+      const po = observe('navigation', entryHandler)
+    } else {
+      resolveNavigationTiming(performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming, resolve)
+    }
   })
 }
 
