@@ -6,6 +6,7 @@ export enum metricsName {
   LCP = 'largest-contentful-paint',
   FID = 'first-input-delay',
   RL = 'resource-flow',
+  CLS = 'cumulative-layout-shift',
   FPS = 'fps',
   /* information */
   DI = 'device-information',
