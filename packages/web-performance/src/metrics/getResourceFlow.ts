@@ -10,7 +10,7 @@ import { metricsName } from '../constants'
 
 const getResourceFlow = (resourceFlow: Array<PerformanceEntry>): PerformanceObserver | undefined => {
   if (!isPerformanceObserverSupported()) {
-    console.error('browser do not support performanceObserver')
+    console.warn('browser do not support performanceObserver')
     return
   }
 

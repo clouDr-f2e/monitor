@@ -12,7 +12,7 @@ import observe from '../lib/observe'
 
 const getFCP = (): Promise<PerformanceEntry> | undefined => {
   if (!isPerformanceObserverSupported()) {
-    console.error('browser do not support performanceObserver')
+    console.warn('browser do not support performanceObserver')
     return
   }
 

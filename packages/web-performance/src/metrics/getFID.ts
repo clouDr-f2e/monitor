@@ -14,7 +14,7 @@ import { roundByFour } from '../utils'
 
 const getFID = (): Promise<PerformanceEntry> | undefined => {
   if (!isPerformanceObserverSupported()) {
-    console.error('browser do not support performanceObserver')
+    console.warn('browser do not support performanceObserver')
     return
   }
 

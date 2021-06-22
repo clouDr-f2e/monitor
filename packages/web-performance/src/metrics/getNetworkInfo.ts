@@ -12,7 +12,7 @@ import metricsStore from '../lib/store'
 
 const getNetworkInfo = (): INetworkInformation | undefined => {
   if (!isNavigatorSupported()) {
-    console.error('browser do not support performance')
+    console.warn('browser do not support performance')
     return
   }
 

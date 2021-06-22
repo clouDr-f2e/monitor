@@ -20,7 +20,7 @@ import { roundByFour } from '../utils'
 
 const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefined => {
   if (!isPerformanceSupported()) {
-    console.error('browser do not support performance')
+    console.warn('browser do not support performance')
     return
   }
 

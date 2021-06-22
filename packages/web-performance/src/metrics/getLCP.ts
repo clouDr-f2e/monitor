@@ -21,7 +21,7 @@ import observe from '../lib/observe'
 
 const getLCP = (lcp): PerformanceObserver | undefined => {
   if (!isPerformanceObserverSupported()) {
-    console.error('browser do not support performanceObserver')
+    console.warn('browser do not support performanceObserver')
     return
   }
 

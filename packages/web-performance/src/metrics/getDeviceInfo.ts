@@ -16,12 +16,12 @@ import metricsStore from '../lib/store'
 
 const getDeviceInfo = (): IDeviceInformation | undefined => {
   if (!isPerformanceSupported()) {
-    console.error('browser do not support performance')
+    console.warn('browser do not support performance')
     return
   }
 
   if (!isNavigatorSupported()) {
-    console.error('browser do not support navigator')
+    console.warn('browser do not support navigator')
     return
   }
 

@@ -18,7 +18,7 @@ import metricsStore from '../lib/store'
 
 const getPageInfo = (): IPageInformation => {
   if (!location) {
-    console.error('browser do not support location')
+    console.warn('browser do not support location')
     return
   }
 
