@@ -7,7 +7,6 @@
  * ttfb = responseStart - requestStart
  * content download = responseEnd - responseStart
  * dom parse = domInteractive - responseEnd
- * resource download = loadEventStart - domContentLoadedEventEnd
  * dom Ready = domContentLoadedEventEnd - fetchStart
  * page load = loadEventStart - fetchStart
  * */
@@ -47,7 +46,6 @@ const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefine
       ttfb: roundByFour(responseStart - requestStart),
       contentDownload: roundByFour(responseEnd - responseStart),
       domParse: roundByFour(domInteractive - responseEnd),
-      resourceDownload: roundByFour(loadEventStart - domContentLoadedEventEnd),
       domReady: roundByFour(domContentLoadedEventEnd - fetchStart),
       pageLoad: roundByFour(loadEventStart - fetchStart)
     })
