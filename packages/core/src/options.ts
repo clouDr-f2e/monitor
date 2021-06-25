@@ -9,7 +9,7 @@ export class Options {
   includeHttpUrlTraceIdRegExp: RegExp
   traceIdFieldName = 'Trace-Id'
   throttleDelayTime = 0
-  maxDuplicateCount = 10
+  maxDuplicateCount = 2
   // wx-mini
   appOnLaunch: Function = () => {}
   appOnShow: Function = () => {}
