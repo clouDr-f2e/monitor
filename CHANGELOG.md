@@ -1,3 +1,13 @@
+## [2.1.17](https://github.com/clouDr-f2e/mitojs/compare/v2.1.16...v2.1.17) (2021-06-25)
+
+
+### Features
+
+* **core/options:** add maxDuplicateCount field avoid duplicate error report ([bb1acc6](https://github.com/clouDr-f2e/mitojs/commit/bb1acc6f263e70710adac21773925477d899d8f7))
+* **core/options:** maxDuplicateCount default to 2 ([e484a49](https://github.com/clouDr-f2e/mitojs/commit/e484a49fd613629736a895445644f8dad9313885))
+
+
+
 ## [2.1.16](https://github.com/clouDr-f2e/mitojs/compare/v2.1.15...v2.1.16) (2021-06-12)
 
 
