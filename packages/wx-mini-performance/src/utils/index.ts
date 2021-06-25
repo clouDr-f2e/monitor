@@ -14,7 +14,7 @@ export function getDeviceId(): string {
   return deviceId
 }
 
-export function getPageUrl() {
+export function getPageUrl(setQuery = true) {
   if (!variableTypeDetection.isFunction(getCurrentPages)) {
     return ''
   }
@@ -23,7 +23,7 @@ export function getPageUrl() {
     return 'App'
   }
   const page = pages[pages.length - 1]
-  return setUrlQuery(page.route, page.options)
+  return setQuery ? setUrlQuery(page.route, page.options) : page.route
 }
 
 export function getNavigateBackTargetUrl(delta: number | undefined) {

@@ -1,12 +1,14 @@
 import Store from '../core/store'
-import { WxPerformancePushType } from '../constant'
+import { WxPerformanceDataType, WxPerformanceItemType } from '../constant'
+import HandleEvents from './handleEvents'
+import { replaceApp, replaceComponent, replaceNetwork, replacePage } from './replace'
 
 // 内存警告
 
 export function initMemoryWarning(store: Store, need: boolean) {
   if (!need) return
   wx.onMemoryWarning((res: WechatMiniprogram.OnMemoryWarningCallbackResult) => {
-    store.push(WxPerformancePushType.MEMORY_WARNING, res)
+    store.push(WxPerformanceDataType.MEMORY_WARNING, res as WxPerformanceItem)
   })
 }
 
@@ -44,7 +46,7 @@ export function initBatteryInfo(store: Store, need: boolean): void {
 export function initWxPerformance(store: Store) {
   const performance = wx.getPerformance()
   const observer = performance.createObserver((entryList) => {
-    store.push(WxPerformancePushType.WX_PERFORMANCE, entryList.getEntries())
+    store.push(WxPerformanceDataType.WX_PERFORMANCE, entryList.getEntries())
   })
   observer.observe({ entryTypes: ['navigation', 'render', 'script'] })
 }
@@ -56,4 +58,16 @@ export function initWxHideReport(store: Store, immediately: boolean, onAppHideRe
   wx.onAppHide(() => {
     store.reportLeftData()
   })
+}
+
+// 网络请求性能
+
+export function initWxNetwork(store: Store) {
+  for (let k in HandleEvents) {
+    store.on(k as WxPerformanceItemType, HandleEvents[k])
+  }
+  replaceApp(store)
+  replacePage(store)
+  replaceComponent(store)
+  replaceNetwork(store)
 }
