@@ -3,8 +3,7 @@
 const app = getApp()
 
 Page({
-  data: {
-  },
+  data: {},
   onLoad() {
     if (wx.getUserProfile) {
       this.setData({
@@ -12,13 +11,23 @@ Page({
       })
     }
   },
+  onLoad() {
+    setTimeout(() => {
+      const wxPerformance = app.globalData.wxPerformance
+      wxPerformance.customPaint()
+    }, 100)
+  },
+  onReady() {
+   
+  },
+
   onTap(e) {
     console.log('onTap e = ', e)
   },
 
   onNavigate() {
     wx.navigateTo({
-      url: '/pages/test/test',
+      url: '/pages/test/test'
     })
   },
 

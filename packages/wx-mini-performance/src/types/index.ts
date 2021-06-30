@@ -1,14 +1,18 @@
 interface WxPerformanceInitOptions {
   /**
-   * 小程序appId
+   * 应用标识
    */
   appId: string
+  /**
+   * 应用版本号
+   */
+  version?: string
   /**
    * 上报地址
    */
   report: () => void
   /**
-   * 是否立即上班
+   * 是否立即上报
    */
   immediately?: boolean
   /**
@@ -16,7 +20,7 @@ interface WxPerformanceInitOptions {
    */
   ignoreUrl?: RegExp
   /**
-   * 最大数据存储，默认20，最大100，超过100还是设置成100
+   * 最大数据存储
    */
   maxBreadcrumbs?: number
   /**
@@ -43,7 +47,6 @@ enum WxPerformanceDataType {
   MEMORY_WARNING = 'MEMORY_WARNING',
   WX_PERFORMANCE = 'WX_PERFORMANCE',
   WX_NETWORK = 'WX_NETWORK',
-  WX_WATER_FALL = 'WX_WATER_FALL',
   WX_LIFE_STYLE = 'WX_LIFE_STYLE',
   WX_USER_ACTION = 'WX_USER_ACTION'
 }
@@ -71,7 +74,8 @@ enum WxPerformanceItemType {
   UserTouchMove = 'WxUserTouchMove',
   WxRequest = 'WxRequest',
   WxUploadFile = 'WxUploadFile',
-  WxDownloadFile = 'WxDownloadFile'
+  WxDownloadFile = 'WxDownloadFile',
+  WxCustomPaint = 'WxCustomPaint'
 }
 
 interface WxPerformanceAnyObj {

@@ -412,7 +412,6 @@ var WxPerformanceDataType;
     WxPerformanceDataType["MEMORY_WARNING"] = "MEMORY_WARNING";
     WxPerformanceDataType["WX_PERFORMANCE"] = "WX_PERFORMANCE";
     WxPerformanceDataType["WX_NETWORK"] = "WX_NETWORK";
-    WxPerformanceDataType["WX_WATER_FALL"] = "WX_WATER_FALL";
     WxPerformanceDataType["WX_LIFE_STYLE"] = "WX_LIFE_STYLE";
     WxPerformanceDataType["WX_USER_ACTION"] = "WX_USER_ACTION";
 })(WxPerformanceDataType || (WxPerformanceDataType = {}));
@@ -441,6 +440,7 @@ var WxPerformanceItemType;
     WxPerformanceItemType["WxRequest"] = "WxRequest";
     WxPerformanceItemType["WxUploadFile"] = "WxUploadFile";
     WxPerformanceItemType["WxDownloadFile"] = "WxDownloadFile";
+    WxPerformanceItemType["WxCustomPaint"] = "WxCustomPaint";
 })(WxPerformanceItemType || (WxPerformanceItemType = {}));
 var WxListenerTypes = (_a$1 = {},
     _a$1[EListenerTypes.Tap] = WxPerformanceItemType.UserTap,
@@ -768,7 +768,8 @@ var Store = (function (_super) {
     __extends(Store, _super);
     function Store(options) {
         var _this = _super.call(this) || this;
-        _this.__firstAction = false;
+        _this.firstAction = false;
+        _this.navigationMap = {};
         var appId = options.appId, report = options.report, maxBreadcrumbs = options.maxBreadcrumbs, immediately = options.immediately, ignoreUrl = options.ignoreUrl;
         validateOption(appId, 'appId', 'string') && (_this.appId = appId);
         validateOption(maxBreadcrumbs, 'maxBreadcrumbs', 'number') && (_this.maxBreadcrumbs = maxBreadcrumbs);
@@ -902,14 +903,21 @@ var Store = (function (_super) {
             });
         });
     };
+    Store.prototype.buildNavigationStart = function (entry) {
+        if (entry.entryType === 'navigation') {
+            this.navigationMap[entry.path] = entry.navigationStart || entry.startTime;
+        }
+    };
     Store.prototype.handleWxPerformance = function (data) {
         if (data === void 0) { data = []; }
         return __awaiter(this, void 0, void 0, function () {
             var _data, item;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _data = data.map(function (d) {
+                            _this.buildNavigationStart(d);
                             d.itemType = WxPerformanceItemType.Performance;
                             d.timestamp = Date.now();
                             return d;
@@ -929,12 +937,12 @@ var Store = (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!!this.__firstAction) return [3, 2];
+                        if (!!this.firstAction) return [3, 2];
                         return [4, this._createPerformanceData(WxPerformanceDataType.WX_USER_ACTION, [data])];
                     case 1:
                         d = _a.sent();
                         this._pushData([d]);
-                        this.__firstAction = true;
+                        this.firstAction = true;
                         _a.label = 2;
                     case 2: return [2];
                 }
@@ -949,21 +957,47 @@ var Store = (function (_super) {
             return true;
         return false;
     };
+    Store.prototype.customPaint = function () {
+        var _this = this;
+        var now = Date.now();
+        var path = getPageUrl(false);
+        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+            var navigationStart, data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(path && this.navigationMap[path])) return [3, 2];
+                        navigationStart = this.navigationMap[path];
+                        return [4, this._createPerformanceData(WxPerformanceDataType.WX_LIFE_STYLE, [
+                                {
+                                    itemType: WxPerformanceItemType.WxCustomPaint,
+                                    navigationStart: navigationStart,
+                                    timestamp: now,
+                                    duration: now - navigationStart
+                                }
+                            ])];
+                    case 1:
+                        data = _a.sent();
+                        this._pushData([data]);
+                        _a.label = 2;
+                    case 2: return [2];
+                }
+            });
+        }); }, 1000);
+    };
     return Store;
 }(Event));
 
-var version = "2.1.15";
-
 var WxPerformance = (function () {
     function WxPerformance(options) {
-        this.version = version;
         if (!isWxMiniEnv) {
             return;
         }
-        var appId = options.appId, report = options.report, _a = options.immediately, immediately = _a === void 0 ? true : _a, ignoreUrl = options.ignoreUrl, _b = options.maxBreadcrumbs, maxBreadcrumbs = _b === void 0 ? 4 : _b, _c = options.needNetworkStatus, needNetworkStatus = _c === void 0 ? true : _c, _d = options.needBatteryInfo, needBatteryInfo = _d === void 0 ? true : _d, _e = options.needMemoryWarning, needMemoryWarning = _e === void 0 ? true : _e, _f = options.onAppHideReport, onAppHideReport = _f === void 0 ? true : _f;
+        var appId = options.appId, version = options.version, report = options.report, _a = options.immediately, immediately = _a === void 0 ? true : _a, ignoreUrl = options.ignoreUrl, _b = options.maxBreadcrumbs, maxBreadcrumbs = _b === void 0 ? 10 : _b, _c = options.needNetworkStatus, needNetworkStatus = _c === void 0 ? true : _c, _d = options.needBatteryInfo, needBatteryInfo = _d === void 0 ? true : _d, _e = options.needMemoryWarning, needMemoryWarning = _e === void 0 ? true : _e, _f = options.onAppHideReport, onAppHideReport = _f === void 0 ? true : _f;
         this.appId = appId;
+        this.version = version;
         var store = new Store({ appId: appId, report: report, immediately: immediately, ignoreUrl: ignoreUrl, maxBreadcrumbs: maxBreadcrumbs });
-        this.__store = store;
+        this.store = store;
         initBatteryInfo(store, needBatteryInfo);
         initNetworkInfo(store, needNetworkStatus);
         initMemoryWarning(store, needMemoryWarning);
@@ -971,6 +1005,9 @@ var WxPerformance = (function () {
         initWxPerformance(store);
         initWxNetwork(store);
     }
+    WxPerformance.prototype.customPaint = function () {
+        this.store.customPaint();
+    };
     return WxPerformance;
 }());
 

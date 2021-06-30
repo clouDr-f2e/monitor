@@ -9,7 +9,8 @@ class Store extends Event {
   immediately?: boolean
   ignoreUrl?: RegExp
   maxBreadcrumbs?: number
-  stack: Array<WxPerformanceData>
+
+  private stack: Array<WxPerformanceData>
 
   // wx
   getBatteryInfo: () => WechatMiniprogram.GetBatteryInfoSyncResult
@@ -20,7 +21,9 @@ class Store extends Event {
 
   wxLaunchTime: number
 
-  __firstAction: boolean = false
+  private firstAction: boolean = false
+
+  private navigationMap: WxPerformanceAnyObj = {}
 
   constructor(options: WxPerformanceInitOptions) {
     super()
@@ -116,8 +119,16 @@ class Store extends Event {
     this.report([d])
   }
 
+  buildNavigationStart(entry: WxPerformanceEntryObj) {
+    if (entry.entryType === 'navigation') {
+      // appLaunch时没有navigationStart
+      this.navigationMap[entry.path] = entry.navigationStart || entry.startTime
+    }
+  }
+
   async handleWxPerformance(data: Array<WxPerformanceItem> = []) {
     let _data: Array<WxPerformanceItem> = data.map((d) => {
+      this.buildNavigationStart(d)
       d.itemType = WxPerformanceItemType.Performance
       d.timestamp = Date.now()
       return d
@@ -128,10 +139,10 @@ class Store extends Event {
 
   // 只统计首次点击
   async handleWxAction(data: WxPerformanceItem) {
-    if (!this.__firstAction) {
+    if (!this.firstAction) {
       let d = await this._createPerformanceData(WxPerformanceDataType.WX_USER_ACTION, [data])
       this._pushData([d])
-      this.__firstAction = true
+      this.firstAction = true
     }
   }
 
@@ -142,6 +153,25 @@ class Store extends Event {
   filterUrl(url: string) {
     if (this.ignoreUrl && this.ignoreUrl.test(url)) return true
     return false
+  }
+
+  customPaint() {
+    const now = Date.now()
+    const path = getPageUrl(false)
+    setTimeout(async () => {
+      if (path && this.navigationMap[path]) {
+        const navigationStart = this.navigationMap[path]
+        const data = await this._createPerformanceData(WxPerformanceDataType.WX_LIFE_STYLE, [
+          {
+            itemType: WxPerformanceItemType.WxCustomPaint,
+            navigationStart: navigationStart,
+            timestamp: now,
+            duration: now - navigationStart
+          }
+        ])
+        this._pushData([data])
+      }
+    }, 1000)
   }
 }
 

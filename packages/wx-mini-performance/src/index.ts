@@ -5,8 +5,8 @@ import { version } from '../package.json'
 
 class WxPerformance {
   appId: string
-  version: string = version
-  __store: Store
+  version: string
+  private store: Store
 
   constructor(options: WxPerformanceInitOptions) {
     if (!isWxMiniEnv) {
@@ -14,19 +14,22 @@ class WxPerformance {
     }
     const {
       appId,
+      version,
       report,
       immediately = true,
       ignoreUrl,
-      maxBreadcrumbs = 4,
+      maxBreadcrumbs = 10,
       needNetworkStatus = true,
       needBatteryInfo = true,
       needMemoryWarning = true,
       onAppHideReport = true
     } = options
+
     this.appId = appId
+    this.version = version
 
     const store = new Store({ appId, report, immediately, ignoreUrl, maxBreadcrumbs })
-    this.__store = store
+    this.store = store
 
     initBatteryInfo(store, needBatteryInfo)
     initNetworkInfo(store, needNetworkStatus)
@@ -35,6 +38,10 @@ class WxPerformance {
     initWxHideReport(store, immediately, onAppHideReport)
     initWxPerformance(store)
     initWxNetwork(store)
+  }
+
+  customPaint() {
+    this.store.customPaint()
   }
 }
 

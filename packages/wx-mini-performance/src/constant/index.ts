@@ -13,7 +13,6 @@ export enum WxPerformanceDataType {
   MEMORY_WARNING = 'MEMORY_WARNING',
   WX_PERFORMANCE = 'WX_PERFORMANCE',
   WX_NETWORK = 'WX_NETWORK',
-  WX_WATER_FALL = 'WX_WATER_FALL',
   WX_LIFE_STYLE = 'WX_LIFE_STYLE',
   WX_USER_ACTION = 'WX_USER_ACTION'
 }
@@ -41,7 +40,8 @@ export enum WxPerformanceItemType {
   UserTouchMove = 'WxUserTouchMove',
   WxRequest = 'WxRequest',
   WxUploadFile = 'WxUploadFile',
-  WxDownloadFile = 'WxDownloadFile'
+  WxDownloadFile = 'WxDownloadFile',
+  WxCustomPaint = 'WxCustomPaint'
 }
 
 export const WxListenerTypes = {
