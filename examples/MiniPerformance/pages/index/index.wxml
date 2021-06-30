@@ -1,0 +1,37 @@
+<!--index.wxml-->
+<view class="page">
+  <view class="avatar">
+    <open-data type="userAvatarUrl"></open-data>
+  </view>
+  <view class="nick-name">
+    <open-data type="userNickName"></open-data>
+  </view>
+  <view class="cell">
+    <button class="btn" type="primary" bindtap="onTap">
+      点击
+    </button>
+  </view>
+  <view class="cell">
+    <button class="btn" type="primary" bindtap="onNavigate">
+      跳转
+    </button>
+  </view>
+  <view class="cell">
+    <button class="btn" id="click-request-btn" data-click="on-tap-request" type="primary" bindtap="onTapRequest">
+      请求
+    </button>
+  </view>
+  <view class="cell">
+    <button class="btn" id="click-file-btn" type="primary" data-click="on-down-file" bindtap="onTapDownFile">
+      下载文件
+    </button>
+  </view>
+  <view class="cell">
+    <button class="btn" id="click-file-btn" type="primary" data-click="on-down-file" bindtap="onTapUploadFile">
+      上传文件
+    </button>
+  </view>
+  <view class="cell">
+  内存溢出可使用开发工具模拟
+</view>
+</view>

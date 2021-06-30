@@ -25,8 +25,11 @@ export enum WxAppEvents {
 }
 
 export enum WxPageEvents {
+  PageOnLoad = 'PageOnLoad',
   PageOnShow = 'PageOnShow',
   PageOnHide = 'PageOnHide',
+  PageOnReady = 'PageOnReady',
+  PageOnUnload = 'PageOnUnload',
   PageOnShareAppMessage = 'PageOnShareAppMessage',
   PageOnShareTimeline = 'PageOnShareTimeline',
   PageOnTabItemTap = 'PageOnTabItemTap'
@@ -108,7 +111,11 @@ export enum EVENTTYPES {
   MITO = 'mito',
   VUE = 'Vue',
   // for miniprogram
-  MINI_ROUTE = 'miniRoute'
+  MINI_ROUTE = 'miniRoute',
+  MINI_PERFORMANCE = 'miniPerformance',
+  MINI_MEMORY_WARNING = 'miniMemoryWarning',
+  MINI_NETWORK_STATUS_CHANGE = 'miniNetworkStatusChange',
+  MINI_BATTERY_INFO = 'miniBatteryInfo'
 }
 
 export enum HTTPTYPE {
