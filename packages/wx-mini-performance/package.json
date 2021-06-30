@@ -1,7 +1,7 @@
 {
-  "name": "wx-mini-performance",
-  "version": "0.0.1",
-  "description": "",
+  "name": "@mitojs/wx-mini-performance",
+  "version": "2.1.15",
+  "description": "A SDK For Report Wx Mini Performance",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

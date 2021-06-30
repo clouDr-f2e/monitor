@@ -126,7 +126,7 @@ class Store extends Event {
     this._pushData([item])
   }
 
-  // 现在只统计第一次的
+  // 只统计首次点击
   async handleWxAction(data: WxPerformanceItem) {
     if (!this.__firstAction) {
       let d = await this._createPerformanceData(WxPerformanceDataType.WX_USER_ACTION, [data])

@@ -1,4 +1,3 @@
-// hack APP
 import { replaceOld, isEmptyObject } from '@mitojs/utils'
 import Store from '../core/store'
 import HandleEvents from './handleEvents'
