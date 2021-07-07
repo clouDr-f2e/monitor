@@ -65,7 +65,9 @@ const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefine
 
       const po = observe('navigation', entryHandler)
     } else {
-      resolveNavigationTiming(performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming, resolve)
+      const navigation =
+        performance.getEntriesByType('navigation').length > 0 ? performance.getEntriesByType('navigation')[0] : performance.timing
+      resolveNavigationTiming(navigation as PerformanceNavigationTiming, resolve)
     }
   })
 }
