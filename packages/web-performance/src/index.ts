@@ -21,6 +21,7 @@ import { initFCP } from './metrics/getFCP'
 import { initFID } from './metrics/getFID'
 import { initLCP } from './metrics/getLCP'
 import { initFPS } from './metrics/getFPS'
+import { initCLS } from './metrics/getCLS'
 import { initResourceFlow } from './metrics/getResourceFlow'
 
 let metricsStore: MetricsStore
@@ -41,6 +42,7 @@ class WebVitals implements IWebVitals {
     initNetworkInfo(metricsStore, reporter, immediately)
     initDeviceInfo(metricsStore, reporter, immediately)
     initResourceFlow(metricsStore, reporter, customPaintMetrics, immediately)
+    initCLS(metricsStore, reporter, customPaintMetrics, immediately)
 
     afterLoad(() => {
       initNavigationTiming(metricsStore, reporter, immediately)
@@ -92,7 +94,7 @@ class WebVitals implements IWebVitals {
       metricsStore.set(`${markName}Metrics`, metrics)
     } else {
       const value = getMark(`${markName}_end`)?.startTime
-      this.clearMark(`${markName}_end`)
+      this.clearMark(markName)
 
       const metrics = { name: `${markName}Metrics`, value }
       reporter(metrics)

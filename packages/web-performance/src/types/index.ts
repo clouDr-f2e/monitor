@@ -97,3 +97,8 @@ export interface IReportData {
 export interface IMetricsObj {
   [prop: string]: IMetrics
 }
+
+export interface LayoutShift extends PerformanceEntry {
+  value: number
+  hadRecentInput: boolean
+}

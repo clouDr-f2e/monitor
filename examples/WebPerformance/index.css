@@ -1,8 +1,20 @@
-img{
+img {
+  display: block;
   width: 400px;
 }
 
-.title{
+.title {
   font-size: 30px;
   font-weight: 600;
+}
+
+.move-box {
+  margin-bottom: 20px;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #000;
+}
+
+.move{
+  transform: translateY(30px);
 }

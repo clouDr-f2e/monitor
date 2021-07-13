@@ -106,6 +106,11 @@ startTime|number|事件触发时间|
 delay|number|事件延迟时间|
 eventHandleTime|number|事件处理时间|
 
+### CLS
+字段|字段类型|描述|备注
+|---|---|----|---|
+value|number|页面元素意外位移量|
+
 ### FPS
 字段|字段类型|描述|备注
 |---|---|----|---|
