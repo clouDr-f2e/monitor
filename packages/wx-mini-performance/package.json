@@ -1,6 +1,6 @@
 {
   "name": "@mitojs/wx-mini-performance",
-  "version": "2.1.15",
+  "version": "2.1.18",
   "description": "A SDK For Report Wx Mini Performance",
   "main": "index.js",
   "scripts": {
