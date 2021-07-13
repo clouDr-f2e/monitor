@@ -1,6 +1,7 @@
 import { getAppId, isWxMiniEnv, variableTypeDetection } from '@mitojs/utils'
 import { ERRORTYPES, EVENTTYPES } from '@mitojs/shared'
 import { ReportDataType } from '@mitojs/types'
+import { options } from './options'
 const allErrorNumber: unknown = {}
 /**
  * generate error unique Id
@@ -28,7 +29,7 @@ export function createErrorId(data: ReportDataType, apikey: string): number | nu
       break
   }
   id = hashCode(id)
-  if (allErrorNumber[id] > 1) {
+  if (allErrorNumber[id] >= options.maxDuplicateCount) {
     return null
   }
   if (typeof allErrorNumber[id] === 'number') {

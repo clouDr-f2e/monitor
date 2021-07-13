@@ -50,6 +50,7 @@ react@next的ErrorBoundary的错误上报函数[具体使用](https://github.com
 |    `silentWxOnPageNotFound`    | `boolean` | `false`    | 默认会监控微信小程序App的onPageNotFound，为true时，将不在监控 |
 |  `silentWxOnShareAppMessage`   | `boolean` | `false`    | 默认会监控微信小程序App的onShareAppMessage，为true时，将不在监控 |
 |       `silentMiniRoute`        | `boolean` | `false`    | 默认会监控微信小程序App的路由跳转，为true时，将不在监控      |
+|       `maxDuplicateCount`      | `number`  | `2`         | 最多可重复上报同一个错误的次数                            |
 
 **示例：**用户行为栈最大长度为30
 

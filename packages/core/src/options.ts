@@ -9,6 +9,7 @@ export class Options {
   includeHttpUrlTraceIdRegExp: RegExp
   traceIdFieldName = 'Trace-Id'
   throttleDelayTime = 0
+  maxDuplicateCount = 2
   // wx-mini
   appOnLaunch: Function = () => {}
   appOnShow: Function = () => {}
@@ -44,7 +45,8 @@ export class Options {
       onShareTimeline,
       onTabItemTap,
       wxNavigateToMiniProgram,
-      triggerWxEvent
+      triggerWxEvent,
+      maxDuplicateCount
     } = options
     validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend)
     // wx-mini hooks
@@ -64,6 +66,7 @@ export class Options {
     validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId)
     validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName)
     validateOption(throttleDelayTime, 'throttleDelayTime', 'number') && (this.throttleDelayTime = throttleDelayTime)
+    validateOption(maxDuplicateCount, 'maxDuplicateCount', 'number') && (this.maxDuplicateCount = maxDuplicateCount)
     toStringValidateOption(filterXhrUrlRegExp, 'filterXhrUrlRegExp', '[object RegExp]') && (this.filterXhrUrlRegExp = filterXhrUrlRegExp)
     toStringValidateOption(includeHttpUrlTraceIdRegExp, 'includeHttpUrlTraceIdRegExp', '[object RegExp]') &&
       (this.includeHttpUrlTraceIdRegExp = includeHttpUrlTraceIdRegExp)

@@ -77,7 +77,7 @@ describe('errorId.ts', () => {
       expect(errorId_1).toBe(errorId_2)
     })
 
-    it('一个错误对象生成两次后，第三次会返回null', () => {
+    it('一个错误对象生成两次后，默认情况下第三次会返回null，可配置maxDuplicateCount', () => {
       const logError_1: ReportDataType = {
         type: ERRORTYPES.LOG_ERROR,
         level: Severity.Critical,
@@ -139,11 +139,13 @@ describe('errorId.ts', () => {
     // todo 需要支持browser history
   })
   it('should getFlutterRealPath func work', () => {
-    const url = 'file:///var/mobile/Containers/Data/Application/D1A0783A-2495-41B4-8599-EC58B5B252CD/Documents/SailerBuild/36/index.html?/#/search-page'
+    const url =
+      'file:///var/mobile/Containers/Data/Application/D1A0783A-2495-41B4-8599-EC58B5B252CD/Documents/SailerBuild/36/index.html?/#/search-page'
     expect(getFlutterRealPath(url)).toBe('SailerBuild/36/index.html?/#/search-page')
   })
   it('should getFlutterRealOrigin func work', () => {
-    const url = 'file:///var/mobile/Containers/Data/Application/D1A0783A-2495-41B4-8599-EC58B5B252CD/Documents/SailerBuild/36/index.html?/#/search-page'
+    const url =
+      'file:///var/mobile/Containers/Data/Application/D1A0783A-2495-41B4-8599-EC58B5B252CD/Documents/SailerBuild/36/index.html?/#/search-page'
     expect(getFlutterRealOrigin(url)).toBe('SailerBuild/36/index.html?')
   })
 })
