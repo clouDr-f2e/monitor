@@ -19,10 +19,13 @@ class Store extends Event {
   ) => WechatMiniprogram.PromisifySuccessResult<T, WechatMiniprogram.GetNetworkTypeOption>
   systemInfo: WechatMiniprogram.SystemInfo
 
+  // 小程序launch时间
   wxLaunchTime: number
 
+  // 首次点击标志位
   private firstAction: boolean = false
 
+  // 路由跳转start时间记录
   private navigationMap: WxPerformanceAnyObj = {}
 
   constructor(options: WxPerformanceInitOptions) {
