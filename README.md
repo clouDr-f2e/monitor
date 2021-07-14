@@ -33,13 +33,8 @@
 - [x] 支持原生Web [@mitojs/browser](https://github.com/clouDr-f2e/mitojs/tree/master/packages/browser)
 - [x] 支持Web框架（Vue3、Vue2、React@Next） [@mitojs/web](https://github.com/clouDr-f2e/mitojs/tree/master/packages/web)
 - [x] 支持原生微信小程序、支持uni-app等微信小程序框架 [@mitojs/wx-mini](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini)
-
-
-## 迭代~~~
-web性能监控SDK [@Chryseis](https://github.com/Chryseis) coding~，预计6月份出第一版
-
-微信小程序性能监控[@zty1205](https://github.com/zty1205) coding~，预计6月份出第一版
-
+- [x] 支持Web性能监控 [@mitojs/web-performance](https://github.com/clouDr-f2e/mitojs/tree/master/packages/web-performance)
+- [x] 支持微信小程序性能监控 [@mitojs/wx-mini-performance](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini-performance)
 
 ## 安装
 
