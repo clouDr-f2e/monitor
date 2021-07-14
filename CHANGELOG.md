@@ -1,3 +1,17 @@
+## [2.1.18](https://github.com/clouDr-f2e/mitojs/compare/v2.1.17...v2.1.18) (2021-07-13)
+
+
+### Features
+
+* add cls metrics ([7914d22](https://github.com/clouDr-f2e/mitojs/commit/7914d22188435fa42df8267b16b192ea6ad0b55b))
+
+
+### Performance Improvements
+
+* 在PerformanceObserver不支持时，通过performance.getEntriesByType('navigation')获取navigationTiming ([17e619d](https://github.com/clouDr-f2e/mitojs/commit/17e619dbef1903741c86784d93be0a126c1f8d9c))
+
+
+
 ## [2.1.17](https://github.com/clouDr-f2e/mitojs/compare/v2.1.16...v2.1.17) (2021-06-25)
 
 
@@ -28,7 +42,6 @@
 
 ### Features
 
-* **web-performance:** add version types files ([7bf3d4d](https://github.com/clouDr-f2e/mitojs/commit/7bf3d4dc920069822254c031ed87ea411a0703f8))
 * add device code ([a837362](https://github.com/clouDr-f2e/mitojs/commit/a83736209175835128a30c1ccb75f1da171fd157))
 * add fps code ([f7cd37b](https://github.com/clouDr-f2e/mitojs/commit/f7cd37bd057986b242c1a51ea0972445c4172521))
 * add network info ([bed9a3a](https://github.com/clouDr-f2e/mitojs/commit/bed9a3a0ec61c0f3bb0d1351b81d5a4ee7276451))
@@ -40,6 +53,7 @@
 * update navigationTiming ([3593cf6](https://github.com/clouDr-f2e/mitojs/commit/3593cf6d12c2b88b6ffe339a7cc4532b1150370b))
 * update navigationTiming ([1044aec](https://github.com/clouDr-f2e/mitojs/commit/1044aec8a4d738b4bcd402164a680f7c530bd567))
 * web-performance ([8fd47d8](https://github.com/clouDr-f2e/mitojs/commit/8fd47d8583a2066f653adc58255b9e4e0c5ec7fe))
+* **web-performance:** add version types files ([7bf3d4d](https://github.com/clouDr-f2e/mitojs/commit/7bf3d4dc920069822254c031ed87ea411a0703f8))
 
 
 
@@ -92,6 +106,7 @@
 
 ### Features
 
+* **wxmini:** 处理小程序onUnhandledRejection ([e28bfda](https://github.com/clouDr-f2e/mitojs/commit/e28bfdabf0ec66987966ac42186b9c3738934608))
 * **wx:** 优化request代码 ([2dd4ebc](https://github.com/clouDr-f2e/mitojs/commit/2dd4ebcd0ce8b312ff5ce0d0c34fb3eaf5e6d46f))
 * **wx:** 优化touchmove上报逻辑，添加节流控制 ([582348d](https://github.com/clouDr-f2e/mitojs/commit/582348d6e2890830c281a0af6176ef8c492620fc))
 * **wx:** 修复onError是apply调用问题&getCurrentRoute问题 ([ceabd16](https://github.com/clouDr-f2e/mitojs/commit/ceabd16457b83db2d857a0a81f3b808b470211b0))
@@ -107,7 +122,6 @@
 * **wx:** 添加分享到朋友圈的tab点击 ([4facf65](https://github.com/clouDr-f2e/mitojs/commit/4facf651c697900f37f19aaeaab5c090212d36f1))
 * **wx:** 添加用户手势行为记录 ([ae8c573](https://github.com/clouDr-f2e/mitojs/commit/ae8c573e68e7cc7cf1d7895631e02679271edf86))
 * **wx:** 移除多余代码 ([0172f7e](https://github.com/clouDr-f2e/mitojs/commit/0172f7e24e274ac3a62e579f0bcac6eaf5cbb938))
-* **wxmini:** 处理小程序onUnhandledRejection ([e28bfda](https://github.com/clouDr-f2e/mitojs/commit/e28bfdabf0ec66987966ac42186b9c3738934608))
 
 
 
