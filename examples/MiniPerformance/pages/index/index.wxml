@@ -7,12 +7,12 @@
     <open-data type="userNickName"></open-data>
   </view>
   <view class="cell">
-    <button class="btn" type="primary" bindtap="onTap">
+    <button id="click-btn" class="btn" type="primary" bindtap="onTap">
       点击
     </button>
   </view>
   <view class="cell">
-    <button class="btn" type="primary" bindtap="onNavigate">
+    <button id="navigate-btn" class="btn" type="primary" bindtap="onNavigate">
       跳转
     </button>
   </view>
@@ -22,12 +22,12 @@
     </button>
   </view>
   <view class="cell">
-    <button class="btn" id="click-file-btn" type="primary" data-click="on-down-file" bindtap="onTapDownFile">
+    <button class="btn" id="click-down-file-btn" type="primary" data-click="on-down-file" bindtap="onTapDownFile">
       下载文件
     </button>
   </view>
   <view class="cell">
-    <button class="btn" id="click-file-btn" type="primary" data-click="on-down-file" bindtap="onTapUploadFile">
+    <button class="btn" id="click-up-file-btn" type="primary" data-click="on-down-file" bindtap="onTapUploadFile">
       上传文件
     </button>
   </view>
