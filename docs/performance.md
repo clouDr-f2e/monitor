@@ -119,6 +119,10 @@ const home = () => {
       customContentfulPaint()
     })
   }, [])
+
+  return <div>
+    home
+  </div>
 }
 ```
 
