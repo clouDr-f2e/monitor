@@ -2,6 +2,7 @@ import { replaceOld, isEmptyObject } from '@mitojs/utils'
 import Store from '../core/store'
 import HandleEvents from './handleEvents'
 import { WxPerformanceItemType, WxListenerTypes } from '../constant'
+import { WxPerformanceAnyObj } from '../types/index'
 
 export function replaceApp(store: Store) {
   if (App) {
@@ -150,11 +151,13 @@ export function replaceNetwork(store: Store) {
           case 'downloadFile':
           case 'uploadFile':
             const { filePath } = options as WechatMiniprogram.DownloadFileOption | WechatMiniprogram.UploadFileOption
-            reqData = { ...reqData, filePath }
+            reqData = { ...reqData, filePath, method: hook === 'downloadFile' ? 'GET' : 'POST' }
             break
           default:
             break
         }
+
+        console.log('reqData = ', reqData)
 
         const originFail = options.fail
         const _fail:

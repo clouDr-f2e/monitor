@@ -2,6 +2,7 @@ import Store from '../core/store'
 import { WxPerformanceDataType, WxPerformanceItemType } from '../constant'
 import HandleEvents from './handleEvents'
 import { replaceApp, replaceComponent, replaceNetwork, replacePage } from './replace'
+import { WxPerformanceItem } from '../types/index'
 
 // 内存警告
 export function initMemoryWarning(store: Store, need: boolean) {

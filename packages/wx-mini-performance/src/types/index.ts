@@ -1,4 +1,4 @@
-interface WxPerformanceInitOptions {
+export interface WxPerformanceInitOptions {
   /**
    * 应用标识
    */
@@ -41,9 +41,9 @@ interface WxPerformanceInitOptions {
   onAppHideReport?: boolean
 }
 
-type WxNetworkType = 'wifi' | '2g' | '3g' | '4g' | '5g' | 'unknown' | 'none'
+export type WxNetworkType = 'wifi' | '2g' | '3g' | '4g' | '5g' | 'unknown' | 'none'
 
-enum WxPerformanceDataType {
+export enum WxPerformanceDataType {
   MEMORY_WARNING = 'MEMORY_WARNING',
   WX_PERFORMANCE = 'WX_PERFORMANCE',
   WX_NETWORK = 'WX_NETWORK',
@@ -51,7 +51,7 @@ enum WxPerformanceDataType {
   WX_USER_ACTION = 'WX_USER_ACTION'
 }
 
-enum WxPerformanceItemType {
+export enum WxPerformanceItemType {
   MemoryWarning = 'WxMemory',
   Performance = 'WxPerformance',
   Network = 'WxNetwork',
@@ -78,12 +78,12 @@ enum WxPerformanceItemType {
   WxCustomPaint = 'WxCustomPaint'
 }
 
-interface WxPerformanceAnyObj {
+export interface WxPerformanceAnyObj {
   [k: string]: any
 }
 
 // 内存警告
-interface WxPerformanceMemoryItem {
+export interface WxPerformanceMemoryItem {
   /** 内存告警等级，只有 Android 才有，对应系统宏定义
    *
    * 可选值：
@@ -94,7 +94,7 @@ interface WxPerformanceMemoryItem {
 }
 
 // performance类型
-interface WxPerformanceEntryObj {
+export interface WxPerformanceEntryObj {
   entryType?: 'navigation' | 'render' | 'script' // 	指标类型
   name?: 'route' | 'appLaunch' | 'firstRender' | 'evaluateScript' // 指标名称
   startTime?: number // 指标调用开始时间；appLaunch为点击图标的时间
@@ -105,7 +105,7 @@ interface WxPerformanceEntryObj {
 }
 
 // 网络类型
-interface WxPerformanceNetworkItem {
+export interface WxPerformanceNetworkItem {
   url?: string
   method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
   header?: WxPerformanceAnyObj
@@ -114,14 +114,15 @@ interface WxPerformanceNetworkItem {
   duration?: number
   status?: number
   errMsg?: string
+  filePath?: string
 }
 
-interface WxPerformanceItem extends WxPerformanceMemoryItem, WxPerformanceNetworkItem, WxPerformanceAnyObj {
+export interface WxPerformanceItem extends WxPerformanceMemoryItem, WxPerformanceNetworkItem, WxPerformanceAnyObj {
   itemType: WxPerformanceItemType
   timestamp?: number
 }
 
-interface WxPerformanceData {
+export interface WxPerformanceData {
   appId: string
   uuid: string
   deviceId: string
@@ -136,11 +137,4 @@ interface WxPerformanceData {
   item: null | WxPerformanceItem | Array<WxPerformanceItem>
 }
 
-interface MiniRoute {
-  from: string
-  to: string
-  isFail?: boolean
-  message?: string
-}
-
-type Listener = (...args: any[]) => void
+export type Listener = (...args: any[]) => void

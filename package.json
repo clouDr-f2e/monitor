@@ -13,6 +13,7 @@
     "unit": "jest --config jsdom.jest.config.ts",
     "test": " npm run unit && npm run e2e",
     "e2e:mini": "jest --runTestsByPath ./test/e2e/Mini/index.test.ts --detectOpenHandles --forceExit --config jest.config.ts",
+    "e2e:mini:performance": "jest --runTestsByPath ./test/e2e/MiniPerformance/index.test.ts --detectOpenHandles --forceExit --config jest.config.ts",
     "format": "prettier --write \"packages/**/*.ts?(x)\" && eslint --fix --ext .ts packages",
     "format:package": "prettier --write \"packages/**/package.json\"",
     "commit": "git add . && git cz",

@@ -2,6 +2,14 @@ import { noop, getPageUrl, getDeviceId } from '../utils'
 import { generateUUID, validateOption, toStringValidateOption } from '@mitojs/utils'
 import { WxPerformanceDataType, WxPerformanceItemType } from '../constant'
 import Event from './event'
+import {
+  WxPerformanceData,
+  WxPerformanceAnyObj,
+  WxPerformanceInitOptions,
+  WxNetworkType,
+  WxPerformanceItem,
+  WxPerformanceEntryObj
+} from '../types/index'
 
 class Store extends Event {
   appId: string
