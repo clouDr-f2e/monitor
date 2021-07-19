@@ -85,6 +85,7 @@ $ yarn add @mitojs/wx-mini
 * [vue接入指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md#Vue)
 * [react接入指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md#react)
 * [wx-mini接入指南](https://github.com/clouDr-f2e/mitojs/blob/master/docs/guide.md#微信小程序)
+* [performance接入指南](https://github.com/clouDr-f2e/mitojs/blob/dev/docs/performance.md)
 
 
 ## hooks与配置项
