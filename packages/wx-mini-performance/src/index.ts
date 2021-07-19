@@ -2,6 +2,7 @@ import { isWxMiniEnv } from '@mitojs/utils'
 import { initBatteryInfo, initMemoryWarning, initNetworkInfo, initWxHideReport, initWxPerformance, initWxNetwork } from './wx/index'
 import Store from './core/store'
 import { version } from '../package.json'
+import { WxPerformanceInitOptions } from './types/index'
 
 class WxPerformance {
   appId: string
@@ -14,7 +15,6 @@ class WxPerformance {
     }
     const {
       appId,
-      version,
       report,
       immediately = true,
       ignoreUrl,

@@ -1,5 +1,6 @@
 import Store from '../core/store'
 import { WxPerformanceDataType, WxPerformanceItemType } from '../constant'
+import { WxPerformanceItem, WxPerformanceAnyObj } from '../types/index'
 
 function pushLife(store: Store, itemType: WxPerformanceItemType) {
   store.push(WxPerformanceDataType.WX_LIFE_STYLE, { itemType, timestamp: Date.now() })

@@ -1,3 +1,4 @@
+import { WxPerformanceItemType, Listener } from '../types/index'
 class Event {
   events: Map<WxPerformanceItemType | string, Array<Listener>>
   constructor() {
