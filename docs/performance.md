@@ -130,5 +130,6 @@ const home = () => {
 
 因为@mito/web-performance 中使用到了PerformanceObserver对象，所以在safari浏览器中不支持FP、FCP、LCP、FID指标的收集。
 
-
+## API文档
+https://github.com/clouDr-f2e/mitojs/tree/dev/packages/web-performance
 
