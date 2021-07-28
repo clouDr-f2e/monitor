@@ -36,6 +36,10 @@
 - [x] 支持Web性能监控 [@mitojs/web-performance](https://github.com/clouDr-f2e/mitojs/tree/master/packages/web-performance)
 - [x] 支持微信小程序性能监控 [@mitojs/wx-mini-performance](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini-performance)
 
+## 迁移
+
+为了更好的开源，将SDK迁到[新版mitojs地址](https://github.com/mitojs/mitojs)，将SDK迁到新的[MITO组织](https://github.com/mitojs)，后续会在这个组织里面开源前后端项目、docker私有化部署、saas服务等等，该项目下的监控SDK将不再由[原作者](https://github.com/cjinhuo)维护
+
 ## 安装
 
 ### web
