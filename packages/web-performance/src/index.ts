@@ -31,7 +31,7 @@ class WebVitals implements IWebVitals {
   private readonly _customPaintMetrics: string
 
   constructor(config: IConfig) {
-    const { appId, version, reportCallback, reportUri = null, immediately = false, customPaintMetrics = null } = config
+    const { appId, version, reportCallback, reportUri = null, immediately = false, customPaintMetrics = null, logFpsCount = 5 } = config
     this._customPaintMetrics = customPaintMetrics
 
     const sectionId = generateUniqueID()
@@ -50,7 +50,7 @@ class WebVitals implements IWebVitals {
       initFCP(metricsStore, reporter, immediately)
       initFID(metricsStore, reporter, immediately)
       initLCP(metricsStore, reporter, immediately)
-      initFPS(metricsStore, reporter, immediately)
+      initFPS(metricsStore, reporter, logFpsCount, immediately)
     })
 
     // if immediately is false,report metrics when visibility and unload

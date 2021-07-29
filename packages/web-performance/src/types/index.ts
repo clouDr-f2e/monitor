@@ -5,6 +5,7 @@ export interface IConfig {
   reportUri?: string
   immediately: boolean
   customPaintMetrics?: string
+  logFpsCount?: number
 }
 
 export interface IPerformanceNavigationTiming {

@@ -8,17 +8,18 @@ import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 import calculateFps from '../lib/calculateFps'
 
-const getFPS = (): Promise<number> => {
-  return calculateFps(5)
+const getFPS = (logFpsCount: number): Promise<number> => {
+  return calculateFps(logFpsCount)
 }
 
 /**
  * @param {metricsStore} store
  * @param {Function} report
+ * @param {number} logFpsCount
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initFPS = (store: metricsStore, report: IReportHandler, immediately = true): void => {
-  getFPS().then((fps: number) => {
+export const initFPS = (store: metricsStore, report: IReportHandler, logFpsCount: number, immediately = true): void => {
+  getFPS(logFpsCount).then((fps: number) => {
     const metrics = { name: metricsName.FPS, value: fps }
 
     if (immediately) {
