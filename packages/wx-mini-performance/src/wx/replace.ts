@@ -157,8 +157,6 @@ export function replaceNetwork(store: Store) {
             break
         }
 
-        console.log('reqData = ', reqData)
-
         const originFail = options.fail
         const _fail:
           | WechatMiniprogram.RequestFailCallback
