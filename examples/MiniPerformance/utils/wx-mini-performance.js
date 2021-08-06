@@ -738,7 +738,6 @@ function replaceNetwork(store) {
             reqData = __assign(__assign({}, reqData), { filePath: filePath, method: hook === 'downloadFile' ? 'GET' : 'POST' })
             break
         }
-        console.log('reqData = ', reqData)
         var originFail = options.fail
         var _fail = function (err) {
           var endTime = Date.now()
