@@ -17,8 +17,7 @@
     "paths": {
       // 指定模块的路径，和baseUrl有关联
       "@mitojs/*": ["packages/*/src/"],
-      "@/test/*": ["test/*"],
-      "@zyf2e/monitor-(.*)": ["packages/*/src/"]
+      "@/test/*": ["test/*"]
     },
     "types": ["node", "jest", "wechat-miniprogram", "puppeteer"],
     "target": "ES5", // 编译成什么版本
