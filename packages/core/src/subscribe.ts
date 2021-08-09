@@ -1,5 +1,5 @@
-import { EVENTTYPES, WxEvents } from '@mitojs/shared'
-import { getFlag, getFunctionName, logger, nativeTryCatch, setFlag } from '@mitojs/utils'
+import { EVENTTYPES, WxEvents } from '@zyf2e/monitor-shared'
+import { getFlag, getFunctionName, logger, nativeTryCatch, setFlag } from '@zyf2e/monitor-utils'
 export interface ReplaceHandler {
   type: EVENTTYPES | WxEvents
   callback: ReplaceCallback

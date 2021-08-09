@@ -1,4 +1,4 @@
-import { fromHttpStatus, SpanStatus } from '@mitojs/utils'
+import { fromHttpStatus, SpanStatus } from '@zyf2e/monitor-utils'
 
 describe('httpStatus.ts', () => {
   it('should fromHttpStatus func work', () => {

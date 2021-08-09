@@ -1,5 +1,5 @@
 {
-  "name": "@mitojs/browser",
+  "name": "@zyf2e/monitor-browser",
   "version": "2.1.18",
   "description": "A SDK For Monitoring Browser Errors",
   "author": "cjinhuo",
@@ -11,10 +11,10 @@
     "dist"
   ],
   "dependencies": {
-    "@mitojs/utils": "2.1.18",
-    "@mitojs/core": "2.1.18",
-    "@mitojs/shared": "2.1.18",
-    "@mitojs/types": "2.1.18"
+    "@zyf2e/monitor-utils": "2.1.18",
+    "@zyf2e/monitor-core": "2.1.18",
+    "@zyf2e/monitor-shared": "2.1.18",
+    "@zyf2e/monitor-types": "2.1.18"
   },
   "buildOptions": {
     "formats": [

@@ -1,5 +1,5 @@
-import { IAnyObject, IntegrationError } from '@mitojs/types'
-import { globalVar, HTTP_CODE, ERRORTYPES } from '@mitojs/shared'
+import { IAnyObject, IntegrationError } from '@zyf2e/monitor-types'
+import { globalVar, HTTP_CODE, ERRORTYPES } from '@zyf2e/monitor-shared'
 import { logger } from './logger'
 import { nativeToString, variableTypeDetection } from './is'
 

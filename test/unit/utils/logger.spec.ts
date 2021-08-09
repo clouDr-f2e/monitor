@@ -1,4 +1,4 @@
-import { logger } from '@mitojs/utils'
+import { logger } from '@zyf2e/monitor-utils'
 
 describe('logger.ts', () => {
   it('should logger config enabled can take effect', () => {

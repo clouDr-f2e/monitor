@@ -1,8 +1,8 @@
-import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue, isEmpty } from '@mitojs/utils'
+import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue, isEmpty } from '@zyf2e/monitor-utils'
 import { createErrorId } from './errorId'
-import { SDK_NAME, SDK_VERSION } from '@mitojs/shared'
+import { SDK_NAME, SDK_VERSION } from '@zyf2e/monitor-shared'
 import { breadcrumb } from './breadcrumb'
-import { AuthInfo, TransportDataType, EMethods, InitOptions, isReportDataType, DeviceInfo, FinalReportType } from '@mitojs/types'
+import { AuthInfo, TransportDataType, EMethods, InitOptions, isReportDataType, DeviceInfo, FinalReportType } from '@zyf2e/monitor-types'
 /**
  * 用来传输数据类，包含img标签、xhr请求
  * 功能：支持img请求和xhr请求、可以断点续存（保存在localstorage），

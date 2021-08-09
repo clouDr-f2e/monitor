@@ -1,6 +1,6 @@
-import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '@mitojs/shared'
-import { logger, validateOption, getTimestamp, slientConsoleScope, _support } from '@mitojs/utils'
-import { BreadcrumbPushData, InitOptions } from '@mitojs/types'
+import { BREADCRUMBTYPES, BREADCRUMBCATEGORYS } from '@zyf2e/monitor-shared'
+import { logger, validateOption, getTimestamp, slientConsoleScope, _support } from '@zyf2e/monitor-utils'
+import { BreadcrumbPushData, InitOptions } from '@zyf2e/monitor-types'
 
 export class Breadcrumb {
   maxBreadcrumbs = 10

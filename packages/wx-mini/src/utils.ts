@@ -1,5 +1,5 @@
-import { setUrlQuery, variableTypeDetection } from '@mitojs/utils'
-import { DeviceInfo } from '@mitojs/types'
+import { setUrlQuery, variableTypeDetection } from '@zyf2e/monitor-utils'
+import { DeviceInfo } from '@zyf2e/monitor-types'
 
 /**
  * 后退时需要计算当前页面地址

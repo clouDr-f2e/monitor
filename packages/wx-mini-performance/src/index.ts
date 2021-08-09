@@ -1,4 +1,4 @@
-import { isWxMiniEnv } from '@mitojs/utils'
+import { isWxMiniEnv } from '@zyf2e/monitor-utils'
 import { initBatteryInfo, initMemoryWarning, initNetworkInfo, initWxHideReport, initWxPerformance, initWxNetwork } from './wx/index'
 import Store from './core/store'
 import { version } from '../package.json'

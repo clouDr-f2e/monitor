@@ -29,14 +29,14 @@
 
 **一般来说，在网络情况都正常的情况下，提高FCP最直接的办法是在html中加入base64图片的骨架屏。当然要确保整个html不要大于14kb([原因](https://developer.mozilla.org/zh-CN/docs/Web/Performance/How_browsers_work#tcp_%E6%85%A2%E5%BC%80%E5%A7%8B_14kb_%E8%A7%84%E5%88%99))**
 
-## 如何使用 @mitojs/web-performance 收集指标
+## 如何使用 @zyf2e/monitor-web-performance 收集指标
 
 ### 安装
 
 #### 使用npm
 
 ```bash
-npm i @mitojs/web-performance
+npm i @zyf2e/monitor-web-performance
 ```
 
 ### 使用cdn
@@ -50,7 +50,7 @@ npm i @mitojs/web-performance
 ```javascript
 // performance.js
 // main.js 引入
-import {WebVitals} from '@mitojs/web-performance'
+import {WebVitals} from '@zyf2e/monitor-web-performance'
 
 const wv = new WebVitals({
   appId: 'allen-performance',

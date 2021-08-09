@@ -1,7 +1,7 @@
 {
-  "name": "@mitojs/shared",
-  "version": "2.1.18",
-  "description": "@mitojs/shared",
+  "name": "@zyf2e/monitor-shared",
+  "version": "2.1.19",
+  "description": "@zyf2e/monitor-shared",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/shared.js",

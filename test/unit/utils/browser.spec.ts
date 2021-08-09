@@ -1,4 +1,4 @@
-import { extractErrorStack, htmlElementAsString, parseUrlToObj, Severity } from '@mitojs/utils'
+import { extractErrorStack, htmlElementAsString, parseUrlToObj, Severity } from '@zyf2e/monitor-utils'
 
 describe('browser.ts', () => {
   describe('htmlElementAsString function', () => {
@@ -31,7 +31,7 @@ describe('browser.ts', () => {
   it('should extractErrorStack func work parsed on object Error ', () => {
     try {
       const a = 6
-      const b = (a as unknown) as String
+      const b = a as unknown as String
       b.split(',')
     } catch (error) {
       const level = Severity.Normal

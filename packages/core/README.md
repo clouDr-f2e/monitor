@@ -1,4 +1,4 @@
-# @mitojs/core
+# @zyf2e/monitor-core
 
 给`@mitojs`提供一系列的核心类与函数
 

@@ -1,8 +1,8 @@
-import { EVENTTYPES, WxEvents } from '@mitojs/shared'
-import { Breadcrumb, TransportData, Options } from '@mitojs/core'
+import { EVENTTYPES, WxEvents } from '@zyf2e/monitor-shared'
+import { Breadcrumb, TransportData, Options } from '@zyf2e/monitor-core'
 import { Logger } from './logger'
 import { variableTypeDetection } from './is'
-import { DeviceInfo } from '@mitojs/types'
+import { DeviceInfo } from '@zyf2e/monitor-types'
 
 // MITO的全局变量
 export interface MitoSupport {

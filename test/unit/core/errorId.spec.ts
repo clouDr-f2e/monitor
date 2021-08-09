@@ -1,7 +1,7 @@
-import { ERRORTYPES } from '@mitojs/shared'
-import { createErrorId, getFlutterRealOrigin, getFlutterRealPath, getRealPageOrigin, getRealPath } from '@mitojs/core'
-import { ReportDataType } from '@mitojs/types'
-import { isWxMiniEnv, Severity } from '@mitojs/utils'
+import { ERRORTYPES } from '@zyf2e/monitor-shared'
+import { createErrorId, getFlutterRealOrigin, getFlutterRealPath, getRealPageOrigin, getRealPath } from '@zyf2e/monitor-core'
+import { ReportDataType } from '@zyf2e/monitor-types'
+import { isWxMiniEnv, Severity } from '@zyf2e/monitor-utils'
 
 describe('errorId.ts', () => {
   const apikey = '13213-1231-1231'

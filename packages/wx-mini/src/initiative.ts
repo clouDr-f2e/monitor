@@ -1,6 +1,6 @@
-import { EActionType, ITrackBaseParam, TrackReportData } from '@mitojs/types'
-import { transportData } from '@mitojs/core'
-import { generateUUID, getTimestamp } from '@mitojs/utils'
+import { EActionType, ITrackBaseParam, TrackReportData } from '@zyf2e/monitor-types'
+import { transportData } from '@zyf2e/monitor-core'
+import { generateUUID, getTimestamp } from '@zyf2e/monitor-utils'
 
 export function track(actionType: EActionType, param: ITrackBaseParam) {
   const data = {

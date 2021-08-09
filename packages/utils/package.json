@@ -1,7 +1,7 @@
 {
-  "name": "@mitojs/utils",
-  "version": "2.1.18",
-  "description": "@mitojs/utils",
+  "name": "@zyf2e/monitor-utils",
+  "version": "2.1.19",
+  "description": "@zyf2e/monitor-utils",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/utils.js",
@@ -11,9 +11,9 @@
     "dist"
   ],
   "dependencies": {
-    "@mitojs/core": "2.1.18",
-    "@mitojs/browser": "2.1.18",
-    "@mitojs/shared": "2.1.18",
-    "@mitojs/types": "2.1.18"
+    "@zyf2e/monitor-core": "2.1.18",
+    "@zyf2e/monitor-browser": "2.1.18",
+    "@zyf2e/monitor-shared": "2.1.18",
+    "@zyf2e/monitor-types": "2.1.18"
   }
 }

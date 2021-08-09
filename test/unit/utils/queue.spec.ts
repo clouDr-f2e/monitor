@@ -1,4 +1,4 @@
-import { Queue } from '@mitojs/utils'
+import { Queue } from '@zyf2e/monitor-utils'
 
 describe('queue.ts', () => {
   it('should queue class work', (done) => {

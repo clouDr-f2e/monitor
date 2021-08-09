@@ -30,11 +30,11 @@
 - [x] 👌持续迭代与更新
 - [x] 完善的浏览器e2e和微信小程序e2e
 - [x] 完善的单元测试（77%~coding）
-- [x] 支持原生Web [@mitojs/browser](https://github.com/clouDr-f2e/mitojs/tree/master/packages/browser)
-- [x] 支持Web框架（Vue3、Vue2、React@Next） [@mitojs/web](https://github.com/clouDr-f2e/mitojs/tree/master/packages/web)
-- [x] 支持原生微信小程序、支持uni-app等微信小程序框架 [@mitojs/wx-mini](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini)
-- [x] 支持Web性能监控 [@mitojs/web-performance](https://github.com/clouDr-f2e/mitojs/tree/master/packages/web-performance)
-- [x] 支持微信小程序性能监控 [@mitojs/wx-mini-performance](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini-performance)
+- [x] 支持原生Web [@zyf2e/monitor-browser](https://github.com/clouDr-f2e/mitojs/tree/master/packages/browser)
+- [x] 支持Web框架（Vue3、Vue2、React@Next） [@zyf2e/monitor-web](https://github.com/clouDr-f2e/mitojs/tree/master/packages/web)
+- [x] 支持原生微信小程序、支持uni-app等微信小程序框架 [@zyf2e/monitor-wx-mini](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini)
+- [x] 支持Web性能监控 [@zyf2e/monitor-web-performance](https://github.com/clouDr-f2e/mitojs/tree/master/packages/web-performance)
+- [x] 支持微信小程序性能监控 [@zyf2e/monitor-wx-mini-performance](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini-performance)
 
 ## 迁移
 
@@ -47,13 +47,13 @@
 #### 使用npm
 
 ```bash
-$ npm i @mitojs/web
+$ npm i @zyf2e/monitor-web
 ```
 
 ### 使用yarn
 
 ```bash
-$ yarn add @mitojs/web
+$ yarn add @zyf2e/monitor-web
 ```
 
 #### 使用CDN
@@ -67,13 +67,13 @@ $ yarn add @mitojs/web
 #### 使用npm
 
 ```bash
-$ npm i @mitojs/wx-mini
+$ npm i @zyf2e/monitor-wx-mini
 ```
 
 ### 使用yarn
 
 ```bash
-$ yarn add @mitojs/wx-mini
+$ yarn add @zyf2e/monitor-wx-mini
 ```
 
 #### 使用CDN

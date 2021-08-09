@@ -1,4 +1,4 @@
-import { ERRORTYPES, globalVar } from '@mitojs/shared'
+import { ERRORTYPES, globalVar } from '@zyf2e/monitor-shared'
 import {
   defaultFunctionName,
   generateUUID,
@@ -16,7 +16,7 @@ import {
   typeofAny,
   unknownToString,
   validateOption
-} from '@mitojs/utils'
+} from '@zyf2e/monitor-utils'
 
 describe('helper.ts', () => {
   it('should getLocationHref func work', () => {

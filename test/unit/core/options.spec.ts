@@ -1,5 +1,5 @@
-import { options, setTraceId } from '@mitojs/core'
-import { _support } from '@mitojs/utils'
+import { options, setTraceId } from '@zyf2e/monitor-core'
+import { _support } from '@zyf2e/monitor-utils'
 
 describe('options.ts', () => {
   it('should setTraceId func work', () => {

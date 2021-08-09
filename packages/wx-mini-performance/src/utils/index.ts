@@ -1,4 +1,4 @@
-import { setUrlQuery, variableTypeDetection, generateUUID } from '@mitojs/utils'
+import { setUrlQuery, variableTypeDetection, generateUUID } from '@zyf2e/monitor-utils'
 import { STORAGE_KEY } from '../constant'
 
 export function noop() {}

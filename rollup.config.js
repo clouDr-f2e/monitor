@@ -33,7 +33,8 @@ const paths = {}
 packageDirs.forEach((dir) => {
   // filter hidden files
   if (dir.startsWith('.')) return
-  paths[`${M}/${dir}`] = [`${packagesDir}/${dir}/src`]
+  // paths[`${M}/${dir}`] = [`${packagesDir}/${dir}/src`]
+  paths[`@zyf2e/monitor-${dir}`] = [`${packagesDir}/${dir}/src`]
 })
 
 const common = {

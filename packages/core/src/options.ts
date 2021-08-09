@@ -1,5 +1,5 @@
-import { InitOptions } from '@mitojs/types'
-import { generateUUID, toStringValidateOption, validateOption, _support, setSilentFlag, logger } from '@mitojs/utils'
+import { InitOptions } from '@zyf2e/monitor-types'
+import { generateUUID, toStringValidateOption, validateOption, _support, setSilentFlag, logger } from '@zyf2e/monitor-utils'
 import { breadcrumb } from './breadcrumb'
 import { transportData } from './transportData'
 export class Options {

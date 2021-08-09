@@ -1,7 +1,7 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES } from '@mitojs/shared'
-import { breadcrumb } from '@mitojs/core'
-import { BreadcrumbPushData } from '@mitojs/types'
-import { Severity } from '@mitojs/utils'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES } from '@zyf2e/monitor-shared'
+import { breadcrumb } from '@zyf2e/monitor-core'
+import { BreadcrumbPushData } from '@zyf2e/monitor-types'
+import { Severity } from '@zyf2e/monitor-utils'
 
 describe('breadcrumb.ts', () => {
   beforeAll(() => {

@@ -1,4 +1,4 @@
-import { Breadcrumb } from '@mitojs/core'
+import { Breadcrumb } from '@zyf2e/monitor-core'
 import { BreadcrumbPushData } from './breadcrumb'
 import { TransportDataType } from './transportData'
 type CANCEL = null | undefined | boolean

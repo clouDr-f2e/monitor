@@ -13,20 +13,20 @@
 ### 自定义完成时
 
 
-在真实的业务场景中，业务渲染成功后，我们页面首屏接口还未完成，需要自定义完成首屏的时间，在@mitojs/wx-mini-performance中你只需要简单的调用一下即可
+在真实的业务场景中，业务渲染成功后，我们页面首屏接口还未完成，需要自定义完成首屏的时间，在@zyf2e/monitor-wx-mini-performance中你只需要简单的调用一下即可
 
 ```javascript
 wxPerformance.customPaint()
 ```
 
-## 如何使用@mitojs/wx-mini-performance
+## 如何使用@zyf2e/monitor-wx-mini-performance
 
 ### 安装
 
 #### 使用npm
 
 ```bash
-npm i @mitojs/wx-mini-performance
+npm i @zyf2e/monitor-wx-mini-performance
 ```
 
 ### 使用cdn

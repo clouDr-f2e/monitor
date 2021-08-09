@@ -1,4 +1,4 @@
-# @mitojs/wx-mini
+# @zyf2e/monitor-wx-mini
 
 ### 微信小程序
 

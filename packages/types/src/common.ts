@@ -1,4 +1,4 @@
-import { HTTPTYPE } from '@mitojs/shared'
+import { HTTPTYPE } from '@zyf2e/monitor-shared'
 
 export interface IAnyObject {
   [key: string]: any

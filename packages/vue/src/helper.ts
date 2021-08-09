@@ -1,8 +1,8 @@
-import { getBigVersion, getLocationHref, getTimestamp, variableTypeDetection, Severity } from '@mitojs/utils'
-import { ERRORTYPES, BREADCRUMBTYPES } from '@mitojs/shared'
+import { getBigVersion, getLocationHref, getTimestamp, variableTypeDetection, Severity } from '@zyf2e/monitor-utils'
+import { ERRORTYPES, BREADCRUMBTYPES } from '@zyf2e/monitor-shared'
 import { ViewModel, VueInstance } from './types'
-import { breadcrumb, transportData } from '@mitojs/core'
-import { ReportDataType } from '@mitojs/types'
+import { breadcrumb, transportData } from '@zyf2e/monitor-core'
+import { ReportDataType } from '@zyf2e/monitor-types'
 
 export function handleVueError(
   err: Error,

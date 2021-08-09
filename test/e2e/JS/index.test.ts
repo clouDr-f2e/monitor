@@ -1,7 +1,7 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE, SDK_NAME, SDK_VERSION } from '@mitojs/shared'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, HTTPTYPE, SDK_NAME, SDK_VERSION } from '@zyf2e/monitor-shared'
 import puppeteer from 'puppeteer'
-import { BreadcrumbPushData, EMethods, ReportDataType, TransportDataType } from '@mitojs/types'
-import { SpanStatus, Severity } from '@mitojs/utils'
+import { BreadcrumbPushData, EMethods, ReportDataType, TransportDataType } from '@zyf2e/monitor-types'
+import { SpanStatus, Severity } from '@zyf2e/monitor-utils'
 import { ServerUrls } from '../../../examples/server/config'
 import { jsUrl } from '@/test/config'
 

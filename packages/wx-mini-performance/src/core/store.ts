@@ -1,5 +1,5 @@
 import { noop, getPageUrl, getDeviceId } from '../utils'
-import { generateUUID, validateOption, toStringValidateOption } from '@mitojs/utils'
+import { generateUUID, validateOption, toStringValidateOption } from '@zyf2e/monitor-utils'
 import { WxPerformanceDataType, WxPerformanceItemType } from '../constant'
 import Event from './event'
 import {

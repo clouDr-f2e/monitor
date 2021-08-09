@@ -1,5 +1,5 @@
-import { EVENTTYPES } from '@mitojs/shared'
-import { subscribeEvent, triggerHandlers } from '@mitojs/core'
+import { EVENTTYPES } from '@zyf2e/monitor-shared'
+import { subscribeEvent, triggerHandlers } from '@zyf2e/monitor-core'
 
 describe('subscribe.ts', () => {
   it('should subscribe work', () => {

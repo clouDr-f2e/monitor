@@ -1,6 +1,6 @@
-import { BREADCRUMBTYPES, ERRORTYPES } from '@mitojs/shared'
-import { breadcrumb, handleConsole, httpTransform, transportData, options as sdkOptions } from '@mitojs/core'
-import { ReportDataType, Replace, MITOHttp } from '@mitojs/types'
+import { BREADCRUMBTYPES, ERRORTYPES } from '@zyf2e/monitor-shared'
+import { breadcrumb, handleConsole, httpTransform, transportData, options as sdkOptions } from '@zyf2e/monitor-core'
+import { ReportDataType, Replace, MITOHttp } from '@zyf2e/monitor-types'
 import {
   extractErrorStack,
   getCurrentRoute,
@@ -9,9 +9,9 @@ import {
   isHttpFail,
   parseErrorString,
   unknownToString,
-  _support
-} from '@mitojs/utils'
-import { Severity } from '@mitojs/utils'
+  _support,
+  Severity
+} from '@zyf2e/monitor-utils'
 import { getWxMiniDeviceInfo, targetAsString } from './utils'
 import { MiniRoute, WxLifeCycleBreadcrumb, WxOnShareAppMessageBreadcrumb, WxOnTabItemTapBreadcrumb } from './types'
 import { ELinstenerTypes } from './constant'

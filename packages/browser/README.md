@@ -1,4 +1,4 @@
-# @mitojs/browser
+# @zyf2e/monitor-browser
 
 - [x] 🔨监听请求错误
 - [x] 🔨console

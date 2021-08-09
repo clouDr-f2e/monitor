@@ -1,6 +1,6 @@
-import { BREADCRUMBTYPES, ERRORTYPES, globalVar } from '@mitojs/shared'
-import { getLocationHref, getTimestamp, Severity, fromHttpStatus, SpanStatus, interceptStr } from '@mitojs/utils'
-import { ReportDataType, MITOHttp, Replace, ResourceErrorTarget } from '@mitojs/types'
+import { BREADCRUMBTYPES, ERRORTYPES, globalVar } from '@zyf2e/monitor-shared'
+import { getLocationHref, getTimestamp, Severity, fromHttpStatus, SpanStatus, interceptStr } from '@zyf2e/monitor-utils'
+import { ReportDataType, MITOHttp, Replace, ResourceErrorTarget } from '@zyf2e/monitor-types'
 import { getRealPath } from './errorId'
 import { breadcrumb } from './breadcrumb'
 
