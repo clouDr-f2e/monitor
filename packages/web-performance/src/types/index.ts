@@ -15,6 +15,9 @@ export interface IPerformanceNavigationTiming {
   ttfb?: number
   contentDownload?: number
   domParse?: number
+  deferExecuteDuration?: number
+  domContentLoadedCallback?: number
+  resourceLoad?: number
   domReady?: number
   pageLoad?: number
 }
