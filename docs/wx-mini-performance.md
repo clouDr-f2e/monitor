@@ -62,7 +62,7 @@ const wxPerformance = new MITO.WxPerformance({
 
 ## 兼容性
 
-因为@mito/mini-performance 中使用到了wx.getPerformance()。所以小程序基础库 2.11.0 开始支持，低版本需做兼容处理。
+因为@zyf2e/monitor-mini-performance 中使用到了wx.getPerformance()。所以小程序基础库 2.11.0 开始支持，低版本需做兼容处理。
 
 ## API文档
 https://github.com/clouDr-f2e/mitojs/tree/dev/packages/mini-performance

@@ -27,7 +27,7 @@ const name = path.basename(packageDir)
 // const pathResolve = (p) => path.resolve(packageDir, p)
 
 // major name
-const M = '@mitojs'
+const M = '@zyf2e/monitor'
 const packageDirs = fs.readdirSync(packagesDir)
 const paths = {}
 packageDirs.forEach((dir) => {
@@ -40,7 +40,7 @@ packageDirs.forEach((dir) => {
 const common = {
   input: `${packageDir}/src/index.ts`,
   output: {
-    banner: `/* ${M}/${name} version ' + ${masterVersion} */`,
+    banner: `/* ${M}-${name} version ' + ${masterVersion} */`,
     footer: '/* follow me on Github! @cjinhuo */'
   },
   external: [...Object.keys(paths)],
