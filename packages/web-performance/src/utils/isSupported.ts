@@ -1,11 +1,11 @@
 export const isPerformanceSupported = (): boolean => {
-  return !!performance && !!performance.getEntriesByType && !!performance.mark
+  return !!window.performance && !!window.performance.getEntriesByType && !!window.performance.mark
 }
 
 export const isPerformanceObserverSupported = (): boolean => {
-  return !!PerformanceObserver
+  return !!window.PerformanceObserver
 }
 
 export const isNavigatorSupported = (): boolean => {
-  return !!navigator
+  return !!window.navigator
 }
