@@ -4,7 +4,7 @@
     </a>
     <p>一款轻量级的收集页面的用户点击行为、路由跳转、接口报错、代码报错、并上报服务端的SDK</p>
 
-[![npm version](https://img.shields.io/npm/v/@mitojs/web.svg?style=flat-square)](https://www.npmjs.com/package/@mitojs/web)
+[![npm version](https://img.shields.io/npm/v/@mitojs/web.svg?style=flat-square)](https://www.npmjs.com/package/@zyf2e/monitor-web)
 [![license](https://img.shields.io/github/license/clouDr-f2e/mitojs)](https://github.com/clouDr-f2e/mitojs/blob/dev/LICENSE)
 [![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![GitHub last commit](https://img.shields.io/github/last-commit/clouDr-f2e/mitojs.svg?style=flat-square)](https://github.com/clouDr-f2e/mitojs/commits/master)
@@ -35,10 +35,6 @@
 - [x] 支持原生微信小程序、支持uni-app等微信小程序框架 [@zyf2e/monitor-wx-mini](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini)
 - [x] 支持Web性能监控 [@zyf2e/monitor-web-performance](https://github.com/clouDr-f2e/mitojs/tree/master/packages/web-performance)
 - [x] 支持微信小程序性能监控 [@zyf2e/monitor-wx-mini-performance](https://github.com/clouDr-f2e/mitojs/tree/master/packages/wx-mini-performance)
-
-## 迁移
-
-为了更好的开源，将SDK迁到[新版mitojs地址](https://github.com/mitojs/mitojs)，将SDK迁到新的[MITO组织](https://github.com/mitojs)，后续会在这个组织里面开源前后端项目、docker私有化部署、saas服务等等，该项目下的监控SDK将不再由[原作者](https://github.com/cjinhuo)维护
 
 ## 安装
 
