@@ -1241,6 +1241,71 @@
   dependencies:
     eslint-visitor-keys "^1.1.0"
 
+"@zyf2e/monitor-browser@2.1.18", "@zyf2e/monitor-browser@^2.1.18":
+  version "2.1.18"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-browser/-/monitor-browser-2.1.18.tgz#72bcd3c023e85eb7fc43a81e1a0f4445a47fdeb3"
+  integrity sha1-crzTwCPoXrf8Q6geGg9ERaR/3rM=
+  dependencies:
+    "@zyf2e/monitor-core" "2.1.18"
+    "@zyf2e/monitor-shared" "2.1.18"
+    "@zyf2e/monitor-types" "2.1.18"
+    "@zyf2e/monitor-utils" "2.1.18"
+
+"@zyf2e/monitor-core@2.1.18", "@zyf2e/monitor-core@^2.1.19":
+  version "2.1.19"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-core/-/monitor-core-2.1.19.tgz#5855d519ce3ebc2eb633268d7ac420b72cefb236"
+  integrity sha1-WFXVGc4+vC62MyaNesQgtyzvsjY=
+  dependencies:
+    "@zyf2e/monitor-core" "2.1.18"
+    "@zyf2e/monitor-shared" "2.1.18"
+    "@zyf2e/monitor-types" "2.1.18"
+    "@zyf2e/monitor-utils" "2.1.18"
+
+"@zyf2e/monitor-react@^2.1.19":
+  version "2.1.19"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-react/-/monitor-react-2.1.19.tgz#1ae72bd502a0ee75129d80df183701e7100f4f3b"
+  integrity sha1-Gucr1QKg7nUSnYDfGDcB5xAPTzs=
+  dependencies:
+    "@zyf2e/monitor-core" "2.1.18"
+    "@zyf2e/monitor-shared" "2.1.18"
+    "@zyf2e/monitor-utils" "2.1.18"
+
+"@zyf2e/monitor-shared@2.1.18", "@zyf2e/monitor-shared@^2.1.19":
+  version "2.1.19"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-shared/-/monitor-shared-2.1.19.tgz#c2ed76725f26ef61ed4d17f5ac0ead16592dc7d3"
+  integrity sha1-wu12cl8m72HtTRf1rA6tFlktx9M=
+
+"@zyf2e/monitor-types@2.1.18", "@zyf2e/monitor-types@^2.1.19":
+  version "2.1.19"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-types/-/monitor-types-2.1.19.tgz#f7e2ea19d8a5a9e0e2959769b36734148e7f2e87"
+  integrity sha1-9+LqGdilqeDilZdps2c0FI5/Loc=
+  dependencies:
+    "@types/wechat-miniprogram" "^3.1.0"
+    "@zyf2e/monitor-browser" "2.1.18"
+    "@zyf2e/monitor-core" "2.1.18"
+    "@zyf2e/monitor-shared" "2.1.18"
+    "@zyf2e/monitor-utils" "2.1.18"
+
+"@zyf2e/monitor-utils@2.1.18", "@zyf2e/monitor-utils@^2.1.19":
+  version "2.1.19"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-utils/-/monitor-utils-2.1.19.tgz#039b4eec7cb470ccbb5a5eb55ed5cb099905eb0b"
+  integrity sha1-A5tO7Hy0cMy7Wl61XtXLCZkF6ws=
+  dependencies:
+    "@zyf2e/monitor-browser" "2.1.18"
+    "@zyf2e/monitor-core" "2.1.18"
+    "@zyf2e/monitor-shared" "2.1.18"
+    "@zyf2e/monitor-types" "2.1.18"
+
+"@zyf2e/monitor-vue@^2.1.19":
+  version "2.1.19"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-vue/-/monitor-vue-2.1.19.tgz#e778267b5db1f82548f41852a963b3d79993c285"
+  integrity sha1-53gme12x+CVI9BhSqWOz15mTwoU=
+  dependencies:
+    "@zyf2e/monitor-core" "2.1.18"
+    "@zyf2e/monitor-shared" "2.1.18"
+    "@zyf2e/monitor-types" "2.1.18"
+    "@zyf2e/monitor-utils" "2.1.18"
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.npmjs.org/abab/-/abab-2.0.5.tgz"

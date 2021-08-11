@@ -11,10 +11,10 @@
     "dist"
   ],
   "dependencies": {
-    "@zyf2e/monitor-core": "2.1.18",
-    "@zyf2e/monitor-utils": "2.1.18",
-    "@zyf2e/monitor-shared": "2.1.18",
-    "@zyf2e/monitor-types": "2.1.18",
+    "@zyf2e/monitor-core": "2.1.19",
+    "@zyf2e/monitor-utils": "2.1.19",
+    "@zyf2e/monitor-shared": "2.1.19",
+    "@zyf2e/monitor-types": "2.1.19",
     "@types/wechat-miniprogram": "^3.1.0"
   }
 }

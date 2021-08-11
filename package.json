@@ -77,5 +77,14 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "@zyf2e/monitor-browser": "^2.1.18",
+    "@zyf2e/monitor-core": "^2.1.19",
+    "@zyf2e/monitor-react": "^2.1.19",
+    "@zyf2e/monitor-shared": "^2.1.19",
+    "@zyf2e/monitor-types": "^2.1.19",
+    "@zyf2e/monitor-utils": "^2.1.19",
+    "@zyf2e/monitor-vue": "^2.1.19"
   }
 }

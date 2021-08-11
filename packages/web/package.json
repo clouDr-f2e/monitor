@@ -11,8 +11,8 @@
     "dist"
   ],
   "dependencies": {
-    "@zyf2e/monitor-browser": "2.1.18",
-    "@zyf2e/monitor-react": "2.1.18",
-    "@zyf2e/monitor-vue": "2.1.18"
+    "@zyf2e/monitor-browser": "2.1.19",
+    "@zyf2e/monitor-react": "2.1.19",
+    "@zyf2e/monitor-vue": "2.1.19"
   }
 }
