@@ -1,5 +1,5 @@
 {
-  "name": "@mitojs/wx-mini",
+  "name": "@zyf2e/monitor-wx-mini",
   "version": "2.1.19",
   "description": "A SDK For Monitoring wx-mini Errors",
   "author": "cjinhuo",
@@ -11,10 +11,10 @@
     "dist"
   ],
   "dependencies": {
-    "@mitojs/core": "2.1.19",
-    "@mitojs/utils": "2.1.19",
-    "@mitojs/shared": "2.1.19",
-    "@mitojs/types": "2.1.19",
+    "@zyf2e/monitor-core": "2.1.19",
+    "@zyf2e/monitor-utils": "2.1.19",
+    "@zyf2e/monitor-shared": "2.1.19",
+    "@zyf2e/monitor-types": "2.1.19",
     "@types/wechat-miniprogram": "^3.1.0"
   }
 }

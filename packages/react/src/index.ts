@@ -1,7 +1,7 @@
-import { BREADCRUMBTYPES, ERRORTYPES } from '@mitojs/shared'
-import { isError, extractErrorStack, Severity } from '@mitojs/utils'
-import { breadcrumb, transportData } from '@mitojs/core'
-import { ReportDataType } from '@mitojs/types'
+import { BREADCRUMBTYPES, ERRORTYPES } from '@zyf2e/monitor-shared'
+import { isError, extractErrorStack, Severity } from '@zyf2e/monitor-utils'
+import { breadcrumb, transportData } from '@zyf2e/monitor-core'
+import { ReportDataType } from '@zyf2e/monitor-types'
 
 /**
  * 收集react ErrorBoundary中的错误对象

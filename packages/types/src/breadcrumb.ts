@@ -1,5 +1,5 @@
-import { Severity } from '@mitojs/utils'
-import { BREADCRUMBTYPES } from '@mitojs/shared'
+import { Severity } from '@zyf2e/monitor-utils'
+import { BREADCRUMBTYPES } from '@zyf2e/monitor-shared'
 import { ReportDataType } from './transportData'
 import { Replace } from './replace'
 import { TNumStrObj } from './common'

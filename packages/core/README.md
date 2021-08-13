@@ -1,6 +1,6 @@
-# @mitojs/core
+# @zyf2e/monitor-core
 
-给`@mitojs`提供一系列的核心类与函数
+给`@zyf2e/monitor`提供一系列的核心类与函数
 
 ### Breadcrumb
 收集用户行为

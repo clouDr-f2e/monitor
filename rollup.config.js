@@ -27,19 +27,20 @@ const name = path.basename(packageDir)
 // const pathResolve = (p) => path.resolve(packageDir, p)
 
 // major name
-const M = '@mitojs'
+const M = '@zyf2e/monitor'
 const packageDirs = fs.readdirSync(packagesDir)
 const paths = {}
 packageDirs.forEach((dir) => {
   // filter hidden files
   if (dir.startsWith('.')) return
-  paths[`${M}/${dir}`] = [`${packagesDir}/${dir}/src`]
+  // paths[`${M}/${dir}`] = [`${packagesDir}/${dir}/src`]
+  paths[`@zyf2e/monitor-${dir}`] = [`${packagesDir}/${dir}/src`]
 })
 
 const common = {
   input: `${packageDir}/src/index.ts`,
   output: {
-    banner: `/* ${M}/${name} version ' + ${masterVersion} */`,
+    banner: `/* ${M}-${name} version ' + ${masterVersion} */`,
     footer: '/* follow me on Github! @cjinhuo */'
   },
   external: [...Object.keys(paths)],

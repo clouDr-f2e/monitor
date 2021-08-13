@@ -1,4 +1,4 @@
-import { Severity } from '@mitojs/utils'
+import { Severity } from '@zyf2e/monitor-utils'
 
 describe('Severity.ts', () => {
   it('should fromString func work', () => {

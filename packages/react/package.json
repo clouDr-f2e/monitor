@@ -1,5 +1,5 @@
 {
-  "name": "@mitojs/react",
+  "name": "@zyf2e/monitor-react",
   "version": "2.1.19",
   "description": "A SDK For Report React ErrorBoundary",
   "author": "cjinhuo",
@@ -11,8 +11,8 @@
     "dist"
   ],
   "dependencies": {
-    "@mitojs/core": "2.1.19",
-    "@mitojs/utils": "2.1.19",
-    "@mitojs/shared": "2.1.19"
+    "@zyf2e/monitor-core": "2.1.19",
+    "@zyf2e/monitor-utils": "2.1.19",
+    "@zyf2e/monitor-shared": "2.1.19"
   }
 }

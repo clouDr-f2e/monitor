@@ -1,7 +1,7 @@
 {
-  "name": "@mitojs/types",
+  "name": "@zyf2e/monitor-types",
   "version": "2.1.19",
-  "description": "@mitojs/types",
+  "description": "@zyf2e/monitor-types",
   "author": "cjinhuo",
   "license": "MIT",
   "main": "dist/types.js",
@@ -11,10 +11,10 @@
     "dist"
   ],
   "dependencies": {
-    "@mitojs/core": "2.1.19",
-    "@mitojs/utils": "2.1.19",
-    "@mitojs/browser": "2.1.19",
-    "@mitojs/shared": "2.1.19",
+    "@zyf2e/monitor-core": "2.1.19",
+    "@zyf2e/monitor-utils": "2.1.19",
+    "@zyf2e/monitor-browser": "2.1.19",
+    "@zyf2e/monitor-shared": "2.1.19",
     "@types/wechat-miniprogram": "^3.1.0"
   }
 }

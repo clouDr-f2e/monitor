@@ -1,9 +1,9 @@
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, SDK_NAME, SDK_VERSION } from '@mitojs/shared'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, ERRORTYPES, SDK_NAME, SDK_VERSION } from '@zyf2e/monitor-shared'
 import { reactUrl } from '@/test/config'
-import { ReportDataType, TransportDataType } from '@mitojs/types'
-import { Severity } from '@mitojs/utils'
+import { ReportDataType, TransportDataType } from '@zyf2e/monitor-types'
+import { Severity } from '@zyf2e/monitor-utils'
 import puppeteer from 'puppeteer'
-import { BreadcrumbPushData } from '@mitojs/types'
+import { BreadcrumbPushData } from '@zyf2e/monitor-types'
 
 describe('React e2e', () => {
   const timeout = 3000

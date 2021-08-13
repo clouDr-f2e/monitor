@@ -1,4 +1,4 @@
-import { ERRORTYPES, BREADCRUMBTYPES } from '@mitojs/shared'
+import { ERRORTYPES, BREADCRUMBTYPES } from '@zyf2e/monitor-shared'
 import {
   isError,
   extractErrorStack,
@@ -8,10 +8,10 @@ import {
   isWxMiniEnv,
   Severity,
   getCurrentRoute
-} from '@mitojs/utils'
+} from '@zyf2e/monitor-utils'
 import { transportData } from './transportData'
 import { breadcrumb } from './breadcrumb'
-import { TNumStrObj } from '@mitojs/types'
+import { TNumStrObj } from '@zyf2e/monitor-types'
 
 interface LogTypes {
   message: TNumStrObj

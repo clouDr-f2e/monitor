@@ -1,11 +1,11 @@
-import { InitOptions } from '@mitojs/types'
-import { isWxMiniEnv } from '@mitojs/utils'
+import { InitOptions } from '@zyf2e/monitor-types'
+import { isWxMiniEnv } from '@zyf2e/monitor-utils'
 import { setupReplace } from './load'
-import { initOptions, log } from '@mitojs/core'
+import { initOptions, log } from '@zyf2e/monitor-core'
 import { sendTrackData, track } from './initiative'
-import { SDK_NAME, SDK_VERSION } from '@mitojs/shared'
-import { MitoVue } from '@mitojs/vue'
-import { errorBoundaryReport } from '@mitojs/react'
+import { SDK_NAME, SDK_VERSION } from '@zyf2e/monitor-shared'
+import { MitoVue } from '@zyf2e/monitor-vue'
+import { errorBoundaryReport } from '@zyf2e/monitor-react'
 export function init(options: InitOptions = {}) {
   if (!isWxMiniEnv) return
   initOptions(options)

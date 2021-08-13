@@ -1,5 +1,5 @@
 {
-  "name": "@mitojs/vue",
+  "name": "@zyf2e/monitor-vue",
   "version": "2.1.19",
   "description": "A SDK for monitoring Vue errors",
   "author": "cjinhuo",
@@ -11,9 +11,9 @@
     "dist"
   ],
   "dependencies": {
-    "@mitojs/core": "2.1.19",
-    "@mitojs/utils": "2.1.19",
-    "@mitojs/shared": "2.1.19",
-    "@mitojs/types": "2.1.19"
+    "@zyf2e/monitor-core": "2.1.19",
+    "@zyf2e/monitor-utils": "2.1.19",
+    "@zyf2e/monitor-shared": "2.1.19",
+    "@zyf2e/monitor-types": "2.1.19"
   }
 }

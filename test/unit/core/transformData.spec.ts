@@ -1,7 +1,7 @@
-import { ERRORTYPES, HTTPTYPE } from '@mitojs/shared'
-import { httpTransform, resourceTransform, getRealPath } from '@mitojs/core'
-import { EMethods, MITOHttp, ResourceErrorTarget } from '@mitojs/types'
-import { getLocationHref, fromHttpStatus, Severity, interceptStr } from '@mitojs/utils'
+import { ERRORTYPES, HTTPTYPE } from '@zyf2e/monitor-shared'
+import { httpTransform, resourceTransform, getRealPath } from '@zyf2e/monitor-core'
+import { EMethods, MITOHttp, ResourceErrorTarget } from '@zyf2e/monitor-types'
+import { getLocationHref, fromHttpStatus, Severity, interceptStr } from '@zyf2e/monitor-utils'
 
 describe('transformData.ts', () => {
   it('should resourceTransform func work', () => {

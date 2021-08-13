@@ -29,14 +29,14 @@
 
 **一般来说，在网络情况都正常的情况下，提高FCP最直接的办法是在html中加入base64图片的骨架屏。当然要确保整个html不要大于14kb([原因](https://developer.mozilla.org/zh-CN/docs/Web/Performance/How_browsers_work#tcp_%E6%85%A2%E5%BC%80%E5%A7%8B_14kb_%E8%A7%84%E5%88%99))**
 
-## 如何使用 @mitojs/web-performance 收集指标
+## 如何使用 @zyf2e/monitor-web-performance 收集指标
 
 ### 安装
 
 #### 使用npm
 
 ```bash
-npm i @mitojs/web-performance
+npm i @zyf2e/monitor-web-performance
 ```
 
 ### 使用cdn
@@ -50,7 +50,7 @@ npm i @mitojs/web-performance
 ```javascript
 // performance.js
 // main.js 引入
-import {WebVitals} from '@mitojs/web-performance'
+import {WebVitals} from '@zyf2e/monitor-web-performance'
 
 const wv = new WebVitals({
   appId: 'allen-performance',
@@ -72,7 +72,7 @@ export default wv
 ## 自定义指标的收集
 
 在真实的业务中，我们收集的指标经常会包含一些跟业务相关的指标，譬如，自定义首屏时间时，需要等页面上首屏接口请求完成，页面图片全部渲染完成才算首屏渲染完成的时间。
-面对这样的业务场景，@mito/web-performance也是具备自定义的能力。 在初始化的时候，增加customPaintMetrics属性，然后就可以调用wv.customCompletedPaint方法来自定义页面渲染的完成时间。
+面对这样的业务场景，@zyf2e/monitor-web-performance也是具备自定义的能力。 在初始化的时候，增加customPaintMetrics属性，然后就可以调用wv.customCompletedPaint方法来自定义页面渲染的完成时间。
 
 ```javascript
 // performance.js
@@ -128,7 +128,7 @@ const home = () => {
 
 ## SDK的兼容性
 
-因为@mito/web-performance 中使用到了PerformanceObserver对象，所以在safari浏览器中不支持FP、FCP、LCP、FID指标的收集。
+因为@zyf2e/monitor-web-performance 中使用到了PerformanceObserver对象，所以在safari浏览器中不支持FP、FCP、LCP、FID指标的收集。
 
 ## API文档
 https://github.com/clouDr-f2e/mitojs/tree/dev/packages/web-performance

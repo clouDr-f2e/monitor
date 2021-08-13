@@ -1,8 +1,8 @@
-import { HandleEvents } from '@mitojs/browser'
-import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, HTTPTYPE } from '@mitojs/shared'
-import { breadcrumb, httpTransform, transportData } from '@mitojs/core'
-import { MITOHttp, EMethods } from '@mitojs/types'
-import { getTimestamp, Severity } from '@mitojs/utils'
+import { HandleEvents } from '@zyf2e/monitor-browser'
+import { BREADCRUMBCATEGORYS, BREADCRUMBTYPES, HTTPTYPE } from '@zyf2e/monitor-shared'
+import { breadcrumb, httpTransform, transportData } from '@zyf2e/monitor-core'
+import { MITOHttp, EMethods } from '@zyf2e/monitor-types'
+import { getTimestamp, Severity } from '@zyf2e/monitor-utils'
 
 describe('handleEvents.ts', () => {
   afterEach(() => {

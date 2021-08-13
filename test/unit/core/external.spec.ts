@@ -1,6 +1,6 @@
-import { BREADCRUMBTYPES } from '@mitojs/shared'
-import { breadcrumb, log } from '@mitojs/core'
-import { Severity } from '@mitojs/utils'
+import { BREADCRUMBTYPES } from '@zyf2e/monitor-shared'
+import { breadcrumb, log } from '@zyf2e/monitor-core'
+import { Severity } from '@zyf2e/monitor-utils'
 
 describe('external log function', () => {
   it('should log func work', () => {

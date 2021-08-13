@@ -1,6 +1,15 @@
-import { EVENTTYPES } from '@mitojs/shared'
-import { init } from '@mitojs/browser'
-import { getFlag, getGlobal, getGlobalMitoSupport, isBrowserEnv, isNodeEnv, isWxMiniEnv, setFlag, supportsHistory } from '@mitojs/utils'
+import { EVENTTYPES } from '@zyf2e/monitor-shared'
+import { init } from '@zyf2e/monitor-browser'
+import {
+  getFlag,
+  getGlobal,
+  getGlobalMitoSupport,
+  isBrowserEnv,
+  isNodeEnv,
+  isWxMiniEnv,
+  setFlag,
+  supportsHistory
+} from '@zyf2e/monitor-utils'
 
 describe('global.ts', () => {
   it('should getGLoabl func work', () => {

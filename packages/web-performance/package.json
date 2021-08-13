@@ -1,5 +1,5 @@
 {
-  "name": "@mitojs/web-performance",
+  "name": "@zyf2e/monitor-web-performance",
   "version": "2.1.19",
   "description": "A SDK For Report Web Performance",
   "author": "allen(https://github.com/Chryseis)",

@@ -1,4 +1,4 @@
-import { IAnyObject } from '@mitojs/types'
+import { IAnyObject } from '@zyf2e/monitor-types'
 
 export interface VueInstance {
   config?: VueConfiguration

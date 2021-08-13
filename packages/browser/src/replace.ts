@@ -8,10 +8,10 @@ import {
   isExistProperty,
   variableTypeDetection,
   supportsHistory
-} from '@mitojs/utils'
-import { transportData, options, setTraceId, triggerHandlers, ReplaceHandler, subscribeEvent } from '@mitojs/core'
-import { EMethods, MITOHttp, MITOXMLHttpRequest } from '@mitojs/types'
-import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '@mitojs/shared'
+} from '@zyf2e/monitor-utils'
+import { transportData, options, setTraceId, triggerHandlers, ReplaceHandler, subscribeEvent } from '@zyf2e/monitor-core'
+import { EMethods, MITOHttp, MITOXMLHttpRequest } from '@zyf2e/monitor-types'
+import { voidFun, EVENTTYPES, HTTPTYPE, HTTP_CODE } from '@zyf2e/monitor-shared'
 
 function isFilterHttpUrl(url: string) {
   return options.filterXhrUrlRegExp && options.filterXhrUrlRegExp.test(url)

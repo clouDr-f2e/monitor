@@ -1,4 +1,4 @@
-import { nativeTryCatch } from '@mitojs/utils'
+import { nativeTryCatch } from '@zyf2e/monitor-utils'
 
 describe('exception.ts', () => {
   it('should nativeTryCatch func work', () => {
