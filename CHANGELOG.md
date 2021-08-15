@@ -1,3 +1,24 @@
+## [2.1.20](https://github.com/clouDr-f2e/mitojs/compare/v2.1.18...v2.1.20) (2021-08-15)
+
+
+### Bug Fixes
+
+* download and upload file method ([8cc1af9](https://github.com/clouDr-f2e/mitojs/commit/8cc1af9b8e17f7b281a21008f7ea39ab88805b09))
+* packagejson ([220a5e9](https://github.com/clouDr-f2e/mitojs/commit/220a5e995a7401650a7f35f1d1b17fa63b58f73e))
+* remove console ([52b3231](https://github.com/clouDr-f2e/mitojs/commit/52b3231789382e9d62197c4e6b675c5b48335fa9))
+* remove console ([ce8a23e](https://github.com/clouDr-f2e/mitojs/commit/ce8a23e98723d2fec3e90f4744c0c6d0c5fcb13c))
+
+
+### Features
+
+* add mini-performance e2e ([621d200](https://github.com/clouDr-f2e/mitojs/commit/621d200096aff03e249c94a8c532a166f77359ea))
+* adjust api-extractor.json ([422cb31](https://github.com/clouDr-f2e/mitojs/commit/422cb3172742ba50f7b3c4d240ee068dc15541c4))
+* adjust path ([f1cb78a](https://github.com/clouDr-f2e/mitojs/commit/f1cb78a6025723e8c353a5ad7a8ce5e98f2db556))
+* change scope ([11bc77f](https://github.com/clouDr-f2e/mitojs/commit/11bc77f03b1ec89d0350a8da321c3d8fe9412d12))
+* **performance:** 增加计算fps总次数配置项 ([71ef644](https://github.com/clouDr-f2e/mitojs/commit/71ef6444bb278e73dcce33b7f5433b9b318a1e33))
+
+
+
 ## [2.1.18](https://github.com/clouDr-f2e/mitojs/compare/v2.1.17...v2.1.18) (2021-07-13)
 
 
