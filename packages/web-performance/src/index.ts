@@ -118,10 +118,10 @@ class WebVitals implements IWebVitals {
       const value = getMark(customPaintMetrics)?.startTime
       this.clearMark(customPaintMetrics)
 
-      const metrics = { name: 'customCompletePaint', value }
+      const metrics = { name: 'custom-contentful-paint', value }
       reporter(metrics)
 
-      metricsStore.set('customCompletePaint', metrics)
+      metricsStore.set('custom-contentful-paint', metrics)
     })
   }
 }
