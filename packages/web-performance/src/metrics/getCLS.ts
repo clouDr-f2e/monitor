@@ -56,7 +56,7 @@ export const initCLS = (store: metricsStore, report: IReportHandler, customCompl
       report(metrics)
     }
 
-    store.set(metricsName.RL, metrics)
+    store.set(metricsName.CLS, metrics)
   }
 
   addEventListener(completeEvent, stopListening, { once: true, capture: true })
