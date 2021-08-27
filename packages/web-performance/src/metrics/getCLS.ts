@@ -43,11 +43,13 @@ export const initCLS = (store: metricsStore, report: IReportHandler, customCompl
   const completeEvent = customCompleteEvent || 'pageshow'
 
   const stopListening = () => {
-    po.takeRecords().map((entry: LayoutShift) => {
-      if (!entry.hadRecentInput) {
-        cls.value += entry.value
-      }
-    })
+    if (po.takeRecords) {
+      po.takeRecords().map((entry: LayoutShift) => {
+        if (!entry.hadRecentInput) {
+          cls.value += entry.value
+        }
+      })
+    }
     po.disconnect()
 
     const metrics = { name: metricsName.CLS, value: roundByFour(cls.value) } as IMetrics

@@ -34,7 +34,10 @@ export const initResourceFlow = (store: metricsStore, report: IReportHandler, cu
   const completeEvent = customCompleteEvent || 'pageshow'
 
   const stopListening = () => {
-    resourceFlow = po.takeRecords().concat(resourceFlow)
+    if (po.takeRecords) {
+      resourceFlow = po.takeRecords().concat(resourceFlow)
+    }
+
     po.disconnect()
 
     const metrics = { name: metricsName.RL, value: resourceFlow } as IMetrics

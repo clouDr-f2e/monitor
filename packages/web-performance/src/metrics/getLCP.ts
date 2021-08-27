@@ -47,12 +47,14 @@ export const initLCP = (store: metricsStore, report: IReportHandler, immediately
 
   const stopListening = () => {
     if (po) {
-      po.takeRecords().forEach((entry: PerformanceEntry) => {
-        const firstHiddenTime = getFirstHiddenTime()
-        if (entry.startTime < firstHiddenTime.timeStamp) {
-          lcp.value = entry
-        }
-      })
+      if (po.takeRecords) {
+        po.takeRecords().forEach((entry: PerformanceEntry) => {
+          const firstHiddenTime = getFirstHiddenTime()
+          if (entry.startTime < firstHiddenTime.timeStamp) {
+            lcp.value = entry
+          }
+        })
+      }
       po.disconnect()
 
       if (!store.has(metricsName.LCP)) {
