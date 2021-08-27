@@ -3,8 +3,7 @@
 
 ### Performance Improvements
 
-* 修复cls上报指标名称不正确 ([7d413ce](https://github.com/clouDr-f2e/mitojs/commit/7d413ce673bb18cf7eb0285793f940ef2ea55640))
-* 修改自定义完成指标名称 ([5f8c10a](https://github.com/clouDr-f2e/mitojs/commit/5f8c10a1b3f4b74f76c0f147cc30a41f6dd2ab46))
+* 判断takeRecords存在，再调用
 
 
 
