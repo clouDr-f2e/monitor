@@ -74,7 +74,8 @@ const pageLifeMethods = [
   WxPageEvents.PageOnHide,
   WxPageEvents.PageOnShareAppMessage,
   WxPageEvents.PageOnShareTimeline,
-  WxPageEvents.PageOnTabItemTap
+  WxPageEvents.PageOnTabItemTap,
+  WxPageEvents.PageOnUnload
 ]
 
 /**

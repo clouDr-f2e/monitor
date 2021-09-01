@@ -1,6 +1,6 @@
 {
   "name": "@zyf2e/monitor-types",
-  "version": "2.1.23",
+  "version": "2.1.25",
   "description": "@zyf2e/monitor-types",
   "author": "cjinhuo",
   "license": "MIT",
@@ -11,10 +11,10 @@
     "dist"
   ],
   "dependencies": {
-    "@zyf2e/monitor-core": "2.1.23",
-    "@zyf2e/monitor-utils": "2.1.23",
-    "@zyf2e/monitor-browser": "2.1.23",
-    "@zyf2e/monitor-shared": "2.1.23",
+    "@zyf2e/monitor-core": "2.1.25",
+    "@zyf2e/monitor-utils": "2.1.25",
+    "@zyf2e/monitor-browser": "2.1.25",
+    "@zyf2e/monitor-shared": "2.1.25",
     "@types/wechat-miniprogram": "^3.1.0"
   }
 }
