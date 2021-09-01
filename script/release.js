@@ -38,7 +38,7 @@ async function publicPackage(pkgName) {
     }
     step(`Publishing ${pkgName}...`)
     try {
-      await binRun('yarn', ['publish', '--new-version', version, '--access', 'public'], {
+      await binRun('yarn', ['publish', '--new-version', version, '--access', 'public', '--registry', 'https://registry.npmjs.org'], {
         cwd: pkgRoot,
         stdio: 'pipe'
       })
