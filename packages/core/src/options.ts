@@ -15,6 +15,7 @@ export class Options {
   appOnShow: Function = () => {}
   onPageNotFound: Function = () => {}
   appOnHide: Function = () => {}
+  pageOnUnload: Function = () => {}
   pageOnShow: Function = () => {}
   pageOnHide: Function = () => {}
   onShareAppMessage: Function = () => {}
@@ -38,6 +39,7 @@ export class Options {
       appOnLaunch,
       appOnShow,
       appOnHide,
+      pageOnUnload,
       pageOnShow,
       pageOnHide,
       onPageNotFound,
@@ -53,6 +55,7 @@ export class Options {
     validateOption(appOnLaunch, 'appOnLaunch', 'function') && (this.appOnLaunch = appOnLaunch)
     validateOption(appOnShow, 'appOnShow', 'function') && (this.appOnShow = appOnShow)
     validateOption(appOnHide, 'appOnHide', 'function') && (this.appOnHide = appOnHide)
+    validateOption(pageOnUnload, 'pageOnUnload', 'function') && (this.pageOnUnload = pageOnUnload)
     validateOption(pageOnShow, 'pageOnShow', 'function') && (this.pageOnShow = pageOnShow)
     validateOption(pageOnHide, 'pageOnHide', 'function') && (this.pageOnHide = pageOnHide)
     validateOption(onPageNotFound, 'onPageNotFound', 'function') && (this.onPageNotFound = onPageNotFound)

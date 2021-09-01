@@ -134,6 +134,20 @@ const HandleWxPageEvents = {
       level: Severity.Info
     })
   },
+  onUnload() {
+    const page = getCurrentPages().pop()
+    sdkOptions.pageOnUnload(page)
+    const data: WxLifeCycleBreadcrumb = {
+      path: page.route,
+      query: page.options
+    }
+    breadcrumb.push({
+      category: breadcrumb.getCategory(BREADCRUMBTYPES.PAGE_ON_UNLOAD),
+      type: BREADCRUMBTYPES.PAGE_ON_UNLOAD,
+      data,
+      level: Severity.Info
+    })
+  },
   onShareAppMessage(options: WechatMiniprogram.Page.IShareAppMessageOption) {
     const page = getCurrentPages().pop()
     sdkOptions.onShareAppMessage({
