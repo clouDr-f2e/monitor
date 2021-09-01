@@ -43,6 +43,12 @@ async function publicPackage(pkgName) {
         stdio: 'pipe'
       })
       console.log(chalk.green(`Successfully published ${pkgName}@${version}`))
+      // personal registry
+      await binRun('yarn', ['publish', '--new-version', version, '--access', 'public', '--registry', 'http://npmreg.qa.91jkys.com'], {
+        cwd: pkgRoot,
+        stdio: 'pipe'
+      })
+      console.log(chalk.green(`Successfully published ${pkgName}@${version}`))
     } catch (error) {
       console.log(`failed publish ${pkgName}@${version}`, error)
     }
