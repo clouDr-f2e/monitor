@@ -59,7 +59,7 @@ const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefine
   }
 
   return new Promise((resolve) => {
-    if (isPerformanceObserverSupported()) {
+    if (isPerformanceObserverSupported() && PerformanceObserver.supportedEntryTypes.includes('navigation')) {
       const entryHandler = (entry: PerformanceNavigationTiming) => {
         if (entry.entryType === 'navigation') {
           if (po) {

@@ -38,7 +38,9 @@ const getFID = (): Promise<PerformanceEntry> | undefined => {
 
     if (po) {
       onHidden(() => {
-        po.takeRecords().map(eventHandler)
+        if (po?.takeRecords) {
+          po.takeRecords().map(eventHandler)
+        }
         po.disconnect()
       }, true)
     }

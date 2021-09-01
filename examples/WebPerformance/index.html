@@ -25,26 +25,28 @@
     appId: 'allen-test',
     version: '1.0.0',
     reportCallback: (metrics) => {
-      const infos = wv.getCurrentMetrics()
+      if(window.wv){
+        const infos = window.wv.getCurrentMetrics()
 
-      const pageInfo = infos['page-information']
-      const networkInfo = infos['network-information']
-      const deviceInfo = infos['device-information']
+        const pageInfo = infos['page-information']
+        const networkInfo = infos['network-information']
+        const deviceInfo = infos['device-information']
 
-      function mergeData(data) {
-        const { data: { name, ...metrics }, ...rest } = data
-        if (name !== 'resource-flow' && name.indexOf('info') < 0) {
-          return { name, ...metrics, ...rest, ...pageInfo.value, ...networkInfo.value, ...deviceInfo.value }
+        function mergeData(data) {
+          const { data: { name, ...metrics }, ...rest } = data
+          if (name !== 'resource-flow' && name.indexOf('info') < 0) {
+            return { name, ...metrics, ...rest, ...pageInfo.value, ...networkInfo.value, ...deviceInfo.value }
+          }
+          return data
         }
-        return data
-      }
 
-      // todo e.g clean data to report for analyzing
-      console.log(mergeData(metrics))
+        // todo e.g clean data to report for analyzing
+        console.log(mergeData(metrics))
+      }
     },
     immediately: true,
     customPaintMetrics: 'custom-finish-paint',
-    logFpsCount:50
+    logFpsCount:10
   })
 
   setTimeout(()=>{
