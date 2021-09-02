@@ -1,4 +1,4 @@
-## [2.1.26](https://github.com/clouDr-f2e/mitojs/compare/v2.1.24...v2.1.26) (2021-09-02)
+## [2.1.27](https://github.com/clouDr-f2e/mitojs/compare/v2.1.24...v2.1.26) (2021-09-02)
 
 
 ### Bug Fixes
