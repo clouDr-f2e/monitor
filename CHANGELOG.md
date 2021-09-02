@@ -1,3 +1,18 @@
+## [2.1.26](https://github.com/clouDr-f2e/mitojs/compare/v2.1.22...v2.1.26) (2021-09-01)
+
+
+### Bug Fixes
+
+* 修复safari兼容性问题 ([b7b470b](https://github.com/clouDr-f2e/mitojs/commit/b7b470b302cbdbc14d57db105339e7cb2244e637))
+
+
+### Features
+
+* publish add personal registry ([cb42f31](https://github.com/clouDr-f2e/mitojs/commit/cb42f310763193568a912be50a0aca44f2949d5a))
+* 添加一种type ([8e1fc90](https://github.com/clouDr-f2e/mitojs/commit/8e1fc90a924a5494c63c4227d69dcb8c3437fc3b))
+
+
+
 ## [2.1.22](https://github.com/clouDr-f2e/mitojs/compare/v2.1.20...v2.1.22) (2021-08-27)
 
 
