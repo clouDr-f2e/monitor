@@ -1,5 +1,9 @@
 export const roundByFour = (num: number, digits = 4) => {
-  return parseFloat(num.toFixed(digits))
+  try {
+    return parseFloat(num.toFixed(digits))
+  } catch (err) {
+    return num
+  }
 }
 
 export const convertToMB = (bytes: number): number | null => {
