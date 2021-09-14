@@ -1,3 +1,13 @@
+## [2.1.28](https://github.com/clouDr-f2e/mitojs/compare/v2.1.27...v2.1.28) (2021-09-14)
+
+
+### Bug Fixes
+
+* 修复roundByFour中toFixed报错 ([2a30f4d](https://github.com/clouDr-f2e/mitojs/commit/2a30f4d7e8f4d4b45bb5e2a36f5bf5213a088ff4))
+* manual fix change log ([d4c1f9f](https://github.com/clouDr-f2e/mitojs/commit/d4c1f9f10a10bcfa8791f625f15beb68f786cef2))
+
+
+
 ## [2.1.27](https://github.com/clouDr-f2e/mitojs/compare/v2.1.24...v2.1.26) (2021-09-02)
 
 
