@@ -1241,70 +1241,70 @@
   dependencies:
     eslint-visitor-keys "^1.1.0"
 
-"@zyf2e/monitor-browser@2.1.26", "@zyf2e/monitor-browser@^2.1.26":
-  version "2.1.26"
-  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-browser/-/monitor-browser-2.1.26.tgz#97b2919e2d46def46b711fb31d33bb7de2d1c7e7"
-  integrity sha512-bP9ghwmfo1oS1j2U41YVXXwM4n/LBG7Zax+wAaYAGS5dpJYDLqlDUIGYUjrGEAx5yxkr++t903SnYghm9LiILw==
+"@zyf2e/monitor-browser@2.1.28", "@zyf2e/monitor-browser@^2.1.27":
+  version "2.1.28"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-browser/-/monitor-browser-2.1.28.tgz#0ebdb36555a62be7ed2f137c17a5dae9ef3defae"
+  integrity sha512-v5GaO/oFdYkX6GODbVDVUErlncHK34WMsSwhXcGe2OulTXoiEskFbII2gGoY+uz70jFl+SdvtbYtOhak/7X3rg==
   dependencies:
-    "@zyf2e/monitor-core" "2.1.26"
-    "@zyf2e/monitor-shared" "2.1.26"
-    "@zyf2e/monitor-types" "2.1.26"
-    "@zyf2e/monitor-utils" "2.1.26"
+    "@zyf2e/monitor-core" "2.1.28"
+    "@zyf2e/monitor-shared" "2.1.28"
+    "@zyf2e/monitor-types" "2.1.28"
+    "@zyf2e/monitor-utils" "2.1.28"
 
-"@zyf2e/monitor-core@2.1.26", "@zyf2e/monitor-core@^2.1.26":
-  version "2.1.26"
-  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-core/-/monitor-core-2.1.26.tgz#a6ea97a51bdef108e3c740d4d0c3637bb2653292"
-  integrity sha512-1cWFz9unp4Rkm63k82CrmdYo4lQ4rgUwh90DT3XJqsOLZdL+RuU9eRtCelMItMPW/FqdlHY995AB2GjGpOcR5Q==
+"@zyf2e/monitor-core@2.1.28", "@zyf2e/monitor-core@^2.1.27":
+  version "2.1.28"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-core/-/monitor-core-2.1.28.tgz#ceb551231b2e058e5597d647a274c63d862b454d"
+  integrity sha512-C6CEddXDHumuBl+NlnL0ZOFahcixcQf+Qdps06Bo+WWlUtpBynCwsVu3K64Dh8yfNenR28xl4zh6tvqjuW0HOw==
   dependencies:
-    "@zyf2e/monitor-core" "2.1.26"
-    "@zyf2e/monitor-shared" "2.1.26"
-    "@zyf2e/monitor-types" "2.1.26"
-    "@zyf2e/monitor-utils" "2.1.26"
+    "@zyf2e/monitor-core" "2.1.28"
+    "@zyf2e/monitor-shared" "2.1.28"
+    "@zyf2e/monitor-types" "2.1.28"
+    "@zyf2e/monitor-utils" "2.1.28"
 
-"@zyf2e/monitor-react@^2.1.26":
-  version "2.1.26"
-  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-react/-/monitor-react-2.1.26.tgz#29be5d37d35f51d4e87c6a091d989a06c94ddec0"
-  integrity sha512-Za3ROjUKXT3Pwtss9IU0xJp6Fs8hyo3e6tdlCBwAIiOeZCeN5+h6fWc501INBY53oP/yd3r8a1vTksfq3oVxlA==
+"@zyf2e/monitor-react@^2.1.27":
+  version "2.1.28"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-react/-/monitor-react-2.1.28.tgz#15ee41b92a39064fe8025b8b0c537f67d5ecb4e7"
+  integrity sha512-Yjb21dmr9432X0Zj3WR1LbZl1mA3GlKW4BJS0y0e0ZGLKGQ5mlnxArbW9EdMkBjAaTZZZ/UfzYNNXIayBp1I/A==
   dependencies:
-    "@zyf2e/monitor-core" "2.1.26"
-    "@zyf2e/monitor-shared" "2.1.26"
-    "@zyf2e/monitor-utils" "2.1.26"
+    "@zyf2e/monitor-core" "2.1.28"
+    "@zyf2e/monitor-shared" "2.1.28"
+    "@zyf2e/monitor-utils" "2.1.28"
 
-"@zyf2e/monitor-shared@2.1.26", "@zyf2e/monitor-shared@^2.1.26":
-  version "2.1.26"
-  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-shared/-/monitor-shared-2.1.26.tgz#9e6a4d9149426fa8f3355291fe80ca428fc21e76"
-  integrity sha512-4gIyy1JSGuW4da3qsrL70nqcF5XlUpmCyQvusQfwk8C7AFQIUbShK9ANfKQj46xPRNSZdqnPkZ9ySEbEWymLDg==
+"@zyf2e/monitor-shared@2.1.28", "@zyf2e/monitor-shared@^2.1.27":
+  version "2.1.28"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-shared/-/monitor-shared-2.1.28.tgz#068ab99cf45d8f3d23f399be8c8933a43a0f6d41"
+  integrity sha512-1Qgy7g8CNqW9tPvJYRqJXcbwXHjUjFIiwMNwCpWPl3yl+/OmCZsvKZdbd2YIuvppa2vewYByg3ZXBYkz2eTx0w==
 
-"@zyf2e/monitor-types@2.1.26", "@zyf2e/monitor-types@^2.1.26":
-  version "2.1.26"
-  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-types/-/monitor-types-2.1.26.tgz#d63e642d2f5249319a2b4c8f7311d59003eb6383"
-  integrity sha512-u85x0Ks7B0bo4dFABTuYlV6qFhgY20dftb6FXScGkwlKPNkpFg3rVTRel3lCPGxhnbwF7aDvbgowBknp6WZ59w==
+"@zyf2e/monitor-types@2.1.28", "@zyf2e/monitor-types@^2.1.27":
+  version "2.1.28"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-types/-/monitor-types-2.1.28.tgz#13a392c4f01ddd74392b4e694bd4c70fc704e08d"
+  integrity sha512-6j910VDbjMTTnjku3xoZe9hIJGSWZ+hiamToV4ms8Lt68w+lNaYMeOYEWlOlVzigSVVVjFJomTqwraau2CaTUw==
   dependencies:
     "@types/wechat-miniprogram" "^3.1.0"
-    "@zyf2e/monitor-browser" "2.1.26"
-    "@zyf2e/monitor-core" "2.1.26"
-    "@zyf2e/monitor-shared" "2.1.26"
-    "@zyf2e/monitor-utils" "2.1.26"
+    "@zyf2e/monitor-browser" "2.1.28"
+    "@zyf2e/monitor-core" "2.1.28"
+    "@zyf2e/monitor-shared" "2.1.28"
+    "@zyf2e/monitor-utils" "2.1.28"
 
-"@zyf2e/monitor-utils@2.1.26", "@zyf2e/monitor-utils@^2.1.26":
-  version "2.1.26"
-  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-utils/-/monitor-utils-2.1.26.tgz#14a59b8440291b2b6a19d56e4e83bb36635725aa"
-  integrity sha512-l+n3DQHP07InIDtLmEZizueGC+Ug7mH90jrh+yjHfmp5TTqlsAWbaXlh+Yq15hZvfm53SNlq3AHOSxKEx3F17A==
+"@zyf2e/monitor-utils@2.1.28", "@zyf2e/monitor-utils@^2.1.27":
+  version "2.1.28"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-utils/-/monitor-utils-2.1.28.tgz#1f28467a13951b048ede13a08c4ddb7ed8853c22"
+  integrity sha512-MXFxhv7AX48El2c9a11e1j+h2bzGQ5TssFNiztosHja6WQx2+JLhadjYGA866GAVxITxk9ZWvlOTawOKCrTRIQ==
   dependencies:
-    "@zyf2e/monitor-browser" "2.1.26"
-    "@zyf2e/monitor-core" "2.1.26"
-    "@zyf2e/monitor-shared" "2.1.26"
-    "@zyf2e/monitor-types" "2.1.26"
+    "@zyf2e/monitor-browser" "2.1.28"
+    "@zyf2e/monitor-core" "2.1.28"
+    "@zyf2e/monitor-shared" "2.1.28"
+    "@zyf2e/monitor-types" "2.1.28"
 
-"@zyf2e/monitor-vue@^2.1.26":
-  version "2.1.26"
-  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-vue/-/monitor-vue-2.1.26.tgz#fdea6e95a0824ea554447ca7451949d849a69303"
-  integrity sha512-tIi0BcsKZj1UPgiU0S+1TsmQlcaUQexAKrHxRMHEa9T3afm1dgGqniGI1dtYCHV4Tsi8BEgYC26WYWrp9SZfCw==
+"@zyf2e/monitor-vue@^2.1.27":
+  version "2.1.28"
+  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-vue/-/monitor-vue-2.1.28.tgz#444d52bf3b5f041441f2ed60e11d1fe34020f60c"
+  integrity sha512-9q6cZNH3IbBO+Ezby99ATSWry4pKIMmPpq7bs56RnavwkalDoBMjRxGlBzGNy4+4D4zl133PRMtXoHAN7yNXGA==
   dependencies:
-    "@zyf2e/monitor-core" "2.1.26"
-    "@zyf2e/monitor-shared" "2.1.26"
-    "@zyf2e/monitor-types" "2.1.26"
-    "@zyf2e/monitor-utils" "2.1.26"
+    "@zyf2e/monitor-core" "2.1.28"
+    "@zyf2e/monitor-shared" "2.1.28"
+    "@zyf2e/monitor-types" "2.1.28"
+    "@zyf2e/monitor-utils" "2.1.28"
 
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"

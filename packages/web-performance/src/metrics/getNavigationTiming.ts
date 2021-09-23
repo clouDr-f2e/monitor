@@ -46,7 +46,7 @@ const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefine
     resolve({
       dnsLookup: roundByFour(domainLookupEnd - domainLookupStart),
       initialConnection: roundByFour(connectEnd - connectStart),
-      ssl: roundByFour(connectEnd - secureConnectionStart),
+      ssl: secureConnectionStart ? roundByFour(connectEnd - secureConnectionStart) : 0,
       ttfb: roundByFour(responseStart - requestStart),
       contentDownload: roundByFour(responseEnd - responseStart),
       domParse: roundByFour(domInteractive - responseEnd),
