@@ -18,7 +18,7 @@ import { isPerformanceSupported, isPerformanceObserverSupported } from '../utils
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 import observe from '../lib/observe'
-import { roundByFour } from '../utils'
+import { roundByFour, validNumber } from '../utils'
 
 const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefined => {
   if (!isPerformanceSupported()) {
@@ -88,10 +88,12 @@ export const initNavigationTiming = (store: metricsStore, report: IReportHandler
   getNavigationTiming()?.then((navigationTiming) => {
     const metrics = { name: metricsName.NT, value: navigationTiming } as IMetrics
 
-    if (immediately) {
-      report(metrics)
-    }
+    if (validNumber(Object.values(metrics.value))) {
+      if (immediately) {
+        report(metrics)
+      }
 
-    store.set(metricsName.NT, metrics)
+      store.set(metricsName.NT, metrics)
+    }
   })
 }

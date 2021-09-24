@@ -9,6 +9,7 @@ import { roundByFour } from '../utils'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 import observe from '../lib/observe'
+import getFirstHiddenTime from '../lib/getFirstHiddenTime'
 
 const getFP = (): Promise<PerformanceEntry> | undefined => {
   if (!isPerformanceObserverSupported()) {
@@ -23,7 +24,9 @@ const getFP = (): Promise<PerformanceEntry> | undefined => {
           po.disconnect()
         }
 
-        resolve(entry)
+        if (entry.startTime < getFirstHiddenTime().timeStamp) {
+          resolve(entry)
+        }
       }
     }
 

@@ -28,3 +28,11 @@ export const beforeUnload = (callback) => {
 export const unload = (callback) => {
   window.addEventListener('unload', callback)
 }
+
+export const validNumber = (nums: number | Array<number>) => {
+  if (Array.isArray(nums)) {
+    return nums.every((n) => n >= 0)
+  } else {
+    return nums >= 0
+  }
+}
