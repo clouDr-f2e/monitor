@@ -1,3 +1,15 @@
+## [2.1.29](https://github.com/clouDr-f2e/mitojs/compare/v2.1.27...v2.1.29) (2021-09-24)
+
+
+### Bug Fixes
+
+* 修复navigation-timing中有值小于0时，不做上报处理，FP和FCP在页面隐藏后不做上报处理 ([8d0280b](https://github.com/clouDr-f2e/mitojs/commit/8d0280b1de062c070bb37086e6e9ffe3dd0fc8f1))
+* 修复roundByFour中toFixed报错 ([2a30f4d](https://github.com/clouDr-f2e/mitojs/commit/2a30f4d7e8f4d4b45bb5e2a36f5bf5213a088ff4))
+* **getNavigationTiming:** 修复navigation-timing中ssl不存在，计算错误 ([e1c1610](https://github.com/clouDr-f2e/mitojs/commit/e1c1610dcf04015babdc252ebc3ec9036fd3f59a))
+* manual fix change log ([d4c1f9f](https://github.com/clouDr-f2e/mitojs/commit/d4c1f9f10a10bcfa8791f625f15beb68f786cef2))
+
+
+
 ## [2.1.28](https://github.com/clouDr-f2e/mitojs/compare/v2.1.27...v2.1.28) (2021-09-14)
 
 
