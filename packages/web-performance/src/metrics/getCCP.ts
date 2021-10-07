@@ -10,64 +10,96 @@ import metricsStore from '../lib/store'
 import { IReportHandler } from '../types'
 import { isEqualArr } from '../utils'
 import getPath from '../utils/getPath'
+import { isPerformanceSupported } from '../utils/isSupported'
+import { metricsName } from '../constants'
+import { onHidden } from '../lib/onHidden'
+import { onPageChange } from '../lib/onPageChange'
 
 const remoteQueue = []
 const completeQueue = []
 let isDone = false
 
-const reportMetrics = (name, report, store) => {
-  const metrics = { name, value: performance.now() }
-  store.set('api-complete', metrics)
-  report(metrics)
+const storeMetrics = (name, value, store) => {
+  const metrics = { name, value }
+  store.set(name, metrics)
 }
 
 const beforeHandler = (url, apiConfig, hashHistory) => {
-  const path = getPath(location, hashHistory)
-  const firstVisitedState = getFirstVisitedState()
-  if (!firstVisitedState) {
-    if (apiConfig[path]) {
-      if (apiConfig[path].some((path) => path.indexOf(url) > -1)) {
-        remoteQueue.push(url)
-      }
-    } else {
-      if (!isDone) {
-        remoteQueue.push(url)
+  if (isPerformanceSupported()) {
+    const path = getPath(location, hashHistory)
+    const firstVisitedState = getFirstVisitedState()
+    if (!firstVisitedState) {
+      if (apiConfig[path]) {
+        if (apiConfig[path].some((path) => path.indexOf(url) > -1)) {
+          remoteQueue.push(url)
+        }
+      } else {
+        if (!isDone) {
+          remoteQueue.push(url)
+        }
       }
     }
+  } else {
+    console.warn('browser do not support performance')
   }
 }
 
-const afterHandler = (url, report, store) => {
-  const firstVisitedState = getFirstVisitedState()
-  if (!firstVisitedState) {
-    completeQueue.push(url)
+const afterHandler = (url, store) => {
+  if (isPerformanceSupported()) {
+    const firstVisitedState = getFirstVisitedState()
+    if (!firstVisitedState) {
+      completeQueue.push(url)
 
-    if (isEqualArr(remoteQueue, completeQueue)) {
-      reportMetrics('api-complete-time', report, store)
+      if (isEqualArr(remoteQueue, completeQueue)) {
+        storeMetrics(metricsName.ACT, performance.now(), store)
 
-      setTimeout(() => {
-        const images = Array.from(document.querySelectorAll('img')).filter((image) => !image.complete && image.src)
-        if (images.length > 0) {
-          let loadImages
-          images.forEach((image) => {
-            image.addEventListener('load', () => {
-              loadImages += 1
-              if (loadImages === images.length) {
-                reportMetrics('custom-contentful-paint', report, store)
-              }
+        setTimeout(() => {
+          const images = Array.from(document.querySelectorAll('img')).filter((image) => !image.complete && image.src)
+          if (images.length > 0) {
+            let loadImages
+            images.forEach((image) => {
+              image.addEventListener('load', () => {
+                loadImages += 1
+                if (loadImages === images.length) {
+                  storeMetrics(metricsName.CCP, performance.now(), store)
+                  storeMetrics(metricsName.RL, performance.getEntriesByType('resource'), store)
+                }
+              })
+              image.addEventListener('error', () => {
+                loadImages += 1
+                if (loadImages === images.length) {
+                  storeMetrics(metricsName.CCP, performance.now(), store)
+                  storeMetrics(metricsName.RL, performance.getEntriesByType('resource'), store)
+                }
+              })
             })
-            image.addEventListener('error', () => {
-              loadImages += 1
-              if (loadImages === images.length) {
-                reportMetrics('custom-contentful-paint', report, store)
-              }
-            })
-          })
-        } else {
-          reportMetrics('custom-contentful-paint', report, store)
-        }
-      })
+          } else {
+            storeMetrics(metricsName.CCP, performance.now(), store)
+            storeMetrics(metricsName.RL, performance.getEntriesByType('resource'), store)
+          }
+        })
+      }
     }
+  } else {
+    console.warn('browser do not support performance')
+  }
+}
+
+const reportMetrics = (store: metricsStore, report) => {
+  const ccp = store.get(metricsName.CCP)
+  const rl = store.get(metricsName.RL)
+  const act = store.get(metricsName.ACT)
+
+  if (act) {
+    report(act)
+  }
+
+  if (ccp) {
+    report(ccp)
+  }
+
+  if (rl) {
+    report(rl)
   }
 }
 
@@ -78,20 +110,29 @@ export const initCCP = (
   apiConfig: { [prop: string]: Array<string> },
   hashHistory
 ) => {
-  addEventListener(
-    customCompleteEvent,
+  const event = customCompleteEvent || 'pageshow'
+  window.addEventListener(
+    event,
     () => {
       isDone = true
+      if (isPerformanceSupported()) {
+        storeMetrics(metricsName.CCP, performance.now(), store)
+        storeMetrics(metricsName.RL, performance.getEntriesByType('resource'), store)
+      }
     },
     { once: true, capture: true }
   )
 
+  onHidden(() => reportMetrics(store, report))
+
+  onPageChange(() => reportMetrics(store, report))
+
   proxyXhr(
     (url) => beforeHandler(url, apiConfig, hashHistory),
-    (url) => afterHandler(url, report, store)
+    (url) => afterHandler(url, store)
   )
   proxyFetch(
     (url) => beforeHandler(url, apiConfig, hashHistory),
-    (url) => afterHandler(url, report, store)
+    (url) => afterHandler(url, store)
   )
 }

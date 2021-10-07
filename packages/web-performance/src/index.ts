@@ -22,7 +22,6 @@ import { initFID } from './metrics/getFID'
 import { initLCP } from './metrics/getLCP'
 import { initFPS } from './metrics/getFPS'
 import { initCLS } from './metrics/getCLS'
-import { initResourceFlow } from './metrics/getResourceFlow'
 import { initCCP } from './metrics/getCCP'
 
 let metricsStore: MetricsStore
@@ -52,8 +51,8 @@ class WebVitals implements IWebVitals {
     initPageInfo(metricsStore, reporter, immediately)
     initNetworkInfo(metricsStore, reporter, immediately)
     initDeviceInfo(metricsStore, reporter, immediately)
-    initResourceFlow(metricsStore, reporter, customPaintMetrics, immediately)
     initCLS(metricsStore, reporter, customPaintMetrics, immediately)
+    initCCP(metricsStore, reporter, customPaintMetrics, apiConfig, hashHistory)
 
     afterLoad(() => {
       initNavigationTiming(metricsStore, reporter, immediately)
@@ -62,7 +61,6 @@ class WebVitals implements IWebVitals {
       initFID(metricsStore, reporter, immediately)
       initLCP(metricsStore, reporter, immediately)
       initFPS(metricsStore, reporter, logFpsCount, immediately)
-      initCCP(metricsStore, reporter, customPaintMetrics, apiConfig, hashHistory)
     })
 
     // if immediately is false,report metrics when visibility and unload
@@ -121,7 +119,7 @@ class WebVitals implements IWebVitals {
   }
 
   customContentfulPaint() {
-    this.dispatchCustomEvent()
+    setTimeout(() => this.dispatchCustomEvent())
   }
 }
 

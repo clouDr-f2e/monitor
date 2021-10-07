@@ -93,6 +93,10 @@ export interface OnHiddenCallback {
   (event: Event): void
 }
 
+export interface OnPageChangeCallback {
+  (event?: Event): void
+}
+
 export interface IReportData {
   sectionId: string
   appId?: string

@@ -1,4 +1,4 @@
-import { proxyHistory } from './proxyHandler'
+import { onPageChange } from './onPageChange'
 
 let firstVisitedState = false
 
@@ -6,15 +6,7 @@ let firstVisitedState = false
  * get state which page is visited
  */
 const getFirstVisitedState = () => {
-  window.addEventListener('hashchange', function () {
-    firstVisitedState = true
-  })
-
-  window.addEventListener('popstate', function () {
-    firstVisitedState = true
-  })
-
-  proxyHistory(() => {
+  onPageChange(() => {
     firstVisitedState = true
   })
 
