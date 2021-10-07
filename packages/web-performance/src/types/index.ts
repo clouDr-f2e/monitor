@@ -6,6 +6,10 @@ export interface IConfig {
   immediately: boolean
   customPaintMetrics?: string
   logFpsCount?: number
+  apiConfig: {
+    [prop: string]: Array<string>
+  }
+  hashHistory: boolean
 }
 
 export interface IPerformanceNavigationTiming {
@@ -57,11 +61,10 @@ export interface IMetrics {
 
 export interface IWebVitals {
   getCurrentMetrics(): IMetricsObj
-  dispatchCustomEvent(): void
   setStartMark(markName: string): void
   setEndMark(markName: string): void
   clearMark(markName: string): void
-  customCompletedPaint(customMetricName: string): void
+  customContentfulPaint(customMetricName: string): void
 }
 
 export interface IReportHandler {

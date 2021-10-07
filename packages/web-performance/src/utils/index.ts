@@ -36,3 +36,28 @@ export const validNumber = (nums: number | Array<number>) => {
     return nums >= 0
   }
 }
+
+export const isEqualArr = (arr1: Array<string>, arr2: Array<string>): boolean => {
+  if (!arr1) {
+    return false
+  }
+
+  if (!arr2) {
+    return false
+  }
+
+  if (arr1.length !== arr2.length) {
+    return false
+  }
+
+  const _arr1 = arr1.sort()
+  const _arr2 = arr2.sort()
+
+  for (let i = 0; i < _arr1.length; i++) {
+    if (_arr1[i] !== _arr2[i]) {
+      return false
+    }
+  }
+
+  return true
+}

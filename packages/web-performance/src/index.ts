@@ -23,6 +23,7 @@ import { initLCP } from './metrics/getLCP'
 import { initFPS } from './metrics/getFPS'
 import { initCLS } from './metrics/getCLS'
 import { initResourceFlow } from './metrics/getResourceFlow'
+import { initCCP } from './metrics/getCCP'
 
 let metricsStore: MetricsStore
 let reporter: ReturnType<typeof createReporter>
@@ -31,7 +32,17 @@ class WebVitals implements IWebVitals {
   private readonly _customPaintMetrics: string
 
   constructor(config: IConfig) {
-    const { appId, version, reportCallback, reportUri = null, immediately = false, customPaintMetrics = null, logFpsCount = 5 } = config
+    const {
+      appId,
+      version,
+      reportCallback,
+      reportUri = null,
+      immediately = false,
+      customPaintMetrics = null,
+      logFpsCount = 5,
+      apiConfig,
+      hashHistory = false
+    } = config
     this._customPaintMetrics = customPaintMetrics
 
     const sectionId = generateUniqueID()
@@ -51,6 +62,7 @@ class WebVitals implements IWebVitals {
       initFID(metricsStore, reporter, immediately)
       initLCP(metricsStore, reporter, immediately)
       initFPS(metricsStore, reporter, logFpsCount, immediately)
+      initCCP(metricsStore, reporter, customPaintMetrics, apiConfig, hashHistory)
     })
 
     // if immediately is false,report metrics when visibility and unload
@@ -69,7 +81,7 @@ class WebVitals implements IWebVitals {
     return metricsStore.getValues()
   }
 
-  dispatchCustomEvent(): void {
+  private dispatchCustomEvent(): void {
     const event = document.createEvent('Events')
     const customPaintMetrics = this._customPaintMetrics
     event.initEvent(customPaintMetrics, false, true)
@@ -108,21 +120,8 @@ class WebVitals implements IWebVitals {
     clearMark(`${markName}_end`)
   }
 
-  customCompletedPaint() {
-    const customPaintMetrics = this._customPaintMetrics
-
+  customContentfulPaint() {
     this.dispatchCustomEvent()
-    setMark(customPaintMetrics)
-
-    setTimeout(() => {
-      const value = getMark(customPaintMetrics)?.startTime
-      this.clearMark(customPaintMetrics)
-
-      const metrics = { name: 'custom-contentful-paint', value }
-      reporter(metrics)
-
-      metricsStore.set('custom-contentful-paint', metrics)
-    })
   }
 }
 
