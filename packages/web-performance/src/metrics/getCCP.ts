@@ -18,10 +18,39 @@ import { onPageChange } from '../lib/onPageChange'
 const remoteQueue = []
 const completeQueue = []
 let isDone = false
+let reportLock = true
 
 const storeMetrics = (name, value, store) => {
   const metrics = { name, value }
   store.set(name, metrics)
+}
+
+const computeCCPAndRL = (store) => {
+  setTimeout(() => {
+    const images = Array.from(document.querySelectorAll('img')).filter((image) => !image.complete && image.src)
+    if (images.length > 0) {
+      let loadImages
+      images.forEach((image) => {
+        image.addEventListener('load', () => {
+          loadImages += 1
+          if (loadImages === images.length) {
+            storeMetrics(metricsName.CCP, performance.now(), store)
+            storeMetrics(metricsName.RL, performance.getEntriesByType('resource'), store)
+          }
+        })
+        image.addEventListener('error', () => {
+          loadImages += 1
+          if (loadImages === images.length) {
+            storeMetrics(metricsName.CCP, performance.now(), store)
+            storeMetrics(metricsName.RL, performance.getEntriesByType('resource'), store)
+          }
+        })
+      })
+    } else {
+      storeMetrics(metricsName.CCP, performance.now(), store)
+      storeMetrics(metricsName.RL, performance.getEntriesByType('resource'), store)
+    }
+  })
 }
 
 const beforeHandler = (url, apiConfig, hashHistory) => {
@@ -53,31 +82,7 @@ const afterHandler = (url, store) => {
       if (isEqualArr(remoteQueue, completeQueue)) {
         storeMetrics(metricsName.ACT, performance.now(), store)
 
-        setTimeout(() => {
-          const images = Array.from(document.querySelectorAll('img')).filter((image) => !image.complete && image.src)
-          if (images.length > 0) {
-            let loadImages
-            images.forEach((image) => {
-              image.addEventListener('load', () => {
-                loadImages += 1
-                if (loadImages === images.length) {
-                  storeMetrics(metricsName.CCP, performance.now(), store)
-                  storeMetrics(metricsName.RL, performance.getEntriesByType('resource'), store)
-                }
-              })
-              image.addEventListener('error', () => {
-                loadImages += 1
-                if (loadImages === images.length) {
-                  storeMetrics(metricsName.CCP, performance.now(), store)
-                  storeMetrics(metricsName.RL, performance.getEntriesByType('resource'), store)
-                }
-              })
-            })
-          } else {
-            storeMetrics(metricsName.CCP, performance.now(), store)
-            storeMetrics(metricsName.RL, performance.getEntriesByType('resource'), store)
-          }
-        })
+        computeCCPAndRL(store)
       }
     }
   } else {
@@ -86,21 +91,29 @@ const afterHandler = (url, store) => {
 }
 
 const reportMetrics = (store: metricsStore, report) => {
-  const ccp = store.get(metricsName.CCP)
-  const rl = store.get(metricsName.RL)
-  const act = store.get(metricsName.ACT)
+  if (reportLock) {
+    const ccp = store.get(metricsName.CCP)
+    const rl = store.get(metricsName.RL)
+    const act = store.get(metricsName.ACT)
 
-  if (act) {
-    report(act)
-  }
+    if (act) {
+      report(act)
+    }
 
-  if (ccp) {
-    report(ccp)
-  }
+    if (ccp) {
+      report(ccp)
+    }
 
-  if (rl) {
-    report(rl)
+    if (rl) {
+      report(rl)
+    }
+
+    reportLock = false
   }
+}
+
+const maxWaitTime4Report = (cb: () => void) => {
+  setTimeout(cb, 30 * 1000)
 }
 
 export const initCCP = (
@@ -116,8 +129,7 @@ export const initCCP = (
     () => {
       isDone = true
       if (isPerformanceSupported()) {
-        storeMetrics(metricsName.CCP, performance.now(), store)
-        storeMetrics(metricsName.RL, performance.getEntriesByType('resource'), store)
+        computeCCPAndRL(store)
       }
     },
     { once: true, capture: true }
@@ -126,6 +138,8 @@ export const initCCP = (
   onHidden(() => reportMetrics(store, report), true)
 
   onPageChange(() => reportMetrics(store, report))
+
+  maxWaitTime4Report(() => reportMetrics(store, report))
 
   proxyXhr(
     (url) => beforeHandler(url, apiConfig, hashHistory),
