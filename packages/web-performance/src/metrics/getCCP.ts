@@ -123,7 +123,7 @@ export const initCCP = (
     { once: true, capture: true }
   )
 
-  onHidden(() => reportMetrics(store, report))
+  onHidden(() => reportMetrics(store, report), true)
 
   onPageChange(() => reportMetrics(store, report))
 
