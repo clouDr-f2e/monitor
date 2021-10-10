@@ -37,24 +37,21 @@ export const validNumber = (nums: number | Array<number>) => {
   }
 }
 
-export const isEqualArr = (arr1: Array<string>, arr2: Array<string>): boolean => {
-  if (!arr1) {
+export const isIncludeArr = (arr1: Array<string>, arr2: Array<string>): boolean => {
+  if (!arr1 || arr1.length === 0) {
     return false
   }
 
-  if (!arr2) {
+  if (!arr2 || arr2.length === 0) {
     return false
   }
 
-  if (arr1.length !== arr2.length) {
+  if (arr1.length > arr2.length) {
     return false
   }
 
-  const _arr1 = arr1.sort()
-  const _arr2 = arr2.sort()
-
-  for (let i = 0; i < _arr1.length; i++) {
-    if (_arr1[i] !== _arr2[i]) {
+  for (let i = 0; i < arr1.length; i++) {
+    if (!arr2.includes(arr1[i])) {
       return false
     }
   }

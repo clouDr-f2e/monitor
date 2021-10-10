@@ -4,7 +4,7 @@ export interface IConfig {
   reportCallback: Function
   reportUri?: string
   immediately: boolean
-  customPaintMetrics?: string
+  needCCP?: boolean
   logFpsCount?: number
   apiConfig: {
     [prop: string]: Array<string>

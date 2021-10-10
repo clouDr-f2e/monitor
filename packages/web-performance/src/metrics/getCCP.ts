@@ -8,7 +8,7 @@ import { proxyFetch, proxyXhr } from '../lib/proxyHandler'
 import getFirstVisitedState from '../lib/getFirstVisitedState'
 import metricsStore from '../lib/store'
 import { IReportHandler } from '../types'
-import { isEqualArr } from '../utils'
+import { isIncludeArr } from '../utils'
 import getPath from '../utils/getPath'
 import { isPerformanceSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
@@ -27,9 +27,11 @@ const storeMetrics = (name, value, store) => {
 
 const computeCCPAndRL = (store) => {
   setTimeout(() => {
-    const images = Array.from(document.querySelectorAll('img')).filter((image) => !image.complete && image.src)
+    const images = Array.from(document.querySelectorAll('img')).filter((image) => {
+      return !image.complete && image.src
+    })
     if (images.length > 0) {
-      let loadImages
+      let loadImages = 0
       images.forEach((image) => {
         image.addEventListener('load', () => {
           loadImages += 1
@@ -53,17 +55,17 @@ const computeCCPAndRL = (store) => {
   })
 }
 
-const beforeHandler = (url, apiConfig, hashHistory) => {
+const beforeHandler = (url, apiConfig, needCCP, hashHistory) => {
   if (isPerformanceSupported()) {
     const path = getPath(location, hashHistory)
     const firstVisitedState = getFirstVisitedState().state
     if (!firstVisitedState) {
       if (apiConfig && apiConfig[path]) {
-        if (apiConfig[path].some((path) => path.indexOf(url) > -1)) {
+        if (apiConfig[path].some((o) => url.indexOf(o) > -1)) {
           remoteQueue.push(url)
         }
       } else {
-        if (!isDone) {
+        if (!isDone && needCCP) {
           remoteQueue.push(url)
         }
       }
@@ -78,8 +80,7 @@ const afterHandler = (url, store) => {
     const firstVisitedState = getFirstVisitedState().state
     if (!firstVisitedState) {
       completeQueue.push(url)
-
-      if (isEqualArr(remoteQueue, completeQueue)) {
+      if (isIncludeArr(remoteQueue, completeQueue)) {
         storeMetrics(metricsName.ACT, performance.now(), store)
 
         computeCCPAndRL(store)
@@ -119,11 +120,11 @@ const maxWaitTime4Report = (cb: () => void) => {
 export const initCCP = (
   store: metricsStore,
   report: IReportHandler,
-  customCompleteEvent: string,
+  needCCP: boolean,
   apiConfig: { [prop: string]: Array<string> },
   hashHistory
 ) => {
-  const event = customCompleteEvent || 'pageshow'
+  const event = needCCP ? 'custom-contentful-paint' : 'pageshow'
   addEventListener(
     event,
     () => {
@@ -142,11 +143,11 @@ export const initCCP = (
   maxWaitTime4Report(() => reportMetrics(store, report))
 
   proxyXhr(
-    (url) => beforeHandler(url, apiConfig, hashHistory),
+    (url) => beforeHandler(url, apiConfig, needCCP, hashHistory),
     (url) => afterHandler(url, store)
   )
   proxyFetch(
-    (url) => beforeHandler(url, apiConfig, hashHistory),
+    (url) => beforeHandler(url, apiConfig, needCCP, hashHistory),
     (url) => afterHandler(url, store)
   )
 }

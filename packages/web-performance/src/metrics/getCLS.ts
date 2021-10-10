@@ -13,6 +13,7 @@ import metricsStore from '../lib/store'
 import { IReportHandler, LayoutShift, IMetrics } from '../types'
 import { metricsName } from '../constants'
 import { roundByFour } from '../utils'
+import { onHidden } from '../lib/onHidden'
 
 const getCLS = (cls): PerformanceObserver | undefined => {
   if (!isPerformanceObserverSupported()) {
@@ -32,15 +33,12 @@ const getCLS = (cls): PerformanceObserver | undefined => {
 /**
  * @param {metricsStore} store
  * @param {Function} report
- * @param {string} customCompleteEvent
  * @param {boolean} immediately, if immediately is true,data will report immediately
  * */
-export const initCLS = (store: metricsStore, report: IReportHandler, customCompleteEvent: string, immediately = true): void => {
+export const initCLS = (store: metricsStore, report: IReportHandler, immediately = true): void => {
   const cls = { value: 0 }
 
   const po = getCLS(cls)
-
-  const completeEvent = customCompleteEvent || 'pageshow'
 
   const stopListening = () => {
     if (po?.takeRecords) {
@@ -61,5 +59,5 @@ export const initCLS = (store: metricsStore, report: IReportHandler, customCompl
     store.set(metricsName.CLS, metrics)
   }
 
-  addEventListener(completeEvent, stopListening, { once: true, capture: true })
+  onHidden(stopListening)
 }

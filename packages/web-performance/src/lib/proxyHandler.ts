@@ -7,10 +7,10 @@ function proxyXhr(beforeHandler: (...args: Array<any>) => void, afterHandler: (.
     const origin = window.XMLHttpRequest
     const originOpen = origin.prototype.open
     origin.prototype.open = function (this: XMLHttpRequest, ...args: Array<any>) {
-      beforeHandler && beforeHandler(args[0])
+      beforeHandler && beforeHandler(args[1])
       originOpen.apply(this, args)
       this.addEventListener('loadend', () => {
-        afterHandler && afterHandler(args[0])
+        afterHandler && afterHandler(args[1])
       })
     }
   }

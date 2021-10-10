@@ -37,12 +37,11 @@ class WebVitals implements IWebVitals {
       reportCallback,
       reportUri = null,
       immediately = false,
-      customPaintMetrics = null,
+      needCCP = false,
       logFpsCount = 5,
       apiConfig = {},
       hashHistory = false
     } = config
-    this._customPaintMetrics = customPaintMetrics
 
     const sectionId = generateUniqueID()
     reporter = createReporter(sectionId, appId, version, reportCallback)
@@ -51,8 +50,8 @@ class WebVitals implements IWebVitals {
     initPageInfo(metricsStore, reporter, immediately)
     initNetworkInfo(metricsStore, reporter, immediately)
     initDeviceInfo(metricsStore, reporter, immediately)
-    initCLS(metricsStore, reporter, customPaintMetrics, immediately)
-    initCCP(metricsStore, reporter, customPaintMetrics, apiConfig, hashHistory)
+    initCLS(metricsStore, reporter, immediately)
+    initCCP(metricsStore, reporter, needCCP, apiConfig, hashHistory)
 
     afterLoad(() => {
       initNavigationTiming(metricsStore, reporter, immediately)
@@ -79,10 +78,9 @@ class WebVitals implements IWebVitals {
     return metricsStore.getValues()
   }
 
-  private dispatchCustomEvent(): void {
+  private static dispatchCustomEvent(): void {
     const event = document.createEvent('Events')
-    const customPaintMetrics = this._customPaintMetrics
-    event.initEvent(customPaintMetrics, false, true)
+    event.initEvent('custom-contentful-paint', false, true)
     document.dispatchEvent(event)
   }
 
@@ -119,7 +117,7 @@ class WebVitals implements IWebVitals {
   }
 
   customContentfulPaint() {
-    setTimeout(() => this.dispatchCustomEvent())
+    setTimeout(() => WebVitals.dispatchCustomEvent())
   }
 }
 
