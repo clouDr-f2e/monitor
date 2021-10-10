@@ -55,7 +55,6 @@ const computeCCPAndRL = (store) => {
 
 const beforeHandler = (url, apiConfig, hashHistory) => {
   if (isPerformanceSupported()) {
-    console.log('beforeHandler entry')
     const path = getPath(location, hashHistory)
     const firstVisitedState = getFirstVisitedState().state
     if (!firstVisitedState) {
@@ -76,9 +75,7 @@ const beforeHandler = (url, apiConfig, hashHistory) => {
 
 const afterHandler = (url, store) => {
   if (isPerformanceSupported()) {
-    console.log('afterHandler entry')
     const firstVisitedState = getFirstVisitedState().state
-    console.log('firstVisitedState = ', firstVisitedState)
     if (!firstVisitedState) {
       completeQueue.push(url)
 
@@ -127,7 +124,7 @@ export const initCCP = (
   hashHistory
 ) => {
   const event = customCompleteEvent || 'pageshow'
-  window.addEventListener(
+  addEventListener(
     event,
     () => {
       isDone = true

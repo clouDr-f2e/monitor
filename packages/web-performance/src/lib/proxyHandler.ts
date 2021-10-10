@@ -3,14 +3,14 @@
  * @param afterHandler
  */
 function proxyXhr(beforeHandler: (...args: Array<any>) => void, afterHandler: (...args: Array<any>) => void): void {
-  const origin = window.XMLHttpRequest
-  if (origin) {
+  if ('XMLHttpRequest' in window) {
+    const origin = window.XMLHttpRequest
     const originOpen = origin.prototype.open
     origin.prototype.open = function (this: XMLHttpRequest, ...args: Array<any>) {
-      beforeHandler && beforeHandler(...args)
+      beforeHandler && beforeHandler(args[0])
       originOpen.apply(this, args)
       this.addEventListener('loadend', () => {
-        afterHandler && afterHandler(...args)
+        afterHandler && afterHandler(args[0])
       })
     }
   }
@@ -21,8 +21,8 @@ function proxyXhr(beforeHandler: (...args: Array<any>) => void, afterHandler: (.
  * @param afterHandler
  */
 function proxyFetch(beforeHandler: (...args: Array<any>) => void, afterHandler: (...args: Array<any>) => void): void {
-  const origin = window.fetch
-  if (origin) {
+  if ('fetch' in window) {
+    const origin = window.fetch
     window.fetch = function (resource: string, init: Partial<Request>) {
       beforeHandler && beforeHandler(resource, init)
       return origin.call(window, resource, init).then((response: Response) => {
@@ -42,13 +42,11 @@ function proxyHistory(handler) {
     const originReplaceState = history.replaceState
 
     history.pushState = function (...args: Array<any>) {
-      console.log('pushState')
       handler && handler()
       originPushState.apply(window.history, args)
     }
 
     history.replaceState = function (...args: Array<any>) {
-      console.log('replaceState')
       handler && handler()
       originReplaceState.apply(window.history, args)
     }
