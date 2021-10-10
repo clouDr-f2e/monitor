@@ -5,9 +5,10 @@
 function proxyXhr(beforeHandler: (...args: Array<any>) => void, afterHandler: (...args: Array<any>) => void): void {
   const origin = window.XMLHttpRequest
   if (origin) {
+    const originOpen = origin.prototype.open
     origin.prototype.open = function (this: XMLHttpRequest, ...args: Array<any>) {
       beforeHandler && beforeHandler(...args)
-      origin.prototype.open.apply(this, args)
+      originOpen.apply(this, args)
       this.addEventListener('loadend', () => {
         afterHandler && afterHandler(...args)
       })
@@ -41,11 +42,13 @@ function proxyHistory(handler) {
     const originReplaceState = history.replaceState
 
     history.pushState = function (...args: Array<any>) {
+      console.log('pushState')
       handler && handler()
       originPushState.apply(window.history, args)
     }
 
     history.replaceState = function (...args: Array<any>) {
+      console.log('replaceState')
       handler && handler()
       originReplaceState.apply(window.history, args)
     }

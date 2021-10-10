@@ -39,7 +39,7 @@ class WebVitals implements IWebVitals {
       immediately = false,
       customPaintMetrics = null,
       logFpsCount = 5,
-      apiConfig,
+      apiConfig = {},
       hashHistory = false
     } = config
     this._customPaintMetrics = customPaintMetrics

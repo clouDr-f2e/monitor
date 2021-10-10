@@ -55,10 +55,11 @@ const computeCCPAndRL = (store) => {
 
 const beforeHandler = (url, apiConfig, hashHistory) => {
   if (isPerformanceSupported()) {
+    console.log('beforeHandler entry')
     const path = getPath(location, hashHistory)
-    const firstVisitedState = getFirstVisitedState()
+    const firstVisitedState = getFirstVisitedState().state
     if (!firstVisitedState) {
-      if (apiConfig[path]) {
+      if (apiConfig && apiConfig[path]) {
         if (apiConfig[path].some((path) => path.indexOf(url) > -1)) {
           remoteQueue.push(url)
         }
@@ -75,7 +76,9 @@ const beforeHandler = (url, apiConfig, hashHistory) => {
 
 const afterHandler = (url, store) => {
   if (isPerformanceSupported()) {
-    const firstVisitedState = getFirstVisitedState()
+    console.log('afterHandler entry')
+    const firstVisitedState = getFirstVisitedState().state
+    console.log('firstVisitedState = ', firstVisitedState)
     if (!firstVisitedState) {
       completeQueue.push(url)
 
