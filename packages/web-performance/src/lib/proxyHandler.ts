@@ -25,10 +25,15 @@ function proxyFetch(beforeHandler: (...args: Array<any>) => void, afterHandler: 
     const origin = window.fetch
     window.fetch = function (resource: string, init: Partial<Request>) {
       beforeHandler && beforeHandler(resource, init)
-      return origin.call(window, resource, init).then((response: Response) => {
-        afterHandler && afterHandler(resource, init)
-        return response
-      })
+      return origin.call(window, resource, init).then(
+        (response: Response) => {
+          afterHandler && afterHandler(resource, init)
+          return response
+        },
+        (err: Error) => {
+          throw err
+        }
+      )
     }
   }
 }
