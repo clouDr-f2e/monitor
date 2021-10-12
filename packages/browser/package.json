@@ -1,6 +1,6 @@
 {
   "name": "@zyf2e/monitor-browser",
-  "version": "2.1.29",
+  "version": "2.1.30",
   "description": "A SDK For Monitoring Browser Errors",
   "author": "cjinhuo",
   "license": "MIT",
@@ -11,10 +11,10 @@
     "dist"
   ],
   "dependencies": {
-    "@zyf2e/monitor-utils": "2.1.29",
-    "@zyf2e/monitor-core": "2.1.29",
-    "@zyf2e/monitor-shared": "2.1.29",
-    "@zyf2e/monitor-types": "2.1.29"
+    "@zyf2e/monitor-utils": "2.1.30",
+    "@zyf2e/monitor-core": "2.1.30",
+    "@zyf2e/monitor-shared": "2.1.30",
+    "@zyf2e/monitor-types": "2.1.30"
   },
   "buildOptions": {
     "formats": [
