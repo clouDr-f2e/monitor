@@ -1,30 +1,21 @@
-## [2.1.30](https://github.com/clouDr-f2e/mitojs/compare/v2.1.29...v2.1.30) (2021-10-12)
+## [2.1.30](https://github.com/clouDr-f2e/mitojs/compare/v2.1.29...v2.1.30) (2021-10-13)
+* 新增 ccp 指标
+* 更新 WebVitals 配置，删除customPaintMetrics属性，新增needCCP属性
 
 
-
-## [2.1.29](https://github.com/clouDr-f2e/mitojs/compare/v2.1.27...v2.1.29) (2021-09-24)
+## [2.1.29](https://github.com/clouDr-f2e/mitojs/compare/v2.1.28...v2.1.29) (2021-09-24)
 
 
 ### Bug Fixes
 
-* 修复navigation-timing中有值小于0时，不做上报处理，FP和FCP在页面隐藏后不做上报处理 ([8d0280b](https://github.com/clouDr-f2e/mitojs/commit/8d0280b1de062c070bb37086e6e9ffe3dd0fc8f1))
-* 修复roundByFour中toFixed报错 ([2a30f4d](https://github.com/clouDr-f2e/mitojs/commit/2a30f4d7e8f4d4b45bb5e2a36f5bf5213a088ff4))
 * **getNavigationTiming:** 修复navigation-timing中ssl不存在，计算错误 ([e1c1610](https://github.com/clouDr-f2e/mitojs/commit/e1c1610dcf04015babdc252ebc3ec9036fd3f59a))
 * manual fix change log ([d4c1f9f](https://github.com/clouDr-f2e/mitojs/commit/d4c1f9f10a10bcfa8791f625f15beb68f786cef2))
-
-
-
-## [2.1.28](https://github.com/clouDr-f2e/mitojs/compare/v2.1.27...v2.1.28) (2021-09-14)
-
-
-### Bug Fixes
-
+* 修复navigation-timing中有值小于0时，不做上报处理，FP和FCP在页面隐藏后不做上报处理 ([8d0280b](https://github.com/clouDr-f2e/mitojs/commit/8d0280b1de062c070bb37086e6e9ffe3dd0fc8f1))
 * 修复roundByFour中toFixed报错 ([2a30f4d](https://github.com/clouDr-f2e/mitojs/commit/2a30f4d7e8f4d4b45bb5e2a36f5bf5213a088ff4))
-* manual fix change log ([d4c1f9f](https://github.com/clouDr-f2e/mitojs/commit/d4c1f9f10a10bcfa8791f625f15beb68f786cef2))
 
 
 
-## [2.1.27](https://github.com/clouDr-f2e/mitojs/compare/v2.1.24...v2.1.26) (2021-09-02)
+## [2.1.27](https://github.com/clouDr-f2e/mitojs/compare/v2.1.22...v2.1.27) (2021-09-02)
 
 
 ### Bug Fixes
@@ -36,34 +27,11 @@
 ### Features
 
 * publish add personal registry ([cb42f31](https://github.com/clouDr-f2e/mitojs/commit/cb42f310763193568a912be50a0aca44f2949d5a))
-
-
-
-## [2.1.26](https://github.com/clouDr-f2e/mitojs/compare/v2.1.22...v2.1.26) (2021-09-01)
-
-
-### Bug Fixes
-
-* 修复safari兼容性问题 ([b7b470b](https://github.com/clouDr-f2e/mitojs/commit/b7b470b302cbdbc14d57db105339e7cb2244e637))
-
-
-### Features
-
-* publish add personal registry ([cb42f31](https://github.com/clouDr-f2e/mitojs/commit/cb42f310763193568a912be50a0aca44f2949d5a))
 * 添加一种type ([8e1fc90](https://github.com/clouDr-f2e/mitojs/commit/8e1fc90a924a5494c63c4227d69dcb8c3437fc3b))
 
 
 
 ## [2.1.22](https://github.com/clouDr-f2e/mitojs/compare/v2.1.20...v2.1.22) (2021-08-27)
-
-
-### Performance Improvements
-
-* 判断takeRecords存在，再调用
-
-
-
-## [2.1.21](https://github.com/clouDr-f2e/mitojs/compare/v2.1.20...v2.1.22) (2021-08-27)
 
 
 ### Performance Improvements
