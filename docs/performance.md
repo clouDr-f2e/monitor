@@ -42,7 +42,7 @@ npm i @zyf2e/monitor-web-performance
 ### 使用cdn
 
 ```bash
-`<script src="https://cdn.jsdelivr.net/npm/@mitojs/web-performance/dist/web-performance.min.js"></script>`
+<script src="https://cdn.jsdelivr.net/npm/@mitojs/web-performance/dist/web-performance.min.js"></script>
 ```
 
 ### 使用
@@ -79,31 +79,10 @@ export default wv
 const wv = new WebVitals({
   ...,
   immediately: true,
-  customPaintMetrics: 'custom-finish-paint'
+  customPaintMetrics: 'custom-finish-paint',
+  logFpsCount:10
 })
 ```
-
-```javascript
-// performance.js
-
-const customContentfulPaint = () => {
-  const images = Array.from(document.querySelectorAll('img')).filter(image => !image.complete);
-  let loadImages = 0;
-  images.forEach((image, i) => {
-    image.addEventListener('load', () => {
-      loadImages += 1;
-      if (loadImages === images.length) {
-        wv.customCompletedPaint()
-      }
-    });
-    image.addEventListener('error', () => {
-      loadImages += 1;
-      if (loadImages === images.length) {
-        wv.customCompletedPaint()
-      }
-    });
-  });
-}
 
 export {customContentfulPaint}
 ```
@@ -116,7 +95,7 @@ const home = () => {
   useEffect(() => {
     fetchData().then(data => {
       setData(data)
-      customContentfulPaint()
+       wv.customCompletedPaint()
     })
   }, [])
 
