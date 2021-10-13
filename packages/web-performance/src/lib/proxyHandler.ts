@@ -3,9 +3,10 @@
  * @param afterHandler
  */
 function proxyXhr(beforeHandler: (...args: Array<any>) => void, afterHandler: (...args: Array<any>) => void): void {
-  if ('XMLHttpRequest' in window) {
+  if ('XMLHttpRequest' in window && !window.__mito_xhr__) {
     const origin = window.XMLHttpRequest
     const originOpen = origin.prototype.open
+    window.__mito_xhr__ = true
     origin.prototype.open = function (this: XMLHttpRequest, ...args: Array<any>) {
       beforeHandler && beforeHandler(args[1])
       originOpen.apply(this, args)
@@ -41,7 +42,7 @@ function proxyFetch(beforeHandler: (...args: Array<any>) => void, afterHandler: 
 /**
  * @param handler
  */
-function proxyHistory(handler) {
+function proxyHistory(handler: () => void) {
   if (window.history) {
     const originPushState = history.pushState
     const originReplaceState = history.replaceState

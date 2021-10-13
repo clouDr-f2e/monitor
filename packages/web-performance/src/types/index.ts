@@ -113,3 +113,10 @@ export interface LayoutShift extends PerformanceEntry {
   value: number
   hadRecentInput: boolean
 }
+
+declare global {
+  interface Window {
+    // Build flags:
+    __mito_xhr__: boolean
+  }
+}
