@@ -20,8 +20,7 @@ yarn add @zyf2e/monitor-web-performance
     appId: 'allen-test',
     version: '1.0.0',
     reportCallback: console.log,
-    immediately: true,
-    customPaintMetrics: 'custom-finish-paint'
+    immediately: true
   })
 ```
 
@@ -35,8 +34,8 @@ yarn add @zyf2e/monitor-web-performance
   reportCallback|上报回调函数|function|是|无
   reportUri|string|提供给sendBeacon使用|否|无
   immediately|boolean|是否立即上报|否|false
-  customPaintMetrics|string|自定义完成渲染指标|否|无
-
+  needCCP|boolean|是否需要ccp指标|否|无
+  logFpsCount|boolean|监听fps的次数|否|无
 
 + getCurrentMetrics
 
@@ -67,7 +66,7 @@ yarn add @zyf2e/monitor-web-performance
 
 + customCompletedPaint
 
-  描述：测量自定义渲染的指标，返回自定义渲染指标数据，配合**customPaintMetrics** 属性，一起使用
+  描述：测量自定义渲染的指标，返回自定义渲染指标数据
 ## 指标
 ### NavigationTiming
 字段|字段类型|描述|计算公式|备注
