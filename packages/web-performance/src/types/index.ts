@@ -117,6 +117,7 @@ export interface LayoutShift extends PerformanceEntry {
 declare global {
   interface Window {
     // Build flags:
-    __mito_xhr__: boolean
+    __monitor_xhr__: boolean
+    __monitor_fetch__: boolean
   }
 }
