@@ -58,3 +58,12 @@ export const isIncludeArr = (arr1: Array<string>, arr2: Array<string>): boolean 
 
   return true
 }
+
+export const getApiPath = (url: string): string => {
+  const reg = /http(?:s|):\/\/[^\/\s]+([^#?]+).*/
+
+  if (url) {
+    return url.match(reg)?.[1]
+  }
+  return ''
+}

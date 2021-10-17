@@ -8,7 +8,7 @@ import { proxyFetch, proxyXhr } from '../lib/proxyHandler'
 import getFirstVisitedState from '../lib/getFirstVisitedState'
 import metricsStore from '../lib/store'
 import { IReportHandler } from '../types'
-import { isIncludeArr } from '../utils'
+import { getApiPath, isIncludeArr } from '../utils'
 import getPath from '../utils/getPath'
 import { isPerformanceSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
@@ -61,7 +61,8 @@ const beforeHandler = (url, apiConfig, needCCP, hashHistory) => {
     const firstVisitedState = getFirstVisitedState().state
     if (!firstVisitedState) {
       if (apiConfig && apiConfig[path]) {
-        if (apiConfig[path].some((o) => url.indexOf(o) > -1)) {
+        const remotePath = getApiPath(url)
+        if (apiConfig[path].some((o) => remotePath === o)) {
           remoteQueue.push(url)
         }
       } else {
