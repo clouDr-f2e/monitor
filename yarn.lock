@@ -1279,9 +1279,9 @@
   dependencies:
     eslint-visitor-keys "^1.1.0"
 
-"@zyf2e/monitor-browser@2.1.29", "@zyf2e/monitor-browser@^2.1.27":
+"@zyf2e/monitor-browser@2.1.29", "@zyf2e/monitor-browser@^2.1.29":
   version "2.1.29"
-  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-browser/-/monitor-browser-2.1.29.tgz#1f18d9c9ddc2ddf2e7cf7660de8957f219d10d77"
+  resolved "https://registry.npmjs.org/@zyf2e/monitor-browser/-/monitor-browser-2.1.29.tgz#1f18d9c9ddc2ddf2e7cf7660de8957f219d10d77"
   integrity sha512-H84hqJ5kuraknsWdge+NxLK6NYmEl3BlHT1cdve/XJlGPs5DFG7pf2SqFW77Q7XAp547oQOGC96nqZluMUg0XQ==
   dependencies:
     "@zyf2e/monitor-core" "2.1.29"
@@ -1289,7 +1289,7 @@
     "@zyf2e/monitor-types" "2.1.29"
     "@zyf2e/monitor-utils" "2.1.29"
 
-"@zyf2e/monitor-core@2.1.29", "@zyf2e/monitor-core@^2.1.27":
+"@zyf2e/monitor-core@2.1.29", "@zyf2e/monitor-core@^2.1.29":
   version "2.1.29"
   resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-core/-/monitor-core-2.1.29.tgz#9eed8c6ec3361a652a4a29a0263840faedbf37cf"
   integrity sha512-WtCVa229HUQ2fB0DG166evq+xCet7Ny6t/0oqjdl/WM0qYjctbp8evzzHbbgNKpvOnPh0rpApZAJdWmUvYRpGg==
@@ -1299,21 +1299,21 @@
     "@zyf2e/monitor-types" "2.1.29"
     "@zyf2e/monitor-utils" "2.1.29"
 
-"@zyf2e/monitor-react@^2.1.27":
+"@zyf2e/monitor-react@^2.1.29":
   version "2.1.29"
-  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-react/-/monitor-react-2.1.29.tgz#fda18b093666419c4679bfdc727c0837e5f8a154"
+  resolved "https://registry.npmjs.org/@zyf2e/monitor-react/-/monitor-react-2.1.29.tgz#fda18b093666419c4679bfdc727c0837e5f8a154"
   integrity sha512-+q+odTdgZmsFzsgx/T7TGdY9ttrA4k7c5lwKuY8GCKa+l0enW5U9dk9Bhy59xH608dkaP78s2S2vmxeD4R6k/w==
   dependencies:
     "@zyf2e/monitor-core" "2.1.29"
     "@zyf2e/monitor-shared" "2.1.29"
     "@zyf2e/monitor-utils" "2.1.29"
 
-"@zyf2e/monitor-shared@2.1.29", "@zyf2e/monitor-shared@^2.1.27":
+"@zyf2e/monitor-shared@2.1.29", "@zyf2e/monitor-shared@^2.1.29":
   version "2.1.29"
   resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-shared/-/monitor-shared-2.1.29.tgz#fd0e5580c715f45ecd84602c365d2d1dc7ce132c"
   integrity sha512-p3gMGEuy1ardRRAygmuz1334XQG1LBpEuTGcJ25wYwK9x80b0v9sEPp/2AA5vnYimmScfODwnF5nvejubapbLw==
 
-"@zyf2e/monitor-types@2.1.29", "@zyf2e/monitor-types@^2.1.27":
+"@zyf2e/monitor-types@2.1.29", "@zyf2e/monitor-types@^2.1.29":
   version "2.1.29"
   resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-types/-/monitor-types-2.1.29.tgz#a805e87a8002ba0dcb5b41cfe5f0cb6f0953ee12"
   integrity sha512-RF2G/nFtYI0+DVoe+rdSui5hVHp0IAt//gPJF4UYYwbK8bioS6HCGu8watayBm2BQN4kttKzUx2cXVMscwRolA==
@@ -1324,7 +1324,7 @@
     "@zyf2e/monitor-shared" "2.1.29"
     "@zyf2e/monitor-utils" "2.1.29"
 
-"@zyf2e/monitor-utils@2.1.29", "@zyf2e/monitor-utils@^2.1.27":
+"@zyf2e/monitor-utils@2.1.29", "@zyf2e/monitor-utils@^2.1.29":
   version "2.1.29"
   resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-utils/-/monitor-utils-2.1.29.tgz#f20d19673a8f37a78c767010a68098f1518f0b83"
   integrity sha512-Xy8exWvopERhNZLe8xC8zwNECHsF/kYztcEzbxq3uc0jl3lGk6g/92igo9MavswrCZENcmgFQex6490gQ325MQ==
@@ -1334,9 +1334,9 @@
     "@zyf2e/monitor-shared" "2.1.29"
     "@zyf2e/monitor-types" "2.1.29"
 
-"@zyf2e/monitor-vue@^2.1.27":
+"@zyf2e/monitor-vue@^2.1.29":
   version "2.1.29"
-  resolved "http://npmreg.qa.91jkys.com/@zyf2e%2fmonitor-vue/-/monitor-vue-2.1.29.tgz#a1c7e8be385541c27e86110b07e89eab7633aa74"
+  resolved "https://registry.npmjs.org/@zyf2e/monitor-vue/-/monitor-vue-2.1.29.tgz#a1c7e8be385541c27e86110b07e89eab7633aa74"
   integrity sha512-9wmpWkYLe2SX7Zo6xGO40nMNCJL+zPDo4PlnfC4ZYUo7GNOgSfmg+7VeVgjADf94I+67S5PRpf6D+lkKgw4DOw==
   dependencies:
     "@zyf2e/monitor-core" "2.1.29"
