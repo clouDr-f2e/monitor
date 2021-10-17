@@ -4,7 +4,7 @@
     </a>
     <p>一款轻量级的收集页面的用户点击行为、路由跳转、接口报错、代码报错、并上报服务端的SDK</p>
 
-[![npm version](https://img.shields.io/npm/v/@mitojs/web.svg?style=flat-square)](https://www.npmjs.com/package/@zyf2e/monitor-web)
+[![npm version](https://img.shields.io/npm/v/@zyf2e/monitor-web.svg?style=flat-square)](https://www.npmjs.com/package/@zyf2e/monitor-web)
 [![license](https://img.shields.io/github/license/clouDr-f2e/mitojs)](https://github.com/clouDr-f2e/mitojs/blob/dev/LICENSE)
 [![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![GitHub last commit](https://img.shields.io/github/last-commit/clouDr-f2e/mitojs.svg?style=flat-square)](https://github.com/clouDr-f2e/mitojs/commits/master)
