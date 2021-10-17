@@ -7,11 +7,11 @@
 [![npm version](https://img.shields.io/npm/v/@zyf2e/monitor-web.svg?style=flat-square)](https://www.npmjs.com/package/@zyf2e/monitor-web)
 [![license](https://img.shields.io/github/license/clouDr-f2e/mitojs)](https://github.com/clouDr-f2e/mitojs/blob/dev/LICENSE)
 [![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![GitHub last commit](https://img.shields.io/github/last-commit/clouDr-f2e/mitojs.svg?style=flat-square)](https://github.com/clouDr-f2e/mitojs/commits/master)
-[![build status](https://img.shields.io/travis/clouDr-f2e/mitojs/master.svg?style=flat-square)](https://travis-ci.com/github/clouDr-f2e/mitojs)
-[![codecov](https://codecov.io/gh/clouDr-f2e/mitojs/branch/master/graph/badge.svg?token=W7JP5GDOM7)](https://codecov.io/gh/clouDr-f2e/mitojs)
+[![GitHub last commit](https://img.shields.io/github/last-commit/clouDr-f2e/monitor.svg?style=flat-square)](https://github.com/clouDr-f2e/monitor/commits/master)
+[![build status](https://img.shields.io/travis/clouDr-f2e/monitor/master.svg?style=flat-square)](https://travis-ci.com/github/clouDr-f2e/monitor)
+[![codecov](https://codecov.io/gh/clouDr-f2e/monitor/branch/master/graph/badge.svg?token=W7JP5GDOM7)](https://codecov.io/gh/clouDr-f2e/monitor)
 
-<!-- [![npm downloads](https://img.shields.io/npm/dm/@zyf2e/mitojs.svg?style=flat-square)](http://npm-stat.com/charts.html?package=@zyf2e/mitojs) -->
+<!-- [![npm downloads](https://img.shields.io/npm/dm/@zyf2e/monitor.svg?style=flat-square)](http://npm-stat.com/charts.html?package=@zyf2e/monitor) -->
 
 
 </div>
