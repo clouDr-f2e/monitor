@@ -1,3 +1,8 @@
+## [2.1.31](https://github.com/clouDr-f2e/mitojs/compare/v2.1.30...v2.1.31) (2021-10-18)
+* 优化 ccp 指标
+* 更新 performance 文档
+
+
 ## [2.1.30](https://github.com/clouDr-f2e/mitojs/compare/v2.1.29...v2.1.30) (2021-10-13)
 * 新增 ccp 指标
 * 更新 WebVitals 配置，删除customPaintMetrics属性，新增needCCP属性
