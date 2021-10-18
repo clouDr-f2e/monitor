@@ -79,7 +79,7 @@ export default wv
 const wv = new WebVitals({
   ...,
   immediately: true,
-  customPaintMetrics: 'custom-finish-paint',
+  needCCP:true,
   logFpsCount:10
 })
 ```
@@ -93,10 +93,7 @@ import {customContentfulPaint} from './performance.js'
 
 const home = () => {
   useEffect(() => {
-    fetchData().then(data => {
-      setData(data)
-       wv.customCompletedPaint()
-    })
+      wv.customCompletedPaint()
   }, [])
 
   return <div>
