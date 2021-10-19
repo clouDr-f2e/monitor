@@ -6,10 +6,10 @@ export interface IConfig {
   immediately: boolean
   needCCP?: boolean
   logFpsCount?: number
-  apiConfig: {
+  apiConfig?: {
     [prop: string]: Array<string>
   }
-  hashHistory: boolean
+  hashHistory?: boolean
 }
 
 export interface IPerformanceNavigationTiming {

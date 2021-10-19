@@ -28,8 +28,6 @@ let metricsStore: MetricsStore
 let reporter: ReturnType<typeof createReporter>
 
 class WebVitals implements IWebVitals {
-  private readonly _customPaintMetrics: string
-
   constructor(config: IConfig) {
     const {
       appId,
@@ -40,7 +38,7 @@ class WebVitals implements IWebVitals {
       needCCP = false,
       logFpsCount = 5,
       apiConfig = {},
-      hashHistory = false
+      hashHistory = true
     } = config
 
     const sectionId = generateUniqueID()

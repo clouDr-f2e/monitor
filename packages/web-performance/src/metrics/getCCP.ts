@@ -8,7 +8,7 @@ import { proxyFetch, proxyXhr } from '../lib/proxyHandler'
 import getFirstVisitedState from '../lib/getFirstVisitedState'
 import metricsStore from '../lib/store'
 import { IReportHandler } from '../types'
-import { getApiPath, isIncludeArr } from '../utils'
+import { getApiPath, isEqualArr, isIncludeArr } from '../utils'
 import getPath from '../utils/getPath'
 import { isPerformanceSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
@@ -30,6 +30,7 @@ const computeCCPAndRL = (store) => {
     const images = Array.from(document.querySelectorAll('img')).filter((image) => {
       return !image.complete && image.src
     })
+    console.log(images, 'images')
     if (images.length > 0) {
       let loadImages = 0
       images.forEach((image) => {
@@ -60,14 +61,14 @@ const beforeHandler = (url, apiConfig, needCCP, hashHistory) => {
     const path = getPath(location, hashHistory)
     const firstVisitedState = getFirstVisitedState().state
     if (!firstVisitedState) {
+      const remotePath = getApiPath(url)
       if (apiConfig && apiConfig[path]) {
-        const remotePath = getApiPath(url)
         if (apiConfig[path].some((o) => remotePath === o)) {
-          remoteQueue.push(url)
+          remoteQueue.push(remotePath)
         }
       } else {
         if (!isDone && needCCP) {
-          remoteQueue.push(url)
+          remoteQueue.push(remotePath)
         }
       }
     }
@@ -76,15 +77,25 @@ const beforeHandler = (url, apiConfig, needCCP, hashHistory) => {
   }
 }
 
-const afterHandler = (url, store) => {
+const afterHandler = (url, apiConfig, store, hashHistory) => {
   if (isPerformanceSupported()) {
+    const path = getPath(location, hashHistory)
     const firstVisitedState = getFirstVisitedState().state
     if (!firstVisitedState) {
-      completeQueue.push(url)
-      if (isIncludeArr(remoteQueue, completeQueue)) {
-        storeMetrics(metricsName.ACT, performance.now(), store)
-
-        computeCCPAndRL(store)
+      const remotePath = getApiPath(url)
+      completeQueue.push(remotePath)
+      if (apiConfig && apiConfig[path]) {
+        if (isIncludeArr(apiConfig[path], completeQueue)) {
+          console.log('afterHandler', remoteQueue, completeQueue)
+          storeMetrics(metricsName.ACT, performance.now(), store)
+          computeCCPAndRL(store)
+        }
+      } else {
+        if (isEqualArr(remoteQueue, completeQueue)) {
+          console.log('afterHandler', remoteQueue, completeQueue)
+          storeMetrics(metricsName.ACT, performance.now(), store)
+          computeCCPAndRL(store)
+        }
       }
     }
   } else {
@@ -94,20 +105,19 @@ const afterHandler = (url, store) => {
 
 const reportMetrics = (store: metricsStore, report) => {
   if (reportLock) {
+    const act = store.get(metricsName.ACT)
     const ccp = store.get(metricsName.CCP)
     const rl = store.get(metricsName.RL)
-    const act = store.get(metricsName.ACT)
 
-    if (act) {
-      report(act)
-    }
+    if (act && ccp) {
+      if (act.value < ccp.value) {
+        report(act)
+        report(ccp)
 
-    if (ccp) {
-      report(ccp)
-    }
-
-    if (rl) {
-      report(rl)
+        if (rl) {
+          report(rl)
+        }
+      }
     }
 
     reportLock = false
@@ -129,9 +139,12 @@ export const initCCP = (
   addEventListener(
     event,
     () => {
-      isDone = true
-      if (isPerformanceSupported()) {
-        computeCCPAndRL(store)
+      const firstVisitedState = getFirstVisitedState().state
+      if (!firstVisitedState) {
+        isDone = true
+        if (isPerformanceSupported()) {
+          computeCCPAndRL(store)
+        }
       }
     },
     { once: true, capture: true }
@@ -145,10 +158,10 @@ export const initCCP = (
 
   proxyXhr(
     (url) => beforeHandler(url, apiConfig, needCCP, hashHistory),
-    (url) => afterHandler(url, store)
+    (url) => afterHandler(url, apiConfig, store, hashHistory)
   )
   proxyFetch(
     (url) => beforeHandler(url, apiConfig, needCCP, hashHistory),
-    (url) => afterHandler(url, store)
+    (url) => afterHandler(url, apiConfig, store, hashHistory)
   )
 }

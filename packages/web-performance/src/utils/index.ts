@@ -59,6 +59,25 @@ export const isIncludeArr = (arr1: Array<string>, arr2: Array<string>): boolean 
   return true
 }
 
+export const isEqualArr = (arr1: Array<string>, arr2: Array<string>): boolean => {
+  if (!arr1 || arr1.length === 0) {
+    return false
+  }
+
+  if (!arr2 || arr2.length === 0) {
+    return false
+  }
+
+  if (arr1.length !== arr2.length) {
+    return false
+  }
+
+  const sortArr1 = arr1.sort()
+  const sortArr2 = arr2.sort()
+
+  return sortArr1.join() === sortArr2.join()
+}
+
 export const getApiPath = (url: string): string => {
   const reg = /http(?:s|):\/\/[^\/\s]+([^#?]+).*/
 
