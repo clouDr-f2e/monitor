@@ -15,7 +15,10 @@ import { metricsName } from '../constants'
 import { onHidden } from '../lib/onHidden'
 import { onPageChange } from '../lib/onPageChange'
 
-const remoteQueue = []
+const remoteQueue = {
+  hasStoreMetrics: false,
+  queue: []
+}
 const completeQueue = []
 let isDone = false
 let reportLock = true
@@ -30,7 +33,6 @@ const computeCCPAndRL = (store) => {
     const images = Array.from(document.querySelectorAll('img')).filter((image) => {
       return !image.complete && image.src
     })
-    console.log(images, 'images')
     if (images.length > 0) {
       let loadImages = 0
       images.forEach((image) => {
@@ -64,11 +66,11 @@ const beforeHandler = (url, apiConfig, needCCP, hashHistory) => {
       const remotePath = getApiPath(url)
       if (apiConfig && apiConfig[path]) {
         if (apiConfig[path].some((o) => remotePath === o)) {
-          remoteQueue.push(remotePath)
+          remoteQueue.queue.push(remotePath)
         }
       } else {
         if (!isDone && needCCP) {
-          remoteQueue.push(remotePath)
+          remoteQueue.queue.push(remotePath)
         }
       }
     }
@@ -77,7 +79,7 @@ const beforeHandler = (url, apiConfig, needCCP, hashHistory) => {
   }
 }
 
-const afterHandler = (url, apiConfig, store, hashHistory) => {
+const afterHandler = (url, apiConfig, store, needCCP, hashHistory) => {
   if (isPerformanceSupported()) {
     const path = getPath(location, hashHistory)
     const firstVisitedState = getFirstVisitedState().state
@@ -85,14 +87,13 @@ const afterHandler = (url, apiConfig, store, hashHistory) => {
       const remotePath = getApiPath(url)
       completeQueue.push(remotePath)
       if (apiConfig && apiConfig[path]) {
-        if (isIncludeArr(apiConfig[path], completeQueue)) {
-          console.log('afterHandler', remoteQueue, completeQueue)
+        if (isIncludeArr(remoteQueue.queue, completeQueue) && !remoteQueue.hasStoreMetrics) {
+          remoteQueue.hasStoreMetrics = true
           storeMetrics(metricsName.ACT, performance.now(), store)
           computeCCPAndRL(store)
         }
       } else {
-        if (isEqualArr(remoteQueue, completeQueue)) {
-          console.log('afterHandler', remoteQueue, completeQueue)
+        if (isEqualArr(remoteQueue.queue, completeQueue) && isDone && needCCP) {
           storeMetrics(metricsName.ACT, performance.now(), store)
           computeCCPAndRL(store)
         }
@@ -117,6 +118,14 @@ const reportMetrics = (store: metricsStore, report) => {
         if (rl) {
           report(rl)
         }
+      }
+    }
+
+    if (!act && ccp) {
+      report(ccp)
+
+      if (rl) {
+        report(rl)
       }
     }
 
@@ -158,10 +167,10 @@ export const initCCP = (
 
   proxyXhr(
     (url) => beforeHandler(url, apiConfig, needCCP, hashHistory),
-    (url) => afterHandler(url, apiConfig, store, hashHistory)
+    (url) => afterHandler(url, apiConfig, store, needCCP, hashHistory)
   )
   proxyFetch(
     (url) => beforeHandler(url, apiConfig, needCCP, hashHistory),
-    (url) => afterHandler(url, apiConfig, store, hashHistory)
+    (url) => afterHandler(url, apiConfig, store, needCCP, hashHistory)
   )
 }
