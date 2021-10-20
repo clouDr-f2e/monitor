@@ -8,7 +8,9 @@ const observe = (type: string, callback: PerformanceEntryHandler): PerformanceOb
       po.observe({ type, buffered: true })
       return po
     }
-  } catch (e) {}
+  } catch (e) {
+    throw e
+  }
 }
 
 export default observe

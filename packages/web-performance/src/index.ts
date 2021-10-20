@@ -49,7 +49,7 @@ class WebVitals implements IWebVitals {
     initNetworkInfo(metricsStore, reporter, immediately)
     initDeviceInfo(metricsStore, reporter, immediately)
     initCLS(metricsStore, reporter, immediately)
-    initCCP(metricsStore, reporter, needCCP, apiConfig, hashHistory)
+    initCCP(metricsStore, reporter, needCCP, apiConfig, hashHistory, immediately)
 
     afterLoad(() => {
       initNavigationTiming(metricsStore, reporter, immediately)
