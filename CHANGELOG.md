@@ -1,5 +1,10 @@
-## [2.1.32](https://github.com/clouDr-f2e/mitojs/compare/v2.1.31...v2.1.32) (2021-10-19)
+## [2.1.33](https://github.com/clouDr-f2e/mitojs/compare/v2.1.31...v2.1.32) (2021-10-20)
+* 修复 ccp 指标错误
+* 更新 performance 文档
 
+
+## [2.1.32](https://github.com/clouDr-f2e/mitojs/compare/v2.1.31...v2.1.32) (2021-10-19)
+* 修复 ccp 指标错误
 
 
 ## [2.1.31](https://github.com/clouDr-f2e/mitojs/compare/v2.1.30...v2.1.31) (2021-10-18)
