@@ -93,7 +93,8 @@ const afterHandler = (url, apiConfig, store, needCCP, hashHistory) => {
           computeCCPAndRL(store)
         }
       } else {
-        if (isIncludeArr(remoteQueue.queue, completeQueue) && isDone && needCCP) {
+        if (isIncludeArr(remoteQueue.queue, completeQueue) && !remoteQueue.hasStoreMetrics && isDone && needCCP) {
+          remoteQueue.hasStoreMetrics = true
           storeMetrics(metricsName.ACT, performance.now(), store)
           computeCCPAndRL(store)
         }
