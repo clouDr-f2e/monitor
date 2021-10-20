@@ -8,7 +8,7 @@ import { proxyFetch, proxyXhr } from '../lib/proxyHandler'
 import getFirstVisitedState from '../lib/getFirstVisitedState'
 import metricsStore from '../lib/store'
 import { IReportHandler } from '../types'
-import { getApiPath, isEqualArr, isIncludeArr } from '../utils'
+import { getApiPath, isIncludeArr } from '../utils'
 import getPath from '../utils/getPath'
 import { isPerformanceSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
@@ -93,7 +93,8 @@ const afterHandler = (url, apiConfig, store, needCCP, hashHistory) => {
           computeCCPAndRL(store)
         }
       } else {
-        if (isEqualArr(remoteQueue.queue, completeQueue) && isDone && needCCP) {
+        if (isIncludeArr(remoteQueue.queue, completeQueue) && !remoteQueue.hasStoreMetrics && isDone && needCCP) {
+          remoteQueue.hasStoreMetrics = true
           storeMetrics(metricsName.ACT, performance.now(), store)
           computeCCPAndRL(store)
         }
@@ -104,32 +105,34 @@ const afterHandler = (url, apiConfig, store, needCCP, hashHistory) => {
   }
 }
 
-const reportMetrics = (store: metricsStore, report) => {
-  if (reportLock) {
-    const act = store.get(metricsName.ACT)
-    const ccp = store.get(metricsName.CCP)
-    const rl = store.get(metricsName.RL)
+const reportMetrics = (store: metricsStore, report, immediately) => {
+  if (immediately) {
+    if (reportLock) {
+      const act = store.get(metricsName.ACT)
+      const ccp = store.get(metricsName.CCP)
+      const rl = store.get(metricsName.RL)
 
-    if (act && ccp) {
-      if (act.value < ccp.value) {
-        report(act)
+      if (act && ccp) {
+        if (act.value < ccp.value) {
+          report(act)
+          report(ccp)
+
+          if (rl) {
+            report(rl)
+          }
+        }
+      }
+
+      if (!act && ccp) {
         report(ccp)
 
         if (rl) {
           report(rl)
         }
       }
+
+      reportLock = false
     }
-
-    if (!act && ccp) {
-      report(ccp)
-
-      if (rl) {
-        report(rl)
-      }
-    }
-
-    reportLock = false
   }
 }
 
@@ -142,7 +145,8 @@ export const initCCP = (
   report: IReportHandler,
   needCCP: boolean,
   apiConfig: { [prop: string]: Array<string> },
-  hashHistory
+  hashHistory: boolean,
+  immediately: boolean
 ) => {
   const event = needCCP ? 'custom-contentful-paint' : 'pageshow'
   addEventListener(
@@ -159,11 +163,11 @@ export const initCCP = (
     { once: true, capture: true }
   )
 
-  onHidden(() => reportMetrics(store, report), true)
+  onHidden(() => reportMetrics(store, report, immediately), true)
 
-  onPageChange(() => reportMetrics(store, report))
+  onPageChange(() => reportMetrics(store, report, immediately))
 
-  maxWaitTime4Report(() => reportMetrics(store, report))
+  maxWaitTime4Report(() => reportMetrics(store, report, immediately))
 
   proxyXhr(
     (url) => beforeHandler(url, apiConfig, needCCP, hashHistory),

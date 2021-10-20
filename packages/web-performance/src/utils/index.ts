@@ -79,7 +79,7 @@ export const isEqualArr = (arr1: Array<string>, arr2: Array<string>): boolean =>
 }
 
 export const getApiPath = (url: string): string => {
-  const reg = /http(?:s|):\/\/[^\/\s]+([^#?]+).*/
+  const reg = /(?:http(?:s|):\/\/[^\/\s]+|)([^#?]+).*/
 
   if (url) {
     return url.match(reg)?.[1]
