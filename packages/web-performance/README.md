@@ -66,7 +66,8 @@ yarn add @zyf2e/monitor-web-performance
 
 + customCompletedPaint
 
-  描述：测量自定义渲染的指标，返回自定义渲染指标数据
+  描述：测量自定义渲染的指标，返回自定义渲染指标数据（在页面接口完成后调用；vue项目，可以是根组件App.vue的mounted中，或者vue router的beforeResolve中调用；
+  react项目， 可以在页面组件外的高阶组件中componentDidMount中调用）
 ## 指标
 ### NavigationTiming
 字段|字段类型|描述|计算公式|备注
@@ -95,6 +96,16 @@ value|number|浏览器呈现来自DOM的第一部分内容|
 字段|字段类型|描述|备注
 |---|---|----|---|
 value|number|视口中可见的最大图像或文本块的渲染时间|
+
+### ACT
+字段|字段类型|描述|备注
+|---|---|----|---|
+value|number|首屏加载后所有接口完成请求后的时间|
+
+### CCP
+字段|字段类型|描述|备注
+|---|---|----|---|
+value|number|首屏加载后所有接口完成请求后，图片完全加载后的时间|
 
 ### FID
 字段|字段类型|描述|备注
