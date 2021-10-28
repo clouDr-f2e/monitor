@@ -115,11 +115,4 @@ $ yarn add @zyf2e/monitor-wx-mini
 
 [wx-mini-在线示例](https://static.91jkys.com/f2e/mito-error-example/#/errors/4/info)
 
-## issue
-
-欢迎所有人提`issue`，如果有什么好的建议和问题可以直接联系本人微信（备注mitojs）：
-
-<img src="https://tva1.sinaimg.cn/large/008eGmZEly1gmtfid3hrfj30kw0r2wfk.jpg" width="240px" />
-
-
 
