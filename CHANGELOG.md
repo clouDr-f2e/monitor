@@ -1,3 +1,8 @@
+## [2.1.34](https://github.com/clouDr-f2e/mitojs/compare/v2.1.33...v2.1.34) (2021-10-26)
+* 修复 ccp 指标错误
+* 删除 packages/types 中 @types/wechat-miniprogram 依赖
+
+
 ## [2.1.33](https://github.com/clouDr-f2e/mitojs/compare/v2.1.31...v2.1.32) (2021-10-20)
 * 修复 ccp 指标错误
 * 更新 performance 文档
