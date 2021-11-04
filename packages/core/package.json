@@ -1,6 +1,6 @@
 {
   "name": "@zyf2e/monitor-core",
-  "version": "2.1.34",
+  "version": "2.1.35",
   "description": "@zyf2e/monitor-core",
   "author": "cjinhuo",
   "license": "MIT",
@@ -11,9 +11,9 @@
     "dist"
   ],
   "dependencies": {
-    "@zyf2e/monitor-core": "2.1.34",
-    "@zyf2e/monitor-types": "2.1.34",
-    "@zyf2e/monitor-utils": "2.1.34",
-    "@zyf2e/monitor-shared": "2.1.34"
+    "@zyf2e/monitor-core": "2.1.35",
+    "@zyf2e/monitor-types": "2.1.35",
+    "@zyf2e/monitor-utils": "2.1.35",
+    "@zyf2e/monitor-shared": "2.1.35"
   }
 }
