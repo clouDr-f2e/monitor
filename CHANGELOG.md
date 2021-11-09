@@ -1,9 +1,24 @@
+## [2.1.35](https://github.com/clouDr-f2e/mitojs/compare/2.1.34...2.1.35) (2021-11-09)
+
+
+### Bug Fixes
+
+* 兼容性问题, 数据includes换成indexOf ([b2eb753](https://github.com/clouDr-f2e/mitojs/commit/b2eb75313236ef01098b21ba83f7c4a7648064c6))
+
+
+
 ## [2.1.34](https://github.com/clouDr-f2e/mitojs/compare/v2.1.33...v2.1.34) (2021-10-26)
+
+### Bug Fixes
+
 * 修复 ccp 指标错误
 * 删除 packages/types 中 @types/wechat-miniprogram 依赖
 
 
 ## [2.1.33](https://github.com/clouDr-f2e/mitojs/compare/v2.1.31...v2.1.32) (2021-10-20)
+
+### Bug Fixes
+
 * 修复 ccp 指标错误
 * 更新 performance 文档
 
