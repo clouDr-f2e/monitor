@@ -1,3 +1,12 @@
+## [2.1.36](https://github.com/clouDr-f2e/mitojs/compare/2.1.35...2.1.36) (2021-11-16)
+
+
+### Bug Fixes
+
+* **performance:** 优化语法 ([bba707a](https://github.com/clouDr-f2e/mitojs/commit/bba707a009ab87b96402b0e65e9e16ca369fb9b0))
+
+
+
 ## [2.1.35](https://github.com/clouDr-f2e/mitojs/compare/2.1.34...2.1.35) (2021-11-09)
 
 
