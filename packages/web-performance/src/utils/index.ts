@@ -51,7 +51,7 @@ export const isIncludeArr = (arr1: Array<string>, arr2: Array<string>): boolean 
   }
 
   for (let i = 0; i < arr1.length; i++) {
-    if (!(arr2.indexOf(arr1[i]) > -1)) {
+    if (!arr2?.includes(arr1[i])) {
       return false
     }
   }
