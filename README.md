@@ -96,9 +96,9 @@ $ yarn add @zyf2e/monitor-wx-mini
 
 
 ### 示例
-[mitojs-在线demo](https://cloudr-f2e.github.io/monitor-demo/#/)
+[monitor-在线demo](https://cloudr-f2e.github.io/monitor-demo/#/)
 
-![mito-在线demo](https://tva1.sinaimg.cn/large/008eGmZEly1gmxgn4y1sag315g0m2hdt.gif)
+![monitor-在线demo](./docs/assets/monitor-demo.gif)
 
 
 ## 收集信息平台展示
