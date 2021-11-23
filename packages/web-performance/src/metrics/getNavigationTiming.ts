@@ -88,7 +88,7 @@ export const initNavigationTiming = (store: metricsStore, report: IReportHandler
   getNavigationTiming()?.then((navigationTiming) => {
     const metrics = { name: metricsName.NT, value: navigationTiming } as IMetrics
 
-    if (validNumber(Object.values(metrics.value))) {
+    if (validNumber(Object?.values(metrics.value))) {
       if (immediately) {
         report(metrics)
       }
