@@ -1,6 +1,11 @@
 import { OnPageChangeCallback } from '../types'
 import { proxyHistory } from './proxyHandler'
-import getPageShowState from './getPageShowState'
+
+let pageShowState = false
+
+addEventListener('pageshow', () => {
+  pageShowState = true
+})
 
 /**
  * when page is loaded, listen page change
@@ -15,9 +20,7 @@ export const onPageChange = (cb: OnPageChangeCallback) => {
   })
 
   proxyHistory(() => {
-    const state = getPageShowState().state
-
-    if (state) {
+    if (pageShowState) {
       cb()
     }
   })
