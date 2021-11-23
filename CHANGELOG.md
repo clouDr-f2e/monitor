@@ -1,3 +1,14 @@
+## [2.1.37](https://github.com/clouDr-f2e/mitojs/compare/2.1.35...2.1.37) (2021-11-23)
+
+
+### Bug Fixes
+
+* **performance:** 优化语法 ([08e1e31](https://github.com/clouDr-f2e/mitojs/commit/08e1e316b982f08cde6258a69c9ef87553c82a72))
+* **performance:** 优化语法 ([bba707a](https://github.com/clouDr-f2e/mitojs/commit/bba707a009ab87b96402b0e65e9e16ca369fb9b0))
+* **performance:** 新增版本号 ([fd35bfc](https://github.com/clouDr-f2e/mitojs/commit/fd35bfc9e569ae28b1cf4400ef1c6bb161143da1))
+
+
+
 ## [2.1.36](https://github.com/clouDr-f2e/mitojs/compare/2.1.35...2.1.36) (2021-11-16)
 
 
