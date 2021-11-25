@@ -4,6 +4,8 @@
  * @class
  * @author allen(https://github.com/Chryseis)
  * */
+import 'core-js/es/array/includes'
+import 'core-js/es/object/values'
 import { IConfig, IWebVitals, IMetricsObj } from './types'
 import generateUniqueID from './utils/generateUniqueID'
 import { afterLoad, beforeUnload, unload } from './utils'

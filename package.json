@@ -85,6 +85,7 @@
     "@zyf2e/monitor-shared": "^2.1.29",
     "@zyf2e/monitor-types": "^2.1.29",
     "@zyf2e/monitor-utils": "^2.1.29",
-    "@zyf2e/monitor-vue": "^2.1.29"
+    "@zyf2e/monitor-vue": "^2.1.29",
+    "core-js": "^3.19.1"
   }
 }
