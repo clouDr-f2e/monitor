@@ -1,11 +1,11 @@
 import { OnPageChangeCallback } from '../types'
 import { proxyHistory } from './proxyHandler'
 
-let pageShowState = false
+const unifiedHref = (href) => {
+  return href?.replace(`${location?.protocol}//${location?.host}`, '')
+}
 
-addEventListener('pageshow', () => {
-  pageShowState = true
-})
+const lastHref = unifiedHref(location.href)
 
 /**
  * when page is loaded, listen page change
@@ -19,8 +19,9 @@ export const onPageChange = (cb: OnPageChangeCallback) => {
     cb(e)
   })
 
-  proxyHistory(() => {
-    if (pageShowState) {
+  proxyHistory((...args) => {
+    const currentHref = unifiedHref(args?.[2])
+    if (lastHref !== currentHref) {
       cb()
     }
   })

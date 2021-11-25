@@ -4,7 +4,7 @@
  * @return {string} the page path
  */
 const getPath = (location: Location, isHash: boolean) => {
-  if (isHash) {
+  if (!isHash) {
     return location.pathname.replace(/\/$/, '')
   } else {
     const index = location.href.indexOf('#')

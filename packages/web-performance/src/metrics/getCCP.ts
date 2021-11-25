@@ -150,6 +150,7 @@ export const initCCP = (
   hashHistory: boolean,
   immediately: boolean
 ) => {
+  console.log('ccp')
   const event = needCCP ? 'custom-contentful-paint' : 'pageshow'
   addEventListener(
     event,

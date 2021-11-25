@@ -43,18 +43,18 @@ function proxyFetch(beforeHandler: (...args: Array<any>) => void, afterHandler: 
 /**
  * @param handler
  */
-function proxyHistory(handler: () => void) {
+function proxyHistory(handler: (...arg: Array<any>) => void) {
   if (window.history) {
     const originPushState = history.pushState
     const originReplaceState = history.replaceState
 
     history.pushState = function (...args: Array<any>) {
-      handler && handler()
+      handler && handler(...args, 'pushState')
       originPushState.apply(window.history, args)
     }
 
     history.replaceState = function (...args: Array<any>) {
-      handler && handler()
+      handler && handler(...args, 'replaceState')
       originReplaceState.apply(window.history, args)
     }
   }
