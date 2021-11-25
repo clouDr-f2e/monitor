@@ -1,3 +1,8 @@
+## [2.1.39](https://github.com/clouDr-f2e/mitojs/compare/v2.1.37...v2.1.39) (2021-11-25)
+
+* 优化 ccp 上报时机
+
+
 ## [2.1.37](https://github.com/clouDr-f2e/mitojs/compare/2.1.35...2.1.37) (2021-11-23)
 
 
