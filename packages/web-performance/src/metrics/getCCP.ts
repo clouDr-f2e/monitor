@@ -58,19 +58,21 @@ const computeCCPAndRL = (store) => {
   })
 }
 
-const beforeHandler = (url, apiConfig, needCCP, hashHistory) => {
+const beforeHandler = (url, apiConfig, needCCP, hashHistory, excludeRemotePath) => {
   if (isPerformanceSupported()) {
     const path = getPath(location, hashHistory)
     const firstVisitedState = getFirstVisitedState().state
     if (!firstVisitedState) {
       const remotePath = getApiPath(url)
-      if (apiConfig && apiConfig[path]) {
-        if (apiConfig[path].some((o) => remotePath === o)) {
-          remoteQueue.queue.push(remotePath)
-        }
-      } else {
-        if (!isDone && needCCP) {
-          remoteQueue.queue.push(remotePath)
+      if (!excludeRemotePath?.includes(remotePath)) {
+        if (apiConfig && apiConfig[path]) {
+          if (apiConfig[path].some((o) => remotePath === o)) {
+            remoteQueue.queue.push(remotePath)
+          }
+        } else {
+          if (!isDone && needCCP) {
+            remoteQueue.queue.push(remotePath)
+          }
         }
       }
     }
@@ -148,9 +150,9 @@ export const initCCP = (
   needCCP: boolean,
   apiConfig: { [prop: string]: Array<string> },
   hashHistory: boolean,
+  excludeRemotePath: Array<string>,
   immediately: boolean
 ) => {
-  console.log('ccp')
   const event = needCCP ? 'custom-contentful-paint' : 'pageshow'
   addEventListener(
     event,
@@ -173,11 +175,11 @@ export const initCCP = (
   maxWaitTime4Report(() => reportMetrics(store, report, immediately))
 
   proxyXhr(
-    (url) => beforeHandler(url, apiConfig, needCCP, hashHistory),
+    (url) => beforeHandler(url, apiConfig, needCCP, hashHistory, excludeRemotePath),
     (url) => afterHandler(url, apiConfig, store, needCCP, hashHistory)
   )
   proxyFetch(
-    (url) => beforeHandler(url, apiConfig, needCCP, hashHistory),
+    (url) => beforeHandler(url, apiConfig, needCCP, hashHistory, excludeRemotePath),
     (url) => afterHandler(url, apiConfig, store, needCCP, hashHistory)
   )
 }

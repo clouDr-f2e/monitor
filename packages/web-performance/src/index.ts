@@ -40,7 +40,8 @@ class WebVitals implements IWebVitals {
       needCCP = false,
       logFpsCount = 5,
       apiConfig = {},
-      hashHistory = true
+      hashHistory = true,
+      excludeRemotePath = []
     } = config
 
     const sectionId = generateUniqueID()
@@ -51,7 +52,7 @@ class WebVitals implements IWebVitals {
     initNetworkInfo(metricsStore, reporter, immediately)
     initDeviceInfo(metricsStore, reporter, immediately)
     initCLS(metricsStore, reporter, immediately)
-    initCCP(metricsStore, reporter, needCCP, apiConfig, hashHistory, immediately)
+    initCCP(metricsStore, reporter, needCCP, apiConfig, hashHistory, excludeRemotePath, immediately)
 
     afterLoad(() => {
       initNavigationTiming(metricsStore, reporter, immediately)

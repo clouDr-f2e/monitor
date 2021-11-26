@@ -10,6 +10,7 @@ export interface IConfig {
     [prop: string]: Array<string>
   }
   hashHistory?: boolean
+  excludeRemotePath?: Array<string>
 }
 
 export interface IPerformanceNavigationTiming {
