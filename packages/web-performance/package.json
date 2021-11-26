@@ -9,5 +9,8 @@
   "types": "dist/web-performance.d.ts",
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "core-js": "^3.19.1"
+  }
 }
