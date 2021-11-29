@@ -78,6 +78,7 @@ export enum BREADCRUMBTYPES {
   PAGE_ON_SHOW = 'Page On Show',
   PAGE_ON_HIDE = 'Page On Hide',
   PAGE_ON_UNLOAD = 'Page On Unload',
+  PAGE_ON_LOAD = 'Page On Load',
   PAGE_ON_SHARE_APP_MESSAGE = 'Page On Share App Message',
   PAGE_ON_SHARE_TIMELINE = 'Page On Share Timeline',
   PAGE_ON_TAB_ITEM_TAP = 'Page On Tab Item Tap',

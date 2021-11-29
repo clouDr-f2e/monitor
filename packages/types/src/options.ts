@@ -235,6 +235,10 @@ interface WxMiniHooksTypes {
    */
   pageOnUnload?(page: IWxPageInstance): void
   /**
+   * wx小程序的App下的pageOnLoad执行完后再执行以下hook
+   */
+  pageOnLoad?(page: IWxPageInstance): void
+  /**
    * 先执行hook:pageOnHide再执行wx小程序的Page下的onHide
    */
   pageOnHide?(page: IWxPageInstance): void

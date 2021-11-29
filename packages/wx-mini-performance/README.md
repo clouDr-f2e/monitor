@@ -63,6 +63,7 @@ const wxPerformance = new MITO.WxPerformance({
 - PageOnLoad = 'PageOnLoad',
 - PageOnReady = 'PageOnReady',
 - PageOnUnload = 'PageOnUnload',
+- PageOnLoad = 'PageOnLoad',
 
 ### 4.2 MEMORY_WARNING
 
@@ -90,15 +91,15 @@ const wxPerformance = new MITO.WxPerformance({
 
 ## 五、数据
 
-属性 | 名称 | 类型 | 值 
+属性 | 名称 | 类型 | 值
 |---|---|---|---|
 batteryLevel | 电池电量等级 | number | 0-100
-item | 性能数据 | array | any 
+item | 性能数据 | array | any
 networkType | 网络类型 | string | wifi' 、 '2g' 、 '3g' 、 '4g' 、 '5g' 、 'unknown' 、 'none'
 page | 当前页面 | string | any
 systemInfo | 系统信息 | Object | any
-time | 发送时间 | string | any 
-time | 发送时间 | number | any 
+time | 发送时间 | string | any
+time | 发送时间 | number | any
 type | 性能指标 | string | 指标枚举
 uuid | uuid | string | any
 wxLaunch| 小程序launch的时间，可以作为本次launch的唯一标识 | number | any
