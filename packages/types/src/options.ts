@@ -21,7 +21,7 @@ type TSetRequestHeader = (key: string, value: string) => {}
 export interface IBeforeAppAjaxSendConfig {
   setRequestHeader: TSetRequestHeader
 }
-export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEventTypes, WxMiniHooksTypes {
+export interface InitOptions extends SilentEventTypes, HooksTypes, WxSilentEventTypes, WxMiniHooksTypes, BrowserHooksTypes {
   /**
    * 错误监控的dsn服务器地址
    */
@@ -260,4 +260,9 @@ interface WxMiniHooksTypes {
    * @param e
    */
   triggerWxEvent?(e: WechatMiniprogram.BaseEvent): void
+}
+
+
+export interface BrowserHooksTypes {
+  onRouteChange?: (from: string, to: string) => unknown,
 }

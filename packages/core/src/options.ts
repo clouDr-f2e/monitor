@@ -24,6 +24,7 @@ export class Options {
   // need return opitons，so defaul value is undefined
   wxNavigateToMiniProgram: Function
   triggerWxEvent: Function = () => {}
+  onRouteChange?: Function
 
   constructor() {
     this.enableTraceId = false
@@ -48,7 +49,8 @@ export class Options {
       onTabItemTap,
       wxNavigateToMiniProgram,
       triggerWxEvent,
-      maxDuplicateCount
+      maxDuplicateCount,
+      onRouteChange
     } = options
     validateOption(beforeAppAjaxSend, 'beforeAppAjaxSend', 'function') && (this.beforeAppAjaxSend = beforeAppAjaxSend)
     // wx-mini hooks
@@ -65,6 +67,8 @@ export class Options {
     validateOption(wxNavigateToMiniProgram, 'wxNavigateToMiniProgram', 'function') &&
       (this.wxNavigateToMiniProgram = wxNavigateToMiniProgram)
     validateOption(triggerWxEvent, 'triggerWxEvent', 'function') && (this.triggerWxEvent = triggerWxEvent)
+    // browser hooks
+    validateOption(onRouteChange, 'onRouteChange', 'function') && (this.onRouteChange = onRouteChange)
 
     validateOption(enableTraceId, 'enableTraceId', 'boolean') && (this.enableTraceId = enableTraceId)
     validateOption(traceIdFieldName, 'traceIdFieldName', 'string') && (this.traceIdFieldName = traceIdFieldName)

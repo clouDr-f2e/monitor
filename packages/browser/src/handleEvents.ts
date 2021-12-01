@@ -1,5 +1,5 @@
 import { BREADCRUMBTYPES, ERRORTYPES, ERROR_TYPE_RE, HTTP_CODE } from '@zyf2e/monitor-shared'
-import { transportData, breadcrumb, resourceTransform, httpTransform } from '@zyf2e/monitor-core'
+import { transportData, breadcrumb, resourceTransform, httpTransform, options } from '@zyf2e/monitor-core';
 import { getLocationHref, getTimestamp, isError, parseUrlToObj, extractErrorStack, unknownToString, Severity } from '@zyf2e/monitor-utils'
 import { ReportDataType, Replace, MITOHttp, ResourceErrorTarget } from '@zyf2e/monitor-types'
 
@@ -99,6 +99,10 @@ const HandleEvents = {
       },
       level: Severity.Info
     })
+    const { onRouteChange } = options;
+    if (onRouteChange) {
+      onRouteChange(from, to)
+    }
   },
   handleHashchange(data: HashChangeEvent): void {
     const { oldURL, newURL } = data
@@ -113,6 +117,10 @@ const HandleEvents = {
       },
       level: Severity.Info
     })
+    const { onRouteChange } = options;
+    if (onRouteChange) {
+      onRouteChange(from, to)
+    }
   },
   handleUnhandleRejection(ev: PromiseRejectionEvent): void {
     let data: ReportDataType = {

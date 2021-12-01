@@ -19,7 +19,8 @@ export const FilePaths = {
   '/WebPerformance': WebPerformancePath,
   '/dist': distFilePath,
   '/wxDist': wxDistFilePath,
-  '/wpDist': webPerfFilePath
+  '/wpDist': webPerfFilePath,
+  '/distBrowser': resolve('./packages/browser/dist'),
 }
 
 export const ServerUrls = {

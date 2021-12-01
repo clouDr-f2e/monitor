@@ -16,7 +16,7 @@
     "forceConsistentCasingInFileNames": true, //禁止对同一个文件的不一致的引用。
     "paths": {
       // 指定模块的路径，和baseUrl有关联
-      "@zyf2e/*": ["packages/*/src/"],
+      "@zyf2e/monitor-*": ["packages/*/src/"],
       "@/test/*": ["test/*"]
     },
     "types": ["node", "jest", "wechat-miniprogram", "puppeteer"],

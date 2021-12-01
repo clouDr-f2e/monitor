@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>native-js-demo</title>
-    <script src="/dist/web.min.js"></script>
+    <script src="/distBrowser/browser.min.js"></script>
     <script></script>
   </head>
   <body>
@@ -17,6 +17,7 @@
     <button id="exceptionFetch" onclick="onClickNativeErrorFetch()">Fetch异常请求</button>
     <button id="logUpload" onclick="mitoLog()">log上报</button>
     <button id="promiseError" onclick="promiseError()">promiseError</button>
+    <button id="hashChange" onclick="hashChange()">改变hash</button>
     <a href="/Vue/index.html">跳到Vue页面</a>
     <a href="/React/index.html">跳到React页面</a>
     <a href="/Vue3/index.html">跳到Vue3页面</a>
@@ -37,6 +38,9 @@
       }
       function mitoLog() {
         MITO.log({ message: { one: 111 }, tag: '测试' })
+      }
+      function hashChange() {
+        window.location.hash = 'xxx'
       }
       function onClickNativeFetch() {
         fetch('/normal/post', {
