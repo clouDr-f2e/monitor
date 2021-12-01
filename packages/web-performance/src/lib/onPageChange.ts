@@ -2,10 +2,10 @@ import { OnPageChangeCallback } from '../types'
 import { proxyHistory } from './proxyHandler'
 
 const unifiedHref = (href) => {
-  return href?.replace(`${location?.protocol}//${location?.host}`, '')
+  return decodeURIComponent(href?.replace(`${location?.protocol}//${location?.host}`, ''))
 }
 
-const lastHref = unifiedHref(location.href)
+const lastHref = decodeURIComponent(unifiedHref(location.href))
 
 /**
  * when page is loaded, listen page change
