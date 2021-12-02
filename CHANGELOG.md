@@ -1,3 +1,18 @@
+## [2.1.43](https://github.com/clouDr-f2e/mitojs/compare/v2.1.37...v2.1.43) (2021-12-02)
+
+
+### Bug Fixes
+
+* **performance:** add package dependencies ([ee9b8b4](https://github.com/clouDr-f2e/mitojs/commit/ee9b8b4f119b659dbf54029bae16f5e2b35e942b))
+* **performance:** fix onPageChange working error ([cc5a9ee](https://github.com/clouDr-f2e/mitojs/commit/cc5a9ee2965deb05d867590ba53c4e78561eb9fb))
+
+
+### Features
+
+* add RouteChange hooks ([3f5d759](https://github.com/clouDr-f2e/mitojs/commit/3f5d759a852f4d295413d048429ccefea0abd7ae))
+
+
+
 ## [2.1.39](https://github.com/clouDr-f2e/mitojs/compare/v2.1.37...v2.1.39) (2021-11-25)
 
 * 优化 ccp 上报时机
