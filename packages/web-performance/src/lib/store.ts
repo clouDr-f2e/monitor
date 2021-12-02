@@ -1,4 +1,4 @@
-import { IMetrics, IMetricsObj, IReportHandler } from '../types'
+import { IMetrics, IMetricsObj } from '../types'
 import { metricsName } from '../constants'
 
 /**
@@ -8,11 +8,9 @@ import { metricsName } from '../constants'
  * */
 class metricsStore {
   state: Map<metricsName | string, IMetrics>
-  report: IReportHandler
 
-  constructor(report) {
+  constructor() {
     this.state = new Map<metricsName | string, IMetrics>()
-    this.report = report
   }
 
   set(key: metricsName | string, value: IMetrics) {

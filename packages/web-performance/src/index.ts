@@ -30,12 +30,13 @@ let metricsStore: MetricsStore
 let reporter: ReturnType<typeof createReporter>
 
 class WebVitals implements IWebVitals {
+  immediately: boolean
+
   constructor(config: IConfig) {
     const {
       appId,
       version,
       reportCallback,
-      reportUri = null,
       immediately = false,
       needCCP = false,
       logFpsCount = 5,
@@ -44,9 +45,11 @@ class WebVitals implements IWebVitals {
       excludeRemotePath = []
     } = config
 
+    this.immediately = immediately
+
     const sectionId = generateUniqueID()
     reporter = createReporter(sectionId, appId, version, reportCallback)
-    metricsStore = new MetricsStore(reporter)
+    metricsStore = new MetricsStore()
 
     initPageInfo(metricsStore, reporter, immediately)
     initNetworkInfo(metricsStore, reporter, immediately)
@@ -67,9 +70,8 @@ class WebVitals implements IWebVitals {
     ;[beforeUnload, unload, onHidden].forEach((fn) => {
       fn(() => {
         const metrics = this.getCurrentMetrics()
-        if ('sendBeacon' in navigator && reportUri && Object.keys(metrics).length > 0 && !immediately) {
-          navigator.sendBeacon(reportUri, JSON.stringify(metrics))
-          metricsStore.clear()
+        if (Object.keys(metrics).length > 0 && !immediately) {
+          reporter(metrics)
         }
       })
     })
@@ -98,7 +100,9 @@ class WebVitals implements IWebVitals {
 
       const metrics = { name: `${markName}Metrics`, value }
 
-      reporter(metrics)
+      if (this.immediately) {
+        reporter(metrics)
+      }
 
       metricsStore.set(`${markName}Metrics`, metrics)
     } else {
@@ -106,7 +110,10 @@ class WebVitals implements IWebVitals {
       this.clearMark(markName)
 
       const metrics = { name: `${markName}Metrics`, value }
-      reporter(metrics)
+
+      if (this.immediately) {
+        reporter(metrics)
+      }
 
       metricsStore.set(`${markName}Metrics`, metrics)
     }

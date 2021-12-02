@@ -2,7 +2,6 @@ export interface IConfig {
   appId?: string
   version?: string
   reportCallback: Function
-  reportUri?: string
   immediately: boolean
   needCCP?: boolean
   logFpsCount?: number
@@ -61,6 +60,7 @@ export interface IMetrics {
 }
 
 export interface IWebVitals {
+  immediately: boolean
   getCurrentMetrics(): IMetricsObj
   setStartMark(markName: string): void
   setEndMark(markName: string): void
