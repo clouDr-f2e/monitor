@@ -52,10 +52,16 @@ $ npm i @zyf2e/monitor-web
 $ yarn add @zyf2e/monitor-web
 ```
 
-#### 使用CDN
+### web-performance
 
-```javascript
-<script src="https://cdn.jsdelivr.net/npm/@mitojs/web/dist/web.min.js"></script>
+```bash
+$ npm i @zyf2e/monitor-web-performance
+```
+
+### 使用yarn
+
+```bash
+$ yarn add @zyf2e/monitor-web-performance
 ```
 
 ### wx-mini
@@ -70,12 +76,6 @@ $ npm i @zyf2e/monitor-wx-mini
 
 ```bash
 $ yarn add @zyf2e/monitor-wx-mini
-```
-
-#### 使用CDN
-
-```javascript
-<script src="https://cdn.jsdelivr.net/npm/@mitojs/wx-mini/dist/wx-mini.js"></script>
 ```
 
 ## 使用指南
