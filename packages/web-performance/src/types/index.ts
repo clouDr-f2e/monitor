@@ -10,6 +10,7 @@ export interface IConfig {
   }
   hashHistory?: boolean
   excludeRemotePath?: Array<string>
+  maxWaitCCPDuration: number
 }
 
 export interface IPerformanceNavigationTiming {

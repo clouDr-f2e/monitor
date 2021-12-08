@@ -42,7 +42,8 @@ class WebVitals implements IWebVitals {
       logFpsCount = 5,
       apiConfig = {},
       hashHistory = true,
-      excludeRemotePath = []
+      excludeRemotePath = [],
+      maxWaitCCPDuration = 30 * 1000
     } = config
 
     this.immediately = immediately
@@ -55,14 +56,14 @@ class WebVitals implements IWebVitals {
     initNetworkInfo(metricsStore, reporter, immediately)
     initDeviceInfo(metricsStore, reporter, immediately)
     initCLS(metricsStore, reporter, immediately)
-    initCCP(metricsStore, reporter, needCCP, apiConfig, hashHistory, excludeRemotePath, immediately)
+    initCCP(metricsStore, reporter, needCCP, apiConfig, hashHistory, excludeRemotePath, maxWaitCCPDuration, immediately)
+    initFP(metricsStore, reporter, immediately)
+    initFCP(metricsStore, reporter, immediately)
+    initLCP(metricsStore, reporter, immediately)
 
     afterLoad(() => {
       initNavigationTiming(metricsStore, reporter, immediately)
-      initFP(metricsStore, reporter, immediately)
-      initFCP(metricsStore, reporter, immediately)
       initFID(metricsStore, reporter, immediately)
-      initLCP(metricsStore, reporter, immediately)
       initFPS(metricsStore, reporter, logFpsCount, immediately)
     })
 

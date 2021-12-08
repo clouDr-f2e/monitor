@@ -14,6 +14,7 @@ import { isPerformanceSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
 import { onHidden } from '../lib/onHidden'
 import { onPageChange } from '../lib/onPageChange'
+import getFirstHiddenTime from '../lib/getFirstHiddenTime'
 
 const remoteQueue = {
   hasStoreMetrics: false,
@@ -24,8 +25,10 @@ let isDone = false
 let reportLock = true
 
 const storeMetrics = (name, value, store) => {
-  const metrics = { name, value }
-  store.set(name, metrics)
+  if (value < getFirstHiddenTime().timeStamp) {
+    const metrics = { name, value }
+    store.set(name, metrics)
+  }
 }
 
 const computeCCPAndRL = (store) => {
@@ -140,8 +143,8 @@ const reportMetrics = (store: metricsStore, report, immediately) => {
   }
 }
 
-const maxWaitTime4Report = (cb: () => void) => {
-  setTimeout(cb, 30 * 1000)
+const maxWaitTime4Report = (cb: () => void, maxWaitCCPDuration) => {
+  setTimeout(cb, maxWaitCCPDuration)
 }
 
 export const initCCP = (
@@ -151,6 +154,7 @@ export const initCCP = (
   apiConfig: { [prop: string]: Array<string> },
   hashHistory: boolean,
   excludeRemotePath: Array<string>,
+  maxWaitCCPDuration: number,
   immediately: boolean
 ) => {
   const event = needCCP ? 'custom-contentful-paint' : 'pageshow'
@@ -172,7 +176,7 @@ export const initCCP = (
 
   onPageChange(() => reportMetrics(store, report, immediately))
 
-  maxWaitTime4Report(() => reportMetrics(store, report, immediately))
+  maxWaitTime4Report(() => reportMetrics(store, report, immediately), maxWaitCCPDuration)
 
   proxyXhr(
     (url) => beforeHandler(url, apiConfig, needCCP, hashHistory, excludeRemotePath),
