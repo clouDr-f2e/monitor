@@ -1,6 +1,6 @@
 {
   "name": "@zyf2e/monitor-vue",
-  "version": "2.1.43",
+  "version": "2.1.44",
   "description": "A SDK for monitoring Vue errors",
   "author": "cjinhuo",
   "license": "MIT",
@@ -11,9 +11,9 @@
     "dist"
   ],
   "dependencies": {
-    "@zyf2e/monitor-core": "2.1.43",
-    "@zyf2e/monitor-utils": "2.1.43",
-    "@zyf2e/monitor-shared": "2.1.43",
-    "@zyf2e/monitor-types": "2.1.43"
+    "@zyf2e/monitor-core": "2.1.44",
+    "@zyf2e/monitor-utils": "2.1.44",
+    "@zyf2e/monitor-shared": "2.1.44",
+    "@zyf2e/monitor-types": "2.1.44"
   }
 }
