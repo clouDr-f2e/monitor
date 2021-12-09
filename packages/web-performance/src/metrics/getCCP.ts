@@ -25,10 +25,8 @@ let isDone = false
 let reportLock = true
 
 const storeMetrics = (name, value, store) => {
-  if (value < getFirstHiddenTime().timeStamp) {
-    const metrics = { name, value }
-    store.set(name, metrics)
-  }
+  const metrics = { name, value }
+  store.set(name, metrics)
 }
 
 const computeCCPAndRL = (store) => {
@@ -95,15 +93,21 @@ const afterHandler = (url, apiConfig, store, needCCP, hashHistory) => {
         if (isIncludeArr(remoteQueue.queue, completeQueue) && !remoteQueue.hasStoreMetrics) {
           console.log('api list = ', remoteQueue.queue)
           remoteQueue.hasStoreMetrics = true
-          storeMetrics(metricsName.ACT, performance.now(), store)
-          computeCCPAndRL(store)
+          const now = performance.now()
+          if (now < getFirstHiddenTime().timeStamp) {
+            storeMetrics(metricsName.ACT, now, store)
+            computeCCPAndRL(store)
+          }
         }
       } else {
         if (isIncludeArr(remoteQueue.queue, completeQueue) && !remoteQueue.hasStoreMetrics && isDone && needCCP) {
           console.log('api list = ', remoteQueue.queue)
           remoteQueue.hasStoreMetrics = true
-          storeMetrics(metricsName.ACT, performance.now(), store)
-          computeCCPAndRL(store)
+          const now = performance.now()
+          if (now < getFirstHiddenTime().timeStamp) {
+            storeMetrics(metricsName.ACT, now, store)
+            computeCCPAndRL(store)
+          }
         }
       }
     }
@@ -165,7 +169,10 @@ export const initCCP = (
       if (!firstVisitedState) {
         isDone = true
         if (isPerformanceSupported()) {
-          computeCCPAndRL(store)
+          const now = performance.now()
+          if (now < getFirstHiddenTime().timeStamp) {
+            computeCCPAndRL(store)
+          }
         }
       }
     },

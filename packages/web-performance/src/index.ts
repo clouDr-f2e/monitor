@@ -126,7 +126,9 @@ class WebVitals implements IWebVitals {
   }
 
   customContentfulPaint() {
-    setTimeout(() => WebVitals.dispatchCustomEvent())
+    Promise.resolve().then(() => {
+      WebVitals.dispatchCustomEvent()
+    })
   }
 }
 
