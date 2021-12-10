@@ -38,7 +38,7 @@ class WebVitals implements IWebVitals {
       version,
       reportCallback,
       immediately = false,
-      needCCP = false,
+      isCustomEvent = false,
       logFpsCount = 5,
       apiConfig = {},
       hashHistory = true,
@@ -56,7 +56,7 @@ class WebVitals implements IWebVitals {
     initNetworkInfo(metricsStore, reporter, immediately)
     initDeviceInfo(metricsStore, reporter, immediately)
     initCLS(metricsStore, reporter, immediately)
-    initCCP(metricsStore, reporter, needCCP, apiConfig, hashHistory, excludeRemotePath, maxWaitCCPDuration, immediately)
+    initCCP(metricsStore, reporter, isCustomEvent, apiConfig, hashHistory, excludeRemotePath, maxWaitCCPDuration, immediately)
     initFP(metricsStore, reporter, immediately)
     initFCP(metricsStore, reporter, immediately)
     initLCP(metricsStore, reporter, immediately)
@@ -126,7 +126,7 @@ class WebVitals implements IWebVitals {
   }
 
   customContentfulPaint() {
-    Promise.resolve().then(() => {
+    setTimeout(() => {
       WebVitals.dispatchCustomEvent()
     })
   }
