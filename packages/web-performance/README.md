@@ -34,8 +34,9 @@ yarn add @zyf2e/monitor-web-performance
   reportCallback|上报回调函数|function|是|无
   reportUri|string|提供给sendBeacon使用|否|无
   immediately|boolean|是否立即上报|否|false
-  needCCP|boolean|是否需要ccp指标|否|无
+  isCustomEvent|boolean|是否自定义触发事件|否|false，pageshow触发，自定义触发需要在需要的位置调用customContentfulPaint
   logFpsCount|boolean|监听fps的次数|否|无
+  maxWaitCCPDuration|number|最大等待ccp时间|否|30*1000
 
 + getCurrentMetrics
 

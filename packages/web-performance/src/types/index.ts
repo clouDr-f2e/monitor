@@ -3,7 +3,7 @@ export interface IConfig {
   version?: string
   reportCallback: Function
   immediately: boolean
-  needCCP?: boolean
+  isCustomEvent?: boolean
   logFpsCount?: number
   apiConfig?: {
     [prop: string]: Array<string>

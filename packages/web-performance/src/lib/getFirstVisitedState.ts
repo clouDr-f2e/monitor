@@ -1,9 +1,9 @@
 import { onPageChange } from './onPageChange'
 
-let firstVisitedState = false
+let firstVisitedState = true
 
 onPageChange(() => {
-  firstVisitedState = true
+  firstVisitedState = false
 })
 
 /**

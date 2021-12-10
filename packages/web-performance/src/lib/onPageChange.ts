@@ -5,7 +5,7 @@ const unifiedHref = (href) => {
   return decodeURIComponent(href?.replace(`${location?.protocol}//${location?.host}`, ''))
 }
 
-const lastHref = decodeURIComponent(unifiedHref(location.href))
+const lastHref = unifiedHref(location.href)
 
 /**
  * when page is loaded, listen page change
