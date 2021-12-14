@@ -11,6 +11,7 @@
     "dist"
   ],
   "dependencies": {
-    "core-js": "^3.19.1"
+    "core-js": "^3.19.1",
+    "path-to-regexp": "^6.2.0"
   }
 }
