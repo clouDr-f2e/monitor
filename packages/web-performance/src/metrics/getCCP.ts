@@ -8,7 +8,7 @@ import { proxyFetch, proxyXhr } from '../lib/proxyHandler'
 import getFirstVisitedState from '../lib/getFirstVisitedState'
 import metricsStore from '../lib/store'
 import { IReportHandler } from '../types'
-import { getApiPath, isIncludeArr, isEqualArr } from '../utils'
+import { getApiPath, isIncludeArr, isEqualArr, isExistPath } from '../utils'
 import getPath from '../utils/getPath'
 import { isPerformanceSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
@@ -65,7 +65,7 @@ const beforeHandler = (url, apiConfig, hashHistory, excludeRemotePath) => {
     const firstVisitedState = getFirstVisitedState().state
     if (firstVisitedState) {
       const remotePath = getApiPath(url)
-      if (!excludeRemotePath?.includes(remotePath)) {
+      if (!isExistPath(excludeRemotePath, remotePath)) {
         if (apiConfig && apiConfig[path]) {
           if (apiConfig[path].some((o) => remotePath === o)) {
             remoteQueue.queue.push(remotePath)
@@ -82,32 +82,33 @@ const beforeHandler = (url, apiConfig, hashHistory, excludeRemotePath) => {
   }
 }
 
-const afterHandler = (url, apiConfig, store, hashHistory) => {
+const afterHandler = (url, apiConfig, store, hashHistory, excludeRemotePath) => {
   if (isPerformanceSupported()) {
     const path = getPath(location, hashHistory)
     const firstVisitedState = getFirstVisitedState().state
     if (firstVisitedState) {
       const remotePath = getApiPath(url)
-      completeQueue.push(remotePath)
-      if (apiConfig && apiConfig[path]) {
-        if (isIncludeArr(remoteQueue.queue, completeQueue) && !remoteQueue.hasStoreMetrics) {
-          console.log('api list = ', remoteQueue.queue)
-          remoteQueue.hasStoreMetrics = true
-          const now = performance.now()
-          if (now < getFirstHiddenTime().timeStamp) {
-            storeMetrics(metricsName.ACT, now, store)
-            computeCCPAndRL(store)
+      if (!isExistPath(excludeRemotePath, remotePath)) {
+        completeQueue.push(remotePath)
+        if (apiConfig && apiConfig[path]) {
+          if (isIncludeArr(remoteQueue.queue, completeQueue) && !remoteQueue.hasStoreMetrics) {
+            console.log('api list = ', remoteQueue.queue)
+            remoteQueue.hasStoreMetrics = true
+            const now = performance.now()
+            if (now < getFirstHiddenTime().timeStamp) {
+              storeMetrics(metricsName.ACT, now, store)
+              computeCCPAndRL(store)
+            }
           }
-        }
-      } else {
-        console.log(remoteQueue.queue, completeQueue)
-        if (isIncludeArr(remoteQueue.queue, completeQueue) && !remoteQueue.hasStoreMetrics && isDone) {
-          console.log('api list = ', remoteQueue.queue)
-          remoteQueue.hasStoreMetrics = true
-          const now = performance.now()
-          if (now < getFirstHiddenTime().timeStamp) {
-            storeMetrics(metricsName.ACT, now, store)
-            computeCCPAndRL(store)
+        } else {
+          if (isIncludeArr(remoteQueue.queue, completeQueue) && !remoteQueue.hasStoreMetrics && isDone) {
+            console.log('api list = ', remoteQueue.queue)
+            remoteQueue.hasStoreMetrics = true
+            const now = performance.now()
+            if (now < getFirstHiddenTime().timeStamp) {
+              storeMetrics(metricsName.ACT, now, store)
+              computeCCPAndRL(store)
+            }
           }
         }
       }
@@ -152,6 +153,16 @@ const maxWaitTime4Report = (cb: () => void, maxWaitCCPDuration) => {
   setTimeout(cb, maxWaitCCPDuration)
 }
 
+/**
+ * @param {metricsStore} store
+ * @param {Function} report
+ * @param {boolean} isCustomEvent
+ * @param { { [prop: string]: Array<string> } } apiConfig
+ * @param { boolean} hashHistory
+ * @param { Array<string>} excludeRemotePath
+ * @param { number } maxWaitCCPDuration
+ * @param { boolean } immediately
+ * */
 export const initCCP = (
   store: metricsStore,
   report: IReportHandler,
@@ -193,10 +204,10 @@ export const initCCP = (
 
   proxyXhr(
     (url) => beforeHandler(url, apiConfig, hashHistory, excludeRemotePath),
-    (url) => afterHandler(url, apiConfig, store, hashHistory)
+    (url) => afterHandler(url, apiConfig, store, hashHistory, excludeRemotePath)
   )
   proxyFetch(
     (url) => beforeHandler(url, apiConfig, hashHistory, excludeRemotePath),
-    (url) => afterHandler(url, apiConfig, store, hashHistory)
+    (url) => afterHandler(url, apiConfig, store, hashHistory, excludeRemotePath)
   )
 }

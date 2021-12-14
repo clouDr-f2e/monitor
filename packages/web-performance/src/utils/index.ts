@@ -1,3 +1,5 @@
+import { pathToRegexp } from 'path-to-regexp'
+
 export const roundByFour = (num: number, digits = 4) => {
   try {
     return parseFloat(num.toFixed(digits))
@@ -85,4 +87,16 @@ export const getApiPath = (url: string): string => {
     return url.match(reg)?.[1]
   }
   return ''
+}
+
+export const isExistPath = (paths: Array<string>, target: string) => {
+  const regArr = paths.map((path) => pathToRegexp(path))
+
+  for (let i = 0; i < regArr.length; i++) {
+    if (regArr[i].exec(target)) {
+      return true
+    }
+  }
+
+  return false
 }
