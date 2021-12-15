@@ -1,3 +1,13 @@
+## [2.1.47](https://github.com/clouDr-f2e/mitojs/compare/v2.1.43...v2.1.47) (2021-12-15)
+
+
+### Performance Improvements
+
+* **ccp:** 优化ccp上报时机，fp、fcp、lcp从onload事件中移除 ([d826f21](https://github.com/clouDr-f2e/mitojs/commit/d826f21121e4d1cf49fc5eca36242404b39bb0f3))
+* **ccp:** 调整customContentfulPaint由宏任务改为微任务 ([41c9c35](https://github.com/clouDr-f2e/mitojs/commit/41c9c35bdc71b0257eddffe9195a412f03dad064))
+
+
+
 ## [2.1.43](https://github.com/clouDr-f2e/mitojs/compare/v2.1.37...v2.1.43) (2021-12-02)
 
 
