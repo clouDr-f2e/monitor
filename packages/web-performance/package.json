@@ -1,12 +1,16 @@
 {
   "name": "@zyf2e/monitor-web-performance",
-  "version": "2.1.45",
+  "version": "3.0.0-beta.0",
   "description": "A SDK For Report Web Performance",
-  "author": "allen(https://github.com/Chryseis)",
   "license": "MIT",
-  "main": "dist/web-performance.js",
-  "module": "dist/web-performance.esm.js",
-  "types": "dist/web-performance.d.ts",
+  "scripts": {
+    "build": "rollup --config",
+    "build:watch": "rollup --config --watch"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "umd:main": "dist/index.production.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],

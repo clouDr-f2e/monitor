@@ -1,11 +1,19 @@
 {
-  "version": "2.1.45",
+  "version": "3.0.0-beta.0",
   "private": true,
   "license": "MIT",
-  "author": "cjinhuo",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "build": "node script/build.js",
-    "watch": "node script/build.js --watch=true",
+    "bootstrap": "lerna bootstrap",
+    "build": "rimraf -rf packages/*/{dist} && lerna run build",
+    "build:watch": "rimraf -rf packages/*/{dist} && lerna run build:watch",
+    "version:patch": "lerna version patch",
+    "version:minor": "lerna version minor",
+    "version:major": "lerna version major",
+    "version:beta": "lerna version prerelease --preid beta",
+    "version:rc": "lerna version prerelease --preid rc",
     "version": "node script/version.js",
     "release": "node script/release.js",
     "examples": "cross-env NODE_ENV=demo ts-node ./examples/server/index.ts",
@@ -32,12 +40,9 @@
   ],
   "devDependencies": {
     "@microsoft/api-extractor": "^7.13.2",
-    "@rollup/plugin-alias": "^3.1.1",
-    "@rollup/plugin-commonjs": "^14.0.0",
-    "@rollup/plugin-html": "^0.2.0",
+    "@rollup/plugin-commonjs": "^19.0.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
-    "@rollup/plugin-typescript": "^4.1.2",
     "@types/express": "^4.17.9",
     "@types/jest": "^26.0.19",
     "@types/node-fetch": "^2.5.7",
@@ -54,6 +59,7 @@
     "fs-extra": "^9.1.0",
     "husky": "^6.0.0",
     "jest": "^26.6.3",
+    "lerna": "^4.0.0",
     "lint-staged": "^10.2.11",
     "minimist": "^1.2.5",
     "miniprogram-automator": "^0.10.0",
@@ -61,17 +67,18 @@
     "open": "^7.3.0",
     "prettier": "^2.0.5",
     "puppeteer": "^5.5.0",
+    "rimraf": "^3.0.2",
     "rollup": "^2.45.2",
     "rollup-plugin-cleanup": "^3.2.1",
     "rollup-plugin-clear": "^2.0.7",
     "rollup-plugin-sizes": "^1.0.4",
-    "rollup-plugin-terser": "^6.1.0",
-    "rollup-plugin-typescript2": "^0.27.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.31.0",
     "rollup-plugin-visualizer": "^5.4.1",
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.9.3"
+    "typescript": "^4.3.5"
   },
   "config": {
     "commitizen": {
@@ -79,13 +86,7 @@
     }
   },
   "dependencies": {
-    "@zyf2e/monitor-browser": "^2.1.29",
-    "@zyf2e/monitor-core": "^2.1.29",
-    "@zyf2e/monitor-react": "^2.1.29",
-    "@zyf2e/monitor-shared": "^2.1.29",
-    "@zyf2e/monitor-types": "^2.1.29",
-    "@zyf2e/monitor-utils": "^2.1.29",
-    "@zyf2e/monitor-vue": "^2.1.29",
     "core-js": "^3.19.1"
-  }
+  },
+  "name": "monitor"
 }

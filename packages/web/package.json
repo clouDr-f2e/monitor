@@ -1,18 +1,22 @@
 {
   "name": "@zyf2e/monitor-web",
-  "version": "2.1.45",
+  "version": "3.0.0-beta.0",
   "description": "A SDK For Monitoring Web(React、Vue) Errors",
-  "author": "cjinhuo(https://github.com/cjinhuo)",
   "license": "MIT",
-  "main": "dist/web.js",
-  "module": "dist/web.esm.js",
-  "types": "dist/web.d.ts",
+  "scripts": {
+    "build": "rollup --config",
+    "build:watch": "rollup --config --watch"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "umd:main": "dist/index.production.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "dependencies": {
-    "@zyf2e/monitor-browser": "2.1.45",
-    "@zyf2e/monitor-react": "2.1.45",
-    "@zyf2e/monitor-vue": "2.1.45"
+    "@zyf2e/monitor-browser": "3.0.0-beta.0",
+    "@zyf2e/monitor-react": "3.0.0-beta.0",
+    "@zyf2e/monitor-vue": "3.0.0-beta.0"
   }
 }

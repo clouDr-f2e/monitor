@@ -1,13 +1,20 @@
 {
   "name": "@zyf2e/monitor-shared",
-  "version": "2.1.45",
+  "version": "3.0.0-beta.0",
   "description": "@zyf2e/monitor-shared",
-  "author": "cjinhuo",
   "license": "MIT",
-  "main": "dist/shared.js",
-  "module": "dist/shared.esm.js",
-  "types": "dist/shared.d.ts",
+  "scripts": {
+    "build": "rimraf -rf dist && rollup --config",
+    "build:watch": "rollup --config --watch"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "umd:main": "dist/index.production.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
-  ]
+  ],
+  "devDependencies": {
+    "@rollup/plugin-replace": "^3.0.0"
+  }
 }

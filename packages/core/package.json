@@ -1,9 +1,12 @@
 {
   "name": "@zyf2e/monitor-core",
-  "version": "2.1.45",
+  "version": "3.0.0-beta.0",
   "description": "@zyf2e/monitor-core",
-  "author": "cjinhuo",
   "license": "MIT",
+  "scripts": {
+    "build": "rollup --config",
+    "build:watch": "rollup --config --watch"
+  },
   "main": "dist/core.js",
   "module": "dist/core.esm.js",
   "types": "dist/core.d.ts",
@@ -11,9 +14,9 @@
     "dist"
   ],
   "dependencies": {
-    "@zyf2e/monitor-core": "2.1.45",
-    "@zyf2e/monitor-types": "2.1.45",
-    "@zyf2e/monitor-utils": "2.1.45",
-    "@zyf2e/monitor-shared": "2.1.45"
+    "@zyf2e/monitor-core": "3.0.0-beta.0",
+    "@zyf2e/monitor-types": "3.0.0-beta.0",
+    "@zyf2e/monitor-utils": "3.0.0-beta.0",
+    "@zyf2e/monitor-shared": "3.0.0-beta.0"
   }
 }

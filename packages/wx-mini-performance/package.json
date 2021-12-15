@@ -1,10 +1,15 @@
 {
   "name": "@zyf2e/monitor-wx-mini-performance",
-  "version": "2.1.45",
+  "version": "3.0.0-beta.0",
   "description": "A SDK For Report Wx Mini Performance",
-  "main": "dist/wx-mini-performance.js",
-  "module": "dist/wx-mini-performance.js",
-  "types": "dist/wx-mini-performance.d.ts",
+  "scripts": {
+    "build": "rollup --config",
+    "build:watch": "rollup --config --watch"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "umd:main": "dist/index.production.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],

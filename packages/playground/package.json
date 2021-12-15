@@ -1,0 +1,15 @@
+{
+  "name": "@zyf2e/monitor-shared",
+  "version": "3.0.0-beta.0",
+  "description": "@zyf2e/monitor-playground",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "echo 'ignore playground'",
+    "build:watch": "echo 'ignore playground'",
+    "dev": ""
+  },
+  "devDependencies": {
+
+  }
+}
