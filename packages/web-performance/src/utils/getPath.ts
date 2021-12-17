@@ -9,7 +9,10 @@ const getPath = (location: Location, isHash: boolean) => {
   } else {
     const index = location.href.indexOf('#')
     if (index < 0) return ''
-    return location.href.slice(index + 1)
+    const hash = location.href.slice(index + 1)
+    const searchIndex = hash.indexOf('?')
+    if (searchIndex < 0) return hash
+    return hash.slice(0, searchIndex)
   }
 }
 

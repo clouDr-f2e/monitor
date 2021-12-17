@@ -96,7 +96,7 @@ const afterHandler = (url, apiConfig, store, hashHistory, excludeRemotePath) => 
             remoteQueue.hasStoreMetrics = true
             const now = performance.now()
             if (now < getFirstHiddenTime().timeStamp) {
-              storeMetrics(metricsName.ACT, now, store)
+              storeMetrics(metricsName.ACT, { value: now, remoteApis: remoteQueue.queue }, store)
               computeCCPAndRL(store)
             }
           }
@@ -106,7 +106,7 @@ const afterHandler = (url, apiConfig, store, hashHistory, excludeRemotePath) => 
             remoteQueue.hasStoreMetrics = true
             const now = performance.now()
             if (now < getFirstHiddenTime().timeStamp) {
-              storeMetrics(metricsName.ACT, now, store)
+              storeMetrics(metricsName.ACT, { value: now, remoteApis: remoteQueue.queue }, store)
               computeCCPAndRL(store)
             }
           }
@@ -186,7 +186,7 @@ export const initCCP = (
             if (isEqualArr(remoteQueue.queue, completeQueue) && !remoteQueue.hasStoreMetrics) {
               console.log('api list = ', remoteQueue.queue)
               remoteQueue.hasStoreMetrics = true
-              storeMetrics(metricsName.ACT, now, store)
+              storeMetrics(metricsName.ACT, { value: performance.now(), remoteApis: remoteQueue.queue }, store)
             }
             computeCCPAndRL(store)
           }
