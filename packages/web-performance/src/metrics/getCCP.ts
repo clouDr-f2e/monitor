@@ -126,7 +126,7 @@ const reportMetrics = (store: metricsStore, report, immediately) => {
       const rl = store.get(metricsName.RL)
 
       if (act && ccp) {
-        if (act.value < ccp.value) {
+        if (act.value.time < ccp.value) {
           report(act)
           report(ccp)
 
