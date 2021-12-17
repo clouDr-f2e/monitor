@@ -18,6 +18,7 @@ interface LogTypes {
   tag?: TNumStrObj
   level?: Severity
   ex?: Error | any
+  type?: string
 }
 
 /**
@@ -26,13 +27,13 @@ interface LogTypes {
  * @export
  * @param {LogTypes} { message = 'emptyMsg', tag = '', level = Severity.Critical, ex = '' }
  */
-export function log({ message = 'emptyMsg', tag = '', level = Severity.Critical, ex = '' }: LogTypes): void {
+export function log({ message = 'emptyMsg', tag = '', level = Severity.Critical, ex = '', type = ERRORTYPES.LOG_ERROR }: LogTypes): void {
   let errorInfo = {}
   if (isError(ex)) {
     errorInfo = extractErrorStack(ex, level)
   }
   const error = {
-    type: ERRORTYPES.LOG_ERROR,
+    type,
     level,
     message: unknownToString(message),
     name: 'MITO.log',
@@ -47,5 +48,5 @@ export function log({ message = 'emptyMsg', tag = '', level = Severity.Critical,
     data: message,
     level: Severity.fromString(level.toString())
   })
-  transportData.send(error)
+  transportData.send(error);
 }
