@@ -3,8 +3,7 @@
 const app = getApp()
 
 Page({
-  data: {
-  },
+  data: {},
   onLoad() {
     if (wx.getUserProfile) {
       this.setData({
@@ -14,7 +13,7 @@ Page({
   },
   onTap() {
     wx.navigateTo({
-      url: '/pages/automator/automator',
+      url: '/pages/automator/automator'
     })
   }
 })

@@ -17,9 +17,7 @@ Page({
       wxPerformance.customPaint()
     }, 100)
   },
-  onReady() {
-   
-  },
+  onReady() {},
 
   onTap(e) {
     console.log('onTap e = ', e)

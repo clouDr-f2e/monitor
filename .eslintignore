@@ -7,3 +7,4 @@
 **/node_modules
 /script
 # rollup.config.js
+packages/playground
