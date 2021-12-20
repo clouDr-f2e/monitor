@@ -121,6 +121,11 @@ module.exports = {
         { from: /^\/react$/, to: '/react.html' },
         { from: /^\/vue$/, to: '/vue.html' }
       ]
+    },
+    onListening(devServer) {
+      console.log('####test sdk browser#### visit path  "/"')
+      console.log('####test sdk react#### visit path  "/react"')
+      console.log('####test sdk vue#### visit path  "/vue"')
     }
   }
 }
