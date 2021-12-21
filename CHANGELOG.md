@@ -1,3 +1,20 @@
+## [2.1.50](https://github.com/clouDr-f2e/mitojs/compare/v2.1.47...v2.1.50) (2021-12-21)
+
+
+### Bug Fixes
+
+* 修复act判断异常 ([0d0c6e7](https://github.com/clouDr-f2e/mitojs/commit/0d0c6e715531e88273adfe0c6af82c89413aeb00))
+* extends type ([68f9744](https://github.com/clouDr-f2e/mitojs/commit/68f97446c77c1b9de5146330095794b93a29bd6c))
+
+
+### Performance Improvements
+
+* 修改act 上报字段 ([e95cd69](https://github.com/clouDr-f2e/mitojs/commit/e95cd6968fb17309a0ddb259da540b60ae781a05))
+* 优化getPath，获取hash path时，去掉search部分 ([ac95256](https://github.com/clouDr-f2e/mitojs/commit/ac9525696910e7b9294faacdbdcd5ba56f3aae44))
+* act 上报时增加 api list ([0917df5](https://github.com/clouDr-f2e/mitojs/commit/0917df553677454aec7270dc37d636465bf31759))
+
+
+
 ## [2.1.47](https://github.com/clouDr-f2e/mitojs/compare/v2.1.43...v2.1.47) (2021-12-15)
 
 
