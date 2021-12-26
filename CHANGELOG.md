@@ -1,3 +1,22 @@
+# [3.0.0-beta.0](https://github.com/clouDr-f2e/mitojs/compare/v2.1.43...v3.0.0-beta.0) (2021-12-21)
+
+
+### Features
+
+* add gitignore ([a733669](https://github.com/clouDr-f2e/mitojs/commit/a7336693b424caacfc219011173e778eada17b52))
+* add playground ([f070e54](https://github.com/clouDr-f2e/mitojs/commit/f070e54ff438d50bb181e1b4a4960e349e604c5a))
+* **structure:** 替换script脚本，接入lerna，monorepo ([0ab3590](https://github.com/clouDr-f2e/mitojs/commit/0ab3590122a0a1c41b8a9b562723417f11b72860))
+
+
+### Performance Improvements
+
+* add tailwind.config.js ([f2c9239](https://github.com/clouDr-f2e/mitojs/commit/f2c92393c55a77a56006c0e3ad160d6b62f21c36))
+* **ccp:** 调整customContentfulPaint由，宏任务改为微任务 ([41c9c35](https://github.com/clouDr-f2e/mitojs/commit/41c9c35bdc71b0257eddffe9195a412f03dad064))
+* **ccp:** 优化ccp上报时机，fp、fcp、lcp从onload事件中移除 ([d826f21](https://github.com/clouDr-f2e/mitojs/commit/d826f21121e4d1cf49fc5eca36242404b39bb0f3))
+* edit webpack.config.js ([eb59967](https://github.com/clouDr-f2e/mitojs/commit/eb599678586723155c0dcc0bba031e3f5702068c))
+
+
+
 ## [2.1.43](https://github.com/clouDr-f2e/mitojs/compare/v2.1.37...v2.1.43) (2021-12-02)
 
 

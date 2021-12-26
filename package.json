@@ -8,6 +8,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "rimraf -rf packages/*/{dist} && lerna run build",
+    "playground": "cd packages/playground && npm run dev",
     "build:watch": "rimraf -rf packages/*/{dist} && lerna run build:watch",
     "version:patch": "lerna version patch",
     "version:minor": "lerna version minor",
