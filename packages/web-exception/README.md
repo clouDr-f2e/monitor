@@ -6,6 +6,13 @@
 
 ```
 const webException = require('web-exception');
+```
 
-// TODO: DEMONSTRATE API
+
+### 自定义上报错误
+```
+webException.log({
+  message: 'hello world',
+  customContent: '这是我自定义上报的内容'
+})
 ```

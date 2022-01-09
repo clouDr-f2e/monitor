@@ -1,11 +1,13 @@
 {
-  "name": "@zyf2e/monitor-shared",
+  "name": "@zyf2e/monitor-web-exception",
   "version": "3.0.0-beta.0",
   "description": "web exception catch sdk",
   "author": "linxiaodi <343206347@qq.com>",
   "homepage": "https://github.com/clouDr-f2e/monitor#readme",
   "license": "ISC",
-  "main": "lib/web-exception.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -18,7 +20,8 @@
     "url": "git+https://github.com/clouDr-f2e/monitor.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "build": "rollup --config",
+    "build:watch": "rollup --config --watch"
   },
   "bugs": {
     "url": "https://github.com/clouDr-f2e/monitor/issues"

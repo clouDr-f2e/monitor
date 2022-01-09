@@ -9,7 +9,7 @@ process.env.NODE_ENV = 'development'
 const entries = fs.readdirSync('src').reduce((r, o) => {
   return {
     ...r,
-    [o]: `./src/${o}/index.js`
+    [o]: `./src/${o}/index.ts`
   }
 }, {})
 
@@ -45,7 +45,8 @@ module.exports = {
   resolve: {
     alias: {
       '@zyf2e/monitor-web-performance': path.join(__dirname, '../web-performance/src/index.ts'),
-      '@zyf2e/monitor-browser': path.join(__dirname, '../browser/src/index.ts')
+      '@zyf2e/monitor-browser': path.join(__dirname, '../browser/src/index.ts'),
+      '@zyf2e/monitor-web-exception': path.join(__dirname, '../web-exception/src/index.ts')
     },
     extensions: ['.js', '.json', '.ts', 'jsx']
   },

@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.w-200 {
+  display: block;
+  width: 110px;
+}
