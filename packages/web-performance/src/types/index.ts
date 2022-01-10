@@ -116,6 +116,12 @@ export interface LayoutShift extends PerformanceEntry {
   hadRecentInput: boolean
 }
 
+export interface Curve {
+  median: number
+  podr?: number
+  p10?: number
+}
+
 declare global {
   interface Window {
     // Build flags:
