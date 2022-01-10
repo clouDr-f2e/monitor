@@ -10,6 +10,7 @@ import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 import observe from '../lib/observe'
 import getFirstHiddenTime from '../lib/getFirstHiddenTime'
+import calcScore from '../lib/calculateScore'
 
 const getFP = (): Promise<PerformanceEntry> | undefined => {
   if (!isPerformanceObserverSupported()) {
@@ -38,10 +39,15 @@ const getFP = (): Promise<PerformanceEntry> | undefined => {
  * @param {metricsStore} store
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
+ * @param scoreConfig
  * */
-export const initFP = (store: metricsStore, report: IReportHandler, immediately = true): void => {
+export const initFP = (store: metricsStore, report: IReportHandler, immediately = true, scoreConfig): void => {
   getFP()?.then((entry: PerformanceEntry) => {
-    const metrics = { name: metricsName.FP, value: roundByFour(entry.startTime, 2) } as IMetrics
+    const metrics = {
+      name: metricsName.FP,
+      value: roundByFour(entry.startTime, 2),
+      score: calcScore(metricsName.FP, entry.startTime, scoreConfig)
+    } as IMetrics
 
     if (immediately) {
       report(metrics)

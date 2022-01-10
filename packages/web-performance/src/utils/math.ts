@@ -33,7 +33,7 @@ function internalErf_(x: number): number {
  * @return The complement of the quantile at value.
  * @customization
  */
-export function QUANTILE_AT_VALUE(curve: Curve, value) {
+export function QUANTILE_AT_VALUE(curve: Curve, value): number {
   const { podr, median, p10 } = curve
 
   let _podr = podr
@@ -81,7 +81,7 @@ function internalErfInv_(x: number): number {
  * @customization
  * @param quantile
  */
-export function VALUE_AT_QUANTILE(curve: Curve, quantile) {
+export function VALUE_AT_QUANTILE(curve: Curve, quantile): number {
   const { podr, median, p10 } = curve
 
   let _podr = podr
