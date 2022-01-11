@@ -65,5 +65,5 @@ export const initCLS = (store: metricsStore, report: IReportHandler, immediately
     store.set(metricsName.CLS, metrics)
   }
 
-  onHidden(stopListening)
+  onHidden(stopListening, true)
 }
