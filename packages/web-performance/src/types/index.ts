@@ -11,6 +11,7 @@ export interface IConfig {
   hashHistory?: boolean
   excludeRemotePath?: Array<string>
   maxWaitCCPDuration: number
+  scoreConfig?: IScoreConfig
 }
 
 export interface IPerformanceNavigationTiming {
@@ -37,8 +38,16 @@ export interface IDeviceInformation {
 
 export interface INetworkInformation {
   downlink?: number
-  effectiveType?: string
+  effectiveType?: IEffectiveType
   rtt?: number
+}
+
+export interface IScoreConfig {
+  [prop: string]: { median: number; p10: number }
+}
+
+export interface IEffectiveType {
+  type: '4g' | '3g' | '2g' | 'slow-2g'
 }
 
 export interface IPageInformation {
@@ -58,6 +67,7 @@ export interface IPageInformation {
 export interface IMetrics {
   name: string
   value: any
+  score?: number
 }
 
 export interface IWebVitals {
@@ -71,12 +81,6 @@ export interface IWebVitals {
 
 export interface IReportHandler {
   (metrics: IMetrics | IMetricsObj): void
-}
-
-export interface IConnection {
-  downlink: number
-  effectiveType: string
-  rtt: number
 }
 
 export interface PerformanceEntryHandler {
@@ -114,6 +118,12 @@ export interface IMetricsObj {
 export interface LayoutShift extends PerformanceEntry {
   value: number
   hadRecentInput: boolean
+}
+
+export interface Curve {
+  median: number
+  podr?: number
+  p10?: number
 }
 
 declare global {

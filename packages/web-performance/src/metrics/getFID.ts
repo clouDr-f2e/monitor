@@ -9,8 +9,9 @@ import { onHidden } from '../lib/onHidden'
 import { isPerformanceObserverSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
-import { IReportHandler, PerformanceEventTiming } from '../types'
+import { IReportHandler, IScoreConfig, PerformanceEventTiming } from '../types'
 import { roundByFour } from '../utils'
+import calcScore from '../lib/calculateScore'
 
 const getFID = (): Promise<PerformanceEntry> | undefined => {
   if (!isPerformanceObserverSupported()) {
@@ -51,8 +52,9 @@ const getFID = (): Promise<PerformanceEntry> | undefined => {
  * @param {metricsStore} store
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
+ * @param {IScoreConfig} scoreConfig
  * */
-export const initFID = (store: metricsStore, report: IReportHandler, immediately = true): void => {
+export const initFID = (store: metricsStore, report: IReportHandler, immediately = true, scoreConfig: IScoreConfig): void => {
   getFID()?.then((entry: PerformanceEventTiming) => {
     const metrics = {
       name: metricsName.FID,
@@ -62,7 +64,8 @@ export const initFID = (store: metricsStore, report: IReportHandler, immediately
         startTime: roundByFour(entry.startTime, 2),
         delay: roundByFour(entry.processingStart - entry.startTime, 2),
         eventHandleTime: roundByFour(entry.processingEnd - entry.processingStart, 2)
-      }
+      },
+      score: calcScore(metricsName.FID, roundByFour(entry.processingStart - entry.startTime, 2), scoreConfig)
     }
 
     if (immediately) {

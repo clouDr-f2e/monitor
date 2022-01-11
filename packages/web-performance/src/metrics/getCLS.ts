@@ -10,10 +10,11 @@
 import { isPerformanceObserverSupported } from '../utils/isSupported'
 import observe from '../lib/observe'
 import metricsStore from '../lib/store'
-import { IReportHandler, LayoutShift, IMetrics } from '../types'
+import { IReportHandler, LayoutShift, IMetrics, IScoreConfig } from '../types'
 import { metricsName } from '../constants'
 import { roundByFour } from '../utils'
 import { onHidden } from '../lib/onHidden'
+import calcScore from '../lib/calculateScore'
 
 const getCLS = (cls): PerformanceObserver | undefined => {
   if (!isPerformanceObserverSupported()) {
@@ -34,8 +35,9 @@ const getCLS = (cls): PerformanceObserver | undefined => {
  * @param {metricsStore} store
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
+ * @param {IScoreConfig} scoreConfig
  * */
-export const initCLS = (store: metricsStore, report: IReportHandler, immediately = true): void => {
+export const initCLS = (store: metricsStore, report: IReportHandler, immediately = true, scoreConfig: IScoreConfig): void => {
   const cls = { value: 0 }
 
   const po = getCLS(cls)
@@ -50,7 +52,11 @@ export const initCLS = (store: metricsStore, report: IReportHandler, immediately
     }
     po?.disconnect()
 
-    const metrics = { name: metricsName.CLS, value: roundByFour(cls.value) } as IMetrics
+    const metrics = {
+      name: metricsName.CLS,
+      value: roundByFour(cls.value),
+      score: calcScore(metricsName.CLS, cls.value, scoreConfig)
+    } as IMetrics
 
     if (immediately) {
       report(metrics)
@@ -59,5 +65,5 @@ export const initCLS = (store: metricsStore, report: IReportHandler, immediately
     store.set(metricsName.CLS, metrics)
   }
 
-  onHidden(stopListening)
+  onHidden(stopListening, true)
 }

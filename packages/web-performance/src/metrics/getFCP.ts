@@ -4,12 +4,13 @@
  * providing the first feedback to the user that the page is actually loading(https://developer.mozilla.org/en-US/docs/Glossary/First_contentful_paint)
  * */
 import { isPerformanceObserverSupported } from '../utils/isSupported'
-import { IMetrics, IReportHandler } from '../types'
+import { IMetrics, IReportHandler, IScoreConfig } from '../types'
 import { roundByFour } from '../utils'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 import observe from '../lib/observe'
 import getFirstHiddenTime from '../lib/getFirstHiddenTime'
+import calcScore from '../lib/calculateScore'
 
 const getFCP = (): Promise<PerformanceEntry> | undefined => {
   if (!isPerformanceObserverSupported()) {
@@ -38,10 +39,15 @@ const getFCP = (): Promise<PerformanceEntry> | undefined => {
  * @param {metricsStore} store
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
+ * @param scoreConfig
  * */
-export const initFCP = (store: metricsStore, report: IReportHandler, immediately = true): void => {
+export const initFCP = (store: metricsStore, report: IReportHandler, immediately = true, scoreConfig: IScoreConfig): void => {
   getFCP()?.then((entry: PerformanceEntry) => {
-    const metrics = { name: metricsName.FCP, value: roundByFour(entry.startTime, 2) } as IMetrics
+    const metrics = {
+      name: metricsName.FCP,
+      value: roundByFour(entry.startTime, 2),
+      score: calcScore(metricsName.FCP, entry.startTime, scoreConfig)
+    } as IMetrics
 
     if (immediately) {
       report(metrics)

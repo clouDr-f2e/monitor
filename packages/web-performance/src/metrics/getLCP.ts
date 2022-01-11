@@ -14,10 +14,11 @@ import { isPerformanceObserverSupported } from '../utils/isSupported'
 import getFirstHiddenTime from '../lib/getFirstHiddenTime'
 import { onHidden } from '../lib/onHidden'
 import { metricsName } from '../constants'
-import { IMetrics, IReportHandler } from '../types'
+import { IMetrics, IReportHandler, IScoreConfig } from '../types'
 import metricsStore from '../lib/store'
 import { roundByFour } from '../utils'
 import observe from '../lib/observe'
+import calcScore from '../lib/calculateScore'
 
 const getLCP = (lcp): PerformanceObserver | undefined => {
   if (!isPerformanceObserverSupported()) {
@@ -40,8 +41,9 @@ const getLCP = (lcp): PerformanceObserver | undefined => {
  * @param {metricsStore} store
  * @param {Function} report
  * @param {boolean} immediately, if immediately is true,data will report immediately
+ * @param {IScoreConfig} scoreConfig
  * */
-export const initLCP = (store: metricsStore, report: IReportHandler, immediately = true): void => {
+export const initLCP = (store: metricsStore, report: IReportHandler, immediately = true, scoreConfig: IScoreConfig): void => {
   const lcp = { value: {} as PerformanceEntry }
   const po = getLCP(lcp)
 
@@ -59,7 +61,11 @@ export const initLCP = (store: metricsStore, report: IReportHandler, immediately
 
       if (!store.has(metricsName.LCP)) {
         const value = lcp.value
-        const metrics = { name: metricsName.LCP, value: roundByFour(value.startTime, 2) } as IMetrics
+        const metrics = {
+          name: metricsName.LCP,
+          value: roundByFour(value.startTime, 2),
+          score: calcScore(metricsName.LCP, value.startTime, scoreConfig)
+        } as IMetrics
 
         if (immediately) {
           report(metrics)
