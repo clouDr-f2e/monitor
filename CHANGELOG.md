@@ -1,3 +1,15 @@
+## [2.1.51](https://github.com/clouDr-f2e/mitojs/compare/v2.1.50...v2.1.51) (2022-01-12)
+
+### Performance Improvements
+
+* 增加性能得分模块
+
+### Bug Fixes
+
+* 修复cls多次重复上报 ([f82f44e](https://github.com/clouDr-f2e/mitojs/commit/f82f44ed84a189b0ac921eb9117e727bc433c4fe))
+
+
+
 ## [2.1.50](https://github.com/clouDr-f2e/mitojs/compare/v2.1.47...v2.1.50) (2021-12-21)
 
 
