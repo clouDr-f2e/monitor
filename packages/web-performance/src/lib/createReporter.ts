@@ -1,17 +1,17 @@
 import { IMetrics, IReportHandler, IReportData, IMetricsObj } from '../types'
 
 /**
- * @param {string} sectionId
+ * @param {string} sessionId
  * @param {string} appId
  * @param {string} version
  * @param {Function} callback
  * @returns {IReportHandler}
  */
 const createReporter =
-  (sectionId: string, appId: string, version: string, callback: Function): IReportHandler =>
+  (sessionId: string, appId: string, version: string, callback: Function): IReportHandler =>
   (data: IMetrics | IMetricsObj) => {
     const reportData: IReportData = {
-      sectionId,
+      sessionId,
       appId,
       version,
       data,
@@ -19,7 +19,7 @@ const createReporter =
     }
 
     if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(
+      ;(window as any).requestIdleCallback(
         () => {
           callback(reportData)
         },

@@ -49,8 +49,8 @@ class WebVitals implements IWebVitals {
 
     this.immediately = immediately
 
-    const sectionId = generateUniqueID()
-    reporter = createReporter(sectionId, appId, version, reportCallback)
+    const sessionId = generateUniqueID()
+    reporter = createReporter(sessionId, appId, version, reportCallback)
     metricsStore = new MetricsStore()
 
     initPageInfo(metricsStore, reporter, immediately)
