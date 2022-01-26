@@ -50,9 +50,9 @@ export const initPageInfo = (store: metricsStore, report: IReportHandler, immedi
 
   const metrics = { name: metricsName.PI, value: pageInfo } as IMetrics
 
+  store.set(metricsName.PI, metrics)
+
   if (immediately) {
     report(metrics)
   }
-
-  store.set(metricsName.PI, metrics)
 }

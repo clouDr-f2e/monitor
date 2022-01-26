@@ -67,11 +67,11 @@ export const initLCP = (store: metricsStore, report: IReportHandler, immediately
           score: calcScore(metricsName.LCP, value.startTime, scoreConfig)
         } as IMetrics
 
+        store.set(metricsName.LCP, metrics)
+
         if (immediately) {
           report(metrics)
         }
-
-        store.set(metricsName.LCP, metrics)
       }
     }
   }

@@ -37,9 +37,9 @@ export const initNetworkInfo = (store: metricsStore, report: IReportHandler, imm
 
   const metrics = { name: metricsName.NI, value: networkInfo } as IMetrics
 
+  store.set(metricsName.NI, metrics)
+
   if (immediately) {
     report(metrics)
   }
-
-  store.set(metricsName.NI, metrics)
 }

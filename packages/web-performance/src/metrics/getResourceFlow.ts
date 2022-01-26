@@ -44,11 +44,11 @@ export const initResourceFlow = (store: metricsStore, report: IReportHandler, cu
 
     const metrics = { name: metricsName.RL, value: resourceFlow } as IMetrics
 
+    store.set(metricsName.RL, metrics)
+
     if (immediately) {
       report(metrics)
     }
-
-    store.set(metricsName.RL, metrics)
   }
 
   addEventListener(completeEvent, stopListening, { once: true, capture: true })

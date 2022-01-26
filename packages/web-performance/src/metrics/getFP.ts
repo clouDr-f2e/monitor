@@ -49,10 +49,10 @@ export const initFP = (store: metricsStore, report: IReportHandler, immediately 
       score: calcScore(metricsName.FP, entry.startTime, scoreConfig)
     } as IMetrics
 
+    store.set(metricsName.FP, metrics)
+
     if (immediately) {
       report(metrics)
     }
-
-    store.set(metricsName.FP, metrics)
   })
 }

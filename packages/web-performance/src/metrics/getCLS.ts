@@ -58,11 +58,11 @@ export const initCLS = (store: metricsStore, report: IReportHandler, immediately
       score: calcScore(metricsName.CLS, cls.value, scoreConfig)
     } as IMetrics
 
+    store.set(metricsName.CLS, metrics)
+
     if (immediately) {
       report(metrics)
     }
-
-    store.set(metricsName.CLS, metrics)
   }
 
   onHidden(stopListening, true)
