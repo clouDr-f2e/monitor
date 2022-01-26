@@ -104,7 +104,7 @@ export interface OnPageChangeCallback {
 }
 
 export interface IReportData {
-  sectionId: string
+  sessionId: string
   appId?: string
   version?: string
   data: IMetrics | IMetricsObj
