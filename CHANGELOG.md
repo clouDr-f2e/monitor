@@ -1,3 +1,13 @@
+## [2.1.52](https://github.com/clouDr-f2e/mitojs/compare/v2.1.51...v2.1.52) (2022-01-26)
+
+
+### Performance Improvements
+
+* add ccp report timing when page unload ([7f4964b](https://github.com/clouDr-f2e/mitojs/commit/7f4964b2f4a8b6548fb623e748265b80c33e4ef7))
+* 当需要上报指标时，先把指标存入store，再做上报处理
+
+
+
 ## [2.1.51](https://github.com/clouDr-f2e/mitojs/compare/v2.1.50...v2.1.51) (2022-01-12)
 
 ### Performance Improvements
