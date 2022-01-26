@@ -50,6 +50,7 @@ class WebVitals implements IWebVitals {
     this.immediately = immediately
 
     const sessionId = generateUniqueID()
+    window.__monitor_sessionId__ = sessionId
     reporter = createReporter(sessionId, appId, version, reportCallback)
     metricsStore = new MetricsStore()
 

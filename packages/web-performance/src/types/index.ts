@@ -131,5 +131,6 @@ declare global {
     // Build flags:
     __monitor_xhr__: boolean
     __monitor_fetch__: boolean
+    __monitor_sessionId__: string
   }
 }
