@@ -102,22 +102,22 @@ class WebVitals implements IWebVitals {
 
       const metrics = { name: `${markName}Metrics`, value }
 
+      metricsStore.set(`${markName}Metrics`, metrics)
+
       if (this.immediately) {
         reporter(metrics)
       }
-
-      metricsStore.set(`${markName}Metrics`, metrics)
     } else {
       const value = getMark(`${markName}_end`)?.startTime
       this.clearMark(markName)
 
       const metrics = { name: `${markName}Metrics`, value }
 
+      metricsStore.set(`${markName}Metrics`, metrics)
+
       if (this.immediately) {
         reporter(metrics)
       }
-
-      metricsStore.set(`${markName}Metrics`, metrics)
     }
   }
 

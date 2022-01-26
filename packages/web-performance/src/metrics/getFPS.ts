@@ -22,10 +22,10 @@ export const initFPS = (store: metricsStore, report: IReportHandler, logFpsCount
   getFPS(logFpsCount).then((fps: number) => {
     const metrics = { name: metricsName.FPS, value: fps }
 
+    store.set(metricsName.FPS, metrics)
+
     if (immediately) {
       report(metrics)
     }
-
-    store.set(metricsName.FPS, metrics)
   })
 }

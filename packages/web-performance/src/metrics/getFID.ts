@@ -68,10 +68,10 @@ export const initFID = (store: metricsStore, report: IReportHandler, immediately
       score: calcScore(metricsName.FID, roundByFour(entry.processingStart - entry.startTime, 2), scoreConfig)
     }
 
+    store.set(metricsName.FID, metrics)
+
     if (immediately) {
       report(metrics)
     }
-
-    store.set(metricsName.FID, metrics)
   })
 }

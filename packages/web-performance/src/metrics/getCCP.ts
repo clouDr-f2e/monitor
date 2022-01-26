@@ -8,7 +8,7 @@ import { proxyFetch, proxyXhr } from '../lib/proxyHandler'
 import getFirstVisitedState from '../lib/getFirstVisitedState'
 import metricsStore from '../lib/store'
 import { IReportHandler, IScoreConfig } from '../types'
-import { getApiPath, isIncludeArr, isEqualArr, isExistPath } from '../utils'
+import { getApiPath, isIncludeArr, isEqualArr, isExistPath, beforeUnload } from '../utils'
 import getPath from '../utils/getPath'
 import { isPerformanceSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
@@ -132,34 +132,32 @@ const afterHandler = (url, apiConfig, store, hashHistory, excludeRemotePath, sco
   }
 }
 
-const reportMetrics = (store: metricsStore, report, immediately) => {
-  if (immediately) {
-    if (reportLock) {
-      const act = store.get(metricsName.ACT)
-      const ccp = store.get(metricsName.CCP)
-      const rl = store.get(metricsName.RL)
+const reportMetrics = (store: metricsStore, report) => {
+  if (reportLock) {
+    const act = store.get(metricsName.ACT)
+    const ccp = store.get(metricsName.CCP)
+    const rl = store.get(metricsName.RL)
 
-      if (act && ccp) {
-        if (act.value.time < ccp.value) {
-          report(act)
-          report(ccp)
-
-          if (rl) {
-            report(rl)
-          }
-        }
-      }
-
-      if (!act && ccp) {
+    if (act && ccp) {
+      if (act.value.time < ccp.value) {
+        report(act)
         report(ccp)
 
         if (rl) {
           report(rl)
         }
       }
-
-      reportLock = false
     }
+
+    if (!act && ccp) {
+      report(ccp)
+
+      if (rl) {
+        report(rl)
+      }
+    }
+
+    reportLock = false
   }
 }
 
@@ -212,11 +210,15 @@ export const initCCP = (
     { once: true, capture: true }
   )
 
-  onHidden(() => reportMetrics(store, report, immediately), true)
+  if (immediately) {
+    beforeUnload(() => reportMetrics(store, report))
 
-  onPageChange(() => reportMetrics(store, report, immediately))
+    onHidden(() => reportMetrics(store, report), true)
 
-  maxWaitTime4Report(() => reportMetrics(store, report, immediately), maxWaitCCPDuration)
+    onPageChange(() => reportMetrics(store, report))
+
+    maxWaitTime4Report(() => reportMetrics(store, report), maxWaitCCPDuration)
+  }
 
   proxyXhr(
     (url) => beforeHandler(url, apiConfig, hashHistory, excludeRemotePath),

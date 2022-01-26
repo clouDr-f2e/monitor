@@ -89,11 +89,11 @@ export const initNavigationTiming = (store: metricsStore, report: IReportHandler
     const metrics = { name: metricsName.NT, value: navigationTiming } as IMetrics
 
     if (validNumber(Object?.values(metrics.value))) {
+      store.set(metricsName.NT, metrics)
+
       if (immediately) {
         report(metrics)
       }
-
-      store.set(metricsName.NT, metrics)
     }
   })
 }

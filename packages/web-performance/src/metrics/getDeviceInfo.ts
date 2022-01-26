@@ -43,9 +43,9 @@ export const initDeviceInfo = (store: metricsStore, report: IReportHandler, imme
   const deviceInfo = getDeviceInfo()
   const metrics = { name: metricsName.DI, value: deviceInfo } as IMetrics
 
+  store.set(metricsName.DI, metrics)
+
   if (immediately) {
     report(metrics)
   }
-
-  store.set(metricsName.DI, metrics)
 }
