@@ -1,6 +1,6 @@
 import { metricsName } from '../constants'
 
-const config = {
+const config: Record<string, any> = {
   [metricsName.FP]: {
     median: 3000,
     p10: 1800
