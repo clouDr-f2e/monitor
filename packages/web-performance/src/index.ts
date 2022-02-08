@@ -58,10 +58,13 @@ class WebVitals implements IWebVitals {
     initNetworkInfo(metricsStore, reporter, immediately)
     initDeviceInfo(metricsStore, reporter, immediately)
     initCLS(metricsStore, reporter, immediately, scoreConfig)
-    initCCP(metricsStore, reporter, isCustomEvent, apiConfig, hashHistory, excludeRemotePath, maxWaitCCPDuration, immediately, scoreConfig)
-    initFP(metricsStore, reporter, immediately, scoreConfig)
-    initFCP(metricsStore, reporter, immediately, scoreConfig)
     initLCP(metricsStore, reporter, immediately, scoreConfig)
+    initCCP(metricsStore, reporter, isCustomEvent, apiConfig, hashHistory, excludeRemotePath, maxWaitCCPDuration, immediately, scoreConfig)
+
+    addEventListener(isCustomEvent ? 'custom-contentful-paint' : 'pageshow', () => {
+      initFP(metricsStore, reporter, immediately, scoreConfig)
+      initFCP(metricsStore, reporter, immediately, scoreConfig)
+    })
 
     afterLoad(() => {
       initNavigationTiming(metricsStore, reporter, immediately)

@@ -3,7 +3,7 @@
  * First Paint,is the time between navigation and when the browser renders the first pixels to the screen,
  * rendering anything that is visually different from what was on the screen prior to navigation.(https://developer.mozilla.org/en-US/docs/Glossary/First_paint)
  * */
-import { isPerformanceObserverSupported } from '../utils/isSupported'
+import { isPerformanceObserverSupported, isPerformanceSupported } from '../utils/isSupported'
 import { IMetrics, IReportHandler } from '../types'
 import { roundByFour } from '../utils'
 import { metricsName } from '../constants'
@@ -13,25 +13,34 @@ import getFirstHiddenTime from '../lib/getFirstHiddenTime'
 import calcScore from '../lib/calculateScore'
 
 const getFP = (): Promise<PerformanceEntry> | undefined => {
-  if (!isPerformanceObserverSupported()) {
-    console.warn('browser do not support performanceObserver')
-    return
-  }
+  return new Promise((resolve, reject) => {
+    if (!isPerformanceObserverSupported()) {
+      if (!isPerformanceSupported()) {
+        reject(new Error('browser do not support performance'))
+      } else {
+        const [entry] = performance.getEntriesByName('first-paint')
 
-  return new Promise((resolve) => {
-    const entryHandler = (entry: PerformanceEntry) => {
-      if (entry.name === 'first-paint') {
-        if (po) {
-          po.disconnect()
-        }
-
-        if (entry.startTime < getFirstHiddenTime().timeStamp) {
+        if (entry) {
           resolve(entry)
         }
-      }
-    }
 
-    const po = observe('paint', entryHandler)
+        reject(new Error('browser has no fp'))
+      }
+    } else {
+      const entryHandler = (entry: PerformanceEntry) => {
+        if (entry.name === 'first-paint') {
+          if (po) {
+            po.disconnect()
+          }
+
+          if (entry.startTime < getFirstHiddenTime().timeStamp) {
+            resolve(entry)
+          }
+        }
+      }
+
+      const po = observe('paint', entryHandler)
+    }
   })
 }
 
@@ -42,17 +51,21 @@ const getFP = (): Promise<PerformanceEntry> | undefined => {
  * @param scoreConfig
  * */
 export const initFP = (store: metricsStore, report: IReportHandler, immediately = true, scoreConfig): void => {
-  getFP()?.then((entry: PerformanceEntry) => {
-    const metrics = {
-      name: metricsName.FP,
-      value: roundByFour(entry.startTime, 2),
-      score: calcScore(metricsName.FP, entry.startTime, scoreConfig)
-    } as IMetrics
+  getFP()
+    ?.then((entry: PerformanceEntry) => {
+      const metrics = {
+        name: metricsName.FP,
+        value: roundByFour(entry.startTime, 2),
+        score: calcScore(metricsName.FP, entry.startTime, scoreConfig)
+      } as IMetrics
 
-    store.set(metricsName.FP, metrics)
+      store.set(metricsName.FP, metrics)
 
-    if (immediately) {
-      report(metrics)
-    }
-  })
+      if (immediately) {
+        report(metrics)
+      }
+    })
+    .catch((error) => {
+      console.error(error)
+    })
 }
