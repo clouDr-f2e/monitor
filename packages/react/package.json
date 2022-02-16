@@ -1,6 +1,6 @@
 {
   "name": "@zyf2e/monitor-react",
-  "version": "2.1.52",
+  "version": "2.1.53",
   "description": "A SDK For Report React ErrorBoundary",
   "author": "cjinhuo",
   "license": "MIT",
@@ -11,8 +11,8 @@
     "dist"
   ],
   "dependencies": {
-    "@zyf2e/monitor-core": "2.1.52",
-    "@zyf2e/monitor-utils": "2.1.52",
-    "@zyf2e/monitor-shared": "2.1.52"
+    "@zyf2e/monitor-core": "2.1.53",
+    "@zyf2e/monitor-utils": "2.1.53",
+    "@zyf2e/monitor-shared": "2.1.53"
   }
 }
