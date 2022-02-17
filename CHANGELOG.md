@@ -1,3 +1,7 @@
+## [2.1.53](https://github.com/clouDr-f2e/mitojs/compare/v2.1.52...v2.1.53) (2022-02-17)
+
+* 增加fcp 和 fp 在PerformanceObserver 不存在时，通过performance.getEntriesByName获取
+
 ## [2.1.52](https://github.com/clouDr-f2e/mitojs/compare/v2.1.51...v2.1.52) (2022-01-26)
 
 
