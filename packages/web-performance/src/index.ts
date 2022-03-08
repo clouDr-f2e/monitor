@@ -61,10 +61,14 @@ class WebVitals implements IWebVitals {
     initLCP(metricsStore, reporter, immediately, scoreConfig)
     initCCP(metricsStore, reporter, isCustomEvent, apiConfig, hashHistory, excludeRemotePath, maxWaitCCPDuration, immediately, scoreConfig)
 
-    addEventListener(isCustomEvent ? 'custom-contentful-paint' : 'pageshow', () => {
-      initFP(metricsStore, reporter, immediately, scoreConfig)
-      initFCP(metricsStore, reporter, immediately, scoreConfig)
-    })
+    addEventListener(
+      isCustomEvent ? 'custom-contentful-paint' : 'pageshow',
+      () => {
+        initFP(metricsStore, reporter, immediately, scoreConfig)
+        initFCP(metricsStore, reporter, immediately, scoreConfig)
+      },
+      { once: true, capture: true }
+    )
 
     afterLoad(() => {
       initNavigationTiming(metricsStore, reporter, immediately)
