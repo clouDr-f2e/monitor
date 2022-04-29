@@ -5,7 +5,7 @@
  * */
 import { isPerformanceObserverSupported, isPerformanceSupported } from '../utils/isSupported'
 import { IMetrics, IReportHandler } from '../types'
-import { roundByFour } from '../utils'
+import { roundByDigits } from '../utils'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 import observe from '../lib/observe'
@@ -55,7 +55,7 @@ export const initFP = (store: metricsStore, report: IReportHandler, immediately 
     ?.then((entry: PerformanceEntry) => {
       const metrics = {
         name: metricsName.FP,
-        value: roundByFour(entry.startTime, 2),
+        value: roundByDigits(entry.startTime, 2),
         score: calcScore(metricsName.FP, entry.startTime, scoreConfig)
       } as IMetrics
 

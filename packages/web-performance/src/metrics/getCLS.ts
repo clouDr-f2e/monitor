@@ -12,7 +12,7 @@ import observe from '../lib/observe'
 import metricsStore from '../lib/store'
 import { IReportHandler, LayoutShift, IMetrics, IScoreConfig } from '../types'
 import { metricsName } from '../constants'
-import { roundByFour } from '../utils'
+import { roundByDigits } from '../utils'
 import { onHidden } from '../lib/onHidden'
 import calcScore from '../lib/calculateScore'
 
@@ -54,7 +54,7 @@ export const initCLS = (store: metricsStore, report: IReportHandler, immediately
 
     const metrics = {
       name: metricsName.CLS,
-      value: roundByFour(cls.value),
+      value: roundByDigits(cls.value),
       score: calcScore(metricsName.CLS, cls.value, scoreConfig)
     } as IMetrics
 

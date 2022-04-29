@@ -18,7 +18,7 @@ import { isPerformanceSupported, isPerformanceObserverSupported } from '../utils
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 import observe from '../lib/observe'
-import { roundByFour, validNumber } from '../utils'
+import { roundByDigits, validNumber } from '../utils'
 
 const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefined => {
   if (!isPerformanceSupported()) {
@@ -44,17 +44,17 @@ const getNavigationTiming = (): Promise<IPerformanceNavigationTiming> | undefine
     } = entry
 
     resolve({
-      dnsLookup: roundByFour(domainLookupEnd - domainLookupStart),
-      initialConnection: roundByFour(connectEnd - connectStart),
-      ssl: secureConnectionStart ? roundByFour(connectEnd - secureConnectionStart) : 0,
-      ttfb: roundByFour(responseStart - requestStart),
-      contentDownload: roundByFour(responseEnd - responseStart),
-      domParse: roundByFour(domInteractive - responseEnd),
-      deferExecuteDuration: roundByFour(domContentLoadedEventStart - domInteractive),
-      domContentLoadedCallback: roundByFour(domContentLoadedEventEnd - domContentLoadedEventStart),
-      resourceLoad: roundByFour(loadEventStart - domContentLoadedEventEnd),
-      domReady: roundByFour(domContentLoadedEventEnd - fetchStart),
-      pageLoad: roundByFour(loadEventStart - fetchStart)
+      dnsLookup: roundByDigits(domainLookupEnd - domainLookupStart),
+      initialConnection: roundByDigits(connectEnd - connectStart),
+      ssl: secureConnectionStart ? roundByDigits(connectEnd - secureConnectionStart) : 0,
+      ttfb: roundByDigits(responseStart - requestStart),
+      contentDownload: roundByDigits(responseEnd - responseStart),
+      domParse: roundByDigits(domInteractive - responseEnd),
+      deferExecuteDuration: roundByDigits(domContentLoadedEventStart - domInteractive),
+      domContentLoadedCallback: roundByDigits(domContentLoadedEventEnd - domContentLoadedEventStart),
+      resourceLoad: roundByDigits(loadEventStart - domContentLoadedEventEnd),
+      domReady: roundByDigits(domContentLoadedEventEnd - fetchStart),
+      pageLoad: roundByDigits(loadEventStart - fetchStart)
     })
   }
 

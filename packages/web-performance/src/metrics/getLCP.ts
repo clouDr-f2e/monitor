@@ -16,7 +16,7 @@ import { onHidden } from '../lib/onHidden'
 import { metricsName } from '../constants'
 import { IMetrics, IReportHandler, IScoreConfig } from '../types'
 import metricsStore from '../lib/store'
-import { roundByFour } from '../utils'
+import { roundByDigits } from '../utils'
 import observe from '../lib/observe'
 import calcScore from '../lib/calculateScore'
 
@@ -63,7 +63,7 @@ export const initLCP = (store: metricsStore, report: IReportHandler, immediately
         const value = lcp.value
         const metrics = {
           name: metricsName.LCP,
-          value: roundByFour(value.startTime, 2),
+          value: roundByDigits(value.startTime, 2),
           score: calcScore(metricsName.LCP, value.startTime, scoreConfig)
         } as IMetrics
 
