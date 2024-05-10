@@ -267,7 +267,7 @@ export function parseErrorString(str: string): IntegrationError {
   }
 }
 
-export function safeStringify<T>(obj: T): string {
+export function safeStringify(obj: object): string {
   const cache: any[] = []
   try {
     return JSON.stringify(obj, function (key: string, value) {
