@@ -1,18 +1,28 @@
-import {
-  _support,
-  validateOption,
-  logger,
-  isBrowserEnv,
-  isWxMiniEnv,
-  variableTypeDetection,
-  Queue,
-  isEmpty,
-  safeStringify
-} from '@zyf2e/monitor-utils'
+import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue, isEmpty } from '@zyf2e/monitor-utils'
 import { createErrorId } from './errorId'
 import { SDK_NAME, SDK_VERSION } from '@zyf2e/monitor-shared'
 import { breadcrumb } from './breadcrumb'
 import { AuthInfo, TransportDataType, EMethods, InitOptions, isReportDataType, DeviceInfo, FinalReportType } from '@zyf2e/monitor-types'
+
+function safeStringify(obj: object): string {
+  const cache: any[] = []
+  try {
+    return JSON.stringify(obj, function (key: string, value) {
+      if (typeof value === 'object' && value !== null) {
+        if (cache.indexOf(value) !== -1) {
+          // Circular reference found, discard key
+          return
+        }
+        // Store value in our collection
+        cache.push(value)
+      }
+      return value
+    })
+  } catch (e) {
+    return 'JSON.stringify(obj) error'
+  }
+}
+
 /**
  * 用来传输数据类，包含img标签、xhr请求
  * 功能：支持img请求和xhr请求、可以断点续存（保存在localstorage），
