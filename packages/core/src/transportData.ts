@@ -1,4 +1,14 @@
-import { _support, validateOption, logger, isBrowserEnv, isWxMiniEnv, variableTypeDetection, Queue, isEmpty } from '@zyf2e/monitor-utils'
+import {
+  _support,
+  validateOption,
+  logger,
+  isBrowserEnv,
+  isWxMiniEnv,
+  variableTypeDetection,
+  Queue,
+  isEmpty,
+  safeStringify
+} from '@zyf2e/monitor-utils'
 import { createErrorId } from './errorId'
 import { SDK_NAME, SDK_VERSION } from '@zyf2e/monitor-shared'
 import { breadcrumb } from './breadcrumb'
@@ -66,7 +76,7 @@ export class TransportData {
       if (typeof this.configReportXhr === 'function') {
         this.configReportXhr(xhr, data)
       }
-      xhr.send(JSON.stringify(data))
+      xhr.send(safeStringify(data))
     }
     this.queue.addFn(requestFun)
   }
@@ -80,7 +90,7 @@ export class TransportData {
       }
       requestOptions = {
         ...requestOptions,
-        data: JSON.stringify(data),
+        data: safeStringify(data),
         url
       }
       wx.request(requestOptions)
