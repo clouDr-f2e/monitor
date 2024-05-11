@@ -10,7 +10,7 @@ import { isPerformanceObserverSupported } from '../utils/isSupported'
 import { metricsName } from '../constants'
 import metricsStore from '../lib/store'
 import { IReportHandler, IScoreConfig, PerformanceEventTiming } from '../types'
-import { roundByFour } from '../utils'
+import { roundByDigits } from '../utils'
 import calcScore from '../lib/calculateScore'
 
 const getFID = (): Promise<PerformanceEntry> | undefined => {
@@ -61,11 +61,11 @@ export const initFID = (store: metricsStore, report: IReportHandler, immediately
       value: {
         eventName: entry.name,
         targetCls: entry.target?.className,
-        startTime: roundByFour(entry.startTime, 2),
-        delay: roundByFour(entry.processingStart - entry.startTime, 2),
-        eventHandleTime: roundByFour(entry.processingEnd - entry.processingStart, 2)
+        startTime: roundByDigits(entry.startTime, 2),
+        delay: roundByDigits(entry.processingStart - entry.startTime, 2),
+        eventHandleTime: roundByDigits(entry.processingEnd - entry.processingStart, 2)
       },
-      score: calcScore(metricsName.FID, roundByFour(entry.processingStart - entry.startTime, 2), scoreConfig)
+      score: calcScore(metricsName.FID, roundByDigits(entry.processingStart - entry.startTime, 2), scoreConfig)
     }
 
     store.set(metricsName.FID, metrics)

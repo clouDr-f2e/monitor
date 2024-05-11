@@ -2,7 +2,7 @@
  *  Record FPS and take the average (frame/second)
  *  Simulate frames
  * */
-import { roundByFour } from '../utils'
+import { roundByDigits } from '../utils'
 
 /**
  * @params number
@@ -28,7 +28,7 @@ const calculateFps = (count: number): Promise<number> => {
         if (fpsQueue.length > count) {
           cancelAnimationFrame(timerId)
           resolve(
-            roundByFour(
+            roundByDigits(
               fpsQueue.reduce((sum, fps) => {
                 sum = sum + fps
                 return sum

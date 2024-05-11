@@ -1,6 +1,6 @@
 import { pathToRegexp } from 'path-to-regexp'
 
-export const roundByFour = (num: number, digits = 4) => {
+export const roundByDigits = (num: number, digits = 4) => {
   try {
     return parseFloat(num.toFixed(digits))
   } catch (err) {
@@ -12,7 +12,7 @@ export const convertToMB = (bytes: number): number | null => {
   if (typeof bytes !== 'number') {
     return null
   }
-  return roundByFour(bytes / Math.pow(1024, 2))
+  return roundByDigits(bytes / Math.pow(1024, 2))
 }
 
 export const afterLoad = (callback) => {
