@@ -88,7 +88,16 @@ export class TransportData {
       }
       xhr.send(safeStringify(data))
     }
-    this.queue.addFn(requestFun)
+
+    const idleRequest = () => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(requestFun, { timeout: 1000 })
+      } else {
+        requestFun()
+      }
+    }
+
+    this.queue.addFn(idleRequest)
   }
   async wxPost(data: any, url: string) {
     const requestFun = (): void => {

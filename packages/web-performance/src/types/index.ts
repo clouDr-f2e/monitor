@@ -132,5 +132,6 @@ declare global {
     __monitor_xhr__: boolean
     __monitor_fetch__: boolean
     __monitor_sessionId__: string
+    requestIdleCallback: Function
   }
 }
